@@ -1,5 +1,5 @@
 ---
-name: technical-docs
+name: tech-docs-writer
 description: Use when writing or reviewing human-facing Markdown documentation for tools, scripts, command-line workflows, setup steps, usage guides, troubleshooting notes, and project documentation. Includes an optional AI Notice when requested or required, and automatically formats generated Markdown with dprint.
 ---
 
@@ -268,7 +268,7 @@ Automatically format completed Markdown documents after creating or editing them
 In the Pi harness, resolve `script/format-md.sh` relative to this skill directory and run it with the `bash` tool on the intended output document:
 
 ```bash
-bash .agents/skills/technical-docs/script/format-md.sh path/to/document.md
+bash .agents/skills/tech-docs-writer/script/format-md.sh path/to/document.md
 ```
 
 The formatting script currently runs `dprint fmt` and modifies the target Markdown file in place. Run it only on intended generated or edited Markdown documents.

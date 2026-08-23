@@ -13,12 +13,12 @@ The goal is not to rewrite the document by default. The goal is to help the user
 
 Use this skill for review and critique of existing documentation.
 
-Use `technical-docs` alongside this skill when the user asks to draft, rewrite, restructure, or apply documentation changes.
+Use `tech-docs-writer` alongside this skill when the user asks to draft, rewrite, restructure, or apply documentation changes.
 
 Typical flow:
 
 1. `documentation-reviewer`: identify issues and prioritize improvements.
-2. `technical-docs`: apply approved changes and produce polished Markdown.
+2. `tech-docs-writer`: apply approved changes and produce polished Markdown.
 
 ## When to Use
 
@@ -32,7 +32,7 @@ Use this skill when the user asks to review:
 - Project documentation and contributor guides.
 - Markdown structure, headings, examples, or language clarity.
 
-If the request is to create new documentation from scratch, prefer `technical-docs` unless the user explicitly asks for review criteria or an outline critique.
+If the request is to create new documentation from scratch, prefer `tech-docs-writer` unless the user explicitly asks for review criteria or an outline critique.
 
 ## Review Principles
 
