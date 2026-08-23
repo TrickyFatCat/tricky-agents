@@ -157,6 +157,33 @@ bash scripts/list-linked-input.sh
 
 This lists available links without recursively following their targets. Read specific referenced files only when they are relevant to the task, and do not format or modify files under `linked-input/` or their symlink targets.
 
+## GitHub Markdown Callouts
+
+Use GitHub-supported Markdown callouts when a note, tip, warning, or risk needs to stand out.
+
+Supported callout types:
+
+```markdown
+> [!NOTE]
+> Useful information that readers should know.
+
+> [!TIP]
+> Helpful advice for doing something better or more easily.
+
+> [!IMPORTANT]
+> Key information readers need to achieve their goal.
+
+> [!WARNING]
+> Urgent information readers need to avoid problems.
+
+> [!CAUTION]
+> Risks or negative outcomes readers should avoid.
+```
+
+Prefer the most specific supported callout type. Do not invent custom callout labels unless the target documentation renderer or project convention requires them.
+
+When editing an existing document that uses custom or non-GitHub callouts, ask whether they are intentional and get approval before converting, removing, or replacing them.
+
 ## Examples
 
 Make examples self-contained and order them by user priority.
@@ -313,6 +340,7 @@ Before finalizing documentation, check:
 - [ ] Passthrough/raw argument options document repeatability and include examples for one flag, flag with value, several values in one list, and combined usage when applicable.
 - [ ] Troubleshooting covers likely failures.
 - [ ] Headers are concise, consistent, and do not use backticks/code formatting.
+- [ ] Markdown callouts use GitHub-supported types unless custom callouts are intentional and approved.
 - [ ] Table of contents is included when required, generated from document headers, and excludes the first `<h1></h1>` heading.
 - [ ] Extension sections explain required inputs, expected outputs, registration points, and safe testing before implementation snippets.
 - [ ] Support sections stay focused on compatibility, mappings, default behavior, and caveats.

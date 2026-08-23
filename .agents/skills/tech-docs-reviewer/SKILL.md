@@ -105,6 +105,31 @@ Direction: ...
 
 Do not pad reviews with low-value style preferences. If something is subjective, label it as a style preference.
 
+## GitHub Markdown Callout Review
+
+Check whether Markdown callouts are compatible with GitHub alerts when the document is intended for GitHub, README files, or renderer-neutral Markdown.
+
+Supported GitHub callout types:
+
+```markdown
+> [!NOTE]
+> Useful information that readers should know.
+
+> [!TIP]
+> Helpful advice for doing something better or more easily.
+
+> [!IMPORTANT]
+> Key information readers need to achieve their goal.
+
+> [!WARNING]
+> Urgent information readers need to avoid problems.
+
+> [!CAUTION]
+> Risks or negative outcomes readers should avoid.
+```
+
+If the document uses custom or non-GitHub callouts, do not assume they are wrong. Ask whether they are intentional and note the compatibility trade-off. If the user asks to apply changes, get approval before converting, removing, or replacing custom callouts.
+
 ## Review Checklist
 
 Consider these questions when relevant:
@@ -119,6 +144,7 @@ Consider these questions when relevant:
 - Completeness: Are important options, defaults, side effects, and rollback steps covered?
 - Troubleshooting: Are common symptoms connected to checks and likely causes?
 - Safety: Are destructive commands, credential handling, privilege use, and persistent changes called out near the risky step?
+- Callouts: Do notes, tips, warnings, and cautions use GitHub-supported callout types unless custom callouts are intentional?
 - Language: Is wording direct, concise, and free of unexplained jargon?
 - Maintenance: Is duplicated or stale-looking information easy to update?
 
