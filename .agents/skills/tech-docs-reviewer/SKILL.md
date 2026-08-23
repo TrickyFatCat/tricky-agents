@@ -73,18 +73,32 @@ For large documents, state the scope reviewed and avoid pretending every section
 Use this structure unless the user asks for another format:
 
 1. Quick Summary.
-2. Critical Issues.
-3. Improvements.
-4. Good Decisions.
-5. Questions.
-6. Suggested Next Pass.
+2. Findings in Document Order.
+3. Good Decisions.
+4. Questions.
+5. Suggested Next Pass.
+
+Within `Findings in Document Order`, follow the document from top to bottom so the review is easy to use while editing. Use priority labels to show importance without reordering findings by severity.
 
 Keep sections concise for short documents. Use subsections or tables only when they improve readability.
+
+## Finding Priority
+
+Use `Priority` instead of `Severity` for documentation findings.
+
+Priority levels:
+
+- `High`: likely to block reader success, cause unsafe action, or make the document misleading.
+- `Medium`: likely to confuse readers, slow them down, or leave an important gap.
+- `Low`: polish, wording, formatting, consistency, or minor maintainability issue.
+
+A high-priority finding can appear late in the review if it appears late in the document. Preserve document order and let the priority label carry importance.
 
 ## Finding Format
 
 For each important finding, include:
 
+- Priority: `High`, `Medium`, or `Low`.
 - What the issue is.
 - Why it matters to the reader.
 - Where it appears, using headings or file paths when possible.
@@ -94,7 +108,9 @@ For each important finding, include:
 Useful format:
 
 ```markdown
-### Finding title
+### Section or finding title
+
+Priority: High
 
 What: ...
 

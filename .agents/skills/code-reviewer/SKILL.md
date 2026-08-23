@@ -80,18 +80,32 @@ For large code samples, avoid pretending to review everything deeply. State the 
 Use this structure unless the user asks for another format:
 
 1. Quick Summary.
-2. Critical Issues.
-3. Improvements.
-4. Good Decisions.
-5. Questions.
-6. Focus for Next Time.
+2. Findings in Source Order.
+3. Good Decisions.
+4. Questions.
+5. Focus for Next Time.
+
+Within `Findings in Source Order`, follow the file, diff, or code sample from top to bottom when that makes the review easier to apply while editing. Use priority labels to show importance without reordering findings by severity. For multi-file reviews, group findings by file in a stable order.
 
 Keep sections concise for small reviews. Use subsections or tables only when they improve readability.
+
+## Finding Priority
+
+Use `Priority` to indicate impact while preserving source order.
+
+Priority levels:
+
+- `High`: likely correctness bug, data loss, security issue, broken behavior, or severe maintenance risk.
+- `Medium`: likely edge case, confusing behavior, maintainability problem, missing validation, or important design concern.
+- `Low`: style, naming, small readability issue, minor idiom improvement, or low-risk cleanup.
+
+A high-priority finding can appear late in the review if it appears late in the source. Preserve source order and let the priority label carry importance.
 
 ## Finding Format
 
 For each important finding, include:
 
+- Priority: `High`, `Medium`, or `Low`.
 - What the issue is.
 - Why it matters.
 - When it can break or become costly.
@@ -101,7 +115,9 @@ For each important finding, include:
 Useful format:
 
 ```markdown
-### Finding title
+### File or finding title
+
+Priority: High
 
 What: ...
 
