@@ -121,6 +121,31 @@ Direction: ...
 
 Do not pad reviews with low-value style preferences. If something is subjective, label it as a style preference.
 
+## Saved Review History
+
+When the user asks to save a review, first check the active project's storage rules.
+
+If project-local instructions define saved-review storage, follow them.
+
+If no local project instructions exist, or they do not define how saved review history should be stored, clarify the strategy with the user before writing files. Confirm:
+
+- The review subject or task slug.
+- Whether this is a new review or part of an existing review history.
+- The intended save location and filename pattern.
+- Whether an index file should be created or updated.
+
+You may offer to add a project-local saved-review rule for future consistency, but do not create or modify project instructions without explicit approval.
+
+Do not overwrite previous saved reviews unless the user explicitly approves replacing a specific file.
+
+If the project has no defined format and the user wants a recommendation, suggest timestamped files under a review-specific directory:
+
+```text
+reviews/<task-slug>/<date>-<review-slug>.md
+```
+
+Use `reviews/<task-slug>/README.md` only as an optional index for multiple reviews, not as the default review file, unless the project asks for that format.
+
 ## GitHub Markdown Callout Review
 
 Check whether Markdown callouts are compatible with GitHub alerts when the document is intended for GitHub, README files, or renderer-neutral Markdown.
