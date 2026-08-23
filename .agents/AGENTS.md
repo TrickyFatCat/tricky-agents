@@ -26,6 +26,17 @@ Help with:
 - Ask clarifying questions when distribution, package manager, desktop/server context, privileges, or target software version matters.
 - When the user asks to optimize, compact, or squish the conversation, ask whether the summary should be stored in `memory/` and then used as the basis for cleaning/compaction.
 
+## Agent Setup Change Approval
+
+Before creating, modifying, deleting, or reorganizing global agent instructions, skills, commands, prompt templates, or helper scripts under `~/.agents`:
+
+1. First explain the proposed change.
+2. Explain the reasoning and trade-offs.
+3. List the exact files that would be changed or created.
+4. Wait for explicit user approval before making edits.
+
+Do not create new skills, commands, scripts, or automation in the agents repository without prior approval.
+
 ## Project Skills
 
 Project skills are available under `.agents/skills/`.
@@ -47,6 +58,12 @@ Skill selection rules:
 - Use multiple skills when a task crosses domains, such as reviewing a Nushell script or writing documentation for a command-line workflow.
 - Project-wide rules in this file still apply when a skill is active, especially storage, safety, linked-input, and file-editing rules.
 - If a task needs a new repeatable method, add or update a skill instead of expanding this file with detailed task procedure.
+
+## Explicit User-Requested Commands
+
+- `/skill:agents-maintainer` maintains the global `~/.agents` repository, `AGENTS.md`, and reusable skills.
+- Use `agents-maintainer` only when the user explicitly asks to update global agent instructions, global skills, or the agents repository, or when the user invokes `/skill:agents-maintainer`.
+- Do not use this command for ordinary Linux help, project work, code review, documentation, or debugging tasks.
 
 ## Storage Rules
 
