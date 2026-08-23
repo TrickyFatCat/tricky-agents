@@ -188,6 +188,14 @@ When editing an existing document that uses custom or non-GitHub callouts, ask w
 
 Make examples self-contained and order them by user priority.
 
+For usage examples, explain the practical reason the reader would use the workflow before explaining mechanics. Prefer high-level reader value over implementation precision when the section is introductory.
+
+Start with the smallest realistic example that demonstrates the value. Omit optional flags, settings, tables, and edge cases until they are needed by the explanation.
+
+Do not add a table for every example. Use a short paragraph when there are only one or two concepts to explain. Use tables only when they make several options or repeated patterns easier to compare.
+
+Keep related ideas in separate short paragraphs when that improves scanability.
+
 Each example should include:
 
 1. A concise sentence explaining what the example does.
