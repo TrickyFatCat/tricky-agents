@@ -16,8 +16,10 @@ Maintain files under the global agents repository, normally exposed at:
 
 - `~/.agents/AGENTS.md`
 - `~/.agents/skills/`
+- repo-backed `~/.pi/agent/AGENTS.md`
+- repo-backed `~/.pi/agent/prompts/`
 
-The current setup may use a symlink. Resolve the real path before editing:
+The current setup may use symlinks. Resolve the real path before editing:
 
 ```bash
 readlink -f ~/.agents

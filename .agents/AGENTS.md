@@ -1,45 +1,32 @@
-# Project Instructions
+# Global Agent Instructions
 
-This project is for Linux and related software setup help. The agent should provide documentation, guidance, and debugging assistance rather than automatic workflows.
-
-## Scope
-
-Help with:
-
-- Linux usage and command-line explanations
-- Distribution-specific package setup and troubleshooting
-- Shell, terminal, SSH, Git, editors, and developer tooling setup
-- systemd services, logs, boot issues, permissions, users/groups
-- Networking, DNS, firewall, VPN, containers, virtualization
-- Filesystems, mounts, disks, backups, and recovery planning
-- Desktop environment, display, audio, input, and driver issues
-- Reading and interpreting error messages, logs, config files, and documentation
+These are default instructions for all sessions. Project-local instructions may add more specific scope, storage, and workflow rules.
 
 ## Operating Mode
 
 - Be consultative: explain what is happening, why it matters, and what the user can do next.
-- Always assume the user is seeking guidance, review, and help, not immediate file or system changes.
 - Prefer guidance, diagnostics, and documentation-backed recommendations over automatic workflows.
 - Do not create long-running automation, install scripts, daemons, cron jobs, systemd units, or destructive remediation unless the user explicitly asks for that.
+- Before changing files or system state, make sure the user has asked for the change or explicitly approved it.
 - Before suggesting commands that change the system, explain their purpose and likely impact.
 - For risky operations, offer a safer inspection command first.
-- Ask clarifying questions when distribution, package manager, desktop/server context, privileges, or target software version matters.
+- Ask clarifying questions when missing context changes the recommendation.
 - When the user asks to optimize, compact, or squish the conversation, ask whether the summary should be stored in `memory/` and then used as the basis for cleaning/compaction.
 
 ## Agent Setup Change Approval
 
-Before creating, modifying, deleting, or reorganizing global agent instructions, skills, commands, prompt templates, or helper scripts under `~/.agents`:
+Before creating, modifying, deleting, or reorganizing global agent instructions, skills, commands, prompt templates, themes, settings examples, or helper scripts under `~/.agents` or repo-backed `~/.pi/agent` resources:
 
 1. First explain the proposed change.
 2. Explain the reasoning and trade-offs.
 3. List the exact files that would be changed or created.
 4. Wait for explicit user approval before making edits.
 
-Do not create new skills, commands, scripts, or automation in the agents repository without prior approval.
+Do not create new skills, commands, prompt templates, scripts, or automation in the agents repository without prior approval.
 
 ## Skills
 
-Skills are available under `.agents/skills/`.
+Skills are available under `~/.agents/skills/`. Project-local skills may also exist under `.agents/skills/`.
 
 Use a skill when its description matches the task. Read the matching skill before acting. Keep detailed task-specific methods inside skill files rather than duplicating them here.
 
@@ -47,41 +34,14 @@ Skill selection rules:
 
 - Prefer the most specific matching skill.
 - Use multiple skills when a task crosses domains, such as reviewing a Nushell script or writing documentation for a command-line workflow.
-- Project-wide rules in this file still apply when a skill is active, especially storage, safety, linked-input, and file-editing rules.
-- If a task needs a new repeatable method, add or update a skill instead of expanding this file with detailed task procedure.
+- Project-wide rules still apply when a skill is active, especially storage, safety, linked-input, and file-editing rules.
+- If a task needs a new repeatable method, propose adding or updating a skill instead of expanding this file with detailed procedure.
 
 ## Explicit User-Requested Commands
 
-- `/skill:agents-maintainer` maintains the global `~/.agents` repository, `AGENTS.md`, and reusable skills.
-- Use `agents-maintainer` only when the user explicitly asks to update global agent instructions, global skills, or the agents repository, or when the user invokes `/skill:agents-maintainer`.
+- `/skill:agents-maintainer` maintains the global agents repository, including `~/.agents`, global `AGENTS.md`, reusable skills, and repo-backed Pi resources such as `~/.pi/agent/prompts`.
+- Use `agents-maintainer` only when the user explicitly asks to update global agent instructions, global skills, prompt templates, or the agents repository, or when the user invokes `/skill:agents-maintainer`.
 - Do not use this command for ordinary Linux help, project work, code review, documentation, or debugging tasks.
-
-## Storage Rules
-
-- Use `input/` as temporary storage for one-off files provided by the user.
-- Treat `input/` as disposable; it may be cleared between tasks and should not be used for persistent notes, generated output, or modified files.
-- Use `linked-input/` for user-managed symbolic links to recurring reference files or directories.
-- Treat `input/` and `linked-input/` as read-only source material.
-- Do not modify, overwrite, delete, rename, or chmod files under `input/` or `linked-input/`.
-- Do not modify symlink targets reached through `linked-input/`.
-- Prefer reading specific files from `linked-input/` instead of broadly scanning linked directories.
-- To inspect available linked inputs without following them recursively, run `bash scripts/list-linked-input.sh`.
-- Ask before following links that may expose sensitive files or large directory trees.
-- Ask for explicit permission before modifying or changing any files.
-- Store user-facing deliverables under `output/<task-slug>/` unless the user requests another location.
-- Save README deliverables as `output/<task-slug>/README.md`; do not store README deliverables under `notes/`.
-- Save persistent findings, reviews, summaries, and reference notes under `notes/<task-slug>/` when the user asks to keep notes.
-- Save conversation optimization/compaction summaries under `memory/` when the user asks for them to be stored there.
-
-## Task Naming
-
-- Use lowercase kebab-case task slugs based on the main artifact, tool, script, configuration, or review subject.
-- Prefer clear names such as `terminal-registry`, `preview-git-repo`, `nushell-config-review`, `television-config-review`, or `mango-config-review`.
-- Avoid vague names such as `task-1`, `docs`, `misc`, or `readme-update`.
-- Reuse the same task directory when continuing work on the same artifact or review subject.
-- Do not include `readme` in task directory names.
-- Put user-facing files in `output/<task-slug>/`.
-- Put internal notes and findings in `notes/<task-slug>/`.
 
 ## Response Style
 
@@ -93,7 +53,6 @@ Skill selection rules:
 - Include what successful output should look like when useful.
 - Include rollback or cleanup notes for configuration changes.
 - Distinguish facts from assumptions.
-- If multiple distros differ, call out Debian/Ubuntu, Fedora/RHEL, Arch, or openSUSE differences.
 
 ## Script Execution Safety
 
@@ -125,7 +84,7 @@ When files are changed, include:
 When helping debug, prefer this sequence:
 
 1. Identify the goal and exact symptom.
-2. Gather context: distro/version, package manager, software version, relevant config, recent changes.
+2. Gather context: OS, relevant software versions, configuration, privileges, and recent changes.
 3. Inspect logs/status with read-only commands first.
 4. Form a hypothesis and suggest the smallest reversible change.
 5. Verify the result and document the fix.
