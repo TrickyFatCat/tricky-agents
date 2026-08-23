@@ -39,6 +39,7 @@ If the request is to create new documentation from scratch, prefer `tech-docs-wr
 Default to a teaching-oriented review.
 
 - Prioritize reader success over stylistic preferences.
+- Match feedback to the document mode: tutorial, maintainer reference, personal notes, command reference, or troubleshooting guide.
 - Identify the reader, their goal, and the point where they may get stuck.
 - Explain why each issue matters and what reader confusion or failure it can cause.
 - Distinguish critical gaps from polish-level suggestions.
@@ -46,6 +47,22 @@ Default to a teaching-oriented review.
 - Use short illustrative rewrites only when they clarify a specific issue.
 - Point out good documentation decisions and explain why they help.
 - Prefer concrete next steps over vague advice like `make it clearer`.
+
+## Document Mode
+
+Before applying review criteria, identify the document mode from the user's context and the document itself.
+
+Common modes:
+
+- Tutorial or onboarding guide: emphasize reader outcomes, step-by-step flow, prerequisites, expected output, and troubleshooting.
+- Maintainer reference: emphasize concise structure, accurate conventions, discoverability, links to deeper docs, and low-maintenance wording.
+- Personal notes or dotfiles documentation: preserve owner preferences and concise reminders when they are intentional.
+- Command reference: emphasize complete syntax, options, examples, defaults, and edge cases.
+- Troubleshooting guide: emphasize symptoms, diagnostics, likely causes, safe checks, and recovery steps.
+
+Do not force tutorial-style expectations onto maintainer reference or personal documentation. For example, a maintainer reference README may not need a reader outcome sentence, detailed onboarding flow, or expanded explanations if concise wording supports re-entry and maintenance.
+
+When a recommendation depends on the document mode, state the assumption and make the finding conditional.
 
 ## Focus Areas
 

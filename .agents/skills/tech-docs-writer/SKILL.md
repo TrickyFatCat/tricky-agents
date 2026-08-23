@@ -19,6 +19,24 @@ Create documentation that helps a human reader:
 - Troubleshoot common problems
 - Safely avoid destructive mistakes
 
+Match feedback and edits to the document mode: tutorial, maintainer reference, personal notes, command reference, or troubleshooting guide.
+
+## Document Mode
+
+Before applying documentation guidance, identify the document mode from the user's context and the document itself.
+
+Common modes:
+
+- Tutorial or onboarding guide: emphasize reader outcomes, step-by-step flow, prerequisites, expected output, and troubleshooting.
+- Maintainer reference: emphasize concise structure, accurate conventions, discoverability, links to deeper docs, and low-maintenance wording.
+- Personal notes or dotfiles documentation: preserve owner preferences and concise reminders when they are intentional.
+- Command reference: emphasize complete syntax, options, examples, defaults, and edge cases.
+- Troubleshooting guide: emphasize symptoms, diagnostics, likely causes, safe checks, and recovery steps.
+
+Do not force tutorial-style expectations onto maintainer reference or personal documentation. For example, a maintainer reference README may not need a reader outcome sentence, detailed onboarding flow, or expanded explanations if concise wording supports re-entry and maintenance.
+
+When a recommendation or rewrite depends on the document mode, state the assumption and make the change conditional.
+
 ## Optional AI Notice
 
 When requested, add a short AI notice near the top of the document explaining that AI assistance was used during drafting or editing.
