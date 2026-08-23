@@ -20,10 +20,10 @@ After changing prompt templates, run `/reload` in Pi to refresh the available sl
 
 ## Prompt Catalog
 
-| Command        | Template file                      | Purpose                                         |
-| -------------- | ---------------------------------- | ----------------------------------------------- |
-| `/code-review` | `.pi/agent/prompts/code-review.md` | Start a teaching-oriented code review.          |
-| `/doc-review`  | `.pi/agent/prompts/doc-review.md`  | Start a teaching-oriented documentation review. |
+| Command            | Template file                           | Purpose                                                   |
+| ------------------ | --------------------------------------- | --------------------------------------------------------- |
+| `/code-review`     | `.pi/agent/prompts/code-review.md`      | Start a teaching-oriented code review.                    |
+| `/tech-doc-review` | `.pi/agent/prompts/tech-doc-review.md`  | Start a teaching-oriented technical documentation review. |
 
 ## Usage
 
@@ -31,7 +31,7 @@ Invoke a prompt by typing its slash command in Pi:
 
 ```text
 /code-review
-/doc-review
+/tech-doc-review
 ```
 
 Each prompt accepts one optional focus argument. If no focus is provided, the prompt asks the agent to prioritize the highest-impact issues first.
@@ -90,12 +90,12 @@ After invoking the prompt, fill in the project, language or tool, goal, known is
 
 ### Documentation Review
 
-Use `/doc-review` to start a teaching-oriented documentation review with the `documentation-reviewer` skill.
+Use `/tech-doc-review` to start a teaching-oriented technical documentation review with the `tech-docs-reviewer` skill.
 
 Syntax:
 
 ```text
-/doc-review [focus]
+/tech-doc-review [focus]
 ```
 
 Supported focus values:
@@ -116,25 +116,25 @@ Examples:
 Start a broad documentation review and let the agent prioritize the most important issues:
 
 ```text
-/doc-review
+/tech-doc-review
 ```
 
 Review document structure and navigation:
 
 ```text
-/doc-review structure
+/tech-doc-review structure
 ```
 
 Review the first-time reader experience:
 
 ```text
-/doc-review onboarding
+/tech-doc-review onboarding
 ```
 
 Review safety notes and rollback guidance:
 
 ```text
-/doc-review safety
+/tech-doc-review safety
 ```
 
 After invoking the prompt, fill in the project, document type, audience, reader goal, known issues, and documentation files or pasted content to review.
@@ -150,6 +150,6 @@ Prompt template filenames become slash command names. For example:
 Keep prompt templates concise. Put detailed reusable review behavior in skills, not in prompt templates:
 
 - `code-reviewer` defines code review behavior.
-- `documentation-reviewer` defines documentation review behavior.
+- `tech-docs-reviewer` defines documentation review behavior.
 
 Do not place README files inside `.pi/agent/prompts/`. Pi discovers `*.md` files in that directory as prompt templates, so a README there could become an unintended slash command.

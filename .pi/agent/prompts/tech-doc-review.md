@@ -1,9 +1,9 @@
 ---
-description: Start a teaching-oriented documentation review
+description: Start a teaching-oriented technical documentation review
 argument-hint: "[focus|general]"
 ---
 
-Use the `documentation-reviewer` skill.
+Use the `tech-docs-reviewer` skill.
 
 Review this documentation to improve both the document and my documentation skill.
 
