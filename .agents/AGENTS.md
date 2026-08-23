@@ -37,20 +37,11 @@ Before creating, modifying, deleting, or reorganizing global agent instructions,
 
 Do not create new skills, commands, scripts, or automation in the agents repository without prior approval.
 
-## Project Skills
+## Skills
 
-Project skills are available under `.agents/skills/`.
+Skills are available under `.agents/skills/`.
 
-Use a skill when its description matches the task. Read the matching skill before acting. Keep detailed task-specific methods inside the skill files rather than duplicating them here.
-
-Current skills:
-
-| Skill            | Use when                                                                                                                                                                      |
-| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `code-reviewer`  | Reviewing code, scripts, configuration-as-code, programming exercises, correctness, maintainability, testing, security, or implementation quality.                            |
-| `technical-docs` | Writing or reviewing human-facing Markdown documentation, setup guides, command-line workflows, troubleshooting notes, project documentation, or README-style deliverables.   |
-| `nushell`        | Writing or running Nushell commands, scripts, or pipelines; working with structured data such as JSON, YAML, TOML, CSV, Parquet, SQLite; or when the user's shell is Nushell. |
-| `rubber-duck`    | Thinking through ideas, proposals, designs, workflows, configuration choices, trade-offs, assumptions, risks, or alternatives before implementation.                          |
+Use a skill when its description matches the task. Read the matching skill before acting. Keep detailed task-specific methods inside skill files rather than duplicating them here.
 
 Skill selection rules:
 

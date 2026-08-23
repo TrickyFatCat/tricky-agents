@@ -1,0 +1,23 @@
+# Keep only safe, reviewable Pi global resources in this repository.
+# Do not commit runtime state, credentials, trust decisions, package installs, or sessions.
+
+.pi/agent/*
+
+# Safe global context files, prompt templates, and themes.
+!.pi/agent/AGENTS.md
+!.pi/agent/prompts/
+!.pi/agent/prompts/**
+!.pi/agent/themes/
+!.pi/agent/themes/**
+
+# Optional documented config examples only.
+!.pi/agent/settings.example.json
+
+# Explicit sensitive/runtime paths.
+.pi/agent/auth.json
+.pi/agent/trust.json
+.pi/agent/sessions/
+.pi/agent/npm/
+.pi/agent/git/
+.pi/agent/models-store.json
+.pi/agent/pi-agents-setup.json
