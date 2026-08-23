@@ -1,9 +1,9 @@
 ---
-name: documentation-reviewer
+name: tech-docs-reviewer
 description: Use when reviewing human-facing documentation for structure, clarity, completeness, audience fit, examples, troubleshooting, safety notes, and Markdown readability. Provides prioritized, teaching-oriented feedback without rewriting the document by default.
 ---
 
-# Documentation Reviewer
+# Tech Docs Reviewer
 
 Use this skill to review documentation in a way that improves both the document and the user's documentation judgment.
 
@@ -17,7 +17,7 @@ Use `tech-docs-writer` alongside this skill when the user asks to draft, rewrite
 
 Typical flow:
 
-1. `documentation-reviewer`: identify issues and prioritize improvements.
+1. `tech-docs-reviewer`: identify issues and prioritize improvements.
 2. `tech-docs-writer`: apply approved changes and produce polished Markdown.
 
 ## When to Use
