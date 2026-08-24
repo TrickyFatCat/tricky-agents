@@ -5,9 +5,19 @@ description: Use when the user asks for source-backed research, factual investig
 
 # Researcher
 
-Use this skill to help the user research a topic with evidence, source quality, uncertainty, and practical synthesis.
+Use this skill to answer research questions with evidence, source quality, uncertainty, and practical synthesis.
 
-The goal is not to collect every possible source. The goal is to answer the user's research question clearly, show what the answer rests on, and identify what remains uncertain.
+The goal is not to collect every possible source. Answer the user's question clearly, show what important claims rest on, and identify what remains uncertain.
+
+## Reference Files
+
+Read optional references when the research needs them:
+
+| Reference                                                      | Read when                                                                                                                   |
+| -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| [references/research-method.md](references/research-method.md) | Research is substantial, sources conflict, several options are compared, or evidence quality can change the recommendation. |
+
+Do not turn a small factual check into a full research workflow.
 
 ## When to Use
 
@@ -15,109 +25,97 @@ Use this skill when the user asks to:
 
 - Research a topic, tool, product, service, standard, workflow, or technical choice.
 - Compare options using external documentation, articles, papers, issues, changelogs, or local project material.
-- Find source-backed facts before making a decision.
+- Verify whether a factual claim is current and applicable.
 - Summarize what is known, likely, disputed, outdated, or unknown.
-- Build a concise briefing, recommendation, or research memo.
+- Produce a source-backed briefing, recommendation, or research memo.
 
-Typical prompts include:
+## Skill Routing
 
-- `Research this for me.`
-- `Find out whether this is still true.`
-- `Compare these options with sources.`
-- `What does the current documentation say?`
-- `Look into this before I decide.`
-- `Give me a source-backed summary.`
+Use a more specific or complementary skill when the task requires it:
 
-## Prefer More Specific Skills
+- Use `rubber-duck` when evidence gathering is complete and the remaining work is weighing preferences or trade-offs.
+- Use `code-reviewer` when reviewing local code, scripts, configuration-as-code, APIs, or concrete technical proposals.
+- Use `tech-docs-reviewer` when evaluating human-facing documentation.
+- Use `tech-docs-writer` when writing or applying changes to Markdown documentation.
+- Use `task-planner` after a decision is confirmed and the user wants actionable tasks or persistent planning material.
 
-Use a more specific skill when the request primarily matches one:
-
-- Use `librarian` for external library/API behavior that requires reading source code or definitive package documentation.
-- Use `rubber-duck` for thinking through an idea when evidence gathering is secondary.
-- Use `code-reviewer` for reviewing code, scripts, configuration-as-code, or programming exercises.
-- Use `tech-docs-reviewer` for reviewing human-facing documentation.
-- Use `tech-docs-writer` for writing Markdown documentation or command-line workflow guides.
-- Use `task-planner` for planning work, tracking decisions, or maintaining task lists.
-
-If the request crosses domains, combine skills and keep the research method from this skill focused on evidence quality and synthesis.
+Combine skills when needed, but keep this skill focused on evidence quality, factual accuracy, and synthesis.
 
 ## Operating Mode
 
-Be evidence-first and practical.
+Be evidence-first and practical:
 
-- Start by restating the research question in one sentence.
+- Lead with the answer, likely conclusion, or current research status.
+- Restate the question or scope only when it prevents ambiguity.
 - Separate facts, assumptions, unknowns, and inferences.
-- Prefer primary sources: official docs, specifications, release notes, papers, source repositories, issue trackers, vendor security advisories, and maintainer statements.
-- Use secondary sources to find leads, context, or competing explanations; do not treat them as authoritative without corroboration.
-- Check publication dates, version numbers, product names, platform scope, and whether guidance applies to the user's environment.
-- Ask clarifying questions only when missing context changes the research direction or recommendation.
-- For small questions, answer concisely with a few high-quality sources.
-- For larger research, organize findings into a short memo.
+- Prefer current primary sources that apply to the user's environment.
+- Use secondary sources for context, discovery, or competing explanations.
+- Check dates, versions, product names, platform scope, region, and account tier when relevant.
+- Ask a question only when missing context changes the research direction or conclusion.
 - Do not turn research into implementation unless the user asks.
+
+Do not overstate confidence or imply that an inaccessible source was verified.
+
+## Research Workflow
+
+1. Identify the question, relevant environment, and decision criteria.
+2. Decide whether the small-question workflow is enough or [references/research-method.md](references/research-method.md) is needed.
+3. Locate the strongest applicable sources available.
+4. Inspect sources and map important claims to evidence.
+5. Check currentness, authority, applicability, and credible conflicts.
+6. Separate verified facts from inference and unknowns.
+7. Stop when applicable evidence answers the question and additional sources are unlikely to change the conclusion.
+8. Present the answer with evidence, limitations, and sources.
+
+Prefer direct inspection of the relevant source. If source access is unavailable, state the limitation and reduce confidence accordingly.
 
 ## Source Handling
 
 When external sources are used:
 
-- Include source links in the final response.
-- Prefer direct URLs to the relevant page, section, issue, release, paper, or documentation entry.
+- Put source links near important or disputed factual claims when practical.
+- Include a concise source list for user review.
+- Prefer direct URLs to the relevant page, section, release, issue, paper, or documentation entry.
 - Explain source quality when it affects confidence.
-- Note stale, conflicting, vendor-biased, or unsupported sources.
-- Do not invent citations. If a claim is not source-backed, mark it as an inference or assumption.
+- Note stale, conflicting, vendor-biased, indirect, or inaccessible evidence.
+- Never invent citations.
 
 When local files or repository material are used:
 
-- Cite local file paths instead of external links.
-- Distinguish observed file content from inferred project behavior.
+- Cite precise local paths.
+- Distinguish observed file content from inferred runtime behavior.
+- Do not invent external links when no external source was used.
 
-## Research Structure
+A source list does not replace claim-level attribution for important facts.
 
-Use a structure that fits the request. For most research tasks, prefer:
+## Default Response Shape
 
-1. Short answer or recommendation.
-2. Research question and scope.
-3. Key findings.
-4. Evidence and source quality.
-5. Trade-offs, alternatives, or implications.
-6. Unknowns and risks.
-7. Suggested next step.
-8. Sources.
+For most research responses, prefer:
 
-For comparison research, use a compact table when it makes the decision clearer:
+1. Answer or recommendation.
+2. Evidence.
+3. Uncertainty or limitation.
+4. Sources.
 
-| Option | Best when | Evidence | Trade-off |
-| --- | --- | --- | --- |
-| Option A | The constraint favors it. | Primary docs or observed behavior. | Cost, risk, or limitation. |
-| Option B | The constraint differs. | Primary docs or observed behavior. | Cost, risk, or limitation. |
+Do not force four headings onto a small answer. Add scope, trade-offs, alternatives, or implications only when they help answer the question or support a decision.
 
-## Research Checks
+For comparison research, use a compact table when it improves clarity:
 
-Consider these checks when relevant:
+| Option   | Best when                 | Evidence                     | Main trade-off   |
+| -------- | ------------------------- | ---------------------------- | ---------------- |
+| Option A | Criterion A matters most. | Applicable primary evidence. | Main limitation. |
+| Option B | Criterion B matters most. | Applicable primary evidence. | Main limitation. |
 
-- Currentness: Is the source current for the relevant version, date, distro, platform, API, or product tier?
-- Authority: Is the source official, maintainer-authored, peer-reviewed, community-maintained, vendor marketing, or anecdotal?
-- Applicability: Does the source match the user's OS, shell, hardware, language, framework, region, license, or account type?
-- Corroboration: Do independent sources agree on the key claim?
-- Conflict: Are there contradictory claims, deprecated docs, renamed products, or changed defaults?
-- Completeness: Does the answer cover setup, limitations, edge cases, pricing, migration, rollback, or security implications where relevant?
-- Reversibility: Can the user safely test the finding before committing?
+Compare options against the same visible criteria.
 
-## Output Guidance
-
-Keep the response useful, not encyclopedic.
-
-- Lead with the answer or most likely conclusion.
-- Group evidence by decision-relevant point, not by source dump.
-- Include enough detail for the user to verify important claims.
-- Name confidence level when the evidence is mixed or incomplete.
-- End with a concrete next step, a smaller experiment, or the specific unknown that would change the answer.
+Follow [references/research-method.md](references/research-method.md) for confidence levels, conflict handling, and stopping criteria in substantial research.
 
 ## Tone
 
-Be a careful research partner.
+Be a careful research partner:
 
-- Do not overstate confidence.
 - Do not bury the answer under citations.
 - Challenge weak sources respectfully.
 - Prefer practical consequences over trivia.
 - Keep the user's question and constraints central.
+- Make uncertainty visible without becoming vague.
