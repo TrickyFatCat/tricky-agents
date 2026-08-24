@@ -107,6 +107,8 @@ If no local project instructions exist, or they do not define how saved plans an
 
 Do not create or modify project instructions, task-vault files, plans, todos, indexes, or notes without explicit user approval.
 
+When the user approves a proposed card addition or note block, apply the approved content as written unless new facts require a pause. If the content must change, explain the change before editing.
+
 ## Status and Boards
 
 Use the active project's status vocabulary when one exists.
@@ -121,6 +123,8 @@ If no status vocabulary exists, prefer simple status values:
 - `superseded`: replaced by a newer plan.
 
 When a project uses a Markdown task board, ask before adding, moving, or removing plan links. Keep the board high-level; detailed todos belong in plan files.
+
+When one task must happen before another, use the project's blocked or waiting status if available. Link both tasks: the waiting task should name its blocker, and the blocking task should link to the dependent task when useful.
 
 ## Plan History and Superseding
 
@@ -209,6 +213,25 @@ When no project style exists, choose a readable format such as priority headings
 ```
 
 Prefer task names that describe outcomes, not tiny actions.
+
+## Direct Usage Reviews
+
+When a task needs a call-site, dependency, or direct-usage inventory, save it as a concise section in the relevant task card after approval.
+
+Suggested section:
+
+```markdown
+### Direct Usage Review
+
+Current direct call sites:
+
+- Area or package:
+  - `path/to/file` — current usage; refactor impact
+
+Compatibility target: describe what should keep working and what new behavior is needed.
+```
+
+Keep the inventory focused on directly relevant usages. Do not expand into a full dependency audit unless the user asks.
 
 ## Questions
 

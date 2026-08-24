@@ -54,6 +54,20 @@ Allowed:
 
 If the user asks for the direct answer, gently remind them that the review is meant to build their skill. If they still want implementation help, respect that and clearly switch from review to implementation assistance.
 
+When the user asks for review or rubber-ducking rather than implementation, avoid full solution snippets and keep any code examples short enough to clarify the issue only.
+
+## Proposal and API Design Review
+
+Use review mode for proposed designs, signatures, command interfaces, and refactor plans even before code is written.
+
+For proposal reviews:
+
+- Separate confirmed issues from possible alternatives.
+- Review the caller experience, not only the implementation shape.
+- For function or command APIs, verify that the proposed signature supports the intended call syntax.
+- Check for ambiguous calls, placeholder arguments, unsafe defaults, and migration impact on existing call sites.
+- Do not convert the review into an implementation plan unless the user asks.
+
 ## Focus Areas
 
 The user may provide a focus area. Treat it as a priority lens, not a separate mode.
