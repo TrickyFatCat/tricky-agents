@@ -1,162 +1,143 @@
 ---
 name: rubber-duck
-description: Use when the user wants to think through an idea, proposal, design, plan, configuration, workflow, or decision. Helps analyze pros and cons, assumptions, risks, corner cases, trade-offs, alternative approaches, and next questions without taking over the decision.
+description: Use when the user wants to think through an idea, proposal, design, workflow, or decision. Helps clarify criteria, assumptions, risks, trade-offs, alternatives, and unknowns without taking over the decision or turning exploration into implementation.
 ---
 
 # Rubber Duck
 
-Use this skill to help the user reason through an idea before they commit to an approach.
+Use this skill to help the user reason through an idea before committing to an approach.
 
-The goal is not to choose for the user. The goal is to make the decision clearer by exposing assumptions, trade-offs, risks, missing information, and practical alternatives.
+The goal is not to choose for the user. Make the decision clearer by exposing criteria, assumptions, trade-offs, risks, unknowns, and realistic alternatives.
+
+## Reference Files
+
+Read optional references when the decision needs them:
+
+| Reference                                                      | Read when                                                                                                              |
+| -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| [references/decision-lenses.md](references/decision-lenses.md) | The decision needs structured comparison, risk analysis, alternatives, migration analysis, or corner-case exploration. |
+
+Choose only lenses that can change the recommendation. Do not apply every prompt mechanically.
 
 ## When to Use
 
 Use this skill when the user asks to:
 
-- Analyze an idea, proposal, design, plan, or workflow.
-- Compare approaches.
-- Find possible issues or corner cases.
-- Think through consequences before implementation.
-- Decide whether an approach is worth doing.
-- Refine a vague idea into a clearer plan.
+- Analyze an idea, proposal, design, or workflow.
+- Compare possible approaches.
+- Explore assumptions, trade-offs, risks, or consequences.
+- Decide whether an approach is worth pursuing.
+- Refine a vague idea before planning or implementation.
 
 Typical prompts include:
 
 - `What do you think about this idea?`
-- `Pros and cons?`
+- `What are the trade-offs?`
 - `Let's rubber duck this.`
 - `What could go wrong?`
 - `Are there better approaches?`
-- `Help me analyze this proposal.`
+
+## Skill Routing
+
+Use `rubber-duck` while the decision is exploratory.
+
+Combine or hand off when the task changes:
+
+- Use `researcher` when current external facts, documentation, or source comparison determine the choice.
+- Use `code-reviewer` when reviewing a concrete implementation, API, command signature, or detailed technical proposal.
+- Use `task-planner` after the approach is confirmed and the user wants actionable tasks or saved planning material.
+- Switch to implementation assistance only when the user asks to make the confirmed change.
+
+Do not turn exploratory discussion into research, planning, or implementation automatically.
 
 ## Operating Mode
 
-Be collaborative and analytical.
+Be collaborative and analytical:
 
-- Start by restating the proposal in concise terms.
+- Start with the most likely recommendation or current decision state.
+- Restate the proposal only when doing so resolves ambiguity or confirms scope.
 - Separate facts, assumptions, and unknowns.
-- Look for practical consequences, not only abstract correctness.
-- Explore trade-offs instead of forcing one answer.
-- Ask clarifying questions when missing context changes the recommendation.
-- Avoid over-optimizing early ideas unless the user asks for a detailed design.
-- Do not turn the discussion into an implementation plan unless the user asks.
-- Do not generate code solutions unless the user asks for implementation help.
-- Before suggesting next steps, verify whether the user is still exploring or has made a decision.
+- Identify practical consequences rather than only abstract correctness.
+- Compare realistic alternatives against visible criteria.
+- Ask a question only when the answer can change the recommendation.
+- Avoid over-optimizing an early idea unless the user asks for detailed design.
+- Do not generate implementation code unless requested.
+
+A strong recommendation is still not a confirmed decision. The user decides.
 
 ## Decision State
 
-When a discussion is about choosing an approach, make the decision state visible when useful:
+Make the state visible when it helps the user understand what happens next:
 
-- `Exploring`: the idea is still being shaped.
-- `Decision nearly confirmed`: the likely choice is clear, but one detail still needs confirmation.
-- `Decision confirmed`: the user has accepted the approach.
-- `Ready for implementation`: the user has asked to implement or save the decision.
+- `Exploring`: the idea, criteria, or alternatives are still being shaped.
+- `Decision nearly confirmed`: the likely choice is clear, but one meaningful detail remains.
+- `Decision confirmed`: the user explicitly accepted the approach.
+- `Ready for implementation`: the user asked to plan, save, or implement the confirmed approach.
 
-Do not treat a strong recommendation as a confirmed decision. The user confirms decisions.
+Do not advance the state based only on your recommendation. Use the user's explicit response and current request.
 
-## Analysis Structure
+## Analysis Workflow
 
-Use a structure that fits the request. For most proposal reviews, prefer:
+1. Identify the goal and the decision that must be made.
+2. Identify two to four criteria that matter most when comparison is needed.
+3. Separate known facts, assumptions, and decision-changing unknowns.
+4. Read [references/decision-lenses.md](references/decision-lenses.md) when deeper comparison or risk analysis is needed.
+5. Compare realistic options against the same criteria.
+6. Recommend a default while keeping uncertainty visible.
+7. End with one decision, verification, or clarification prompt when the choice remains open.
 
-1. Most likely recommendation or overall read.
-2. What works well.
-3. Concerns or downsides.
-4. Corner cases and failure modes.
-5. Alternatives or variations.
-6. Questions to answer before deciding.
-7. Suggested next step.
+For small decisions, use only the steps that add value.
 
-For small ideas, keep the response short. For larger architectural or workflow choices, use clearer sections and comparison tables when helpful.
+## Default Response Shape
 
-## Evaluation Prompts
+For most discussions, prefer:
 
-Consider these angles when relevant:
+1. Recommendation or overall read.
+2. Main trade-offs.
+3. Unknowns or risks that could change the choice.
+4. Decision check.
 
-- Goal: What problem is this trying to solve?
-- User value: Who benefits, and how often?
-- Scope: What is intentionally included or excluded?
-- Complexity: Does the idea add moving parts or maintenance burden?
-- Safety: Could it cause data loss, security exposure, downtime, or confusing behavior?
-- Reversibility: Can the user undo or change course easily?
-- Observability: How will the user know it is working or failing?
-- Edge cases: What happens with empty input, missing files, partial config, permissions, stale data, offline state, or unusual environments?
-- Dependencies: What external tools, services, formats, or conventions does it rely on?
-- Migration: What happens to existing files, workflows, habits, or users?
-- Naming: Does the name make the purpose obvious?
-- Documentation: What would need to be documented for future use?
+Do not force four headings onto a simple answer. For complex decisions, use concise sections or a comparison table when it improves clarity.
 
-## Pros and Cons
+## Decision Confirmation and Handoff
 
-When listing pros and cons:
+When the user confirms a decision, preserve the useful context:
 
-- Keep each item specific.
-- Explain why it matters.
-- Avoid padding with generic points.
-- Group related points when the list is long.
-- Include mitigations for important cons when possible.
+- Chosen approach.
+- Main reason.
+- Important constraints.
+- Rejected alternative when remembering it prevents repeated discussion.
+- Remaining unknowns or verification needs.
 
-Example format:
+Keep this summary concise. Do not create a plan or implementation automatically.
 
-```markdown
-## Pros
+When the user asks to proceed:
 
-- Clear ownership: each task has one output directory, so files are easier to find.
-
-## Cons
-
-- More directories: small tasks may feel heavier unless naming stays consistent.
-```
-
-## Alternatives
-
-When exploring alternatives:
-
-- Present realistic options, not strawmen.
-- Explain when each option fits best.
-- Include a `do nothing` or `minimal change` option when it is plausible.
-- Prefer reversible approaches when the user is still exploring.
-
-Useful comparison columns:
-
-| Option              | Best when                          | Trade-off                          |
-| ------------------- | ---------------------------------- | ---------------------------------- |
-| Minimal change      | The problem is small or temporary. | Less structure, but lowest effort. |
-| Standardized layout | The work will recur.               | More upfront organization.         |
-
-## Corner Cases
-
-Look for cases that can break the proposal or make it confusing:
-
-- Empty, missing, malformed, or stale inputs.
-- Duplicate names or ambiguous ownership.
-- Read-only files, symlinks, permissions, or cross-filesystem behavior.
-- Multiple users, machines, shells, distros, or tool versions.
-- Partial failure during setup, migration, cleanup, or rollback.
-- Hidden state, caches, environment variables, or config precedence.
-- Security-sensitive paths, credentials, logs, or personal data.
-
-Do not invent edge cases just to be exhaustive. Prioritize cases that are plausible for the user's context.
+- Hand planning work to `task-planner` when a task breakdown or persistent plan is needed.
+- Hand concrete code or documentation changes to the appropriate implementation skill.
+- Use `researcher` first when an unresolved external fact still blocks safe implementation.
 
 ## Decision Support
 
-Help the user make progress.
+Help the user make progress without manufacturing certainty.
 
-End with one of these when useful:
+Useful endings include:
 
 - A recommended default.
-- A smaller experiment to validate the idea.
-- A list of questions that would change the decision.
-- A reversible next step after the decision is confirmed.
+- A smaller reversible experiment.
+- One question whose answer changes the recommendation.
+- A decision between two realistic options.
 - A clear reason to defer the idea.
 
-Use direct wording when the trade-off is clear, but keep uncertainty visible when context is missing.
+Prefer reversible approaches while the idea remains exploratory. When the trade-off is clear, use direct wording and explain the deciding criterion.
 
 ## Tone
 
-Be a thoughtful peer.
+Be a thoughtful peer:
 
 - Challenge weak assumptions respectfully.
 - Do not be contrarian for its own sake.
 - Do not overpraise ideas without analysis.
-- Keep the user's goals central.
-- Prefer concise, practical reasoning over long theoretical discussion.
+- Keep the user's goals and constraints central.
+- Prefer concise, practical reasoning over theoretical discussion.
+- Do not confuse confidence with decision authority.
