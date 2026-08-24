@@ -118,6 +118,29 @@ Prefer the most specific callout type. Keep warnings next to the command, option
 
 Do not invent custom callout labels unless the renderer or project convention requires them. Ask before converting existing custom callouts when their intent is unclear.
 
+## Editorial Review Comments
+
+Use a temporary `REVIEW` callout when the user adds editing feedback directly to a document:
+
+```markdown
+> [!REVIEW]
+> Shorten this explanation and mention the main command.
+```
+
+Treat these comments as requests for analysis, not automatic permission to edit.
+
+When review comments are present:
+
+1. Analyze them in document order.
+2. Number them in the response while keeping the relevant section names.
+3. Prepare proposed changes and wait for approval when required by active instructions.
+4. Apply only approved changes.
+5. Remove a comment after its request is resolved.
+6. Keep unresolved comments in the document.
+7. Report any review comments that remain.
+
+`REVIEW` callouts are temporary editorial annotations. Reader-facing `NOTE`, `TIP`, `IMPORTANT`, `WARNING`, and `CAUTION` callouts are documentation content and must not be interpreted as editing instructions.
+
 ## Links
 
 Use descriptive link text rather than bare URLs when practical.
