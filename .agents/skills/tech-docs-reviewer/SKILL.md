@@ -20,6 +20,16 @@ Typical flow:
 1. `tech-docs-reviewer`: identify issues and prioritize improvements.
 2. `tech-docs-writer`: apply approved changes and produce polished Markdown.
 
+## Reference Files
+
+Read optional references only when their focus matches the user's request:
+
+| Reference                                                                | Read when                                                           |
+| ------------------------------------------------------------------------ | ------------------------------------------------------------------- |
+| [references/adhd-friendly-review.md](references/adhd-friendly-review.md) | The user explicitly requests an ADHD-friendly documentation review. |
+
+Do not apply the ADHD-friendly review lens by default.
+
 ## When to Use
 
 Use this skill when the user asks to review:
