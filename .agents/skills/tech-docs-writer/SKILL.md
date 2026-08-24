@@ -102,6 +102,19 @@ Use this general order when it fits the document:
 
 Keep optional or advanced material after the main usage path so the document does not feel overwhelming.
 
+For maintainer reference or dotfiles documentation, a compact reference structure may be better than a tutorial flow:
+
+1. Overview.
+2. Config or file location.
+3. Safe validation command.
+4. Directory layout.
+5. Main configuration file.
+6. Important variables or settings.
+7. Extension points.
+8. Related docs.
+
+For configuration docs, prefer a short location and validation section when install details are handled elsewhere. Include a safe read-only validation command when available.
+
 When a setup or configuration section has multiple paths, order them by reader priority rather than implementation order. Prefer:
 
 1. Required or default configuration that affects later commands.
@@ -122,6 +135,8 @@ Place information where the reader needs it most:
 - Keep support/reference sections focused on compatibility lists, mappings, default behavior, and caveats.
 - Put detailed mappings, option tables, implementation notes, and extension instructions after quick start and common usage.
 - Put troubleshooting near the end after the reader has seen normal usage.
+
+For maintainer references, use a short `Related Docs` section when companion documents exist. Keep each link to one sentence explaining why the reader would open it.
 
 Avoid redundant structure:
 
@@ -156,6 +171,8 @@ The following reference lists command syntax, available options, and default beh
 
 Prefer instruction-first wording over prose-heavy explanations.
 
+For personal, dotfiles, or maintainer docs, preserve concise project conventions. Do not expand them into upstream history unless the extra context helps the reader act.
+
 For setup, usage, configuration, and troubleshooting sections:
 
 - Use short action-oriented sentences.
@@ -167,13 +184,11 @@ For setup, usage, configuration, and troubleshooting sections:
 
 ## Linked Input References
 
-When a documentation task uses recurring local references from `linked-input/`, inspect the top-level symlinks first:
+When a documentation task uses recurring local references from `linked-input/`, follow the active project's instructions for inspecting linked inputs.
 
-```bash
-bash scripts/list-linked-input.sh
-```
+Do not assume a helper script path globally. If the project defines a linked-input inspection helper, use that. Otherwise, inspect only the specific linked files needed for the task and avoid recursively following linked directories.
 
-This lists available links without recursively following their targets. Read specific referenced files only when they are relevant to the task, and do not format or modify files under `linked-input/` or their symlink targets.
+Do not format or modify files under `linked-input/` or their symlink targets.
 
 ## GitHub Markdown Callouts
 
@@ -249,6 +264,7 @@ Include the relevant details before code examples:
 - Required inputs or record fields.
 - Expected return value or output shape.
 - Where registration, dispatch, or discovery happens.
+- The enabling mechanism that makes the extension work, such as search paths, autoload behavior, plugin discovery, or registration hooks.
 - How to test the new extension safely before using it in a real workflow.
 
 ## Output Organization
@@ -292,7 +308,7 @@ Optional sections can include Advanced Usage, Terminal Support, Detection Helper
 
 Prefer inline safety notes. Add a standalone Safety Notes section only for risks that apply across the whole document and would be repeated too often inline.
 
-Add Related Documentation only when it provides useful navigation beyond files or tools already introduced earlier.
+Add Related Documentation only when it provides useful navigation beyond files or tools already introduced earlier. For maintainer references, keep each related-document link to one sentence explaining why the reader would open it.
 
 ## Writing Principles
 
