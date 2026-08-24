@@ -93,7 +93,7 @@ Use this structure unless the user asks for another format:
 2. Findings in Document Order.
 3. Good Decisions.
 4. Questions.
-5. Suggested Next Pass.
+5. Next Step.
 
 Within `Findings in Document Order`, follow the document from top to bottom so the review is easy to use while editing. Use priority labels to show importance without reordering findings by severity.
 
@@ -103,37 +103,73 @@ Keep sections concise for short documents. Use subsections or tables only when t
 
 Use `Priority` instead of `Severity` for documentation findings.
 
-Priority levels:
+Priority labels are for problems or improvement opportunities:
 
-- `High`: likely to block reader success, cause unsafe action, or make the document misleading.
-- `Medium`: likely to confuse readers, slow them down, or leave an important gap.
-- `Low`: polish, wording, formatting, consistency, or minor maintainability issue.
+- `🔴 High`: likely to block reader success, cause unsafe action, or make the document misleading.
+- `🟡 Medium`: likely to confuse readers, slow them down, or leave an important gap.
+- `🟢 Low`: polish, wording, formatting, consistency, or minor maintainability issue.
+
+Status labels are for non-problem review notes:
+
+- `✅ Accepted`: wording, structure, or behavior is intentional, a finding is resolved, or no change is needed.
+- `⛔ Declined`: the user has rejected or overridden a suggestion; do not keep recommending it unless new facts change the review.
 
 A high-priority finding can appear late in the review if it appears late in the document. Preserve document order and let the priority label carry importance.
 
 ## Finding Format
 
-For each important finding, include:
+For each important finding, use visible sublabels on their own lines. Avoid inline `What: ... Why: ...` text because it becomes hard to scan.
 
-- Priority: `High`, `Medium`, or `Low`.
-- What the issue is.
-- Why it matters to the reader.
-- Where it appears, using headings or file paths when possible.
-- What kind of fix would help.
-- A small example only when useful.
-
-Useful format:
+Preferred format:
 
 ```markdown
 ### Section or finding title
 
-Priority: High
+Priority: 🟡 Medium
 
-What: ...
+**What**
 
-Why it matters: ...
+Describe the issue.
 
-Direction: ...
+**Why it matters**
+
+Explain how this can confuse readers, block completion, hide risk, or increase maintenance cost.
+
+**Where this appears**
+
+Name the heading, file path, paragraph, table, example, or workflow where the issue appears.
+
+**Reader impact**
+
+Name the likely reader failure, mistaken assumption, or extra work this creates.
+
+**Direction**
+
+Give a focused fix direction without rewriting the whole document by default.
+```
+
+Keep findings short. Omit labels that do not add value for a simple finding.
+
+For accepted or no-change findings, keep the note short. Do not use the full `What / Why / Where / Direction` structure unless it teaches something important.
+
+Preferred accepted format:
+
+```markdown
+### Compact reference structure
+
+Status: ✅ Accepted
+
+This fits the requested command-reference mode. No change needed.
+```
+
+Preferred declined format:
+
+```markdown
+### Installation tutorial section
+
+Status: ⛔ Declined
+
+User confirmed this document is personal dotfiles reference material, not a first-time setup guide. Do not keep recommending a full installation walkthrough.
 ```
 
 Do not pad reviews with low-value style preferences. If something is subjective, label it as a style preference.
@@ -232,17 +268,27 @@ Good questions target audience, constraints, and intended outcomes:
 - What is the most common failure mode this document should help diagnose?
 - Which sections are reference material rather than first-run instructions?
 
-## Suggested Next Pass
+## Next Step
 
-End with one concrete next pass when useful, such as:
+End with one concrete next step when useful. Make it visually easy to find.
 
-- Reorder setup before usage examples.
-- Add expected output for the quick start.
-- Split reference material away from onboarding.
-- Add troubleshooting entries for the top two likely failures.
-- Tighten headings around reader tasks instead of implementation details.
+Use a short final section:
 
-Keep the next pass narrow and actionable.
+```markdown
+## Next Step
+
+Add expected output examples under Quick Start.
+```
+
+When the user is still deciding, use a decision-oriented section instead of an implementation step:
+
+```markdown
+## Decision Check
+
+Do you want this document to remain a compact reference, or should it grow into a first-time setup guide?
+```
+
+Keep the final action narrow enough to do in a few minutes.
 
 ## Tone
 
