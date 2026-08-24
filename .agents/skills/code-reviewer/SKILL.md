@@ -117,28 +117,37 @@ A high-priority finding can appear late in the review if it appears late in the 
 
 ## Finding Format
 
-For each important finding, include:
+For each important finding, use visible sublabels on their own lines. Avoid inline `What: ... Why: ...` text because it becomes hard to scan.
 
-- Priority: `High`, `Medium`, or `Low`.
-- What the issue is.
-- Why it matters.
-- When it can break or become costly.
-- What concept, pattern, tool, or technique to research.
-- A small hint or direction, without replacing the user's solution by default.
-
-Useful format:
+Preferred format:
 
 ```markdown
 ### File or finding title
 
 Priority: High
 
-What: ...
+**What**
 
-Why it matters: ...
+Describe the issue.
 
-Look into: ...
+**Why it matters**
+
+Explain what can break, become confusing, or cost maintenance time.
+
+**When this shows up**
+
+Name the condition, input, workflow, or future change that triggers the problem.
+
+**Look into**
+
+Name one concept, pattern, tool, or technique to research.
+
+**Direction**
+
+Give a small hint or next direction without replacing the user's solution by default.
 ```
+
+Keep findings short. Omit labels that do not add value for a simple finding.
 
 Do not pad reviews with low-value findings. If something is only style preference, label it as such.
 
