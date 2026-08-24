@@ -76,16 +76,16 @@ Approval applies only to the described scope. Pause and request approval again i
 
 ## Skill Maintenance
 
-When creating or updating a skill:
+Use `skill-creator` for skill architecture, frontmatter, routing, progressive disclosure, review, update, rename, and artifact-specific validation.
 
-- Use a lowercase, hyphenated `name` in frontmatter.
-- Keep the directory name consistent with the frontmatter name.
-- Write a specific `description` that explains when the skill applies.
-- Add or preserve `disable-model-invocation: true` for explicit-only skills.
-- Keep helper scripts and references inside the skill directory.
-- Make reference paths relative to the skill directory.
-- Keep the core skill focused and load optional references only when relevant.
-- Avoid duplicating active project or global instructions unless repetition is a deliberate safety safeguard.
+When both skills apply:
+
+- `skill-creator` owns the quality and migration completeness of the skill artifact.
+- `agents-maintainer` owns global-resource approval, repository boundaries, path safety, staging, commits, and final repository state.
+- Apply the `agents-maintainer` approval gate before creating or changing global skill files.
+- Return to `agents-maintainer` for exact-path validation and any requested commit after skill work is complete.
+
+Do not let skill-design guidance weaken repository safeguards or broaden the user's approved scope.
 
 ## Validation
 
