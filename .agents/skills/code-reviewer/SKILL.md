@@ -97,7 +97,7 @@ Use this structure unless the user asks for another format:
 2. Findings in Source Order.
 3. Good Decisions.
 4. Questions.
-5. Focus for Next Time.
+5. Next Step.
 
 Within `Findings in Source Order`, follow the file, diff, or code sample from top to bottom when that makes the review easier to apply while editing. Use priority labels to show importance without reordering findings by severity. For multi-file reviews, group findings by file in a stable order.
 
@@ -107,11 +107,12 @@ Keep sections concise for small reviews. Use subsections or tables only when the
 
 Use `Priority` to indicate impact while preserving source order.
 
-Priority levels:
+Priority labels:
 
-- `High`: likely correctness bug, data loss, security issue, broken behavior, or severe maintenance risk.
-- `Medium`: likely edge case, confusing behavior, maintainability problem, missing validation, or important design concern.
-- `Low`: style, naming, small readability issue, minor idiom improvement, or low-risk cleanup.
+- `🔴 High`: likely correctness bug, data loss, security issue, broken behavior, or severe maintenance risk.
+- `🟡 Medium`: likely edge case, confusing behavior, maintainability problem, missing validation, or important design concern.
+- `🟢 Low`: style, naming, small readability issue, minor idiom improvement, or low-risk cleanup.
+- `✅ Good`: accepted behavior, good decision, or no-change finding worth noting briefly.
 
 A high-priority finding can appear late in the review if it appears late in the source. Preserve source order and let the priority label carry importance.
 
@@ -124,7 +125,7 @@ Preferred format:
 ```markdown
 ### File or finding title
 
-Priority: High
+Priority: 🔴 High
 
 **What**
 
@@ -156,7 +157,7 @@ Preferred accepted format:
 ```markdown
 ### Existing-browser focus behavior
 
-Priority: Good
+Priority: ✅ Good
 
 Accepted: This is intentional for the keybind workflow. No change needed.
 ```
@@ -229,19 +230,27 @@ Consider edge cases relevant to the code and context:
 
 Prioritize plausible edge cases over exhaustive lists.
 
-## Focus for Next Time
+## Next Step
 
-End with one concrete learning focus when useful.
+End with one concrete next step when useful. Make it visually easy to find.
 
-Good focus areas are narrow and actionable:
+Use a short final section:
 
-- Practice separating parsing from execution.
-- Study inclusive vs exclusive bounds.
-- Learn how this language models errors.
-- Practice naming functions around behavior rather than implementation.
-- Add small tests for empty input and malformed input.
+```markdown
+## Next Step
 
-Avoid giving the user too many learning goals at once.
+Fix line 109 wording in `docs/nushell/README.md`.
+```
+
+When the user is still deciding, use a decision-oriented section instead of an implementation step:
+
+```markdown
+## Decision Check
+
+Do you want this wording to be final?
+```
+
+Keep the final action narrow enough to do in a few minutes.
 
 ## Tone
 
