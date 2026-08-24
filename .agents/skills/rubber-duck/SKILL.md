@@ -45,7 +45,7 @@ Combine or hand off when the task changes:
 
 - Use `researcher` when current external facts, documentation, or source comparison determine the choice.
 - Use `code-reviewer` when reviewing a concrete implementation, API, command signature, or detailed technical proposal.
-- Use `task-planner` after the approach is confirmed and the user wants actionable tasks or saved planning material.
+- Use `task-manager` after the approach is confirmed and the user wants actionable tasks or saved task management.
 - Switch to implementation assistance only when the user asks to make the confirmed change.
 
 Do not turn exploratory discussion into research, planning, or implementation automatically.
@@ -113,7 +113,7 @@ Keep this summary concise. Do not create a plan or implementation automatically.
 
 When the user asks to proceed:
 
-- Hand planning work to `task-planner` when a task breakdown or persistent plan is needed.
+- Hand task management to `task-manager` when a task breakdown, saved task update, or resumable workflow is needed.
 - Hand concrete code or documentation changes to the appropriate implementation skill.
 - Use `researcher` first when an unresolved external fact still blocks safe implementation.
 

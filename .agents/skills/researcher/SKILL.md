@@ -37,7 +37,7 @@ Use a more specific or complementary skill when the task requires it:
 - Use `code-reviewer` when reviewing local code, scripts, configuration-as-code, APIs, or concrete technical proposals.
 - Use `tech-docs-reviewer` when evaluating human-facing documentation.
 - Use `tech-docs-writer` when writing or applying changes to Markdown documentation.
-- Use `task-planner` after a decision is confirmed and the user wants actionable tasks or persistent planning material.
+- Use `task-manager` after a decision is confirmed and the user wants actionable tasks, saved state, or a resumable workflow.
 
 Combine skills when needed, but keep this skill focused on evidence quality, factual accuracy, and synthesis.
 
