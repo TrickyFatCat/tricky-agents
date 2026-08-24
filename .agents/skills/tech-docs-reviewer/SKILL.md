@@ -97,6 +97,8 @@ Use this structure unless the user asks for another format:
 
 Within `Findings in Document Order`, follow the document from top to bottom so the review is easy to use while editing. Use priority labels to show importance without reordering findings by severity.
 
+Number each finding heading while keeping a descriptive title. This makes findings easy to reference without losing readability, for example `### 1. Quick Start lacks expected output`.
+
 Keep sections concise for short documents. Use subsections or tables only when they improve readability.
 
 ## Finding Priority
@@ -118,12 +120,12 @@ A high-priority finding can appear late in the review if it appears late in the 
 
 ## Finding Format
 
-For each important finding, use visible sublabels on their own lines. Avoid inline `What: ... Why: ...` text because it becomes hard to scan.
+For each important finding, use a numbered heading with a descriptive title, followed by visible sublabels on their own lines. Avoid inline `What: ... Why: ...` text because it becomes hard to scan.
 
 Preferred format:
 
 ```markdown
-### Section or finding title
+### 1. Section or finding title
 
 Priority: 🟡 Medium
 
@@ -150,12 +152,12 @@ Give a focused fix direction without rewriting the whole document by default.
 
 Keep findings short. Omit labels that do not add value for a simple finding.
 
-For accepted or no-change findings, keep the note short. Do not use the full `What / Why / Where / Direction` structure unless it teaches something important.
+For accepted or no-change findings inside `Findings in Document Order`, keep the note short and number the heading like other findings. Do not use the full `What / Why / Where / Direction` structure unless it teaches something important.
 
 Preferred accepted format:
 
 ```markdown
-### Compact reference structure
+### 2. Compact reference structure
 
 Status: ✅ Accepted
 
@@ -165,7 +167,7 @@ This fits the requested command-reference mode. No change needed.
 Preferred declined format:
 
 ```markdown
-### Installation tutorial section
+### 3. Installation tutorial section
 
 Status: ⛔ Declined
 

@@ -101,6 +101,8 @@ Use this structure unless the user asks for another format:
 
 Within `Findings in Source Order`, follow the file, diff, or code sample from top to bottom when that makes the review easier to apply while editing. Use priority labels to show importance without reordering findings by severity. For multi-file reviews, group findings by file in a stable order.
 
+Number each finding heading while keeping a descriptive title. This makes findings easy to reference without losing readability, for example `### 1. Missing empty-input handling`.
+
 Keep sections concise for small reviews. Use subsections or tables only when they improve readability.
 
 ## Finding Priority
@@ -122,12 +124,12 @@ A high-priority finding can appear late in the review if it appears late in the 
 
 ## Finding Format
 
-For each important finding, use visible sublabels on their own lines. Avoid inline `What: ... Why: ...` text because it becomes hard to scan.
+For each important finding, use a numbered heading with a descriptive title, followed by visible sublabels on their own lines. Avoid inline `What: ... Why: ...` text because it becomes hard to scan.
 
 Preferred format:
 
 ```markdown
-### File or finding title
+### 1. File or finding title
 
 Priority: 🔴 High
 
@@ -154,12 +156,12 @@ Give a small hint or next direction without replacing the user's solution by def
 
 Keep findings short. Omit labels that do not add value for a simple finding.
 
-For accepted or no-change findings, keep the note short. Do not use the full `What / Why / When / Direction` structure unless it teaches something important.
+For accepted or no-change findings inside `Findings in Source Order`, keep the note short and number the heading like other findings. Do not use the full `What / Why / When / Direction` structure unless it teaches something important.
 
 Preferred accepted format:
 
 ```markdown
-### Existing-browser focus behavior
+### 2. Existing-browser focus behavior
 
 Status: ✅ Accepted
 
@@ -169,7 +171,7 @@ This is intentional for the keybind workflow. No change needed.
 Preferred declined format:
 
 ```markdown
-### xdg-open fallback URL
+### 3. xdg-open fallback URL
 
 Status: ⛔ Declined
 
