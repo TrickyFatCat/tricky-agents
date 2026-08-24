@@ -107,12 +107,16 @@ Keep sections concise for small reviews. Use subsections or tables only when the
 
 Use `Priority` to indicate impact while preserving source order.
 
-Priority labels:
+Priority labels are for problems or improvement opportunities:
 
 - `🔴 High`: likely correctness bug, data loss, security issue, broken behavior, or severe maintenance risk.
 - `🟡 Medium`: likely edge case, confusing behavior, maintainability problem, missing validation, or important design concern.
 - `🟢 Low`: style, naming, small readability issue, minor idiom improvement, or low-risk cleanup.
-- `✅ Good`: accepted behavior, good decision, or no-change finding worth noting briefly.
+
+Status labels are for non-problem review notes:
+
+- `✅ Accepted`: behavior is intentional, a finding is resolved, or no change is needed.
+- `⛔ Declined`: the user has rejected or overridden a suggestion; do not keep recommending it unless new facts change the review.
 
 A high-priority finding can appear late in the review if it appears late in the source. Preserve source order and let the priority label carry importance.
 
@@ -157,9 +161,19 @@ Preferred accepted format:
 ```markdown
 ### Existing-browser focus behavior
 
-Priority: ✅ Good
+Status: ✅ Accepted
 
-Accepted: This is intentional for the keybind workflow. No change needed.
+This is intentional for the keybind workflow. No change needed.
+```
+
+Preferred declined format:
+
+```markdown
+### xdg-open fallback URL
+
+Status: ⛔ Declined
+
+User confirmed `about:blank` fallback is intentional. Do not keep recommending this change.
 ```
 
 Do not pad reviews with low-value findings. If something is only style preference, label it as such.
