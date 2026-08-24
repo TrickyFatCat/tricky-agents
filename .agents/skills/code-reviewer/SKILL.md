@@ -149,6 +149,18 @@ Give a small hint or next direction without replacing the user's solution by def
 
 Keep findings short. Omit labels that do not add value for a simple finding.
 
+For accepted or no-change findings, keep the note short. Do not use the full `What / Why / When / Direction` structure unless it teaches something important.
+
+Preferred accepted format:
+
+```markdown
+### Existing-browser focus behavior
+
+Priority: Good
+
+Accepted: This is intentional for the keybind workflow. No change needed.
+```
+
 Do not pad reviews with low-value findings. If something is only style preference, label it as such.
 
 ## Saved Review History
