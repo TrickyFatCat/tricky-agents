@@ -11,7 +11,7 @@ These are default instructions for all sessions. Project-local instructions may 
 - Before suggesting commands that change the system, explain their purpose and likely impact.
 - For risky operations, offer a safer inspection command first.
 - Ask clarifying questions when missing context changes the recommendation.
-- When the user asks to optimize, compact, or squish the conversation, ask whether the summary should be stored in `memory/` and then used as the basis for cleaning/compaction.
+- When the user asks to optimize, compact, or squish the conversation, ask whether they want a saved summary and where it should be stored before using it as the basis for cleaning/compaction.
 
 ## Agent Setup Change Approval
 
@@ -34,14 +34,14 @@ Skill selection rules:
 
 - Prefer the most specific matching skill.
 - Use multiple skills when a task crosses domains, such as reviewing a Nushell script or writing documentation for a command-line workflow.
-- Project-wide rules still apply when a skill is active, especially storage, safety, linked-input, and file-editing rules.
+- Project-wide rules still apply when a skill is active, especially storage, safety, and file-editing rules.
 - If a task needs a new repeatable method, propose adding or updating a skill instead of expanding this file with detailed procedure.
 
 ## Explicit User-Requested Commands
 
 - `/skill:agents-maintainer` maintains the global agents repository, including `~/.agents`, global `AGENTS.md`, reusable skills, and repo-backed Pi resources such as `~/.pi/agent/prompts`.
 - Use `agents-maintainer` only when the user explicitly asks to update global agent instructions, global skills, prompt templates, or the agents repository, or when the user invokes `/skill:agents-maintainer`.
-- Do not use this command for ordinary Linux help, project work, code review, documentation, or debugging tasks.
+- Do not use this command for ordinary user help, project work, code review, documentation, or debugging tasks.
 
 ## Response Style
 
@@ -64,11 +64,11 @@ Skill selection rules:
 
 Avoid recommending these unless explicitly needed and clearly explained:
 
-- `rm -rf`, disk formatting, repartitioning, forced package removal
-- `curl | sh`, unreviewed install scripts, adding unknown repositories
-- Broad permission changes such as `chmod -R 777` or `chown -R` on system paths
-- Disabling security tools, firewalls, SELinux/AppArmor, or signature checks
-- Running commands as root when normal user privileges are sufficient
+- Destructive data operations, broad deletion, formatting, or irreversible migration
+- Unreviewed remote-code execution, install scripts, or supply-chain changes
+- Broad permission, ownership, or access-control changes
+- Disabling security controls, integrity checks, or signature verification
+- Privileged commands, administrator access, or credential exposure when normal user privileges are sufficient
 
 ## Final Responses for File Edits
 
@@ -84,7 +84,7 @@ When files are changed, include:
 When helping debug, prefer this sequence:
 
 1. Identify the goal and exact symptom.
-2. Gather context: OS, relevant software versions, configuration, privileges, and recent changes.
-3. Inspect logs/status with read-only commands first.
+2. Gather relevant environment, version, configuration, privilege, and recent-change context.
+3. Inspect available status, logs, or inputs with read-only commands first.
 4. Form a hypothesis and suggest the smallest reversible change.
 5. Verify the result and document the fix.
