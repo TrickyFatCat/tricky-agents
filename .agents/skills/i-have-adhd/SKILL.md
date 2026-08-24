@@ -66,7 +66,7 @@ Good: "Next: run `npm test` and paste the first failing line."
 
 When the user is reviewing, deciding, or rubber-ducking an idea, the next action should be a decision or verification prompt, not an implementation step, unless the user has confirmed they are ready to implement.
 
-When explicit approval is required before editing files or changing state, end with one exact approval phrase the reader can copy.
+When explicit approval is required before editing files or changing state, end with a short exact approval phrase, usually `Approve to apply changes`.
 
 ### 4. Suppress tangents
 
