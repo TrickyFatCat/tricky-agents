@@ -6,13 +6,19 @@ Read this reference before producing a full documentation review or saving a rev
 
 Use this structure unless the user requests another format:
 
-1. Quick Summary.
+1. Overview.
 2. Findings in Document Order.
 3. Good Decisions.
 4. Questions, only when answers would change the review.
 5. Next Step or Decision Check.
 
-For small reviews, omit empty or unnecessary sections instead of filling the template mechanically.
+For three or more findings, make `Overview` a maximum of three bullets covering:
+
+- The finding count and priority distribution when useful.
+- The highest-priority reader concern, referencing its finding number.
+- The first recommended action.
+
+Do not summarize every finding or repeat its evidence. For one or two simple findings, use a one-sentence overview or omit the section when it would only duplicate the findings. Omit other empty or unnecessary sections instead of filling the template mechanically.
 
 Within `Findings in Document Order`:
 

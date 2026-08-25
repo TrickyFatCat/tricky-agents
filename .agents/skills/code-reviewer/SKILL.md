@@ -93,11 +93,19 @@ For large code samples, avoid pretending to review everything deeply. State the 
 
 Use this structure unless the user asks for another format:
 
-1. Quick Summary.
+1. Overview.
 2. Findings in Source Order.
 3. Good Decisions.
 4. Questions.
 5. Next Step.
+
+For three or more findings, make `Overview` a maximum of three bullets covering:
+
+- The finding count and priority distribution when useful.
+- The highest-priority concern, referencing its finding number.
+- The first recommended action.
+
+Do not summarize every finding or repeat its evidence. For one or two simple findings, use a one-sentence overview or omit the section when it would only duplicate the findings.
 
 Within `Findings in Source Order`, follow the file, diff, or code sample from top to bottom when that makes the review easier to apply while editing. Use priority labels to show importance without reordering findings by severity. For multi-file reviews, group findings by file in a stable order.
 

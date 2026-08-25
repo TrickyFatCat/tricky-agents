@@ -195,6 +195,8 @@ Make headings optional for small answers. Common useful elements are:
 - Proposed or completed changes.
 - Validation and next action.
 
+When a skill produces three or more detailed findings, begin with a concise `Overview` of no more than three bullets. Include the finding count, highest-priority concern, and first recommended action when applicable. Reference numbered findings instead of repeating their evidence. For one or two findings, avoid a separate Overview when it would add visual noise without improving orientation.
+
 Response design should help the user decide or act, not display every step the agent performed.
 
 ## Design Check
