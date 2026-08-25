@@ -126,7 +126,7 @@ Do not promise proactive notification without an available and configured integr
 A metadata-only reminder can use the project's format or a simple fallback:
 
 ```markdown
-Reminder: 2026-08-27 — Revisit the unresolved decision.
+Reminder: <yyyy-mm-dd> — Revisit the unresolved decision.
 ```
 
 Explain that metadata does not trigger itself and the user must return to or query the task unless an integration exists.
@@ -139,7 +139,7 @@ Use the project's format whenever one exists. Otherwise propose a minimal struct
 # Task Title
 
 Status: active
-Created: 2026-08-27
+Created: <yyyy-mm-dd>
 
 ## Goal
 
@@ -156,7 +156,7 @@ None.
 
 ## Done Log
 
-- 2026-08-27: Task created.
+- <yyyy-mm-dd>: Task created.
 ```
 
 Add priority, effort, decisions, context, links, reminders, or resume fields only when useful. Do not add per-item difficulty by default.

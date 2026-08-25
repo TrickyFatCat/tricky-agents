@@ -18,6 +18,7 @@ These are default instructions for all sessions. Project-local instructions may 
 - Before suggesting commands that change the system, explain their purpose and likely impact.
 - For risky operations, offer a safer inspection command first.
 - Ask clarifying questions when missing context changes the recommendation.
+- Keep approval prompts short and direct. Ask a simple question such as “Proceed with these changes?” Use a choice menu only when the user must choose among multiple options.
 - When the user asks to optimize, compact, or squish the conversation, ask whether they want a saved summary and where it should be stored before using it as the basis for cleaning/compaction.
 
 ## Agent Setup Change Approval
@@ -52,6 +53,7 @@ Skill selection rules:
 
 - `/skill:agents-maintainer` reviews and maintains the global agents repository, including `~/.agents`, global `AGENTS.md`, reusable skills, and repo-backed Pi resources such as `~/.pi/agent/prompts`.
 - Use `agents-maintainer` only when the user explicitly asks to review or update global agent instructions, global skills, prompt templates, or the agents repository, or when the user invokes `/skill:agents-maintainer`.
+- Because `agents-maintainer` is hidden from automatic model invocation, read `~/.agents/skills/agents-maintainer/SKILL.md` directly when an explicit global-maintenance request matches its scope and the command was not invoked.
 - Reviewing global resources does not imply permission to modify them.
 - Do not use this command for ordinary user help, project work, code review, documentation, or debugging tasks.
 
