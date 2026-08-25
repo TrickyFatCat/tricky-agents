@@ -25,11 +25,12 @@ Typical flow:
 
 Read references according to the review task:
 
-| Reference                                                                    | Read when                                                                                              |
-| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| [references/review-format.md](references/review-format.md)                   | Producing a full review, follow-up review, or saved review.                                            |
-| [references/source-accuracy-review.md](references/source-accuracy-review.md) | Reviewing commands, scripts, configuration, APIs, setup procedures, or implementation-backed behavior. |
-| [references/adhd-friendly-review.md](references/adhd-friendly-review.md)     | The user explicitly requests an ADHD-friendly documentation review.                                    |
+| Reference                                                                                                        | Read when                                                                                                     |
+| ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| [references/review-format.md](references/review-format.md)                                                       | Producing a full review, follow-up review, or saved review.                                                   |
+| [references/source-accuracy-review.md](references/source-accuracy-review.md)                                     | Reviewing commands, scripts, configuration, APIs, setup procedures, or implementation-backed behavior.        |
+| [../tech-docs-writer/references/markdown-conventions.md](../tech-docs-writer/references/markdown-conventions.md) | Resolving requested document paths, reviewing editorial markers, callouts, TOC, links, or Markdown structure. |
+| [references/adhd-friendly-review.md](references/adhd-friendly-review.md)                                         | The user explicitly requests an ADHD-friendly documentation review.                                           |
 
 Do not apply optional review lenses when the user did not request them and the document does not require them.
 
@@ -51,16 +52,18 @@ If the request is to create documentation from scratch, prefer `tech-docs-writer
 ## Review Workflow
 
 1. Read active project instructions and identify document, storage, and safety constraints.
-2. Identify the document mode, intended reader, reader goal, and requested focus.
-3. State the review scope when the document or source set is large.
-4. Read the document and relevant optional references.
-5. Inspect implementation or authoritative sources when accuracy is in scope.
-6. Review in document order and prioritize plausible reader failures over exhaustive criticism.
-7. Produce findings using [references/review-format.md](references/review-format.md).
-8. Distinguish confirmed problems, conditional recommendations, and style preferences.
-9. Save the review only when requested and follow active project storage rules.
+2. Locate the exact document. If the requested file is not found, do not silently substitute a similarly named generated or output copy.
+3. Identify the document mode, intended reader, reader goal, and requested focus.
+4. State the review scope when the document or source set is large.
+5. Read the document and relevant optional references.
+6. When the user asks to check comments or the document contains `REVIEW`, `TODO`, or `FIXME` editorial markers, extract them in document order, map each marker to the nearest heading, and prepare a change list before reviewing or editing.
+7. Inspect implementation or authoritative sources when accuracy is in scope.
+8. Review in document order and prioritize plausible reader failures over exhaustive criticism.
+9. Produce findings using [references/review-format.md](references/review-format.md).
+10. Distinguish confirmed problems, conditional recommendations, and style preferences.
+11. Save the review only when requested and follow active project storage rules.
 
-Ask clarifying questions when audience, platform, version, authority, or intended outcome changes the review.
+Ask clarifying questions when audience, platform, version, authority, intended outcome, or the authoritative document path changes the review.
 
 ## Review Principles
 

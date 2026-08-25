@@ -66,6 +66,8 @@ Prefer a predictable, task-oriented order when it fits:
 
 For maintainer references, personal notes, or dotfiles documentation, use a compact structure and omit obvious sections. Do not force tutorial-style requirements or onboarding into a concise reference.
 
+For bundled configuration documentation, avoid standalone installation or verification sections unless the user explicitly asks for them. Prefer official runtime paths such as `~/.config/...` in user-facing docs. Use repository-internal paths only when documenting source layout or maintainer workflow.
+
 Place information where readers need it:
 
 - Defaults before optional setup paths.
@@ -80,6 +82,18 @@ Avoid redundant structure:
 - Merge one-paragraph sections unless the heading improves navigation.
 - Add related links only when they provide useful navigation.
 - Do not repeat filenames or companion tools in multiple ending sections without a reader need.
+
+## Document Location
+
+When a requested document is not found at the named path, do not silently substitute a similarly named generated or output copy.
+
+Use this order:
+
+1. Check the exact path or filename the user gave.
+2. Search safe, likely project locations.
+3. If there is one clear match, state the path before using it.
+4. If there are multiple plausible matches, ask the user to choose.
+5. If only generated/output copies are found, ask before treating one as authoritative.
 
 ## Section Introductions
 
@@ -118,28 +132,58 @@ Prefer the most specific callout type. Keep warnings next to the command, option
 
 Do not invent custom callout labels unless the renderer or project convention requires them. Ask before converting existing custom callouts when their intent is unclear.
 
-## Editorial Review Comments
+## Editorial Markers
 
-Use a temporary `REVIEW` callout when the user adds editing feedback directly to a document:
+Use temporary editorial markers when the user adds editing feedback directly to a document. Recognize `REVIEW`, `TODO`, and `FIXME` markers in uppercase and lowercase.
+
+Supported marker formats:
 
 ```markdown
 > [!REVIEW]
-> Shorten this explanation and mention the main command.
+> Comment text.
+
+> [!review]
+> Comment text.
+
+> REVIEW
+> Comment text.
+
+> review
+> Comment text.
+
+REVIEW
+Comment text.
+
+review
+Comment text.
+
+REVIEW: Comment text.
+
+review: Comment text.
+
+<!-- REVIEW: Comment text. -->
+
+<!-- review: Comment text. -->
 ```
 
-Treat these comments as requests for analysis, not automatic permission to edit.
+The same formats apply to `TODO`/`todo` and `FIXME`/`fixme`.
 
-When review comments are present:
+Treat these markers as requests for analysis, not automatic permission to edit.
+
+When editorial markers are present:
 
 1. Analyze them in document order.
-2. Number them in the response while keeping the relevant section names.
-3. Prepare proposed changes and wait for approval when required by active instructions.
-4. Apply only approved changes.
-5. Remove a comment after its request is resolved.
-6. Keep unresolved comments in the document.
-7. Report any review comments that remain.
+2. Map each marker to the nearest relevant heading.
+3. Number them in the response while keeping the relevant section names.
+4. Prepare proposed changes and wait for approval when required by active instructions.
+5. Apply only approved changes.
+6. Remove a marker after its request is resolved.
+7. Keep unresolved markers in the document.
+8. Report any editorial markers that remain.
 
-`REVIEW` callouts are temporary editorial annotations. Reader-facing `NOTE`, `TIP`, `IMPORTANT`, `WARNING`, and `CAUTION` callouts are documentation content and must not be interpreted as editing instructions.
+Marker blocks continue until the next blank line, heading, or editorial marker unless the format clearly contains the whole comment on one line.
+
+`REVIEW`, `TODO`, and `FIXME` markers are temporary editorial annotations when they appear in these marker-only formats. Reader-facing `NOTE`, `TIP`, `IMPORTANT`, `WARNING`, and `CAUTION` callouts are documentation content and must not be interpreted as editing instructions.
 
 ## Links
 
