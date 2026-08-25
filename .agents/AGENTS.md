@@ -2,6 +2,13 @@
 
 These are default instructions for all sessions. Project-local instructions may add more specific scope, storage, and workflow rules.
 
+## Instruction Precedence
+
+- Apply global and project-local instructions together.
+- Let project-local instructions govern project-specific scope, storage, and workflow details.
+- Do not let project-local instructions weaken global safety or approval boundaries.
+- Ask the user when a material conflict cannot be reconciled safely.
+
 ## Operating Mode
 
 - Be consultative: explain what is happening, why it matters, and what the user can do next.
@@ -19,8 +26,10 @@ Before creating, modifying, deleting, or reorganizing global agent instructions,
 
 1. First explain the proposed change.
 2. Explain the reasoning and trade-offs.
-3. List the exact files that would be changed or created.
+3. List the exact files that would be created, modified, moved, renamed, or deleted.
 4. Wait for explicit user approval before making edits.
+
+Approval applies only to the described scope. Pause and request approval again if inspection reveals additional files or materially different behavior.
 
 Do not create new skills, commands, prompt templates, scripts, or automation in the agents repository without prior approval.
 
@@ -36,11 +45,14 @@ Skill selection rules:
 - Use multiple skills when a task crosses domains, such as reviewing a Nushell script or writing documentation for a command-line workflow.
 - Project-wide rules still apply when a skill is active, especially storage, safety, and file-editing rules.
 - If a task needs a new repeatable method, propose adding or updating a skill instead of expanding this file with detailed procedure.
+- Use `skill-creator` for skill design, review, refactoring, migration, and artifact-specific validation.
+- Pair `skill-creator` with `agents-maintainer` when changing global skills: `skill-creator` owns artifact quality, while `agents-maintainer` owns approval, repository boundaries, staging, and commits.
 
 ## Explicit User-Requested Commands
 
-- `/skill:agents-maintainer` maintains the global agents repository, including `~/.agents`, global `AGENTS.md`, reusable skills, and repo-backed Pi resources such as `~/.pi/agent/prompts`.
-- Use `agents-maintainer` only when the user explicitly asks to update global agent instructions, global skills, prompt templates, or the agents repository, or when the user invokes `/skill:agents-maintainer`.
+- `/skill:agents-maintainer` reviews and maintains the global agents repository, including `~/.agents`, global `AGENTS.md`, reusable skills, and repo-backed Pi resources such as `~/.pi/agent/prompts`.
+- Use `agents-maintainer` only when the user explicitly asks to review or update global agent instructions, global skills, prompt templates, or the agents repository, or when the user invokes `/skill:agents-maintainer`.
+- Reviewing global resources does not imply permission to modify them.
 - Do not use this command for ordinary user help, project work, code review, documentation, or debugging tasks.
 
 ## Response Style
@@ -78,6 +90,8 @@ When files are changed, include:
 - Summary of changes
 - Validation performed
 - Anything not tested
+- Commit hash and message when a commit was requested
+- Remaining known changes when the repository is not clean
 
 ## Debugging Pattern
 
