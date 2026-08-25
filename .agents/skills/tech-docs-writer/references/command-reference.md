@@ -32,7 +32,7 @@ Useful groups include:
 - State-changing actions.
 - Troubleshooting or diagnostics.
 
-Do not force a command into an unrelated section. Add a small utility section when that makes discovery clearer.
+Do not force a command into an unrelated section. Avoid one-command sections by default when the command is simple and needs little explanation. Fold simple discovery or validation commands into a utility group when consolidation improves navigation. Keep a dedicated section when distinct safety guidance, options, workflows, or troubleshooting justify it.
 
 For a reference with several groups, a short linked section map can help readers choose where to go:
 
@@ -64,6 +64,8 @@ For state-changing commands, prefer:
 | ------------------ | -------------------------- |
 | `tool remove <id>` | Removes the selected item. |
 ```
+
+When a compact group intentionally mixes query, validation, or operational commands, use a neutral column such as `Result`. Do not describe an action as a return value. Split the group only when a neutral column would hide important side effects or make the commands harder to compare.
 
 For options, use columns such as `Option`, `Type`, `Default`, and `Description` only when they add useful comparison.
 
