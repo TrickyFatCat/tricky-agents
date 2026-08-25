@@ -13,9 +13,10 @@ The goal is not to collect every possible source. Answer the user's question cle
 
 Read optional references when the research needs them:
 
-| Reference                                                      | Read when                                                                                                                   |
-| -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| [references/research-method.md](references/research-method.md) | Research is substantial, sources conflict, several options are compared, or evidence quality can change the recommendation. |
+| Reference                                                                                  | Read when                                                                                                                                |
+| ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| [references/research-method.md](references/research-method.md)                             | Research is substantial, sources conflict, several options are compared, or evidence quality can change the recommendation.              |
+| [references/pi-extension-package-research.md](references/pi-extension-package-research.md) | The user asks about published Pi extensions, Pi packages, package alternatives, or adding a Pi capability that may already exist online. |
 
 Do not turn a small factual check into a full research workflow.
 
