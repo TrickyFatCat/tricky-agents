@@ -17,8 +17,9 @@ Read only the references needed for the task:
 | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
 | [references/skill-design.md](references/skill-design.md)         | Defining scope, frontmatter, routing, core structure, optional references, scripts, assets, or handoffs. |
 | [references/skill-validation.md](references/skill-validation.md) | Reviewing, validating, migrating, or renaming a skill and its dependencies.                              |
+| [references/review-format.md](references/review-format.md)       | Producing a normal or follow-up review of a skill and its supporting resources.                          |
 
-Read both references for a new skill or substantial refactor.
+Read both design and validation references for a new skill or substantial refactor. Read the review-format reference when operating in Review mode.
 
 ## When to Use
 
@@ -116,17 +117,9 @@ Read [references/skill-design.md](references/skill-design.md) for detailed desig
 
 ## Review Output
 
-For a normal skill review:
+Read [references/review-format.md](references/review-format.md) before producing a normal or follow-up skill review.
 
-1. For three or more findings, lead with a concise `Overview` containing the finding count, highest-priority concern, and first recommended direction. Reference finding numbers and use no more than three bullets.
-2. For one or two findings, lead with the overall diagnosis or recommendation without adding a redundant section.
-3. Report no more than five highest-value findings unless the user requests an exhaustive review.
-4. Present findings in source order when practical.
-5. Give each finding a priority, evidence, impact, and direction.
-6. Note good decisions worth preserving.
-7. End with a concrete migration or update scope when changes are recommended.
-
-Do not repeat every finding or its evidence in the Overview. Do not rewrite the skill during review mode.
+Use concise numbered findings, scale the structure down for small reviews, and report no more than five highest-value findings unless the user requests an exhaustive review. Do not rewrite the skill during review mode.
 
 ## Validation
 
