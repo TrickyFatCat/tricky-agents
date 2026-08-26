@@ -107,6 +107,8 @@ For three or more findings, make `Overview` a maximum of three bullets covering:
 
 Do not summarize every finding or repeat its evidence. For one or two simple findings, use a one-sentence overview or omit the section when it would only duplicate the findings.
 
+For follow-up reviews or re-reviews, preserve this structure when reporting multiple findings, resolved items, declined items, or status updates. Include the `Overview` when the follow-up has three or more review items, even if some items are accepted or declined.
+
 Within `Findings in Source Order`, follow the file, diff, or code sample from top to bottom when that makes the review easier to apply while editing. Use priority labels to show importance without reordering findings by severity. For multi-file reviews, group findings by file in a stable order.
 
 Number each finding heading while keeping a descriptive title. This makes findings easy to reference without losing readability, for example `### 1. Missing empty-input handling`.
