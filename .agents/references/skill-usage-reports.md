@@ -65,6 +65,8 @@ skill-usage/
 
 Use `global` for skills under `~/.agents/skills/`. Use `local` for project-local skills under `.agents/skills/` or another project-local skill directory.
 
+This path scope identifies where the skill lives. It does not decide where the issue must be addressed; use `issue_scope` metadata for that.
+
 Use lowercase kebab-case for `<skill-name>`, `<project-slug>`, and `<report-slug>`. Include the year directory to keep large report sets navigable.
 
 Do not encode status in the active report path. Status changes belong in metadata so links remain stable.
@@ -83,10 +85,14 @@ updated: <yyyy-mm-dd>
 skill_name: <skill-name>
 skill_scope: global # global | local
 skill_path: <path-when-known>
+issue_scope: global-agent-setup # global-agent-setup | global-skill | local-project-setup | local-skill | workflow-instance
+storage_context: obsidian-vault # obsidian-vault | git-repository | plain-directory | unknown
+validation_mode: direct-inspection # direct-inspection | git | mixed | not-validated
 project: <project-slug-or-null>
 report_slug: <report-slug>
 trigger: <why-the-report-was-requested>
 user_issue_count: <number>
+triage_owners: []
 related_proposals: []
 related_decisions: []
 addressed_by: []
@@ -97,6 +103,44 @@ archive_reason: null
 ```
 
 Keep metadata concise and queryable. Put detailed evidence, quotations, and interpretation in the Markdown body.
+
+## Issue Scope and Global Reports
+
+Distinguish the skill's location from the level where the reported issue should be handled.
+
+Use `skill_scope` for where the skill comes from:
+
+- `global`: the skill is under `~/.agents/skills/`.
+- `local`: the skill is project-local.
+
+Use `issue_scope` for where the improvement belongs:
+
+- `global-agent-setup`: global instructions, global references, global approval rules, global reporting rules, or cross-skill setup behavior.
+- `global-skill`: one global skill should change, but the wider agent setup does not.
+- `local-project-setup`: project instructions, local references, local vault conventions, or project storage rules should change.
+- `local-skill`: one project-local skill should change.
+- `workflow-instance`: the issue belongs to a single interaction or one-off workflow and may not need a durable setup change.
+
+A global report is a report whose `issue_scope` is `global-agent-setup`. It should be considered by `agents-maintainer` and, when skill behavior or skill references are involved, `skill-creator`. A global report may be created from feedback about a global skill, a local skill, or a project workflow when the underlying fix belongs in global agent setup.
+
+## Storage Context and Validation Mode
+
+Use `storage_context` to describe the kind of place where the report is saved, and `validation_mode` to describe how it was checked.
+
+Common storage contexts:
+
+- `obsidian-vault`: a vault intended for Markdown knowledge management; Git may be irrelevant.
+- `git-repository`: a Git-backed repository where diff/status validation is expected.
+- `plain-directory`: a normal directory without known vault or Git semantics.
+- `unknown`: the agent did not determine the storage context.
+
+For Obsidian vaults, do not report the absence of Git as a problem. Prefer wording such as:
+
+```text
+Storage validation: saved in linked Obsidian reports vault; Git validation not applicable. Direct inspection confirmed the report path and metadata.
+```
+
+Use `Git validation unavailable` only when Git validation was expected but could not be performed.
 
 ## Report Body
 
@@ -113,6 +157,7 @@ What work was happening, why the skill was active, and why the user requested a 
 
 - Name: `<skill-name>`
 - Scope: global/local
+- Issue scope: global-agent-setup/global-skill/local-project-setup/local-skill/workflow-instance
 - Path: `<path-when-known>`
 - Trigger: short routing reason
 
@@ -275,4 +320,6 @@ After creating, updating, or archiving a report:
 - Confirm user-pointed issues are separated from agent interpretation.
 - Confirm traceability links are present or explicitly absent.
 - Confirm no unapproved linked-vault files changed.
-- Report if Git validation is unavailable for the external vault.
+- Confirm `storage_context` and `validation_mode` match the target.
+- For Obsidian vaults, report direct-inspection validation and state that Git validation is not applicable.
+- Report Git validation as unavailable only when Git validation was expected but could not be performed.

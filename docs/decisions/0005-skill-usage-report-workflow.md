@@ -19,15 +19,17 @@ The reference defines:
 - The default project reports-vault location is `linked-vaults/reports-vault/skill-usage/` when available.
 - Missing reports vaults require asking the user where to save or whether to return the report inline.
 - Reports separate global and local skills by path structure and metadata.
+- Reports distinguish `skill_scope` from `issue_scope`, including `global-agent-setup` reports that must be addressed at the global setup level.
 - Reports capture user-pointed issues separately from agent interpretation.
 - Reports use stable YAML metadata plus human-readable Markdown sections.
+- Reports record storage context and validation mode so Obsidian vaults use direct-inspection validation without treating missing Git as a problem.
 - Proposals and decisions should trace back to motivating reports when practical.
 - Addressed, stale, superseded, and rejected reports are preserved.
 - Archiving is an explicit process that moves eligible final-status reports under `skill-usage/archive/` only after approval or an approved batch workflow.
 
 ## Reasons
 
-A global reference keeps the durable workflow available to every skill without expanding each skill file. YAML metadata supports AI-assisted filtering and traceability, while stable Markdown headings keep reports readable for humans. Keeping status in metadata avoids link breakage during normal lifecycle changes. Archiving by explicit workflow prevents old reports from cluttering active views without deleting historical feedback.
+A global reference keeps the durable workflow available to every skill without expanding each skill file. YAML metadata supports AI-assisted filtering and traceability, while stable Markdown headings keep reports readable for humans. Separating skill scope from issue scope avoids confusing where a skill lives with where a fix belongs. Keeping status in metadata avoids link breakage during normal lifecycle changes. Archiving by explicit workflow prevents old reports from cluttering active views without deleting historical feedback.
 
 ## Consequences
 
@@ -36,7 +38,8 @@ A global reference keeps the durable workflow available to every skill without e
 - Projects without a reports vault require an explicit user choice before persistent report storage.
 - `skill-creator` and `agents-maintainer` gain a stable evidence source for proposals and decisions.
 - Reports and decisions require maintenance links when feedback is triaged, decided, implemented, superseded, or archived.
-- External reports vaults may not be Git-backed, so validation may be limited to direct file inspection.
+- Global setup issues can be identified even when the active skill or project context is local.
+- Obsidian vault reports use direct-inspection validation, and missing Git is not treated as a problem unless Git validation was expected.
 
 ## Alternatives
 
@@ -44,7 +47,13 @@ A global reference keeps the durable workflow available to every skill without e
 - Add report logic to each skill. Rejected because it would duplicate a shared convention and make updates inconsistent.
 - Create reports automatically after every skill use. Rejected because it would create noise and persistent records without explicit user intent.
 - Encode report status in directory names. Rejected because routine status changes would move files and break links.
+- Treat global reports as reports made by global skills. Rejected because the important distinction is where the issue should be addressed, not only where the active skill lives.
+- Treat missing Git in an Obsidian reports vault as a warning. Rejected because an Obsidian vault may intentionally use direct Markdown validation without Git.
 - Delete addressed reports. Rejected because user feedback should remain traceable to proposals, decisions, and outcomes.
+
+## Related Reports
+
+- `linked-vaults/reports-vault/skill-usage/reports/global/agents-maintainer/2026/2026-08-26-201411-reference-first-global-rule-planning.md`
 
 ## Related Changes
 
