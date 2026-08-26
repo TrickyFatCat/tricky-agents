@@ -40,6 +40,8 @@ Skills are available under `~/.agents/skills/`. Project-local skills may also ex
 
 Use a skill when its description matches the task. Read the matching skill before acting. Keep detailed task-specific methods inside skill files rather than duplicating them here.
 
+When the user asks for a skill usage report, or asks to use skill usage reports for skill proposals or decisions, read `~/.agents/references/skill-usage-reports.md` and follow its reporting, traceability, missing-vault, status, and archiving workflow.
+
 Skill selection rules:
 
 - Prefer the most specific matching skill.
