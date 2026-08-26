@@ -1,6 +1,6 @@
 ---
 name: skill-creator
-description: Use when creating, reviewing, updating, refactoring, or renaming agent skills and their references, scripts, or assets. Provides skill architecture, routing, progressive-disclosure, migration, and validation guidance.
+description: Use when creating, reviewing, updating, refactoring, or renaming agent skills and their references, scripts, assets, or decision records. Provides skill architecture, routing, progressive-disclosure, migration, decision-record, and validation guidance.
 ---
 
 # Skill Creator
@@ -18,8 +18,9 @@ Read only the references needed for the task:
 | [references/skill-design.md](references/skill-design.md)         | Defining scope, frontmatter, routing, core structure, optional references, scripts, assets, or handoffs. |
 | [references/skill-validation.md](references/skill-validation.md) | Reviewing, validating, migrating, or renaming a skill and its dependencies.                              |
 | [references/review-format.md](references/review-format.md)       | Producing a normal or follow-up review of a skill and its supporting resources.                          |
+| [references/decision-records.md](references/decision-records.md) | Assessing, creating, or backfilling decision records for skill changes.                                  |
 
-Read both design and validation references for a new skill or substantial refactor. Read the review-format reference when operating in Review mode.
+Read both design and validation references for a new skill or substantial refactor. Read the review-format reference when operating in Review mode. Read the decision-record reference for every skill task.
 
 ## When to Use
 
@@ -31,6 +32,7 @@ Use this skill when the user asks to:
 - Split an overloaded core into optional references.
 - Rename or migrate a skill and update its dependencies.
 - Add or review scripts, assets, templates, or validation guidance inside a skill.
+- Create or backfill a decision record for a skill change.
 - Diagnose skill discovery, frontmatter, naming, or reference problems.
 
 Do not create a new skill merely because guidance could be written down. Prefer a skill when the method is reusable, domain-specific, and likely to improve future behavior.
@@ -69,6 +71,10 @@ Improve an existing skill while preserving useful behavior and limiting scope to
 
 Treat the rename as a migration. Update the directory, frontmatter, routing dependencies, documentation references, and validation targets together.
 
+### Decision Record
+
+Assess, create, or backfill a concise record for a durable skill decision. A direct request makes the record mandatory, but repository approval and exact-file scope still apply.
+
 A task can combine modes, but do not silently turn a review into an edit or a design discussion into implementation.
 
 ## Approval Gate
@@ -87,17 +93,19 @@ Use `agents-maintainer` for this gate when global repository resources are invol
 
 ## Workflow
 
-1. Identify whether the task is creation, review, update, rename, or a combination.
+1. Identify whether the task is creation, review, update, rename, decision record, or a combination.
 2. Read active project and global instructions.
 3. Inspect the target skill, optional resources, repository state, and direct dependencies.
 4. Read current harness documentation when discovery or frontmatter behavior matters.
 5. Define the skill's responsibility boundary and routing relationships.
 6. Decide what belongs in the always-loaded core and what should load from references.
-7. Present the exact proposal and wait for approval before changing files.
-8. Apply only approved changes, using targeted edits when practical.
-9. Format Markdown and validate frontmatter, references, routing, migrations, and repository state.
-10. Report changed files, validation, limitations, and anything not tested.
-11. Commit only when the user explicitly asks and the responsible repository workflow permits it.
+7. Assess the decision record using [references/decision-records.md](references/decision-records.md). Always state why a record is or is not recommended.
+8. If a record is recommended or directly requested, choose its exact path, include it in the approval scope, and create it with the approved skill changes. Do not make it an optional follow-up after approval.
+9. Present the exact proposal and wait for approval before changing files.
+10. Apply only approved changes, using targeted edits when practical.
+11. Format Markdown and validate frontmatter, references, routing, migrations, decision records, and repository state.
+12. Report changed files, validation, limitations, anything not tested, and the decision-record outcome with its reason.
+13. Commit only when the user explicitly asks and the responsible repository workflow permits it.
 
 ## Core Design Principles
 
@@ -143,8 +151,9 @@ Use only the parts that help:
 2. Main design decisions or findings.
 3. Exact proposed or completed file changes.
 4. Validation, limitations, and next decision.
+5. Decision-record outcome and reason.
 
-Do not force headings onto a small answer.
+Do not force headings onto a small answer. The decision-record outcome may be one concise line rather than a separate section.
 
 ## Tone
 
