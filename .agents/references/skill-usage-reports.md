@@ -8,7 +8,7 @@ Skill usage reports preserve user-observed issues and improvement signals so fut
 
 Create a report only when the user asks for a skill usage report or confirms that intent. Do not create reports automatically just because a skill was used, the user gave feedback, or the user used the word "report" for possible chat output.
 
-When the user clearly points out a problem with agent, skill, setup, or workflow behavior, ask whether they want a skill usage report. Keep the prompt short, such as: "Would you like me to create a skill usage report for this?" Do not ask for a report for every minor preference, routine correction, or illustrative example.
+When the user clearly points out a problem with agent, skill, setup, or workflow behavior, ask whether they want a skill usage report. Keep the prompt short, such as: "Would you like me to create a skill usage report for this?" Do not ask for a report for every minor preference, routine correction, or illustrative example. A short reminder for this rule is also present in global `AGENTS.md` so it is visible before this reference is loaded.
 
 Do not assume that the word "report" means a persistent skill usage report. It can also mean agent output in chat, such as a review report, status report, research report, conversation summary, or explanation. If a chat-output meaning is plausible, do not create persistent report files unless the user clearly asks for a skill usage report or confirms that intent after a clarifying question.
 

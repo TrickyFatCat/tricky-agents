@@ -53,6 +53,8 @@ Use a skill when its description matches the task. Read the matching skill befor
 
 When the user asks for a skill usage report, or asks to use skill usage reports for skill proposals or decisions, read `~/.agents/references/skill-usage-reports.md` and follow its reporting, traceability, missing-vault, status, and archiving workflow.
 
+When the user clearly points out a problem with agent, skill, setup, or workflow behavior, ask whether they want a skill usage report. Do not create one automatically; ask a short question and follow `~/.agents/references/skill-usage-reports.md` if they approve.
+
 Skill selection rules:
 
 - Prefer the most specific matching skill.
