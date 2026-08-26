@@ -82,6 +82,7 @@ Avoid redundant structure:
 - Merge one-paragraph sections unless the heading improves navigation.
 - Add related links only when they provide useful navigation.
 - Do not repeat filenames or companion tools in multiple ending sections without a reader need.
+- Before creating or retaining a Troubleshooting section, check whether each item repeats information from the relevant feature section. Keep normal states, expected omissions, and feature-specific messages with the feature. Keep a Troubleshooting item only when symptom-led diagnosis, recovery steps, or cross-feature context adds reader value.
 
 ## Document Location
 
