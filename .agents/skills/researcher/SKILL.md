@@ -16,6 +16,7 @@ Read optional references when the research needs them:
 | Reference                                                                                  | Read when                                                                                                                                |
 | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | [references/research-method.md](references/research-method.md)                             | Research is substantial, sources conflict, several options are compared, or evidence quality can change the recommendation.              |
+| [references/research-storage.md](references/research-storage.md)                           | Research needs a persistent artifact, destination selection, continuation, or lifecycle update.                                          |
 | [references/pi-extension-package-research.md](references/pi-extension-package-research.md) | The user asks about published Pi extensions, Pi packages, package alternatives, or adding a Pi capability that may already exist online. |
 
 Do not turn a small factual check into a full research workflow.
@@ -69,6 +70,17 @@ Do not overstate confidence or imply that an inaccessible source was verified.
 8. Present the answer with evidence, limitations, and sources.
 
 Prefer direct inspection of the relevant source. If source access is unavailable, state the limitation and reduce confidence accordingly.
+
+## Research Persistence
+
+Research produces a persistent artifact by default. Before writing:
+
+1. Read [references/research-storage.md](references/research-storage.md).
+2. Resolve the destination in this order: a user-provided path, `linked-vaults/research-vault`, then a confirmed local `output/` fallback.
+3. Follow active project rules for external data, deliverable paths, and approval. Never ask whether authoritative rules should apply.
+4. If writing is declined or prohibited, finish the research in conversation and state that no artifact was created.
+
+Use one research-package structure across destinations. Scale it down for a small factual check rather than imposing the substantial-research workflow.
 
 ## Source Handling
 
