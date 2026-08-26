@@ -8,6 +8,8 @@ Skill usage reports preserve user-observed issues and improvement signals so fut
 
 Create a report only when the user asks for one. Do not create reports automatically just because a skill was used or a user gave feedback.
 
+When the user clearly points out a problem with agent, skill, setup, or workflow behavior, ask whether they want a skill usage report. Keep the prompt short, such as: "Would you like me to create a skill usage report for this?" Do not ask for a report for every minor preference, routine correction, or illustrative example.
+
 ## Report Location
 
 Use the active project's linked reports vault when it exists:
@@ -166,6 +168,10 @@ What work was happening, why the skill was active, and why the user requested a 
 | Source | User wording or summary | Interpretation | Impact |
 | ------ | ----------------------- | -------------- | ------ |
 
+## Examples and Non-Issues
+
+Examples, historical context, or already-addressed issues the user mentioned to clarify the desired rule. Do not treat these as active issues unless the user explicitly says they are current.
+
 ## Observed Skill Behavior
 
 What the skill did well or poorly in the reported interaction.
@@ -189,11 +195,11 @@ What the skill did well or poorly in the reported interaction.
 Current state, outcome, and follow-up notes.
 ```
 
-Scale the body down for small reports, but keep `User-Pointed Issues`, `Traceability`, and `Resolution` when the report identifies an issue.
+Scale the body down for small reports, but keep `User-Pointed Issues`, `Traceability`, and `Resolution` when the report identifies an issue. Use `Examples and Non-Issues` when the user provides examples or historical context that should not be treated as active work.
 
 ## Capturing User-Pointed Issues
 
-Include issues the user raised in:
+Include active issues the user raised in:
 
 - Direct chat messages.
 - Explicit report requests.
@@ -201,6 +207,8 @@ Include issues the user raised in:
 - Follow-up corrections, complaints, preferences, or rejected assumptions.
 
 Preserve the user's wording when it is short and useful. Summarize when the original text is long, sensitive, or mixed with unrelated content. Distinguish user-stated issues from the agent's interpretation.
+
+Separate examples from active issues. A user example is evidence or illustration, not automatically a current report issue or implementation target. If an example is based on a real past problem, treat it as historical context unless the user explicitly says the problem is still current. If the classification changes the report or next action and remains ambiguous, ask a concise clarifying question.
 
 Do not include secrets, credentials, or sensitive personal data unless the user explicitly asks and the active safety rules permit storing it.
 
@@ -318,6 +326,7 @@ After creating, updating, or archiving a report:
 - Confirm the path matches the skill scope, project slug, skill name, year, timestamp, and slug.
 - Confirm required metadata is present and internally consistent.
 - Confirm user-pointed issues are separated from agent interpretation.
+- Confirm examples, historical context, and non-issues are not listed as active issues unless the user explicitly marked them current.
 - Confirm traceability links are present or explicitly absent.
 - Confirm no unapproved linked-vault files changed.
 - Confirm `storage_context` and `validation_mode` match the target.

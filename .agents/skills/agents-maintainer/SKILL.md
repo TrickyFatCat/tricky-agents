@@ -52,6 +52,8 @@ Before creating, modifying, deleting, moving, or reorganizing global agent resou
 3. List every exact file to create, modify, move, or delete.
 4. Wait for explicit user approval.
 
+For detailed durable workflows, schemas, lifecycle rules, or cross-skill conventions, prefer a reference-first proposal: keep `AGENTS.md` to a concise routing rule and place the detailed process in a global reference or skill reference. State this split in the proposal so the user can evaluate always-loaded instructions separately from optional detail.
+
 Approval applies only to the described scope. Pause and request approval again if new files, broader changes, or materially different behavior become necessary.
 
 ## Maintenance Workflow
