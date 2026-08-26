@@ -15,8 +15,9 @@ Global agent instructions will route user-requested skill usage reports to `~/.a
 
 The reference defines:
 
-- Reports are created only when the user asks for them.
+- Reports are created only when the user asks for a skill usage report or confirms that intent.
 - When the user clearly points out a problem with agent, skill, setup, or workflow behavior, the agent should ask whether to create a report instead of creating one automatically.
+- Ambiguous uses of "report" must not be treated as persistent skill usage report requests when the user may mean agent output in chat, such as a review report, status report, research report, conversation summary, saved note, or explanation.
 - The default project reports-vault location is `linked-vaults/reports-vault/skill-usage/` when available.
 - Missing reports vaults require asking the user where to save or whether to return the report inline.
 - Reports separate global and local skills by path structure and metadata.
@@ -31,13 +32,14 @@ The reference defines:
 
 ## Reasons
 
-A global reference keeps the durable workflow available to every skill without expanding each skill file. YAML metadata supports AI-assisted filtering and traceability, while stable Markdown headings keep reports readable for humans. Separating skill scope from issue scope avoids confusing where a skill lives with where a fix belongs. Separating examples from active issues prevents illustrative context from becoming false open work. Asking before report creation captures improvement signals while preserving user control over persistent records. Keeping status in metadata avoids link breakage during normal lifecycle changes. Archiving by explicit workflow prevents old reports from cluttering active views without deleting historical feedback.
+A global reference keeps the durable workflow available to every skill without expanding each skill file. YAML metadata supports AI-assisted filtering and traceability, while stable Markdown headings keep reports readable for humans. Separating skill scope from issue scope avoids confusing where a skill lives with where a fix belongs. Separating examples from active issues prevents illustrative context from becoming false open work. Asking before report creation captures improvement signals while preserving user control over persistent records. Treating ambiguous report requests as chat output unless clarified prevents unwanted persistent artifacts. Keeping status in metadata avoids link breakage during normal lifecycle changes. Archiving by explicit workflow prevents old reports from cluttering active views without deleting historical feedback.
 
 ## Consequences
 
 - Any skill can produce a consistent usage report when the user asks.
 - Report creation remains opt-in and does not add automatic logging.
 - Agents have a lightweight prompt pattern for clear problem reports that are not explicit report requests.
+- Ambiguous report requests require clarification before writing files when a chat-output meaning is plausible.
 - Reports avoid treating examples or already-addressed historical problems as current issues unless the user says they are current.
 - Projects without a reports vault require an explicit user choice before persistent report storage.
 - `skill-creator` and `agents-maintainer` gain a stable evidence source for proposals and decisions.
@@ -51,6 +53,7 @@ A global reference keeps the durable workflow available to every skill without e
 - Add report logic to each skill. Rejected because it would duplicate a shared convention and make updates inconsistent.
 - Create reports automatically after every skill use. Rejected because it would create noise and persistent records without explicit user intent.
 - Wait only for explicit report commands when users point out clear problems. Rejected because useful skill-improvement signals can be lost; asking keeps the user in control without silently logging.
+- Treat any use of the word "report" as a skill usage report request. Rejected because users may mean agent output in chat, such as a review report or summary, and persistent files should not be created from that ambiguity.
 - Treat illustrative examples as active report issues by default. Rejected because examples can describe already-addressed or hypothetical problems.
 - Encode report status in directory names. Rejected because routine status changes would move files and break links.
 - Treat global reports as reports made by global skills. Rejected because the important distinction is where the issue should be addressed, not only where the active skill lives.
@@ -62,6 +65,7 @@ A global reference keeps the durable workflow available to every skill without e
 - `linked-vaults/reports-vault/skill-usage/reports/global/agents-maintainer/2026/2026-08-26-201411-reference-first-global-rule-planning.md`
 - `linked-vaults/reports-vault/skill-usage/reports/global/agents-maintainer/2026/2026-08-26-202434-separate-examples-from-active-issues.md`
 - `linked-vaults/reports-vault/skill-usage/reports/global/agents-maintainer/2026/2026-08-26-202554-ask-before-reporting-pointed-problems.md`
+- `linked-vaults/reports-vault/skill-usage/reports/global/agents-maintainer/2026/2026-08-26-211643-clarify-ambiguous-report-requests.md`
 
 ## Related Changes
 
