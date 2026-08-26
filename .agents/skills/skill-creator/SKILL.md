@@ -13,12 +13,13 @@ The goal is not to put every useful instruction into one file. The goal is to gi
 
 Read only the references needed for the task:
 
-| Reference                                                        | Read when                                                                                                |
-| ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| [references/skill-design.md](references/skill-design.md)         | Defining scope, frontmatter, routing, core structure, optional references, scripts, assets, or handoffs. |
-| [references/skill-validation.md](references/skill-validation.md) | Reviewing, validating, migrating, or renaming a skill and its dependencies.                              |
-| [references/review-format.md](references/review-format.md)       | Producing a normal or follow-up review of a skill and its supporting resources.                          |
-| [references/decision-records.md](references/decision-records.md) | Assessing, creating, or backfilling decision records for skill changes.                                  |
+| Reference                                                                      | Read when                                                                                                                                                                    |
+| ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [references/skill-design.md](references/skill-design.md)                       | Defining scope, frontmatter, routing, core structure, optional references, scripts, assets, or handoffs.                                                                     |
+| [references/skill-validation.md](references/skill-validation.md)               | Reviewing, validating, migrating, or renaming a skill and its dependencies.                                                                                                  |
+| [references/review-format.md](references/review-format.md)                     | Producing a normal or follow-up review of a skill and its supporting resources.                                                                                              |
+| [references/decision-records.md](references/decision-records.md)               | Assessing, creating, or backfilling decision records for skill changes.                                                                                                      |
+| [../../references/safety-inspection.md](../../references/safety-inspection.md) | Creating, reviewing, or substantially changing a skill that can execute code, access sensitive or external data, use networks or credentials, or create high-impact effects. |
 
 Read both design and validation references for a new skill or substantial refactor. Read the review-format reference when operating in Review mode. Read the decision-record reference for every skill task.
 
@@ -91,6 +92,14 @@ Approval applies only to the described scope. Pause if inspection reveals additi
 
 Use `agents-maintainer` for this gate when global repository resources are involved.
 
+## Safety Inspection
+
+Read [../../references/safety-inspection.md](../../references/safety-inspection.md) when a skill can execute commands or scripts, access sensitive or externally controlled data, modify or delete state, use credentials or networks, or publish, deploy, install, or commit.
+
+Use the inspection to identify trust boundaries, allowed effects, tool scope, approval, data handling, network destinations, stop conditions, validation, and supply-chain assumptions. Keep every safety rule needed during normal skill use in the skill's always-loaded `SKILL.md`; the shared reference guides design and review rather than replacing skill-specific boundaries.
+
+Skip an irrelevant optional capability when the skill remains complete without it. Stop the design or review when a required unsafe effect, unresolved provenance, or missing authorization boundary prevents a safe artifact.
+
 ## Workflow
 
 1. Identify whether the task is creation, review, update, rename, decision record, or a combination.
@@ -99,13 +108,14 @@ Use `agents-maintainer` for this gate when global repository resources are invol
 4. Read current harness documentation when discovery or frontmatter behavior matters.
 5. Define the skill's responsibility boundary and routing relationships.
 6. Decide what belongs in the always-loaded core and what should load from references.
-7. Assess the decision record using [references/decision-records.md](references/decision-records.md). Always state why a record is or is not recommended.
-8. If a record is recommended or directly requested, choose its exact path, include it in the approval scope, and create it with the approved skill changes. Do not make it an optional follow-up after approval.
-9. Present the exact proposal and wait for approval before changing files.
-10. Apply only approved changes, using targeted edits when practical.
-11. Format Markdown and validate frontmatter, references, routing, migrations, decision records, and repository state.
-12. Report changed files, validation, limitations, anything not tested, and the decision-record outcome with its reason.
-13. Commit only when the user explicitly asks and the responsible repository workflow permits it.
+7. Perform the shared safety inspection when the skill has sensitive, executable, networked, state-changing, or high-impact capabilities.
+8. Assess the decision record using [references/decision-records.md](references/decision-records.md). Always state why a record is or is not recommended.
+9. If a record is recommended or directly requested, choose its exact path, include it in the approval scope, and create it with the approved skill changes. Do not make it an optional follow-up after approval.
+10. Present the exact proposal and wait for approval before changing files.
+11. Apply only approved changes, using targeted edits when practical.
+12. Format Markdown and validate frontmatter, references, routing, safety boundaries, migrations, decision records, and repository state.
+13. Report changed files, validation, limitations, anything not tested, and the decision-record outcome with its reason.
+14. Commit only when the user explicitly asks and the responsible repository workflow permits it.
 
 ## Core Design Principles
 
@@ -141,6 +151,7 @@ At minimum, confirm:
 - No stale name or routing references remain after a rename.
 - Markdown is formatted.
 - Only approved files changed.
+- High-capability skills expose their trust, authorization, data, network, stop, and validation boundaries in the always-loaded core.
 - Runtime discovery limitations are reported when not tested.
 
 ## Default Response Shape

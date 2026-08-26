@@ -10,6 +10,12 @@ Use this skill only for explicit requests to maintain the user's global agent se
 
 This skill is hidden from automatic model invocation. It exists as the user-requested command `/skill:agents-maintainer`.
 
+## Reference Files
+
+| Reference                                                                      | Read when                                                                                                                                                                                       |
+| ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [../../references/safety-inspection.md](../../references/safety-inspection.md) | Inspecting, enabling, copying, or updating third-party or project-local agent resources, executable helpers, dependencies, or resources with sensitive, networked, or high-impact capabilities. |
+
 ## Scope
 
 Maintain approved files inside the resolved agents Git repository, commonly exposed through:
@@ -43,6 +49,16 @@ Treat nearby Pi runtime state as out of scope by default, including:
 
 Do not modify runtime, credential, session, trust, package, or non-repository state unless the user explicitly names the target and approves the risks after inspection.
 
+## Third-Party Resource Safety
+
+Read [../../references/safety-inspection.md](../../references/safety-inspection.md) before enabling, copying, or updating a third-party or project-local skill, prompt, script, template, dependency, or other agent resource.
+
+Establish the source, provenance, revision, and license when available. Inspect bundled scripts, dependencies, install hooks, network destinations, credential access, filesystem effects, symlinks, binaries, permissions, and persistence mechanisms that apply to the resource.
+
+Do not execute third-party resources during inspection unless the user separately requests and approves the execution after its effects are visible. Treat `allowed-tools` and similar metadata as compatibility declarations, not containment, unless the active harness verifies and enforces them.
+
+Skip an unsafe optional resource when the approved outcome remains complete without it. Stop before enabling a required resource when provenance, repository boundaries, credentials, network behavior, or side effects remain materially unresolved.
+
 ## Approval Gate
 
 Before creating, modifying, deleting, moving, or reorganizing global agent resources:
@@ -67,14 +83,15 @@ Approval applies only to the described scope. Pause and request approval again i
    ```
 
 4. Read the relevant files and inspect target paths without changing state.
-5. Present the proposal required by the approval gate.
-6. After approval, make only the approved changes.
-7. Keep durable project-wide behavior in `AGENTS.md`; keep task-specific methods in skills or their references.
-8. Use targeted edits for existing files. Use full rewrites only when restructuring an approved file, and use new-file writes only for approved new files.
-9. Preserve portability across machines. Avoid absolute paths unless documenting an intentional local bootstrap layout.
-10. Avoid scripts, install hooks, daemons, cron jobs, or destructive setup unless explicitly requested and approved.
-11. Run artifact-specific validation and inspect the final diff.
-12. Do not commit unless the user explicitly asks.
+5. Perform the shared safety inspection when the work involves third-party resources, executable helpers, dependencies, sensitive data, networks, credentials, or high-impact effects.
+6. Present the proposal required by the approval gate.
+7. After approval, make only the approved changes.
+8. Keep durable project-wide behavior in `AGENTS.md`; keep task-specific methods in skills or their references.
+9. Use targeted edits for existing files. Use full rewrites only when restructuring an approved file, and use new-file writes only for approved new files.
+10. Preserve portability across machines. Avoid absolute paths unless documenting an intentional local bootstrap layout.
+11. Avoid scripts, install hooks, daemons, cron jobs, or destructive setup unless explicitly requested and approved.
+12. Run artifact-specific validation and inspect the final diff.
+13. Do not commit unless the user explicitly asks.
 
 ## Skill Maintenance
 
@@ -100,6 +117,7 @@ For skills, check:
 - Referenced files exist and relative paths resolve.
 - Markdown is formatted with the intended formatter.
 - No accidental absolute or machine-specific paths were introduced.
+- Third-party resources have evidence for applicable provenance, scripts, dependencies, network, credential, filesystem, and side-effect boundaries.
 
 For all agent-repository changes, run:
 
