@@ -56,12 +56,19 @@ If the request is to create documentation from scratch, prefer `tech-docs-writer
 3. Identify the document mode, intended reader, reader goal, and requested focus.
 4. State the review scope when the document or source set is large.
 5. Read the document and relevant optional references.
-6. When the user asks to check comments or the document contains `REVIEW`, `TODO`, or `FIXME` editorial markers, extract them in document order, map each marker to the nearest heading, and prepare a change list before reviewing or editing.
+6. When the user asks to check comments or the document contains `REVIEW`, `TODO`, or `FIXME` editorial markers, follow the discovery and resolution rules in [markdown-conventions.md](../tech-docs-writer/references/markdown-conventions.md), extract the markers in document order, map each marker to the nearest heading, and prepare a change list before reviewing or editing.
 7. Inspect implementation or authoritative sources when accuracy is in scope.
 8. Review in document order and prioritize plausible reader failures over exhaustive criticism.
 9. Produce findings using [references/review-format.md](references/review-format.md).
 10. Distinguish confirmed problems, conditional recommendations, and style preferences.
 11. Save the review only when requested and follow active project storage rules.
+
+When a document review also reveals workflow or skill improvements, separate the response and approval scopes into:
+
+1. Document changes.
+2. Workflow or skill follow-ups.
+
+Do not combine document edits and global agent-resource changes under one approval request. Global resource proposals must identify their exact files and receive their own approval.
 
 Ask clarifying questions when audience, platform, version, authority, intended outcome, or the authoritative document path changes the review.
 

@@ -82,6 +82,7 @@ Avoid redundant structure:
 - Merge one-paragraph sections unless the heading improves navigation.
 - Add related links only when they provide useful navigation.
 - Do not repeat filenames or companion tools in multiple ending sections without a reader need.
+- When adjacent output examples repeat most of the same context, use one representative full example and focused snippets only for meaningful variants.
 - Before creating or retaining a Troubleshooting section, check whether each item repeats information from the relevant feature section. Keep normal states, expected omissions, and feature-specific messages with the feature. Keep a Troubleshooting item only when symptom-led diagnosis, recovery steps, or cross-feature context adds reader value.
 
 ## Document Location
@@ -169,6 +170,15 @@ review: Comment text.
 
 The same formats apply to `TODO`/`todo` and `FIXME`/`fixme`.
 
+Discover markers with a broad search before classifying their exact syntax:
+
+1. Confirm the exact document path.
+2. Search case-insensitively for the whole-word markers `review`, `todo`, and `fixme`, for example with `rg -n -i '\b(review|todo|fixme)\b' <document>`.
+3. Inspect each match in context to distinguish editorial markers from ordinary prose.
+4. If the user says markers exist but the search returns none, recheck the document path and read likely sections before concluding that no markers are present.
+
+Do not rely on a strict marker-format regular expression as the only discovery pass.
+
 Treat these markers as requests for analysis, not automatic permission to edit.
 
 When editorial markers are present:
@@ -177,10 +187,11 @@ When editorial markers are present:
 2. Map each marker to the nearest relevant heading.
 3. Number them in the response while keeping the relevant section names.
 4. Prepare proposed changes and wait for approval when required by active instructions.
-5. Apply only approved changes.
-6. Remove a marker after its request is resolved.
-7. Keep unresolved markers in the document.
-8. Report any editorial markers that remain.
+5. Apply only approved changes with targeted, marker-scoped edits that preserve unreviewed content.
+6. Rewrite the whole document only when the approved request requires broad restructuring.
+7. Remove a marker after its request is resolved.
+8. Keep unresolved markers in the document.
+9. Repeat the broad search after formatting and report any editorial markers that remain.
 
 Marker blocks continue until the next blank line, heading, or editorial marker unless the format clearly contains the whole comment on one line.
 
