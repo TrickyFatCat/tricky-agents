@@ -53,11 +53,19 @@ Do not modify runtime, credential, session, trust, package, or non-repository st
 
 Read [../../references/safety-inspection.md](../../references/safety-inspection.md) before enabling, copying, or updating a third-party or project-local skill, prompt, script, template, dependency, or other agent resource.
 
-Establish the source, provenance, revision, and license when available. Inspect bundled scripts, dependencies, install hooks, network destinations, credential access, filesystem effects, symlinks, binaries, permissions, and persistence mechanisms that apply to the resource.
+For each applicable resource, inspect:
 
-Do not execute third-party resources during inspection unless the user separately requests and approves the execution after its effects are visible. Treat `allowed-tools` and similar metadata as compatibility declarations, not containment, unless the active harness verifies and enforces them.
+- source, provenance, revision, and license when available;
+- bundled scripts, dependencies, install hooks, symlinks, binaries, permissions, and persistence;
+- network destinations, credential access, filesystem effects, and other side effects.
 
-Skip an unsafe optional resource when the approved outcome remains complete without it. Stop before enabling a required resource when provenance, repository boundaries, credentials, network behavior, or side effects remain materially unresolved.
+Do not execute third-party resources during inspection unless the user separately requests and approves the execution after its effects are visible.
+
+Treat `allowed-tools` and similar metadata as compatibility declarations, not containment, unless the active harness verifies and enforces them.
+
+Skip an unsafe optional resource when the approved outcome remains complete without it.
+
+Stop before enabling a required resource when provenance, repository boundaries, credentials, network behavior, or side effects remain materially unresolved.
 
 ## Approval Gate
 
@@ -76,7 +84,11 @@ For created, moved, renamed, or reorganized artifacts, include:
 
 Use semantic filenames that describe the artifact subject and type. Reserve `README.md` for real directory, package, or collection overviews unless an external format requires it and the exception is explicitly approved.
 
-For detailed durable workflows, schemas, lifecycle rules, or cross-skill conventions, prefer a reference-first proposal: keep `AGENTS.md` to a concise routing rule and place the detailed process in a global reference or skill reference. State this split in the proposal so the user can evaluate always-loaded instructions separately from optional detail.
+For detailed durable workflows, schemas, lifecycle rules, or cross-skill conventions, use a reference-first proposal:
+
+- keep `AGENTS.md` to a concise routing rule;
+- place the detailed process in a global reference or skill reference;
+- state this split so the user can evaluate always-loaded instructions separately from optional detail.
 
 Approval applies only to the described scope. Pause and request approval again if new files, broader changes, or materially different behavior become necessary.
 
@@ -86,9 +98,9 @@ Approval applies only to the described scope. Pause and request approval again i
 2. Resolve `agents_path` and `repo_root` as shown above.
 3. Inspect repository state before proposing changes:
 
-   ```bash
-   git -C "$repo_root" status --short
-   ```
+    ```bash
+    git -C "$repo_root" status --short
+    ```
 
 4. Read the relevant files and inspect target paths without changing state.
 5. Perform the shared safety inspection when the work involves third-party resources, executable helpers, dependencies, sensitive data, networks, credentials, or high-impact effects.
@@ -114,6 +126,15 @@ When both skills apply:
 - Return to `agents-maintainer` for exact-path validation and any requested commit after skill work is complete.
 
 Do not let skill-design guidance weaken repository safeguards or broaden the user's approved scope.
+
+## Writing Style
+
+Use direct style for proposals, reviews, and final reports:
+
+- lead with the action, decision, or current state;
+- use bullets or numbered steps for multi-step work;
+- keep rationale only when it changes approval, safety, repository-scope, or validation decisions;
+- preserve safety and approval detail even when concise wording is preferred.
 
 ## Validation
 
@@ -151,16 +172,16 @@ Before committing:
 3. Stage exact paths rather than all repository changes.
 4. Validate the staged diff:
 
-   ```bash
-   git -C "$repo_root" diff --cached --check
-   ```
+    ```bash
+    git -C "$repo_root" diff --cached --check
+    ```
 
 5. Commit with a focused message that describes the approved change.
 6. Verify repository state afterward:
 
-   ```bash
-   git -C "$repo_root" status --short
-   ```
+    ```bash
+    git -C "$repo_root" status --short
+    ```
 
 Do not amend, force-push, reset, or discard unrelated changes unless the user explicitly requests and approves that operation.
 
