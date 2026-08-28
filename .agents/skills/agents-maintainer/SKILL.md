@@ -1,6 +1,6 @@
 ---
 name: agents-maintainer
-description: Maintain the user's global ~/.agents repository, AGENTS.md, reusable agent skills, and repo-backed Pi resources. Use only when the user explicitly asks to update global agent instructions, global skills, prompt templates, or the agents repository, or invokes /skill:agents-maintainer.
+description: Use only when the user explicitly asks to review or update global agent instructions, global skills, prompt templates, repo-backed Pi resources, or the agents repository, or invokes /skill:agents-maintainer.
 disable-model-invocation: true
 ---
 
@@ -12,9 +12,9 @@ This skill is hidden from automatic model invocation. It exists as the user-requ
 
 ## Reference Files
 
-| Reference                                                                      | Read when                                                                                                                                                                                       |
-| ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [../../references/safety-inspection.md](../../references/safety-inspection.md) | Inspecting, enabling, copying, or updating third-party or project-local agent resources, executable helpers, dependencies, or resources with sensitive, networked, or high-impact capabilities. |
+| Reference                                                                      | Read when                                                                                                                                                |
+| ------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [../../references/safety-inspection.md](../../references/safety-inspection.md) | Inspecting third-party or project-local agent resources with scripts, dependencies, network access, credentials, sensitive data, or high-impact effects. |
 
 ## Scope
 
@@ -68,6 +68,14 @@ Before creating, modifying, deleting, moving, or reorganizing global agent resou
 3. List every exact file to create, modify, move, or delete.
 4. Wait for explicit user approval.
 
+For created, moved, renamed, or reorganized artifacts, include:
+
+- each file's artifact role;
+- naming rule;
+- any reserved-name exception.
+
+Use semantic filenames that describe the artifact subject and type. Reserve `README.md` for real directory, package, or collection overviews unless an external format requires it and the exception is explicitly approved.
+
 For detailed durable workflows, schemas, lifecycle rules, or cross-skill conventions, prefer a reference-first proposal: keep `AGENTS.md` to a concise routing rule and place the detailed process in a global reference or skill reference. State this split in the proposal so the user can evaluate always-loaded instructions separately from optional detail.
 
 Approval applies only to the described scope. Pause and request approval again if new files, broader changes, or materially different behavior become necessary.
@@ -88,10 +96,11 @@ Approval applies only to the described scope. Pause and request approval again i
 7. After approval, make only the approved changes.
 8. Keep durable project-wide behavior in `AGENTS.md`; keep task-specific methods in skills or their references.
 9. Use targeted edits for existing files. Use full rewrites only when restructuring an approved file, and use new-file writes only for approved new files.
-10. Preserve portability across machines. Avoid absolute paths unless documenting an intentional local bootstrap layout.
-11. Avoid scripts, install hooks, daemons, cron jobs, or destructive setup unless explicitly requested and approved.
-12. Run artifact-specific validation and inspect the final diff.
-13. Do not commit unless the user explicitly asks.
+10. Preserve portability across machines. In human-facing output, show home-directory paths as `~/...` unless the full resolved path is needed for boundary evidence, debugging, incident scope, or a machine-consumed value.
+11. Avoid absolute paths unless documenting an intentional local bootstrap layout.
+12. Avoid scripts, install hooks, daemons, cron jobs, or destructive setup unless explicitly requested and approved.
+13. Run artifact-specific validation and inspect the final diff.
+14. Do not commit unless the user explicitly asks.
 
 ## Skill Maintenance
 
@@ -116,7 +125,9 @@ For skills, check:
 - Explicit-only invocation settings remain intact.
 - Referenced files exist and relative paths resolve.
 - Markdown is formatted with the intended formatter.
-- No accidental absolute or machine-specific paths were introduced.
+- No unintended absolute or machine-specific paths were introduced.
+- Human-facing output uses `~/...` for home-directory paths unless an exception is justified.
+- Created, moved, renamed, or reorganized artifacts use approved semantic filenames and reserved-name exceptions.
 - Third-party resources have evidence for applicable provenance, scripts, dependencies, network, credential, filesystem, and side-effect boundaries.
 
 For all agent-repository changes, run:
