@@ -33,6 +33,7 @@ Confirm:
 - The description states both capability and activation context.
 - The description describes user intent before implementation mechanics.
 - The description includes specific routing keywords.
+- The description avoids rationale, benefits, implementation history, and motivational prose unless needed for routing.
 - `compatibility`, when present, is 1-500 characters and tied to real environment requirements.
 - Most skills omit `compatibility` unless there is a real runtime, product, network, or tool requirement.
 - `disable-model-invocation: true` is preserved for explicit-only skills.
@@ -81,6 +82,9 @@ Check for:
 
 - Mandatory restatements or preambles that add no value.
 - Long paragraphs or ungrouped lists that hide the next action.
+- Descriptions that explain benefits instead of routing triggers.
+- Reference text that uses prose where direct instructions would be clearer.
+- Repeated rationale, motivational prose, or generic benefits.
 - Fixed response structures that do not scale down.
 - Excessive questions, metadata, or mechanical task steps.
 - Undefined confidence, status, priority, or severity labels.
@@ -192,9 +196,9 @@ Before committing:
 2. Stage exact approved paths.
 3. Run:
 
-   ```bash
-   git -C "$repo_root" diff --cached --check
-   ```
+    ```bash
+    git -C "$repo_root" diff --cached --check
+    ```
 
 4. Confirm deletions, renames, and new references are all staged.
 5. Commit with a focused message.

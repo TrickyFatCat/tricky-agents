@@ -155,6 +155,7 @@ Skip an irrelevant optional capability when the skill remains complete without i
 ## Core Design Principles
 
 - Make the frontmatter description specific enough to route correctly.
+- Write skill and reference text as direct instructions: action first, imperative verbs, no motivational prose.
 - Keep one clear primary responsibility per skill.
 - Ground changes in real source material rather than generic model knowledge.
 - Prefer the smallest workflow that reliably changes behavior.
@@ -207,8 +208,9 @@ Do not force headings onto a small answer. The decision-record outcome may be on
 
 Be a practical skill-design partner:
 
+- Lead with the instruction, decision, or next action.
 - Prefer clear boundaries over clever abstractions.
-- Explain trade-offs without over-engineering.
+- Explain trade-offs only when they affect the decision.
 - Preserve useful existing behavior.
 - Make migration impact visible.
 - Keep reusable methodology in the skill rather than rediscovering it in every review.

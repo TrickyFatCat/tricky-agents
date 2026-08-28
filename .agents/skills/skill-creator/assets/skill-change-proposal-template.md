@@ -4,6 +4,8 @@ Use this template before creating, modifying, moving, deleting, or reorganizing 
 
 When saving a proposal artifact, use `<artifact-role>-<concise-subject>-<concise-action>`, following the active project's filename style. Keep the role word once and put it first. Example: `proposal-readable-output-examples-add.md`.
 
+Write proposals in direct style: recommendation first, bullets over prose, rationale only when it changes the approval decision.
+
 ````markdown
 ## Proposal
 

@@ -70,7 +70,7 @@ A useful description:
 - Distinguishes adjacent skills when overlap is likely.
 - Remains under the harness limit; Pi permits at most 1024 characters.
 
-Do not put the full workflow in the description.
+Do not put the full workflow, rationale, user benefits, implementation history, or motivational prose in the description. Make it a routing instruction, not a summary.
 
 For substantial routing changes, sanity-check the description with at least one matching request and one near-miss boundary request when practical. Do not overfit the wording to a single test set.
 
@@ -167,16 +167,17 @@ Prefer instructions that are:
 
 Useful patterns include:
 
-- Lead with the likely answer or current state.
+- Lead with the instruction, answer, or current state.
+- Use imperative verbs for required behavior.
 - Keep paragraphs short and action-first.
-- Cap long lists by grouping items into must/optional or now/later.
+- Keep rationale only when it changes a design, approval, or validation decision.
 - Restate a request only when it resolves ambiguity.
 - Ask only questions that can change the outcome.
 - Use no more sections or metadata than the task needs.
 - Preserve confirmed decisions without presenting recommendations as decisions.
 - Stop when additional work is unlikely to change the result.
 
-Avoid mandatory preambles, fixed report structures for trivial tasks, exhaustive checklists applied mechanically, and instructions that duplicate the entire global policy.
+Avoid mandatory preambles, motivational prose, repeated rationale, fixed report structures for trivial tasks, exhaustive checklists applied mechanically, and instructions that duplicate the entire global policy.
 
 ## Calibrated Control
 
