@@ -3,13 +3,13 @@
 Use this template for a normal or follow-up skill review. Scale down for small reviews.
 
 ```markdown
-## Overview
+## Findings Overview
 
-Use only for three or more findings. Keep to no more than three bullets.
+Use only for three or more findings. Link each detailed finding.
 
-- <Finding count and priority distribution, if useful>.
-- <Highest-priority concern, referencing finding number>.
-- <First recommended action>.
+- [1. <Short title>](#1-short-title) — <priority or status>
+- [2. <Short title>](#2-short-title) — <priority or status>
+- [3. <Short title>](#3-short-title) — <priority or status>
 
 ## Findings
 
@@ -17,21 +17,29 @@ Use only for three or more findings. Keep to no more than three bullets.
 
 Priority: 🔴 High | 🟡 Medium | 🟢 Low
 
+**Evidence**
+
 <Observed problem and concise evidence.>
 
 **Why it matters**
 
-<Impact, failure mode, safety/routing/maintenance risk.>
+<Impact, failure mode, safety/routing/maintenance risk. Omit for pass notes or simple optional polish when it would add noise.>
 
-**Direction**
+**Recommended action**
 
 <Smallest useful change direction and key trade-off if needed. For concrete wording replacements, show old wording before new wording in vertical blocks, not a grid/table. For reusable output patterns, add one compact example when it improves reviewability.>
 
-### 2. <Accepted or declined note>
+### 2. <Accepted, declined, or optional-polish note>
 
-Status: ✅ Accepted | ⛔ Declined
+Status: ✅ Pass | 🟢 Optional polish | ⛔ Declined
+
+**Evidence**
 
 <Concise reason.>
+
+**Recommended action**
+
+<Smallest useful action. Omit when no action is needed.>
 
 ## Best-Practice Check
 

@@ -13,14 +13,13 @@ The code and documentation reviewers already provided more consistent report con
 
 Skill reviews will use:
 
-- Concise numbered finding headings without priority or status in the title.
-- A separate `Priority` line.
-- A concise problem-and-evidence paragraph immediately after priority, without a default `What` or `Evidence` label.
-- A brief `Why it matters` section covering impact, failure modes, and potential risks.
-- A focused `Direction` section.
-- Defined High, Medium, and Low priorities plus Accepted and Declined statuses.
+- Short numbered finding headings that do not include priority, status, evidence, or proposed fixes.
+- A separate `Priority` or `Status` line under each finding heading.
+- A `Findings Overview` with links and labels for reviews with three or more findings.
+- Separate `Evidence` and `Recommended action` blocks when a finding needs both.
+- A brief `Why it matters` section for impact, failure modes, and potential risks when it adds value.
+- Defined High, Medium, and Low priorities plus Pass, Optional polish, and Declined statuses.
 - No more than five high-value findings by default, presented in source order when practical.
-- A maximum three-bullet Overview for reviews with three or more findings.
 - Good Decisions, Questions, and Update Scope only when they add value.
 
 Detailed formatting lives in a reference so the core skill remains concise.
@@ -32,7 +31,8 @@ A concrete format improves consistency and scanability while still scaling down 
 ## Consequences
 
 - Skill reviews align with other reviewer styles without sharing one coupled implementation.
-- Evidence remains visible without adding unnecessary subsection labels.
+- Evidence and recommended actions are easier to scan because they use separate blocks.
+- Status and priority are easier to scan because they are not embedded in finding titles.
 - Risks receive an explicit place in every substantial finding.
 - Review mode loads one additional reference.
 - Small reviews must omit unnecessary structure rather than fill the template mechanically.
@@ -46,5 +46,7 @@ A concrete format improves consistency and scanability while still scaling down 
 ## Related Changes
 
 - Commit `2834082` — added the skill review format and routed Review mode to it.
+- Current refinement — uses overview links, short headings, separate labels, and evidence/action blocks.
 - `.agents/skills/skill-creator/SKILL.md`
 - `.agents/skills/skill-creator/references/review-format.md`
+- `.agents/skills/skill-creator/assets/skill-review-report-template.md`

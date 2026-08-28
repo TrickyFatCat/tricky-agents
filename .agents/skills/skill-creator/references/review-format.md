@@ -8,25 +8,28 @@ Use [../assets/skill-review-report-template.md](../assets/skill-review-report-te
 
 Use this structure unless the user requests another format:
 
-1. Overview, for three or more findings.
+1. Findings Overview, for three or more findings.
 2. Findings.
 3. Good Decisions.
 4. Best-Practice Check, only when reviewing against Agent Skills or another baseline.
-5. Good Decisions.
-6. Questions, only when answers would change the recommendation.
-7. Update Scope or Decision Check.
+5. Questions, only when answers would change the recommendation.
+6. Update Scope or Decision Check.
 
 Keep visible section names concise. Put ordering, priority, and status details inside sections rather than appending them to headings.
 
-## Overview
+## Findings Overview
 
-For three or more findings, use no more than three bullets covering:
+For three or more findings, add a linked overview before the detailed findings:
 
-- The finding count and priority distribution when useful.
-- The highest-priority concern, referencing its finding number.
-- The first recommended action.
+```markdown
+## Findings Overview
 
-Do not summarize every finding or repeat its evidence. For one or two findings, use a one-sentence diagnosis or omit the Overview when it would duplicate the findings.
+- [1. Routing](#1-routing) — ✅ Pass
+- [2. Approval gate](#2-approval-gate) — ✅ Pass
+- [3. Safety section](#3-safety-section) — 🟢 Optional polish
+```
+
+Keep each line to the finding link plus priority or status. Do not repeat evidence or recommended actions. For one or two findings, use a one-sentence diagnosis or omit the overview when it would duplicate the findings.
 
 ## Findings
 
@@ -42,46 +45,53 @@ Number each finding and use a concise noun phrase for its heading:
 
 Do not include priority, status, evidence, or the proposed fix in the heading.
 
-## Finding Priority
+## Finding Priority and Status
 
-Use `Priority` for problems and improvement opportunities:
+Use one metadata line after the heading. Never put priority or status in the heading.
+
+Use `Priority` for problems:
 
 - `🔴 High`: likely to break discovery or routing, weaken an approval or safety boundary, leave broken references, or make a migration incomplete.
 - `🟡 Medium`: likely to create unclear responsibility boundaries, maintenance problems, validation gaps, or ineffective progressive disclosure.
 - `🟢 Low`: wording, organization, naming, consistency, or other low-risk polish.
 
-Use `Status` for non-problem review notes:
+Use `Status` for non-problem notes and optional polish:
 
-- `✅ Accepted`: behavior or structure is intentional, resolved, or needs no change.
+- `✅ Pass`: checked behavior is correct and should stay unchanged.
+- `🟢 Optional polish`: low-risk readability or organization improvement that is not a blocker.
 - `⛔ Declined`: the user rejected or overrode the suggestion; do not repeat it unless new evidence changes the review.
 
-Preserve source order and let the label communicate importance.
+Preserve source order and let the metadata line communicate importance.
 
 ## Finding Format
 
-Use a numbered heading followed by priority on its own line:
+Use a numbered heading followed by priority or status on its own line:
 
 ```markdown
 ### 1. Marker discovery
 
 Priority: 🔴 High
 
+**Evidence**
+
 The workflow defines supported marker formats, but the initial search failed to find two `> REVIEW` blocks.
 
 **Why it matters**
 
-Missed markers can make a review appear complete while user feedback remains unresolved. This risks applying an incomplete change set or losing trust in the review workflow.
+Missed markers can make a review appear complete while user feedback remains unresolved.
 
-**Direction**
+**Recommended action**
 
 Use a broad whole-word search before classifying exact marker syntax.
 ```
 
-After `Priority`, describe the observed problem and its supporting evidence in one concise paragraph. Do not add a `What` or `Evidence` label by default.
+Keep headings short. Use a noun phrase, not a sentence.
 
-Use `**Why it matters**` for impact, likely failure modes, maintenance cost, and potential risks. Keep it brief and specific to the finding.
+Use `**Evidence**` for the observation and support. Keep it to one short paragraph unless more detail is required.
 
-Use `**Direction**` for the smallest useful change direction. Explain a trade-off only when it affects the decision.
+Use `**Why it matters**` for impact, failure modes, maintenance cost, and risks. Omit it for pass notes or simple optional polish when it would add noise.
+
+Use `**Recommended action**` for the smallest useful change. Explain a trade-off only when it affects the decision.
 
 When recommending a concrete wording replacement, show the current wording before the proposed wording. Use compact `Old wording` and `New wording` blocks. Do not use a grid/table for wording replacements unless the user explicitly asks for one. Do not force old/new blocks for conceptual recommendations where exact text is not being replaced.
 
@@ -91,12 +101,14 @@ Omit labels that add no value to a simple finding. Do not turn every sentence in
 
 ## Accepted and Declined Notes
 
-Keep accepted findings concise:
+Keep pass notes concise:
 
 ```markdown
 ### 2. Approval gate
 
-Status: ✅ Accepted
+Status: ✅ Pass
+
+**Evidence**
 
 The gate names exact files and requires separate approval for expanded scope. Preserve it.
 ```
@@ -108,10 +120,12 @@ Keep declined findings equally direct:
 
 Status: ⛔ Declined
 
+**Evidence**
+
 The user prefers separate reviewer skills. Do not keep recommending a shared abstraction without new evidence.
 ```
 
-Do not apply the full problem, risk, and direction format unless the note teaches something important.
+Do not apply the full problem, risk, and recommended-action format unless the note teaches something important.
 
 ## Best-Practice Check
 
