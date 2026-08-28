@@ -23,6 +23,38 @@ Read only the references needed for the task:
 
 Read both design and validation references for a new skill or substantial refactor. Read the review-format reference when operating in Review mode. Read the decision-record reference for every skill task.
 
+## Available Scripts
+
+Use bundled scripts only when they fit the active request and approval scope. Prefer read-only checks before proposing changes.
+
+| Script                   | Use                                                            |
+| ------------------------ | -------------------------------------------------------------- |
+| `scripts/skill-audit.nu` | Read-only inventory and local Markdown-link checks for skills. |
+
+Run from the skill directory with Nushell and no user config:
+
+```bash
+nu -n scripts/skill-audit.nu inventory ~/.agents/skills --exclude nushell --format json
+nu -n scripts/skill-audit.nu links ~/.agents/skills/skill-creator --format json
+```
+
+The script performs no writes, network access, installs, or fixes. Inventory output includes name, description, main-file line-count, reference, script, and asset checks. It emits JSON by default and supports `--format table` for quick inspection. Treat results as evidence for review, not as permission to edit.
+
+Known limitation: the link checker ignores fenced code blocks but is still a lightweight Markdown regex check, not a full Markdown parser.
+
+## Template Assets
+
+Use assets as copyable or pattern-matching templates. Adapt them and omit irrelevant sections.
+
+| Asset                                                                                  | Use                                          |
+| -------------------------------------------------------------------------------------- | -------------------------------------------- |
+| [assets/skill-core-template.md](assets/skill-core-template.md)                         | Drafting or restructuring a `SKILL.md` core. |
+| [assets/skill-reference-template.md](assets/skill-reference-template.md)               | Drafting focused optional references.        |
+| [assets/skill-change-proposal-template.md](assets/skill-change-proposal-template.md)   | Preparing exact-file approval proposals.     |
+| [assets/skill-review-report-template.md](assets/skill-review-report-template.md)       | Producing substantial skill reviews.         |
+| [assets/script-output-contract-template.md](assets/script-output-contract-template.md) | Proposing or documenting bundled scripts.    |
+| [assets/decision-record-template.md](assets/decision-record-template.md)               | Drafting skill decision records.             |
+
 ## When to Use
 
 Use this skill when the user asks to:
@@ -105,26 +137,31 @@ Skip an irrelevant optional capability when the skill remains complete without i
 1. Identify whether the task is creation, review, update, rename, decision record, or a combination.
 2. Read active project and global instructions.
 3. Inspect the target skill, optional resources, repository state, and direct dependencies.
-4. Read current harness documentation when discovery or frontmatter behavior matters.
-5. Define the skill's responsibility boundary and routing relationships.
-6. Decide what belongs in the always-loaded core and what should load from references.
-7. Perform the shared safety inspection when the skill has sensitive, executable, networked, state-changing, or high-impact capabilities.
-8. Assess the decision record using [references/decision-records.md](references/decision-records.md). Always state why a record is or is not recommended.
-9. If a record is recommended or directly requested, choose its exact path, include it in the approval scope, and create it with the approved skill changes. Do not make it an optional follow-up after approval.
-10. Present the exact proposal and wait for approval before changing files.
-11. Apply only approved changes, using targeted edits when practical.
-12. Format Markdown and validate frontmatter, references, routing, safety boundaries, migrations, decision records, and repository state.
-13. Report changed files, validation, limitations, anything not tested, and the decision-record outcome with its reason.
-14. Commit only when the user explicitly asks and the responsible repository workflow permits it.
+4. Use `scripts/skill-audit.nu` for a bounded read-only inventory or local-link check when it can reduce manual inspection.
+5. Read current harness documentation when discovery or frontmatter behavior matters.
+6. Define the skill's responsibility boundary and routing relationships.
+7. Ground the design in source material: user corrections, real tasks, reports, project artifacts, execution traces, or external standards when available.
+8. Decide what belongs in the always-loaded core and what should load from references or assets.
+9. Perform the shared safety inspection when the skill has sensitive, executable, networked, state-changing, or high-impact capabilities.
+10. Assess the decision record using [references/decision-records.md](references/decision-records.md). Always state why a record is or is not recommended.
+11. If a record is recommended or directly requested, choose its exact path, include it in the approval scope, and create it with the approved skill changes. Do not make it an optional follow-up after approval.
+12. Use [assets/skill-change-proposal-template.md](assets/skill-change-proposal-template.md) for substantial exact-file proposals.
+13. Present the exact proposal and wait for approval before changing files.
+14. Apply only approved changes, using targeted edits when practical.
+15. Format Markdown and validate frontmatter, references, routing, safety boundaries, migrations, decision records, and repository state.
+16. Report changed files, validation, limitations, anything not tested, and the decision-record outcome with its reason.
+17. Commit only when the user explicitly asks and the responsible repository workflow permits it.
 
 ## Core Design Principles
 
 - Make the frontmatter description specific enough to route correctly.
 - Keep one clear primary responsibility per skill.
+- Ground changes in real source material rather than generic model knowledge.
 - Prefer the smallest workflow that reliably changes behavior.
 - Keep safety-critical rules in the core even when they repeat higher-level policy deliberately.
-- Put optional methods, long checklists, templates, and domain detail in references.
-- Link references explicitly and state when to read them.
+- Put optional methods, long checklists, and domain detail in references.
+- Put copyable or pattern-matching templates in assets.
+- Link references and assets explicitly and state when to read or use them.
 - Use relative paths within the skill directory.
 - Keep scripts and assets inside the skill unless an intentional shared dependency is documented.
 - Make response structures conditional rather than forcing unnecessary headings.
@@ -135,7 +172,7 @@ Read [references/skill-design.md](references/skill-design.md) for detailed desig
 
 ## Review Output
 
-Read [references/review-format.md](references/review-format.md) before producing a normal or follow-up skill review.
+Read [references/review-format.md](references/review-format.md) before producing a normal or follow-up skill review. Use [assets/skill-review-report-template.md](assets/skill-review-report-template.md) for substantial reviews.
 
 Use concise numbered findings, scale the structure down for small reviews, and report no more than five highest-value findings unless the user requests an exhaustive review. Do not rewrite the skill during review mode.
 

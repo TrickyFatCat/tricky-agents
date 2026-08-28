@@ -4,6 +4,21 @@ Read this reference when creating or substantially restructuring a skill.
 
 A skill is a reusable capability package. Its core should establish when it applies and how behavior changes; optional resources should provide detail only when needed.
 
+Use [../assets/skill-core-template.md](../assets/skill-core-template.md) when creating or substantially restructuring a core. Use [../assets/skill-reference-template.md](../assets/skill-reference-template.md) for focused optional references.
+
+## Source Material
+
+Ground skill work in concrete evidence when available:
+
+- Hands-on task history.
+- User corrections and preferences.
+- Input/output formats.
+- Existing project artifacts, runbooks, reports, and reviews.
+- Failure cases and execution traces.
+- External standards, such as Agent Skills, when relevant.
+
+Do not synthesize a skill only from generic model knowledge when domain-specific context exists. Ask what source material is available when the answer can change the design.
+
 ## Define the Responsibility
 
 Before naming or writing the skill, identify:
@@ -28,6 +43,8 @@ description: Use when the user asks to perform the recurring task. Explain what 
 ---
 ```
 
+For a full starting shape, use [../assets/skill-core-template.md](../assets/skill-core-template.md).
+
 ### Name
 
 Use a name that:
@@ -45,13 +62,17 @@ The description is always visible during skill discovery, so treat it as routing
 
 A useful description:
 
+- Uses imperative phrasing by default, such as `Use when...` or `Use this skill when...`.
 - Says what the skill does.
 - Says when to use it.
 - Names distinctive triggers or artifacts.
+- Describes user intent before implementation mechanics.
 - Distinguishes adjacent skills when overlap is likely.
 - Remains under the harness limit; Pi permits at most 1024 characters.
 
 Do not put the full workflow in the description.
+
+For substantial routing changes, sanity-check the description with at least one matching request and one near-miss boundary request when practical. Do not overfit the wording to a single test set.
 
 ### Optional Fields
 
@@ -109,7 +130,9 @@ Use a reference table near the beginning of the core:
 
 State when to load a reference. Do not create references that the core never routes to.
 
-There is no universal line-count target. Split a core when optional detail obscures routing, safety, or the default workflow—not merely because the file crossed an arbitrary length.
+Keep the main `SKILL.md` under 500 lines by default. Move detailed reference material, long templates, examples, and optional methods to `references/` or `assets/`. If exceeding 500 lines is justified, state why in the proposal or review.
+
+Use the line count as a practical ceiling, not a substitute for judgment. Split a core when optional detail obscures routing, safety, or the default workflow.
 
 ## Core Structure
 
@@ -128,6 +151,12 @@ Do not copy this structure mechanically. A small skill may need only purpose, wo
 
 ## Instruction Design
 
+Use this context-economy test for each instruction:
+
+> Would the agent likely get this wrong, miss it, or waste time rediscovering it without this instruction?
+
+If no, cut it or move it to an optional reference or asset. If yes and the agent needs it before recognizing the situation, keep it in the core.
+
 Prefer instructions that are:
 
 - Observable: the result can be inspected or verified.
@@ -139,6 +168,8 @@ Prefer instructions that are:
 Useful patterns include:
 
 - Lead with the likely answer or current state.
+- Keep paragraphs short and action-first.
+- Cap long lists by grouping items into must/optional or now/later.
 - Restate a request only when it resolves ambiguity.
 - Ask only questions that can change the outcome.
 - Use no more sections or metadata than the task needs.
@@ -146,6 +177,33 @@ Useful patterns include:
 - Stop when additional work is unlikely to change the result.
 
 Avoid mandatory preambles, fixed report structures for trivial tasks, exhaustive checklists applied mechanically, and instructions that duplicate the entire global policy.
+
+## Calibrated Control
+
+Match instruction strictness to task fragility:
+
+- Be prescriptive for discovery, routing, approval, safety, naming, migration, path boundaries, scripts, and validation gates.
+- Give the agent flexibility when several safe approaches can satisfy the goal.
+- Provide a clear default path and mention alternatives briefly instead of presenting broad menus.
+- Explain why a rule exists when context-dependent judgment matters.
+
+## Task-to-Approach Tables
+
+Use a task-to-approach table near the top of the core when the skill supports several common task types with different default methods. Keep it short and concrete.
+
+```markdown
+| Task        | Default approach                          |
+| ----------- | ----------------------------------------- |
+| <task type> | <tool, mode, or workflow to prefer first> |
+```
+
+Do not add a table when one workflow covers most requests.
+
+## Gotchas
+
+Use a `Gotchas` section only when non-obvious mistakes are likely and the agent may not recognize the trigger before reading an optional reference.
+
+Good gotchas are concrete corrections from user feedback, failures, or project facts. Avoid generic reminders such as “handle errors carefully.”
 
 ## Safety and Approval
 
@@ -181,7 +239,20 @@ Do not add installers, daemons, hooks, or broad automation by default.
 
 Use `assets/` for files consumed or copied by the workflow rather than read as instructions.
 
-Keep templates minimal and adaptable. Do not make one project's storage conventions the global default unless the skill is project-specific.
+Use semantic filenames that identify the artifact role, such as `skill-core-template.md` or `script-output-contract-template.md`. Reserve `README.md` for a real directory, package, or collection overview unless an external format requires it and the user approves the exception.
+
+Keep templates minimal and adaptable. Tell the agent to omit irrelevant sections so templates do not become rigid checklists. Do not make one project's storage conventions the global default unless the skill is project-specific.
+
+Current templates:
+
+| Asset                                                                                        | Use                                          |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| [../assets/skill-core-template.md](../assets/skill-core-template.md)                         | Drafting or restructuring a `SKILL.md` core. |
+| [../assets/skill-reference-template.md](../assets/skill-reference-template.md)               | Drafting focused optional references.        |
+| [../assets/skill-change-proposal-template.md](../assets/skill-change-proposal-template.md)   | Preparing exact-file approval proposals.     |
+| [../assets/skill-review-report-template.md](../assets/skill-review-report-template.md)       | Producing substantial skill reviews.         |
+| [../assets/script-output-contract-template.md](../assets/script-output-contract-template.md) | Proposing or documenting bundled scripts.    |
+| [../assets/decision-record-template.md](../assets/decision-record-template.md)               | Drafting skill decision records.             |
 
 ## Response Design
 
@@ -211,3 +282,5 @@ Before implementation, confirm:
 6. Scripts or assets are justified and documented.
 7. The response pattern scales down for small requests.
 8. The proposed file list includes dependencies and migration records.
+9. The proposal explains source material, artifact roles, semantic filenames, and `README.md` exceptions.
+10. Substantial changes include a refinement plan: trial task, routing check, execution trace review, or a clear reason this was not tested.

@@ -12,6 +12,7 @@ Before editing:
 - Inspect repository status.
 - Read the complete `SKILL.md` and relevant references.
 - List scripts, assets, and nested resources.
+- Use `scripts/skill-audit.nu inventory <skills-root> --exclude nushell --format json` when it can speed the inventory.
 - Search for the skill name, command, directory path, title, and known aliases.
 - Identify routing dependencies in other skills, prompts, instructions, documentation, and task records.
 - Separate current dependencies from historical records before proposing changes.
@@ -28,7 +29,12 @@ Confirm:
 - The name has no leading, trailing, or consecutive hyphens.
 - The name matches the directory for portability.
 - The description is no more than 1024 characters.
+- The description uses imperative phrasing by default, such as `Use when...` or `Use this skill when...`, unless a clear reason supports another style.
 - The description states both capability and activation context.
+- The description describes user intent before implementation mechanics.
+- The description includes specific routing keywords.
+- `compatibility`, when present, is 1-500 characters and tied to real environment requirements.
+- Most skills omit `compatibility` unless there is a real runtime, product, network, or tool requirement.
 - `disable-model-invocation: true` is preserved for explicit-only skills.
 - Optional fields are supported and necessary.
 
@@ -40,6 +46,8 @@ Ask:
 
 - Does the description activate for the intended requests?
 - Is it likely to activate for unrelated requests?
+- For substantial changes, can one matching request and one near-miss boundary request be tested or reasoned through?
+- Does the description avoid overfitting to one prompt set?
 - Are overlaps with adjacent skills resolved through clear handoffs?
 - Does the skill distinguish review, planning, research, and implementation?
 - Does it avoid routing to skills that do not exist?
@@ -52,6 +60,7 @@ Search the actual skill registry or configured locations rather than assuming an
 Confirm:
 
 - The core contains the always-needed purpose, routing, workflow, and safety rules.
+- The main `SKILL.md` stays under 500 lines by default, or the proposal/review explains why an exception is justified.
 - Optional detail is moved to references when it would obscure the default path.
 - Every linked reference exists.
 - Every reference has a clear load condition in the core.
@@ -59,6 +68,8 @@ Confirm:
 - References do not contradict the core or active project instructions.
 - Critical rules are not available only in an optional reference.
 - Templates do not impose one project's conventions globally.
+- Templates live in `assets/` when they are copied or used as output patterns.
+- Template filenames are semantic and avoid generic names such as `README.md`, `template.md`, or `notes.md` unless an approved exception applies.
 
 A shorter core is not automatically better. The criterion is whether always-loaded content is necessary for correct behavior.
 
@@ -69,6 +80,7 @@ Review in source order when practical and prioritize behavior-changing findings.
 Check for:
 
 - Mandatory restatements or preambles that add no value.
+- Long paragraphs or ungrouped lists that hide the next action.
 - Fixed response structures that do not scale down.
 - Excessive questions, metadata, or mechanical task steps.
 - Undefined confidence, status, priority, or severity labels.
@@ -77,6 +89,10 @@ Check for:
 - Missing approval, handoff, rollback, or validation rules.
 - Contradictions with global or project-local instructions.
 - Stale examples, dates, paths, tool names, or unavailable skills.
+- Generic model-knowledge guidance where concrete source material is available.
+- Missing source-material, user-correction, usage-report, or execution-trace context for substantial changes.
+- Overly broad menus where one default should be chosen.
+- Overly rigid template steps applied where judgment should remain flexible.
 
 Preserve good decisions and explain the trade-off of each proposed change.
 
@@ -96,6 +112,8 @@ For assets:
 - Confirm they are referenced intentionally.
 - Check that generated output does not overwrite the asset.
 - Verify templates contain no private paths, credentials, or project-specific secrets.
+- Verify templates state when to adapt or omit irrelevant sections.
+- Verify filename semantics: artifact role and subject should be understandable from the basename.
 
 Do not execute user-provided or state-changing scripts without approval.
 
@@ -134,6 +152,7 @@ Then check:
 - Frontmatter and directory agreement.
 - Unexpected absolute or machine-specific paths.
 - Missing scripts or assets.
+- Broken local Markdown links; use `scripts/skill-audit.nu links <skill-dir> --format json` when useful.
 - Only approved files changed.
 
 For a Git-backed repository, use the resolved repository root:
@@ -159,6 +178,7 @@ When runtime testing is appropriate:
 - Confirm the skill appears under the expected name.
 - Invoke `/skill:<name>` when skill commands are enabled and explicit loading needs verification.
 - Test one matching request and one boundary request when routing behavior matters.
+- For substantial skill changes, review a trial task or execution trace when available, or report why that was not practical.
 
 Do not claim runtime discovery was tested when only files were inspected. An active session may not reflect newly created or renamed skills until discovery runs again.
 

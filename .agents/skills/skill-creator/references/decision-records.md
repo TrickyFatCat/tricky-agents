@@ -4,6 +4,8 @@ Read this reference for every skill creation, review, update, refactor, rename, 
 
 A decision record preserves why a durable skill choice was made. Git remains the source for line-level history; the record explains context, reasoning, alternatives, and consequences that a diff does not capture clearly.
 
+Use [../assets/decision-record-template.md](../assets/decision-record-template.md) when drafting a skill decision record.
+
 ## Required Assessment
 
 Always assess whether the task needs a decision record and report the reason.
@@ -67,7 +69,7 @@ Do not create an index unless the repository already uses one or the user approv
 
 ## Record Format
 
-Keep a normal record under one page when practical:
+Keep a normal record under one page when practical. Use [../assets/decision-record-template.md](../assets/decision-record-template.md) as the copyable starting point:
 
 ```markdown
 # Decision title
@@ -105,6 +107,8 @@ Use `Proposed`, `Accepted`, `Superseded`, or `Deprecated` as the status when rel
 
 Add only sections that preserve useful reasoning. Omit empty sections rather than padding the record.
 
+Decision filenames should be semantic and stable. Follow the repository's existing numbered convention when available, such as `docs/decisions/NNNN-<decision-slug>.md`. Do not use `README.md` for a decision record.
+
 ## Backfill
 
 For a historical record:
@@ -122,6 +126,7 @@ When several commits refine one decision, cite all material commits and use the 
 After creating or updating a record:
 
 - Confirm its path follows the active repository convention.
+- Confirm the filename is semantic and not a generic `README.md`.
 - Confirm the title, status, date, decision, and consequences are internally consistent.
 - Confirm cited commits exist and affected paths are correct.
 - Confirm the record does not duplicate line-level diff details unnecessarily.

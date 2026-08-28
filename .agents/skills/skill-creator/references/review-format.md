@@ -4,13 +4,17 @@ Read this reference before producing a normal or follow-up review of a skill and
 
 ## Review Structure
 
+Use [../assets/skill-review-report-template.md](../assets/skill-review-report-template.md) for substantial reviews or saved review reports.
+
 Use this structure unless the user requests another format:
 
 1. Overview, for three or more findings.
 2. Findings.
 3. Good Decisions.
-4. Questions, only when answers would change the recommendation.
-5. Update Scope or Decision Check.
+4. Best-Practice Check, only when reviewing against Agent Skills or another baseline.
+5. Good Decisions.
+6. Questions, only when answers would change the recommendation.
+7. Update Scope or Decision Check.
 
 Keep visible section names concise. Put ordering, priority, and status details inside sections rather than appending them to headings.
 
@@ -105,6 +109,22 @@ The user prefers separate reviewer skills. Do not keep recommending a shared abs
 
 Do not apply the full problem, risk, and direction format unless the note teaches something important.
 
+## Best-Practice Check
+
+Use a compact best-practice table when the review compares a skill to Agent Skills or another explicit baseline.
+
+Check only areas relevant to the task:
+
+- Real expertise and source material.
+- Progressive disclosure.
+- Context economy.
+- Calibrated control.
+- Templates and output formats.
+- Validation or refinement loops.
+- Description/routing quality.
+
+Do not add this section for routine reviews when it would repeat the findings.
+
 ## Good Decisions
 
 Identify concrete decisions worth preserving:
@@ -135,7 +155,10 @@ When previous review history is relevant:
 When implementation is ready, end with a narrow scope that lists:
 
 - Exact files to create, modify, move, or delete.
+- Artifact role and naming rule for new files, including any `README.md` exception.
 - Routing dependencies or external records that also need changes.
 - Validation required after implementation.
+
+For substantial updates, use [../assets/skill-change-proposal-template.md](../assets/skill-change-proposal-template.md).
 
 Use `Decision Check` instead when an unresolved design choice changes the file scope or behavior.
