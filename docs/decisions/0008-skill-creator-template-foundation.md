@@ -31,6 +31,7 @@ Add a template foundation to `skill-creator`:
 - Source-material prompts reduce generic skill generation and preserve user corrections.
 - Assets load only when needed, preserving progressive disclosure.
 - Semantic filenames improve search, quick-open results, and review clarity.
+- Proposal artifact filenames should use role + subject + action naming and avoid repeated role words.
 - Keeping review behavior inside `skill-creator` avoids premature skill splitting while review volume is still limited.
 - The foundation supports later refactors without creating broad shared tooling first.
 - The added line-count and description checks make future skill reviews faster, but they remain heuristics rather than automatic permission to edit or reject a skill.

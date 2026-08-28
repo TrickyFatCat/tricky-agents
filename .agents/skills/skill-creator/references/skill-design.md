@@ -241,6 +241,8 @@ Use `assets/` for files consumed or copied by the workflow rather than read as i
 
 Use semantic filenames that identify the artifact role, such as `skill-core-template.md` or `script-output-contract-template.md`. Reserve `README.md` for a real directory, package, or collection overview unless an external format requires it and the user approves the exception.
 
+For saved proposal artifacts, use `<artifact-role>-<concise-subject>-<concise-action>`. Follow project filename style. Keep the role word once and first. Examples: `proposal-readable-output-examples-add.md`, `Proposal Artifact Naming Define.md`.
+
 Keep templates minimal and adaptable. Tell the agent to omit irrelevant sections so templates do not become rigid checklists. Do not make one project's storage conventions the global default unless the skill is project-specific.
 
 Current templates:

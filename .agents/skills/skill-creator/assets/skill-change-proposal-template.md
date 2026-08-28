@@ -2,6 +2,8 @@
 
 Use this template before creating, modifying, moving, deleting, or reorganizing skill resources.
 
+When saving a proposal artifact, use `<artifact-role>-<concise-subject>-<concise-action>`, following the active project's filename style. Keep the role word once and put it first. Example: `proposal-readable-output-examples-add.md`.
+
 ````markdown
 ## Proposal
 
