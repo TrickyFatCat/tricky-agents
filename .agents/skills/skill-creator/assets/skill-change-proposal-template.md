@@ -2,7 +2,7 @@
 
 Use this template before creating, modifying, moving, deleting, or reorganizing skill resources.
 
-```markdown
+````markdown
 ## Proposal
 
 <One-sentence recommended change.>
@@ -38,6 +38,24 @@ Ground the proposal in concrete evidence:
 | Path     | Change      |
 | -------- | ----------- |
 | `<path>` | `<summary>` |
+
+### Wording Changes
+
+Use this section only for concrete wording edits where exact replacement text matters. Show old wording before new wording. Prefer vertical blocks, not a grid/table, because replacement text is often too long for horizontal scanning.
+
+#### `<location>`
+
+Old wording:
+
+```markdown
+<current wording>
+```
+
+New wording:
+
+```markdown
+<proposed wording>
+```
 
 ### Move/Rename/Delete
 
@@ -78,4 +96,4 @@ If recommended, include the exact decision-record path in this proposal.
 ## Approval Request
 
 Proceed with these exact file changes?
-```
+````

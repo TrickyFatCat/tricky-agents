@@ -25,7 +25,7 @@ Priority: 🔴 High | 🟡 Medium | 🟢 Low
 
 **Direction**
 
-<Smallest useful change direction and key trade-off if needed.>
+<Smallest useful change direction and key trade-off if needed. For concrete wording replacements, show old wording before new wording in vertical blocks, not a grid/table.>
 
 ### 2. <Accepted or declined note>
 
