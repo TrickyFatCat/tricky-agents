@@ -27,6 +27,7 @@ Add a template foundation to `skill-creator`:
 
 - Templates make repeated output contracts visible and easier to apply consistently.
 - Wording-change proposals are easier to review when they show old wording before new wording for exact replacements.
+- Reusable output-pattern proposals are easier to review when they include compact examples and avoid known hard-to-read patterns.
 - Source-material prompts reduce generic skill generation and preserve user corrections.
 - Assets load only when needed, preserving progressive disclosure.
 - Semantic filenames improve search, quick-open results, and review clarity.

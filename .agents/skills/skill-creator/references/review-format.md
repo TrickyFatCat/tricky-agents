@@ -85,6 +85,8 @@ Use `**Direction**` for the smallest useful change direction. Explain a trade-of
 
 When recommending a concrete wording replacement, show the current wording before the proposed wording. Use compact `Old wording` and `New wording` blocks. Do not use a grid/table for wording replacements unless the user explicitly asks for one. Do not force old/new blocks for conceptual recommendations where exact text is not being replaced.
 
+When recommending a reusable output pattern, include one compact positive example when it makes the recommendation easier to review or apply. Add a short “avoid this” example only when a likely wrong pattern needs contrast. Omit examples for routine wording edits or conceptual recommendations where they add ceremony.
+
 Omit labels that add no value to a simple finding. Do not turn every sentence into a subsection.
 
 ## Accepted and Declined Notes

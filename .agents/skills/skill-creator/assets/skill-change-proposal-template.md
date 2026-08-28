@@ -25,6 +25,24 @@ Ground the proposal in concrete evidence:
 - Default approach chosen:
 - Alternatives considered briefly:
 
+## Examples
+
+Use this section only when the proposal changes a reusable output pattern, command shape, review format, or other concrete artifact pattern.
+
+Good example:
+
+```markdown
+<small example that shows the preferred pattern>
+```
+
+Avoid this pattern, when a likely mistake needs contrast:
+
+```markdown
+<small counterexample or pattern to avoid>
+```
+
+Omit this section for routine wording edits, simple file moves, or conceptual recommendations where an example would add ceremony.
+
 ## Exact Files
 
 ### Create
