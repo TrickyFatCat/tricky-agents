@@ -9,10 +9,15 @@ Project-local instructions are authoritative for storage, naming, statuses, meta
 Before proposing a saved change:
 
 1. Read the active project instructions.
-2. Inspect the relevant card, plan, todo, board entry, note, or index.
-3. Determine which artifact is the source of truth.
-4. Check repository state when the files are version-controlled.
-5. Identify the exact state transition and affected files.
+2. Inspect the owning task and relevant card, plan, todo, board entry, note, or index.
+3. Inspect nearby related artifacts and established examples when extending an existing task history.
+4. Identify project-defined naming, linking, step-log, index, history, and validation conventions that apply.
+5. Determine which artifact is the source of truth.
+6. Determine the target's storage and validation context.
+7. Check repository state when the target is expected to be version-controlled.
+8. Identify the exact state transition and affected files.
+
+Apply only conventions established by the active project. Do not make nearby examples, numbered step logs, backlinks, indexes, or other local patterns mandatory globally.
 
 Do not create a parallel task system when an active workflow already exists.
 
@@ -166,7 +171,13 @@ Add priority, effort, decisions, context, links, reminders, or resume fields onl
 After writing:
 
 1. Re-read changed task artifacts and board entries.
-2. Confirm metadata, links, and statuses agree.
+2. Confirm metadata, links, statuses, and project-defined relationships agree.
 3. Confirm only approved files changed.
-4. Run applicable Markdown formatting or repository validation.
-5. Report files changed, state transitions, validation, and anything not tested.
+4. Format changed Markdown when the project uses a formatter.
+5. Validate each target according to its storage context:
+    - use repository status and diff checks when the target is expected to be version-controlled;
+    - use direct content, metadata, link, and relationship inspection for non-Git vaults and plain directories;
+    - validate each location with its applicable mode when artifacts span multiple storage systems.
+6. Report files changed, state transitions, validation mode, and anything not tested.
+
+Describe Git as unavailable only when the project expected Git validation but it could not be performed. Otherwise report direct inspection as the applicable validation mode without presenting the absence of Git as a deficiency.
