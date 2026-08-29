@@ -1,6 +1,6 @@
 ---
 name: skill-creator
-description: Use when creating, reviewing, updating, refactoring, or renaming agent skills and their references, scripts, assets, or decision records. Provides skill architecture, routing, progressive-disclosure, migration, decision-record, and validation guidance.
+description: Use when creating, auditing, reviewing, updating, refactoring, or renaming agent skills and their references, scripts, assets, or decision records. Provides skill architecture, routing, progressive-disclosure, migration, decision-record, and validation guidance.
 ---
 
 # Skill Creator
@@ -17,12 +17,12 @@ Read only the references needed for the task:
 | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [references/skill-design.md](references/skill-design.md)                             | Defining scope, frontmatter, routing, core structure, optional references, scripts, assets, or handoffs.                                                                     |
 | [references/skill-validation.md](references/skill-validation.md)                     | Reviewing, validating, migrating, or renaming a skill and its dependencies.                                                                                                  |
-| [references/review-format.md](references/review-format.md)                           | Producing a normal or follow-up review of a skill and its supporting resources.                                                                                              |
+| [references/audit-format.md](references/audit-format.md)                             | Producing a formal skill audit or an informal review of a skill and its supporting resources.                                                                                |
 | [references/decision-records.md](references/decision-records.md)                     | Assessing, creating, or backfilling repository decision records that document skill changes.                                                                                 |
 | [references/decision-record-capability.md](references/decision-record-capability.md) | Designing or reviewing a target skill that may create or manage decision records during normal use.                                                                          |
 | [../../references/safety-inspection.md](../../references/safety-inspection.md)       | Creating, reviewing, or substantially changing a skill that can execute code, access sensitive or external data, use networks or credentials, or create high-impact effects. |
 
-Read both design and validation references for a new skill or substantial refactor. Read the review-format reference when operating in Review mode. Read [references/decision-records.md](references/decision-records.md) for every skill task. Read [references/decision-record-capability.md](references/decision-record-capability.md) only when the target skill may create or manage decision records during normal use.
+Read both design and validation references for a new skill or substantial refactor. Read the audit-format reference for a formal Audit or substantial informal Review. Read [references/decision-records.md](references/decision-records.md) for every skill task. Read [references/decision-record-capability.md](references/decision-record-capability.md) only when the target skill may create or manage decision records during normal use.
 
 ## Available Scripts
 
@@ -52,7 +52,7 @@ Use assets as copyable or pattern-matching templates. Adapt them and omit irrele
 | [assets/skill-core-template.md](assets/skill-core-template.md)                         | Drafting or restructuring a `SKILL.md` core. |
 | [assets/skill-reference-template.md](assets/skill-reference-template.md)               | Drafting focused optional references.        |
 | [assets/skill-change-proposal-template.md](assets/skill-change-proposal-template.md)   | Preparing exact-file approval proposals.     |
-| [assets/skill-review-report-template.md](assets/skill-review-report-template.md)       | Producing substantial skill reviews.         |
+| [assets/skill-audit-report-template.md](assets/skill-audit-report-template.md)         | Producing substantial formal skill audits.   |
 | [assets/script-output-contract-template.md](assets/script-output-contract-template.md) | Proposing or documenting bundled scripts.    |
 | [assets/decision-record-template.md](assets/decision-record-template.md)               | Drafting skill decision records.             |
 
@@ -61,7 +61,7 @@ Use assets as copyable or pattern-matching templates. Adapt them and omit irrele
 Use this skill when the user asks to:
 
 - Create a global or project-local skill.
-- Review a skill's scope, routing, structure, or maintainability.
+- Audit or review a skill's scope, routing, structure, or maintainability.
 - Update or refactor a skill and its references.
 - Split an overloaded core into optional references.
 - Rename or migrate a skill and update its dependencies.
@@ -94,9 +94,13 @@ Choose the mode that matches the request:
 
 Define the skill's trigger, boundary, workflow, references, and validation before writing files.
 
+### Audit
+
+For a tracked pre-change assessment, inspect the skill and dependencies, save a bounded audit, and record one outcome: `no change`, `research`, `defer`, or `proposal required`. Do not create the proposal until the user reviews the audit.
+
 ### Review
 
-Inspect the existing skill and dependencies. Report prioritized findings without editing unless the user asks for changes.
+Use Review for informal critique or for user feedback on an audit, proposal, or implementation result. Do not create a persistent Audit artifact unless the request or tracked workflow requires one.
 
 ### Update
 
@@ -136,7 +140,7 @@ Skip an irrelevant optional capability when the skill remains complete without i
 
 ## Workflow
 
-1. Identify whether the task is creation, review, update, rename, decision record, or a combination.
+1. Identify whether the task is creation, audit, review, update, rename, decision record, or a combination.
 2. Read active project and global instructions.
 3. Inspect the target skill, optional resources, repository state, and direct dependencies.
 4. Use `scripts/skill-audit.nu` for a bounded read-only inventory or local-link check when it can reduce manual inspection.
@@ -147,12 +151,14 @@ Skip an irrelevant optional capability when the skill remains complete without i
 9. Perform the shared safety inspection when the skill has sensitive, executable, networked, state-changing, or high-impact capabilities.
 10. Assess whether the current skill change needs its own repository decision record using [references/decision-records.md](references/decision-records.md). Always state why a record is or is not recommended.
 11. If a record is recommended or directly requested, choose its exact path, include it in the approval scope, and create it with the approved skill changes. Do not make it an optional follow-up after approval.
-12. Use [assets/skill-change-proposal-template.md](assets/skill-change-proposal-template.md) for substantial exact-file proposals.
-13. Present the exact proposal and wait for approval before changing files.
-14. Apply only approved changes, using targeted edits when practical.
-15. Format Markdown and validate frontmatter, references, routing, safety boundaries, migrations, decision records, and repository state.
-16. Report changed files, validation, limitations, anything not tested, and the decision-record outcome with its reason.
-17. Commit only when the user explicitly asks and the responsible repository workflow permits it.
+12. For a tracked skill change, save and link the audit, let the user review it, and record its outcome before creating a proposal.
+13. When the outcome is `proposal required`, create and link a separate proposal with `status: proposed` using [assets/skill-change-proposal-template.md](assets/skill-change-proposal-template.md).
+14. Revise the saved proposal during user review. Record `status: approved` only after the user accepts its exact scope.
+15. Before editing, confirm the tracked proposal exists, is linked, and is approved. Never create it retrospectively or combine proposal preparation and implementation in one step.
+16. Apply only approved changes in a separate implementation step, using targeted edits when practical.
+17. Format Markdown and validate frontmatter, references, routing, safety boundaries, migrations, decision records, and repository state. Then update the same proposal to `status: implemented`.
+18. Report changed files, validation, limitations, anything not tested, and the decision-record outcome with its reason.
+19. Commit only when the user explicitly asks and the responsible repository workflow permits it.
 
 ## Core Design Principles
 
@@ -173,11 +179,13 @@ Skip an irrelevant optional capability when the skill remains complete without i
 
 Read [references/skill-design.md](references/skill-design.md) for detailed design guidance.
 
-## Review Output
+## Audit and Review Output
 
-Read [references/review-format.md](references/review-format.md) before producing a normal or follow-up skill review. Use [assets/skill-review-report-template.md](assets/skill-review-report-template.md) for substantial reviews.
+Read [references/audit-format.md](references/audit-format.md) before producing a formal skill audit or substantial informal review. Use [assets/skill-audit-report-template.md](assets/skill-audit-report-template.md) for substantial saved audits.
 
-Use concise numbered findings, scale the structure down for small reviews, and report no more than five highest-value findings unless the user requests an exhaustive review. Do not rewrite the skill during review mode.
+For a substantial audit, begin with an `Audit Summary` of no more than five short bullets and end with an explicit `Audit Outcome`. Use concise numbered findings and report no more than five highest-value findings unless the user requests an exhaustive audit.
+
+For an informal Review, scale the response down and normally keep it conversational. Do not save a formal Audit artifact unless the request or tracked workflow requires one. Do not rewrite the skill during Audit or Review mode.
 
 ## Validation
 

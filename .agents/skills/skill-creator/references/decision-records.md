@@ -22,7 +22,23 @@ Decision record: recommended — this changes a shared review contract.
 Decision record: not recommended — this is a routine wording correction with no durable trade-off.
 ```
 
-When a record is recommended, creation is mandatory within the approved change scope. Do not ask separately whether the user wants it. Include its exact path in the approval proposal and create it with the approved skill changes.
+In a formal Audit, use one `Decision Record` heading for a preliminary signal:
+
+```markdown
+## Decision Record
+
+- Stage: Preliminary
+- Signal: Recommended
+
+**Reason**
+
+- The candidate change affects a shared review contract.
+- Confirm the final outcome and path in the proposal.
+```
+
+A preliminary signal is not implementation approval. When the audit outcome is `proposal required`, use the proposal's `Decision Record` section for the final outcome and exact path. The proposal may confirm or revise the audit signal as its scope becomes exact. When an audit ends with `no change`, `research`, or `defer`, keep the assessment and reason in the audit without creating a proposal only to repeat it.
+
+When the final outcome recommends a record, creation is mandatory within the approved change scope. Do not ask separately whether the user wants it. Include its exact path in the approval proposal and create it with the approved skill changes.
 
 When the user directly requests a record, treat it as recommended and proceed through the creation workflow. Repository approval, exact-file scope, and path-safety rules still apply.
 

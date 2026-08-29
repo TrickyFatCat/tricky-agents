@@ -90,6 +90,8 @@ For detailed durable workflows, schemas, lifecycle rules, or cross-skill convent
 - place the detailed process in a global reference or skill reference;
 - state this split so the user can evaluate always-loaded instructions separately from optional detail.
 
+When an approved workflow requires a saved proposal, confirm before editing that the proposal exists, is linked from the owning task, records the exact file scope, and has `status: approved`. Do not create it retrospectively or combine proposal preparation and implementation. This check does not require a saved proposal for unrelated trivial work unless the user or active project requires one.
+
 Approval applies only to the described scope. Pause and request approval again if new files, broader changes, or materially different behavior become necessary.
 
 ## Maintenance Workflow

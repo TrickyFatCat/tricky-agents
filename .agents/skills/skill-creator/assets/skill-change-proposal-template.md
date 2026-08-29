@@ -2,11 +2,30 @@
 
 Use this template before creating, modifying, moving, deleting, or reorganizing skill resources.
 
-When saving a proposal artifact, use `<artifact-role>-<concise-subject>-<concise-action>`, following the active project's filename style. Keep the role word once and put it first. Example: `proposal-readable-output-examples-add.md`.
+When saving a proposal artifact, use `<artifact-role>-<concise-action>-<concise-subject>`, following the active project's filename style. Keep the role word once and put it first. Example: `proposal-add-readable-output-examples.md`.
 
 Write proposals in direct style: recommendation first, bullets over prose, rationale only when it changes the approval decision.
 
+When the active workflow tracks saved proposals:
+
+- follow its metadata syntax and storage rules;
+- create the proposal with `status: proposed`;
+- change it to `status: approved` only after the user accepts its exact scope;
+- begin implementation only after that status update and in a separate implementation phase;
+- change it to `status: implemented` only after validation;
+- never create the proposal retrospectively or combine proposal preparation and implementation.
+
+Do not require a saved proposal for unrelated trivial work unless the user, repository, or active project requires one.
+
 ````markdown
+## Proposal Summary
+
+- Decision requested: <exact approval decision>
+- Files: <create/modify/move/delete counts>
+- Behavior: <one-line effect>
+- Main trade-off: <one-line trade-off>
+- Status: Proposed
+
 ## Proposal
 
 <One-sentence recommended change.>
@@ -16,8 +35,9 @@ Write proposals in direct style: recommendation first, bullets over prose, ratio
 Ground the proposal in concrete evidence:
 
 - User request or correction:
+- Audit outcome:
 - Usage reports:
-- Existing skill/task/review artifacts:
+- Existing skill/task artifacts:
 - Agent Skills or upstream references:
 - Execution traces or trial runs:
 
@@ -31,7 +51,7 @@ Ground the proposal in concrete evidence:
 
 ## Examples
 
-Use this section only when the proposal changes a reusable output pattern, command shape, review format, or other concrete artifact pattern.
+Use this section only when the proposal changes a reusable output pattern, command shape, audit format, or other concrete artifact pattern.
 
 Good example:
 
@@ -63,7 +83,7 @@ Omit this section for routine wording edits, simple file moves, or conceptual re
 
 ### Wording Changes
 
-Use this section only for concrete wording edits where exact replacement text matters. Show old wording before new wording. Prefer vertical blocks, not a grid/table, because replacement text is often too long for horizontal scanning.
+Use this section only for concrete wording edits where exact replacement text matters. Show old wording before new wording. Prefer vertical blocks, not a grid or table, because replacement text is often too long for horizontal scanning.
 
 #### `<location>`
 
@@ -109,13 +129,18 @@ Out of scope:
 - Runtime discovery not tested/tested by:
 - Follow-up trial or execution-trace review:
 
-## Decision Record Outcome
+## Decision Record
 
-Decision record: <recommended/not recommended> — <reason>.
+- Outcome: Recommended | Not recommended
+- Path: `docs/decisions/NNNN-<decision-slug>.md` | None
 
-If recommended, include the exact decision-record path in this proposal.
+**Reason**
+
+- <Final reason based on the exact proposal scope>.
 
 ## Approval Request
 
 Proceed with these exact file changes?
+
+For a tracked proposal, keep the status `proposed` during review. Record `approved` only after exact acceptance, and record `implemented` only after validation.
 ````

@@ -242,7 +242,7 @@ Use `assets/` for files consumed or copied by the workflow rather than read as i
 
 Use semantic filenames that identify the artifact role, such as `skill-core-template.md` or `script-output-contract-template.md`. Reserve `README.md` for a real directory, package, or collection overview unless an external format requires it and the user approves the exception.
 
-For saved proposal artifacts, use `<artifact-role>-<concise-subject>-<concise-action>`. Follow project filename style. Keep the role word once and first. Examples: `proposal-readable-output-examples-add.md`, `Proposal Artifact Naming Define.md`.
+For saved proposal artifacts, use `<artifact-role>-<concise-action>-<concise-subject>`. Follow project filename style. Keep the role word once and first. Examples: `proposal-add-readable-output-examples.md`, `Proposal Define Artifact Naming.md`.
 
 Keep templates minimal and adaptable. Tell the agent to omit irrelevant sections so templates do not become rigid checklists. Do not make one project's storage conventions the global default unless the skill is project-specific.
 
@@ -253,7 +253,7 @@ Current templates:
 | [../assets/skill-core-template.md](../assets/skill-core-template.md)                         | Drafting or restructuring a `SKILL.md` core. |
 | [../assets/skill-reference-template.md](../assets/skill-reference-template.md)               | Drafting focused optional references.        |
 | [../assets/skill-change-proposal-template.md](../assets/skill-change-proposal-template.md)   | Preparing exact-file approval proposals.     |
-| [../assets/skill-review-report-template.md](../assets/skill-review-report-template.md)       | Producing substantial skill reviews.         |
+| [../assets/skill-audit-report-template.md](../assets/skill-audit-report-template.md)         | Producing substantial formal skill audits.   |
 | [../assets/script-output-contract-template.md](../assets/script-output-contract-template.md) | Proposing or documenting bundled scripts.    |
 | [../assets/decision-record-template.md](../assets/decision-record-template.md)               | Drafting skill decision records.             |
 
@@ -269,7 +269,9 @@ Make headings optional for small answers. Common useful elements are:
 - Proposed or completed changes.
 - Validation and next action.
 
-When a skill produces three or more detailed findings, begin with a concise `Overview` of no more than three bullets. Include the finding count, highest-priority concern, and first recommended action when applicable. Reference numbered findings instead of repeating their evidence. For one or two findings, avoid a separate Overview when it would add visual noise without improving orientation.
+When a saved skill audit is substantial, begin with an `Audit Summary` of no more than five short bullets. Include the outcome, finding count, highest-priority concern, behavior to preserve, and next action when applicable. Reference numbered findings instead of repeating their evidence.
+
+For an informal Review, keep the response proportional. Avoid a separate summary when one or two findings are already easy to scan.
 
 Response design should help the user decide or act, not display every step the agent performed.
 

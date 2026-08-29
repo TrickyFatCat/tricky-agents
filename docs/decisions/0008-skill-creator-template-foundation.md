@@ -2,6 +2,7 @@
 
 Status: Accepted
 Date: 2026-08-27
+Amended By: [Skill Proposal Artifact Name Order](0013-skill-proposal-artifact-name-order.md)
 
 ## Context
 

@@ -1,7 +1,8 @@
 # Skill Review Report Format
 
-Status: Accepted
+Status: Superseded
 Date: 2026-08-26
+Superseded By: [Skill Audit and Proposal Workflow](0012-skill-audit-and-proposal-workflow.md)
 
 ## Context
 
@@ -45,6 +46,7 @@ A concrete format improves consistency and scanability while still scaling down 
 
 ## Related Changes
 
+- [Decision 0012](0012-skill-audit-and-proposal-workflow.md) — replaces this formal Review contract with the Audit and proposal workflow.
 - Commit `2834082` — added the skill review format and routed Review mode to it.
 - Current refinement — uses overview links, short headings, separate labels, and evidence/action blocks.
 - `.agents/skills/skill-creator/SKILL.md`

@@ -1,8 +1,24 @@
-# Skill Review Report Template
+# Skill Audit Report Template
 
-Use this template for a normal or follow-up skill review. Scale down for small reviews.
+Use this template for a substantial saved skill Audit. Omit sections that do not help. Do not use it mechanically for a lightweight informal Review.
 
 ```markdown
+## Audit Summary
+
+Use no more than five short bullets.
+
+- Outcome: No change | Research | Defer | Proposal required
+- Findings: <count by priority when useful>
+- Main concern: <highest-value issue or none>
+- Preserve: <behavior that should remain unchanged>
+- Next: <first action after user review>
+
+## Scope and Evidence
+
+- Audited:
+- Sources:
+- Excluded:
+
 ## Findings Overview
 
 Use only for three or more findings. Link each detailed finding.
@@ -27,7 +43,7 @@ Priority: 🔴 High | 🟡 Medium | 🟢 Low
 
 **Recommended action**
 
-<Smallest useful change direction and key trade-off if needed. For concrete wording replacements, show old wording before new wording in vertical blocks, not a grid/table. For reusable output patterns, add one compact example when it improves reviewability.>
+<Smallest useful change direction and key trade-off if needed. For concrete wording replacements, show old wording before new wording in vertical blocks, not a grid or table. For reusable output patterns, add one compact example when it improves reviewability.>
 
 ### 2. <Accepted, declined, or optional-polish note>
 
@@ -43,7 +59,7 @@ Status: ✅ Pass | 🟢 Optional polish | ⛔ Declined
 
 ## Best-Practice Check
 
-Use this section only when reviewing against Agent Skills or another baseline.
+Use only when auditing against Agent Skills or another explicit baseline.
 
 | Area                           | Status | Notes                                                  |
 | ------------------------------ | ------ | ------------------------------------------------------ |
@@ -60,18 +76,34 @@ Use this section only when reviewing against Agent Skills or another baseline.
 
 ## Questions
 
-Ask only questions whose answers can change the recommendation, scope, or migration path.
+Ask only questions whose answers can change the recommendation, scope, migration path, or audit outcome.
 
 - <Question>?
 
-## Update Scope or Decision Check
+## Decision Record
 
-Use `Update Scope` when implementation is ready:
+- Stage: Preliminary
+- Signal: Recommended | Not recommended
 
-- Create:
-- Modify:
-- Move/rename/delete:
-- Validate:
+**Reason**
 
-Use `Decision Check` when an unresolved choice changes file scope or behavior.
+- <Why the candidate change does or does not need a repository decision record>.
+- <For proposal required, confirm the final outcome and exact path in the proposal>.
+
+## Audit Outcome
+
+- Outcome: No change | Research | Defer | Proposal required
+- Next: <specific next action after user review>
+
+## Untested Areas
+
+- <Runtime, fresh-session, rendering, integration, or other check not performed>.
+
+## Proposal Handoff
+
+Use only for `Proposal required`. Name candidate areas and dependencies without duplicating the exact proposal.
+
+- Candidate areas:
+- Dependencies:
+- Scope still to resolve:
 ```
