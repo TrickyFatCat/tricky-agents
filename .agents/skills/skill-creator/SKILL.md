@@ -13,15 +13,16 @@ The goal is not to put every useful instruction into one file. The goal is to gi
 
 Read only the references needed for the task:
 
-| Reference                                                                      | Read when                                                                                                                                                                    |
-| ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [references/skill-design.md](references/skill-design.md)                       | Defining scope, frontmatter, routing, core structure, optional references, scripts, assets, or handoffs.                                                                     |
-| [references/skill-validation.md](references/skill-validation.md)               | Reviewing, validating, migrating, or renaming a skill and its dependencies.                                                                                                  |
-| [references/review-format.md](references/review-format.md)                     | Producing a normal or follow-up review of a skill and its supporting resources.                                                                                              |
-| [references/decision-records.md](references/decision-records.md)               | Assessing, creating, or backfilling decision records for skill changes.                                                                                                      |
-| [../../references/safety-inspection.md](../../references/safety-inspection.md) | Creating, reviewing, or substantially changing a skill that can execute code, access sensitive or external data, use networks or credentials, or create high-impact effects. |
+| Reference                                                                            | Read when                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [references/skill-design.md](references/skill-design.md)                             | Defining scope, frontmatter, routing, core structure, optional references, scripts, assets, or handoffs.                                                                     |
+| [references/skill-validation.md](references/skill-validation.md)                     | Reviewing, validating, migrating, or renaming a skill and its dependencies.                                                                                                  |
+| [references/review-format.md](references/review-format.md)                           | Producing a normal or follow-up review of a skill and its supporting resources.                                                                                              |
+| [references/decision-records.md](references/decision-records.md)                     | Assessing, creating, or backfilling repository decision records that document skill changes.                                                                                 |
+| [references/decision-record-capability.md](references/decision-record-capability.md) | Designing or reviewing a target skill that may create or manage decision records during normal use.                                                                          |
+| [../../references/safety-inspection.md](../../references/safety-inspection.md)       | Creating, reviewing, or substantially changing a skill that can execute code, access sensitive or external data, use networks or credentials, or create high-impact effects. |
 
-Read both design and validation references for a new skill or substantial refactor. Read the review-format reference when operating in Review mode. Read the decision-record reference for every skill task.
+Read both design and validation references for a new skill or substantial refactor. Read the review-format reference when operating in Review mode. Read [references/decision-records.md](references/decision-records.md) for every skill task. Read [references/decision-record-capability.md](references/decision-record-capability.md) only when the target skill may create or manage decision records during normal use.
 
 ## Available Scripts
 
@@ -65,7 +66,8 @@ Use this skill when the user asks to:
 - Split an overloaded core into optional references.
 - Rename or migrate a skill and update its dependencies.
 - Add or review scripts, assets, templates, or validation guidance inside a skill.
-- Create or backfill a decision record for a skill change.
+- Create or backfill a decision record that documents a skill change.
+- Design or review decision-record capability for a target skill.
 - Diagnose skill discovery, frontmatter, naming, or reference problems.
 
 Do not create a new skill merely because guidance could be written down. Prefer a skill when the method is reusable, domain-specific, and likely to improve future behavior.
@@ -141,9 +143,9 @@ Skip an irrelevant optional capability when the skill remains complete without i
 5. Read current harness documentation when discovery or frontmatter behavior matters.
 6. Define the skill's responsibility boundary and routing relationships.
 7. Ground the design in source material: user corrections, real tasks, reports, project artifacts, execution traces, or external standards when available.
-8. Decide what belongs in the always-loaded core and what should load from references or assets.
+8. Decide what belongs in the always-loaded core and what should load from references or assets. Read [references/decision-record-capability.md](references/decision-record-capability.md) when the target skill may create or manage decision records during normal use.
 9. Perform the shared safety inspection when the skill has sensitive, executable, networked, state-changing, or high-impact capabilities.
-10. Assess the decision record using [references/decision-records.md](references/decision-records.md). Always state why a record is or is not recommended.
+10. Assess whether the current skill change needs its own repository decision record using [references/decision-records.md](references/decision-records.md). Always state why a record is or is not recommended.
 11. If a record is recommended or directly requested, choose its exact path, include it in the approval scope, and create it with the approved skill changes. Do not make it an optional follow-up after approval.
 12. Use [assets/skill-change-proposal-template.md](assets/skill-change-proposal-template.md) for substantial exact-file proposals.
 13. Present the exact proposal and wait for approval before changing files.

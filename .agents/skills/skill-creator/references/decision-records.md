@@ -1,10 +1,12 @@
 # Skill Decision Records
 
-Read this reference for every skill creation, review, update, refactor, rename, or decision-record task.
+Read this reference for every skill creation, review, update, refactor, rename, or task that creates or backfills a repository decision record documenting a skill change.
 
-A decision record preserves why a durable skill choice was made. Git remains the source for line-level history; the record explains context, reasoning, alternatives, and consequences that a diff does not capture clearly.
+This reference governs records **about skill changes**. It does not define whether a target skill should create or manage decision records during normal use. Read [decision-record-capability.md](decision-record-capability.md) for that separate design responsibility.
 
-Use [../assets/decision-record-template.md](../assets/decision-record-template.md) when drafting a skill decision record.
+A skill-change decision record preserves why a durable skill choice was made. Git remains the source for line-level history; the record explains context, reasoning, alternatives, and consequences that a diff does not capture clearly.
+
+Use [../assets/decision-record-template.md](../assets/decision-record-template.md) when drafting a skill-change decision record.
 
 ## Required Assessment
 
