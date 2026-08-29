@@ -105,11 +105,39 @@ Rejected alternatives worth remembering and why they were not chosen.
 - `path/to/affected-file`
 ```
 
-Use `Proposed`, `Accepted`, `Superseded`, or `Deprecated` as the status when relevant. Do not mark a recommendation as accepted until the user confirms or implementation history proves the decision was adopted.
+Use the repository's status vocabulary when one exists. Otherwise use:
+
+- `Proposed`: drafted for review but not approved.
+- `Accepted`: approved or proven accepted by implementation history.
+- `Rejected`: considered but not adopted; preserve only when the rationale is likely to prevent repeated debate.
+- `Superseded`: replaced by a newer decision record.
+- `Deprecated`: no longer recommended and not directly replaced.
+
+Use `Accepted` only when the user has confirmed the decision or repository history proves implementation and acceptance.
+
+Create a new record when a material decision changes. When one record supersedes another:
+
+1. Link the new record to the record it supersedes.
+2. Change the older record to `Superseded`.
+3. Link the older record to its replacement.
+4. Validate both links and statuses.
+
+Correct typographical, formatting, and non-semantic metadata errors in place when repository policy allows it.
 
 Add only sections that preserve useful reasoning. Omit empty sections rather than padding the record.
 
 Decision filenames should be semantic and stable. Follow the repository's existing numbered convention when available, such as `docs/decisions/NNNN-<decision-slug>.md`. Do not use `README.md` for a decision record.
+
+## Traceability
+
+Link evidence that materially affected the decision:
+
+- Source task, proposal, review, usage report, research, or issue.
+- Related decisions.
+- Superseded or superseding decisions.
+- Implementation paths and commits when available.
+
+Use repository-relative links or established project links when practical. Do not add decorative links that do not help a maintainer reconstruct the decision.
 
 ## Backfill
 
@@ -130,6 +158,9 @@ After creating or updating a record:
 - Confirm its path follows the active repository convention.
 - Confirm the filename is semantic and not a generic `README.md`.
 - Confirm the title, status, date, decision, and consequences are internally consistent.
+- Confirm the status meaning matches the record's current lifecycle state.
+- Confirm superseded records and replacements link to each other.
+- Confirm cited source tasks, reports, research, issues, and related decisions resolve when locally available.
 - Confirm cited commits exist and affected paths are correct.
 - Confirm the record does not duplicate line-level diff details unnecessarily.
 - Format the Markdown.

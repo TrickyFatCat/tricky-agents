@@ -55,15 +55,25 @@ def strip-fenced-blocks []: string -> string {
   let text = $in
   $text
   | lines
-  | reduce --fold { in_fence: false, out: [] } { |line, acc|
+  | reduce --fold { fence_marker: "", out: [] } { |line, acc|
       let trimmed = ($line | str trim)
-      let is_fence = ($trimmed | str starts-with "```")
-      if $is_fence {
-        { in_fence: (not $acc.in_fence), out: $acc.out }
-      } else if $acc.in_fence {
-        $acc
+      let marker = if ($trimmed | str starts-with "```") {
+        "```"
+      } else if ($trimmed | str starts-with "~~~") {
+        "~~~"
       } else {
-        { in_fence: $acc.in_fence, out: ($acc.out | append $line) }
+        ""
+      }
+      if ($acc.fence_marker | is-empty) {
+        if ($marker | is-empty) {
+          { fence_marker: $acc.fence_marker, out: ($acc.out | append $line) }
+        } else {
+          { fence_marker: $marker, out: $acc.out }
+        }
+      } else if $marker == $acc.fence_marker {
+        { fence_marker: "", out: $acc.out }
+      } else {
+        $acc
       }
     }
   | get out
@@ -122,8 +132,9 @@ def inventory [root: path, exclude: string]: nothing -> record {
 }
 
 def local-links [root: path]: nothing -> record {
+  let files = (markdown-files $root)
   let findings = (
-    markdown-files $root
+    $files
     | each { |file|
         let dir = ($file | path dirname)
         let text = (open --raw $file | strip-fenced-blocks)
@@ -156,9 +167,10 @@ def local-links [root: path]: nothing -> record {
     schema_version: 1,
     tool: "skill-audit",
     command: "links",
-    status: (if (($missing | length) > 0) { "failed" } else if (($findings | length) == 0) { "failed" } else { "ok" }),
-    summary: $"($findings | length) local links checked, ($missing | length) missing",
+    status: (if (($missing | length) > 0) { "failed" } else if (($files | length) == 0) { "failed" } else { "ok" }),
+    summary: (if (($files | length) == 0) { "no Markdown files found" } else { $"($findings | length) local links checked, ($missing | length) missing" }),
     counts: {
+      markdown_files: ($files | length),
       links: ($findings | length),
       missing: ($missing | length)
     },

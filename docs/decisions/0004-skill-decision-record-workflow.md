@@ -20,6 +20,10 @@ Every skill creation, review, update, refactor, rename, or decision-record task 
 - Preserve repository approval, exact-file scope, path-safety, validation, and commit boundaries.
 - When no repository convention exists, use `docs/decisions/NNNN-<decision-slug>.md` as the proposed fallback.
 - Keep records selective: durable behavior, routing, safety, architecture, migration, shared contracts, and recurring trade-offs warrant records; routine wording and formatting changes normally do not.
+- Use repository-defined status meanings when available. Otherwise distinguish `Proposed`, `Accepted`, selective `Rejected`, `Superseded`, and `Deprecated` records.
+- Create a new record when a material decision changes. Link superseding and superseded records to each other and update their statuses.
+- Preserve links to source tasks, proposals, reviews, reports, research, issues, related decisions, affected paths, and commits when they materially informed the decision.
+- Omit irrelevant traceability fields rather than leaving empty placeholders.
 
 ## Reasons
 
@@ -32,7 +36,9 @@ Mandatory assessment makes the decision explicit on every skill task. Automatic 
 - Recommended records must be identified before approval when possible.
 - If the need emerges after approval, work pauses for expanded exact-file approval.
 - Routine edits do not create records, but the reason for omitting one remains visible.
-- Decision records require formatting, path checks, and validation alongside the skill changes.
+- Decision records require formatting, path checks, lifecycle checks, reciprocal supersession links, and source validation alongside the skill changes.
+- Selective `Rejected` records preserve recurring rationale without requiring a record for every declined proposal.
+- Material decision changes create a new record instead of silently rewriting accepted history.
 
 ## Alternatives
 
@@ -45,6 +51,7 @@ Mandatory assessment makes the decision explicit on every skill task. Automatic 
 
 - `.agents/skills/skill-creator/SKILL.md`
 - `.agents/skills/skill-creator/references/decision-records.md`
+- `.agents/skills/skill-creator/assets/decision-record-template.md`
 - `docs/decisions/0001-editorial-marker-workflow.md`
 - `docs/decisions/0002-skill-review-report-format.md`
 - `docs/decisions/0003-separate-document-and-agent-approvals.md`

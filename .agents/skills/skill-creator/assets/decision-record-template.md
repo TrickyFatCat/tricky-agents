@@ -2,10 +2,12 @@
 
 Use this template when `references/decision-records.md` says a skill decision record is recommended or the user directly requests one.
 
+Delete optional fields and sections that do not apply. Do not leave empty placeholders in a completed record.
+
 ```markdown
 # <Decision Title>
 
-Status: Proposed | Accepted | Superseded | Deprecated
+Status: Proposed | Accepted | Rejected | Superseded | Deprecated
 Date: YYYY-MM-DD
 
 ## Context
@@ -33,6 +35,13 @@ Date: YYYY-MM-DD
 ## Alternatives
 
 - <Alternative> — <why it was not chosen>.
+
+## Traceability
+
+- Source task, proposal, review, report, research, or issue:
+- Related decisions:
+- Supersedes:
+- Superseded by:
 
 ## Related Changes
 
