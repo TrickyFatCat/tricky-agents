@@ -4,6 +4,39 @@ Read this reference when a decision needs structured comparison, risk analysis, 
 
 Choose only lenses that can change the recommendation. Do not apply every prompt mechanically.
 
+## Select and Synthesize Lenses
+
+Start with the smallest useful lens set.
+
+| Decision shape                  | Start with                                                           |
+| ------------------------------- | -------------------------------------------------------------------- |
+| Unclear value or scope          | Value and Scope; Complexity and Maintenance                          |
+| Comparison between alternatives | Decision Criteria; Alternatives; Pros and Cons when useful           |
+| Risky or hard-to-reverse change | Safety and Reversibility; Observability and Validation; Corner Cases |
+| Migration or adoption           | Dependencies and Migration; Safety and Reversibility; Observability  |
+| Naming or documentation choice  | Naming and Documentation; Value and Scope                            |
+
+Treat the table as a starting point, not a required sequence. Add or omit lenses when they can change the recommendation.
+
+After analyzing:
+
+1. Lead with the recommendation.
+2. Include only trade-offs, risks, assumptions, and unknowns that can change it.
+3. Merge repeated concerns instead of reporting them under every lens.
+4. End with one decision or verification prompt while the choice remains open.
+
+For a small decision, a complete synthesis may be:
+
+> **Recommendation:** Keep the current approach until another concrete use case appears.
+>
+> **Main trade-off:** Waiting limits early standardization but avoids maintaining an abstraction without repeated demand.
+>
+> **Decision-changing unknown:** Is there a second recurring use case with the same requirements?
+>
+> **Decision check:** Defer the abstraction until that evidence exists?
+
+Adapt or omit these labels when a simpler response is clearer. Do not expose the lens checklist as the response.
+
 ## Decision Criteria
 
 Before comparing options, identify two to four criteria that matter most.

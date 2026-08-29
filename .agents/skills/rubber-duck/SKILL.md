@@ -72,7 +72,7 @@ Make the state visible when it helps the user understand what happens next:
 - `Exploring`: the idea, criteria, or alternatives are still being shaped.
 - `Decision nearly confirmed`: the likely choice is clear, but one meaningful detail remains.
 - `Decision confirmed`: the user explicitly accepted the approach.
-- `Ready for implementation`: the user asked to plan, save, or implement the confirmed approach.
+- `Ready for action`: the user confirmed the approach and asked to plan, save, or implement it.
 
 Do not advance the state based only on your recommendation. Use the user's explicit response and current request.
 
@@ -111,7 +111,7 @@ When the user confirms a decision, preserve the useful context:
 
 Keep this summary concise. Do not create a plan or implementation automatically.
 
-When the user asks to proceed:
+When the user confirms an approach and requests a next action, route only that action:
 
 - Hand task management to `task-manager` when a task breakdown, saved task update, or resumable workflow is needed.
 - Hand concrete code or documentation changes to the appropriate implementation skill.
