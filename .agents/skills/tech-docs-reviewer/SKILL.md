@@ -1,106 +1,140 @@
 ---
 name: tech-docs-reviewer
-description: Use when reviewing human-facing documentation for structure, clarity, completeness, audience fit, examples, troubleshooting, safety notes, Markdown readability, and source accuracy. Provides prioritized, teaching-oriented feedback without rewriting the document by default.
+description: Use when reviewing or auditing human-facing technical documentation or documentation sets for structure, clarity, completeness, audience fit, examples, troubleshooting, safety, Markdown readability, and source accuracy. Provides quick chat reviews and formal saved documentation audits without rewriting by default.
 ---
 
 # Tech Docs Reviewer
 
-Use this skill to review documentation in a way that improves both the document and the user's documentation judgment.
+Review technical documentation in a way that improves both the document and the user's documentation judgment.
 
-The goal is not to rewrite the document by default. Help the user understand what works, what is confusing, what is inaccurate or missing, and which changes would most improve the reader's experience.
+Identify what works, what blocks or misleads readers, what is inaccurate or missing, and which changes would most improve reader success. Do not rewrite the document by default.
 
-## Relationship to Technical Docs
+## Relationship to Technical Docs Writer
 
-Use this skill for review and critique of existing documentation.
+Use this skill for assessment and critique of existing documentation.
 
 Use `tech-docs-writer` when the user asks to draft, rewrite, restructure, or apply approved documentation changes.
 
 Typical flow:
 
-1. `tech-docs-reviewer`: identify and prioritize improvements.
-2. User: accept, decline, or discuss findings.
-3. `tech-docs-writer`: apply approved changes and produce polished Markdown.
+1. Reviewer identifies and prioritizes improvements.
+2. User accepts, declines, or discusses findings.
+3. Writer applies approved changes and produces polished Markdown.
+
+Saving an assessment, adding review comments, retaining Review Notes, and applying recommendations are separate operations. Do not treat approval of one as approval of another.
 
 ## Reference Files
 
-Read references according to the review task:
+Read references according to the task:
 
-| Reference                                                                                                        | Read when                                                                                                     |
-| ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| [references/review-format.md](references/review-format.md)                                                       | Producing a full review, follow-up review, or saved review.                                                   |
-| [references/source-accuracy-review.md](references/source-accuracy-review.md)                                     | Reviewing commands, scripts, configuration, APIs, setup procedures, or implementation-backed behavior.        |
-| [../tech-docs-writer/references/markdown-conventions.md](../tech-docs-writer/references/markdown-conventions.md) | Resolving requested document paths, reviewing editorial markers, callouts, TOC, links, or Markdown structure. |
-| [references/adhd-friendly-review.md](references/adhd-friendly-review.md)                                         | The user explicitly requests an ADHD-friendly documentation review.                                           |
+| Reference                                                                                                        | Read when                                                                                                                                              |
+| ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [references/review-format.md](references/review-format.md)                                                       | Producing a substantive Quick Review, Documentation Audit, or follow-up assessment.                                                                    |
+| [references/review-persistence.md](references/review-persistence.md)                                             | Saving an assessment, resolving storage and naming, managing multiple passes, adding feedback to a document, or applying accepted recommendations.     |
+| [references/source-accuracy-review.md](references/source-accuracy-review.md)                                     | Reviewing commands, scripts, configuration, APIs, setup procedures, or implementation-backed behavior.                                                 |
+| [../tech-docs-writer/references/documentation-modes.md](../tech-docs-writer/references/documentation-modes.md)   | Identifying or assessing tutorial, how-to, reference, explanation, troubleshooting, maintainer, README, or personal-documentation mode.                |
+| [../tech-docs-writer/references/markdown-conventions.md](../tech-docs-writer/references/markdown-conventions.md) | Resolving document paths or reviewing renderer behavior, editorial markers, callouts, TOCs, links, headings, document location, or Markdown structure. |
 
-Do not apply optional review lenses when the user did not request them and the document does not require them.
+## Template Assets
+
+| Asset                                                                            | Use                                                                                     |
+| -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| [assets/documentation-audit-template.md](assets/documentation-audit-template.md) | Producing a formal, bounded, always-saved Documentation Audit. Adapt it to the project. |
 
 ## When to Use
 
-Use this skill when the user asks to review:
+Use this skill when the user asks to review or audit:
 
 - README files.
-- Setup, installation, or configuration guides.
-- Troubleshooting documentation.
-- Command-line usage docs.
-- API or option references.
-- Project and contributor documentation.
-- Markdown structure, examples, language, or navigation.
+- Setup, installation, configuration, and troubleshooting guides.
+- Command-line, API, option, and maintainer references.
+- Project, contributor, and personal documentation.
+- Markdown structure, examples, language, rendering, or navigation.
 - Documentation accuracy against current source or behavior.
+- A documentation directory, documentation set, or proposed information architecture.
 
-If the request is to create documentation from scratch, prefer `tech-docs-writer` unless the user asks for review criteria or an outline critique.
+If the request is to create documentation from scratch, use `tech-docs-writer` unless the user asks for review criteria or an outline critique.
+
+## Operating Modes
+
+### Quick Review
+
+Use Quick Review by default.
+
+- Print concise, high-value findings directly to chat.
+- Save only when the user requests it.
+- Scale from one comment to a detailed response without turning depth alone into Audit.
+- Keep a detailed chat response as Review unless it claims formal bounded coverage.
+
+### Documentation Audit
+
+Use Documentation Audit when the user explicitly requests:
+
+- an Audit;
+- formal or bounded coverage;
+- a detailed assessment that must be retained; or
+- explicit scope, evidence, exclusions, outcome, and untested areas.
+
+A Documentation Audit is always saved. Resolve its destination before formal assessment begins and use [assets/documentation-audit-template.md](assets/documentation-audit-template.md). If no durable destination can be agreed, explain that the Audit contract cannot be completed and offer an expanded Quick Review instead.
+
+If `detailed review` is ambiguous, ask whether the user wants an expanded chat Review or a saved Documentation Audit.
+
+Neither mode authorizes a proposal, documentation edit, file move, or implementation.
 
 ## Review Workflow
 
-1. Read active project instructions and identify document, storage, and safety constraints.
-2. Locate the exact document. If the requested file is not found, do not silently substitute a similarly named generated or output copy.
-3. Identify the document mode, intended reader, reader goal, and requested focus.
-4. State the review scope when the document or source set is large.
-5. Read the document and relevant optional references.
-6. When the user asks to check comments or the document contains `REVIEW`, `TODO`, or `FIXME` editorial markers, follow the discovery and resolution rules in [markdown-conventions.md](../tech-docs-writer/references/markdown-conventions.md), extract the markers in document order, map each marker to the nearest heading, and prepare a change list before reviewing or editing.
-7. Inspect implementation or authoritative sources when accuracy is in scope.
-8. Review in document order and prioritize plausible reader failures over exhaustive criticism.
-9. Produce findings using [references/review-format.md](references/review-format.md).
-10. Distinguish confirmed problems, conditional recommendations, and style preferences.
-11. Save the review only when requested and follow active project storage rules.
+1. Read active project instructions and identify document, storage, safety, metadata, renderer, formatting, and approval constraints.
+2. Locate the exact document or documentation set. Do not silently substitute a similarly named generated or output copy.
+3. Select Quick Review or Documentation Audit.
+4. Identify the documentation mode, intended reader, reader goal, and requested focus. Load Writer's documentation-mode reference when these affect the assessment.
+5. State coverage and exclusions for a large document or documentation set. Resolve the destination before beginning an Audit.
+6. Read the document and relevant references.
+7. When the user asks to check comments or the document contains `REVIEW`, `TODO`, or `FIXME`, follow Writer's discovery and resolution rules: search broadly, inspect matches in context, map real markers to nearby headings, and prepare a change list before any edit.
+8. Inspect implementation or authoritative sources when accuracy is in scope.
+9. Review in document order and prioritize plausible reader failures over exhaustive criticism.
+10. Produce findings using [references/review-format.md](references/review-format.md). Distinguish confirmed problems, conditional recommendations, and style preferences.
+11. Follow [references/review-persistence.md](references/review-persistence.md) for every saved artifact or source-document operation.
 
-When a document review also reveals workflow or skill improvements, separate the response and approval scopes into:
+Ask clarifying questions only when audience, platform, version, authority, document path, mode, destination, or intended outcome can change the assessment.
 
-1. Document changes.
+When review reveals workflow or skill improvements, separate scopes into:
+
+1. Documentation findings.
 2. Workflow or skill follow-ups.
 
-Do not combine document edits and global agent-resource changes under one approval request. Global resource proposals must identify their exact files and receive their own approval.
+Do not combine documentation edits and global agent-resource changes under one approval.
 
-Ask clarifying questions when audience, platform, version, authority, intended outcome, or the authoritative document path changes the review.
+## Documentation Sets and Directories
+
+Use either mode to assess a documentation directory or set of files.
+
+Review:
+
+- entry points and navigation;
+- hierarchy and separation of reader modes;
+- filenames and discoverability;
+- duplication, gaps, and missing links;
+- source ownership and maintenance boundaries;
+- reviewed files, coverage, and exclusions.
+
+Reviewer may suggest a target documentation tree and migration direction. Do not move, rename, create, or rewrite documentation by default. Hand approved content changes to Writer and persistent migration planning to Task Manager.
+
+For a directory Audit, list every reviewed file and any excluded area. Do not imply complete coverage of uninspected content.
 
 ## Review Principles
 
-Default to a teaching-oriented review:
-
-- Prioritize reader success over personal style preferences.
+- Prioritize reader success over personal style preference.
 - Match feedback to the document mode.
-- Identify where a reader can become blocked, misled, unsafe, or unnecessarily slowed down.
-- Explain concrete reader impact.
-- Distinguish critical gaps from polish.
-- Use short illustrative rewrites only when they clarify a finding.
-- Point out specific good decisions and why they help.
-- Give focused directions instead of rewriting the document by default.
+- Identify where a reader can become blocked, misled, unsafe, distracted, or unnecessarily slowed down.
+- Tie findings to concrete reader impact, failed action, risk, inaccuracy, or maintenance cost.
+- Preserve context required for safe and correct use; brevity is not the only goal.
+- Keep the main path ahead of secondary detail.
+- Use short illustrative rewrites only when they make a finding reviewable.
+- Point out specific good decisions and explain why they help.
 - Prefer a few high-value findings over exhaustive nitpicks.
+- Do not present guessed behavior as fact or claim medical or accessibility guarantees.
 
-Do not present guessed behavior as fact. When accuracy is in scope, follow [references/source-accuracy-review.md](references/source-accuracy-review.md).
-
-## Document Mode
-
-Identify the mode from the user's context and the document itself:
-
-- Tutorial or onboarding guide: emphasize outcomes, ordered flow, prerequisites, expected output, and troubleshooting.
-- Maintainer reference: emphasize concise structure, conventions, discoverability, extension points, and low-maintenance wording.
-- Personal notes or dotfiles documentation: preserve owner preferences and concise reminders when intentional.
-- Command reference: emphasize syntax, options, defaults, returns, effects, errors, and examples.
-- Troubleshooting guide: connect symptoms to safe diagnostics, likely causes, and recovery.
-
-Do not force tutorial expectations onto maintainer references or personal documentation. A concise reference may intentionally omit detailed onboarding, history, or obvious requirements.
-
-When a recommendation depends on the mode, state the assumption and make the finding conditional.
+When accuracy is in scope, follow [references/source-accuracy-review.md](references/source-accuracy-review.md).
 
 ## Focus Areas
 
@@ -108,75 +142,32 @@ Treat a user-provided focus as a priority lens, not a separate document mode.
 
 Common focus areas:
 
-- Structure and navigation.
-- Audience and prerequisites.
-- Setup or onboarding flow.
-- Usage examples and expected output.
-- Troubleshooting and diagnostics.
-- Safety warnings and side effects.
-- Language clarity and concision.
-- Markdown formatting and headings.
-- Completeness and source accuracy.
-- Redundancy and section placement.
+- Structure, hierarchy, navigation, and re-entry.
+- Audience, prerequisites, and setup flow.
+- Examples, expected output, and validation signals.
+- Troubleshooting, diagnostics, recovery, and rollback.
+- Safety warnings, side effects, permissions, and credentials.
+- Language clarity, visual density, and Markdown rendering.
+- Completeness, source accuracy, duplication, and maintenance.
 
 If no focus is given, review the highest-impact reader and accuracy issues first.
 
-For large documents, state what was reviewed and do not imply that every section or source was checked deeply.
-
-## Saved Review History
-
-Follow active project instructions for review storage, naming, and history.
-
-- Save a review only when the user requests it.
-- Do not overwrite an existing review without explicit approval.
-- When no project rule exists, clarify the subject, history relationship, location, filename, and whether an index is needed.
-- Treat saved reviews as snapshots.
-- Format saved Markdown using the active project formatter or the technical documentation writer workflow.
-
-Follow [references/review-format.md](references/review-format.md) for accepted, declined, resolved, and newly discovered findings in follow-up reviews.
-
-## GitHub Markdown Callout Review
-
-When the document targets GitHub or renderer-neutral Markdown, check whether callouts use supported GitHub alerts:
-
-```markdown
-> [!NOTE]
-> Useful information that readers should know.
-
-> [!TIP]
-> Helpful advice for doing something better or more easily.
-
-> [!IMPORTANT]
-> Key information readers need to achieve their goal.
-
-> [!WARNING]
-> Urgent information readers need to avoid problems.
-
-> [!CAUTION]
-> Risks or negative outcomes readers should avoid.
-```
-
-Do not assume custom callouts are wrong. Ask whether they are intentional and explain the compatibility trade-off. Get approval before converting, removing, or replacing them.
-
 ## Review Checklist
 
-Consider these questions when relevant:
+Use these prompts only when relevant:
 
-- Reader and goal: Is it clear who the document is for and what they can accomplish?
-- Entry path: Can the reader find the fastest safe path to success?
-- Prerequisites: Are required tools, versions, permissions, files, services, or accounts introduced before use?
-- Commands: Are commands accurate, copyable, ordered, and explained by purpose and impact?
-- Expected output: Can the reader recognize success and failure?
-- Examples: Are examples realistic, safe, and tied to common tasks?
-- Structure: Are headings task-oriented, non-redundant, and easy to scan?
-- Completeness: Are important options, defaults, side effects, and rollback steps covered?
-- Troubleshooting: Are symptoms connected to checks and likely causes?
-- Safety: Are destructive actions, credentials, privilege use, and persistent changes called out nearby?
-- Callouts: Are reader-facing notes compatible with the intended renderer?
-- Language: Is wording direct, concise, and free of unexplained jargon?
-- Maintenance: Is duplicated or stale information easy to identify and update?
+- Can the intended reader find the shortest safe path to the goal?
+- Are prerequisites introduced before use?
+- Are commands accurate, copyable, ordered, and explained by purpose and impact?
+- Can the reader recognize success, failure, side effects, and recovery options?
+- Are examples realistic, safe, and tied to common tasks?
+- Do headings and navigation support entry and re-entry without excess structure?
+- Are important defaults, options, errors, and compatibility boundaries covered?
+- Do warnings appear beside risky actions?
+- Does renderer-specific Markdown follow project and Writer conventions?
+- Can maintainers identify duplicated, stale, or weakly owned information?
 
-Use the checklist as prompts, not as mandatory finding categories. Prioritize plausible reader failures.
+Prioritize plausible reader failures rather than turning every prompt into a finding.
 
 ## Tone
 

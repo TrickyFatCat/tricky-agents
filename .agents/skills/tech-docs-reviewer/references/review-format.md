@@ -1,56 +1,127 @@
-# Documentation Review Format
+# Documentation Review and Audit Format
 
-Read this reference before producing a full documentation review or saving a review. For a very small review, keep the same principles but omit sections that add no value.
+Read this reference before producing a substantive Quick Review, Documentation Audit, or follow-up assessment. Scale the structure down when one or two comments are already easy to scan.
 
-## Review Structure
+## Shared Principles
 
-Use this structure unless the user requests another format:
+- Lead with no more than three orientation bullets for three or more findings.
+- Report no more than five highest-value findings unless the user requests comprehensive coverage or Audit scope requires more.
+- Preserve the documentation mode and context required for safe, correct use; brevity is not the only goal.
+- Tie each finding to concrete reader friction, failed action, risk, inaccuracy, or maintenance cost.
+- Keep the main path ahead of secondary detail.
+- End with one focused action or decision when a next step is useful.
+- Do not claim medical or accessibility guarantees.
 
-1. Overview.
-2. Findings in Document Order.
-3. Good Decisions.
-4. Questions, only when answers would change the review.
-5. Next Step or Decision Check.
+Avoid rigid limits on paragraph, list, heading, table, or example length. Add structure only when it improves navigation or comprehension rather than visual noise.
 
-For three or more findings, make `Overview` a maximum of three bullets covering:
+## Reader-Friction Prompts
 
-- The finding count and priority distribution when useful.
-- The highest-priority reader concern, referencing its finding number.
-- The first recommended action.
+Use these as prompts, not mandatory finding categories.
 
-Do not summarize every finding or repeat its evidence. For one or two simple findings, use a one-sentence overview or omit the section when it would only duplicate the findings. Omit other empty or unnecessary sections instead of filling the template mechanically.
+### Entry Path
 
-Within `Findings in Document Order`:
+Check whether the first useful action or shortest safe success path is easy to find. Look for background before action, unclear defaults, competing setup paths, and prerequisites introduced after use.
 
-- Follow the document from top to bottom when that makes findings easier to apply.
-- For multi-file reviews, group findings by file in a stable order.
-- Use priority labels without reordering findings by priority.
-- Number each finding heading while keeping a descriptive title.
+### Re-entry and Navigation
+
+Check whether a returning reader can locate a task and resume work. Look for vague headings, missing or excessive navigation, buried paths and defaults, and section names that do not match reader tasks.
+
+### Chunking and Visual Density
+
+Check whether information is grouped into meaningful units. Look for paragraphs with several decisions, unrelated examples in one code block, unnecessarily dense tables, ungrouped lists, and headings that fragment a short document.
+
+Do not flag length by itself. Explain the scanning, comprehension, or working-context cost.
+
+### Action and Outcome Clarity
+
+Check whether readers can distinguish what to do from what will happen. Look for commands without purpose, missing output or validation signals, hidden side effects, unclear placeholders, and examples whose return or effect is ambiguous.
+
+### Priority and Distraction Control
+
+Check whether common use appears before edge cases and whether secondary links, background, repeated explanations, or equally emphasized examples compete with the main path.
+
+Keep necessary advanced detail, but recommend moving it after the main path when appropriate.
+
+## Quick Review
+
+### Structure
+
+Use only the sections that help:
+
+1. `Overview`.
+2. `Findings`.
+3. `Good Decisions`.
+4. `Questions`, only when answers change the assessment.
+5. `Next Step` or `Decision Check`.
+
+For three or more findings, keep `Overview` to no more than three bullets:
+
+- finding count and priority distribution when useful;
+- highest-priority reader concern, referencing its number;
+- first recommended action.
+
+For one or two simple findings, use one orientation sentence or omit the Overview when it would duplicate the findings.
+
+Use one `Findings` parent section. For three or more findings, optionally start it with a linked list for navigation, followed by detailed findings. Do not create adjacent `Findings Overview` and `Findings` sections.
 
 Example:
 
 ```markdown
+## Overview
+
+- 3 findings: 1 high, 2 medium.
+- Main concern: Finding 1 blocks first use.
+- First action: Add expected output.
+
+## Findings
+
+- [1. Quick Start lacks expected output](#1-quick-start-lacks-expected-output) — 🔴 High
+
 ### 1. Quick Start lacks expected output
+
+Priority: 🔴 High
+
+**What**
+
+The first command has no success signal.
+
+**Reader impact**
+
+The reader cannot tell whether setup worked.
+
+**Direction**
+
+Add one representative output block.
+
+## Good Decisions
+
+- The validation command is safe and easy to find.
+
+## Next Step
+
+Add expected output under Quick Start.
 ```
 
-## Finding Priority
+Follow the source from top to bottom when that helps the user apply findings. For multi-file reviews, group findings by file in a stable order. Keep priority visible without reordering findings by priority.
+
+### Finding Priority
 
 Use `Priority` for problems or improvement opportunities:
 
-- `🔴 High`: likely to block reader success, cause unsafe action, or make the document misleading.
+- `🔴 High`: likely to block reader success, cause unsafe action, or make the documentation misleading.
 - `🟡 Medium`: likely to confuse readers, slow them down, or leave an important gap.
-- `🟢 Low`: polish, consistency, minor readability, or low-risk maintainability improvement.
+- `🟢 Low`: polish, consistency, minor readability, or low-risk maintenance improvement.
 
-Use `Status` for non-problem review notes:
+Use `Status` for non-problem notes:
 
-- `✅ Accepted`: wording, structure, or behavior is intentional, resolved, or needs no change.
-- `⛔ Declined`: the user rejected or overrode a suggestion; do not repeat it unless new evidence changes the review.
+- `✅ Accepted`: intentional, resolved, or no change needed.
+- `⛔ Declined`: rejected or overridden by the user; do not repeat without new evidence.
 
-A high-priority finding can appear late when it occurs late in the document. Preserve document order and let the label show impact.
+A high-priority finding may appear late because document order and impact are separate concerns.
 
-## Default Finding Format
+### Finding Format
 
-Use a numbered heading with a descriptive title and visible sublabels:
+Use a numbered, descriptive heading:
 
 ```markdown
 ### 1. Section or finding title
@@ -67,22 +138,23 @@ Explain the likely confusion, failure, risk, or unnecessary work.
 
 **Direction**
 
-Give a focused change direction without rewriting the whole document by default.
+Give a focused direction without rewriting the document by default.
 ```
 
 Keep findings short. Omit labels that do not help a simple finding.
 
-Add these optional labels only when needed:
+Add these labels only when needed:
 
-- `**Where**`: the heading, path, table, example, or workflow is not obvious from the finding title.
-- `**Evidence**`: a source file, help output, authoritative reference, or observed behavior supports an accuracy finding.
-- `**Condition**`: the problem appears only for a specific audience, version, platform, or workflow.
+- `**Where**`: location is not obvious from the title.
+- `**Evidence**`: a source file, help output, authoritative reference, or observed behavior supports the finding.
+- `**Condition**`: the problem applies only to a particular audience, version, platform, or workflow.
+- `**Example**`: a small replacement or output sample makes the direction reviewable.
 
-Do not use both `Why it matters` and `Reader impact` when they repeat the same reasoning.
+Do not repeat the same rationale under both `Reader impact` and another label.
 
-## Accepted and Declined Notes
+### Accepted and Declined Notes
 
-Keep accepted or no-change findings concise:
+Keep them concise:
 
 ```markdown
 ### 2. Compact reference structure
@@ -92,58 +164,62 @@ Status: ✅ Accepted
 This fits the requested command-reference mode. No change needed.
 ```
 
-Keep declined notes equally direct:
+Do not duplicate an accepted finding under `Good Decisions`.
 
-```markdown
-### 3. Installation tutorial section
+## Documentation Audit
 
-Status: ⛔ Declined
+Use [../assets/documentation-audit-template.md](../assets/documentation-audit-template.md) for a formal Audit.
 
-The user confirmed this is personal reference material. Do not keep recommending a full installation walkthrough.
-```
+Before assessment:
 
-Do not apply the full finding template unless the note teaches something important.
+- resolve the persistent destination;
+- define target paths and reviewed files;
+- name the documentation mode, intended reader, and reader goal;
+- define focus, sources, and exclusions;
+- state how evidence was gathered.
+
+During assessment:
+
+- distinguish observed facts, interpretation, and recommendations when confusion could change the outcome;
+- include source evidence and confidence for accuracy findings;
+- identify source areas that were not checked;
+- use detailed examples when they make evidence or direction reviewable;
+- preserve good decisions and behavior that should not regress;
+- exceed five findings only when the approved Audit scope requires broader coverage.
+
+End with one domain outcome:
+
+| Body outcome         | Metadata value         | Use                                                                      |
+| -------------------- | ---------------------- | ------------------------------------------------------------------------ |
+| No change            | `no-change`            | The reviewed scope needs no material revision.                           |
+| Revision recommended | `revision-recommended` | One or more findings justify documentation changes.                      |
+| Blocked on evidence  | `blocked-on-evidence`  | Required source, authority, or environment evidence is unavailable.      |
+| Defer                | `defer`                | A named dependency or decision should be resolved before further action. |
+
+An Audit reports assessment state. It does not approve a proposal, source-document edit, migration, or implementation. Follow the active project workflow if accepted findings later become tracked changes.
 
 ## Good Decisions
 
-Identify specific decisions that help readers:
-
-- Name the decision.
-- Explain its reader benefit.
-- Mention how to preserve or repeat the pattern when useful.
-
-Avoid generic praise such as `looks good`.
-
-Do not duplicate accepted findings in both `Findings` and `Good Decisions`. Use the location that best supports the review.
+Name specific decisions, explain their reader benefit, and state what should be preserved when useful. Avoid generic praise such as `looks good`.
 
 ## Questions
 
-Ask questions only when missing context changes the recommendation.
+Ask only questions whose answers can change the finding, recommendation, evidence confidence, or outcome. Keep them few and decision-oriented. Do not disguise criticism as a question.
 
-Good questions target:
+## Follow-Up Assessment
 
-- Intended reader.
-- Document mode.
-- Required prior knowledge.
-- Shortest safe success path.
-- Most important failure mode.
+When earlier assessment history matters:
 
-Keep questions few and decision-oriented. Do not disguise criticism as a question.
-
-## Follow-Up Reviews
-
-When reviewing a document again and previous review history is relevant:
-
-1. Read the previous review when the user requests continuity or it is part of the active task context.
+1. Read the prior artifact when continuity is requested or required by the active workflow.
 2. Verify resolved findings instead of presenting them as new problems.
-3. Keep accepted decisions visible only when they prevent repeated recommendations.
-4. Do not repeat declined findings unless new evidence changes the analysis.
-5. Identify newly discovered issues as new findings.
-6. Number findings within the current review; treat each saved review as a snapshot.
+3. Keep accepted decisions only when they prevent repeated recommendations.
+4. Do not repeat declined findings without new evidence.
+5. Label newly discovered issues as new findings.
+6. Number findings within the current assessment; treat each saved artifact as its own snapshot unless the active lifecycle says otherwise.
 
-Do not silently change the status of previous findings. The user confirms whether a recommendation is accepted, declined, or resolved.
+Do not silently change a previous finding's status. The user or active workflow confirms whether it is accepted, declined, or resolved.
 
-## Next Step
+## Next Action
 
 End with one narrow action when implementation is ready:
 
@@ -153,12 +229,19 @@ End with one narrow action when implementation is ready:
 Add expected output under Quick Start.
 ```
 
-When the user is still deciding, end with a decision prompt:
+When the user is still deciding, end with a focused prompt:
 
 ```markdown
 ## Decision Check
 
-Should the document remain a compact reference or become a first-time setup guide?
+Should this remain a compact reference or become a first-time setup guide?
 ```
 
-Keep the final action or decision small and specific.
+Avoid vague directions such as:
+
+- Make this shorter.
+- Add more headings.
+- Simplify everything.
+- Make this accessible.
+
+Name the obstacle, reader impact, and focused direction instead.
