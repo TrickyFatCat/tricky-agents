@@ -17,6 +17,16 @@ for document in "$@"; do
     exit 1
   fi
 
+  if [ ! -r "$document" ]; then
+    echo "Error: Markdown file is not readable: $document" >&2
+    exit 1
+  fi
+
+  if [ ! -w "$document" ]; then
+    echo "Error: Markdown file is not writable: $document" >&2
+    exit 1
+  fi
+
   case "$document" in
     *.md|*.markdown) ;;
     *)

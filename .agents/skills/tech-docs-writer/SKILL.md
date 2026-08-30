@@ -23,18 +23,19 @@ Match the result to the document mode instead of forcing every document into a t
 
 Read the relevant references before drafting or editing:
 
-| Reference                                                                | Read when                                                                                                    |
-| ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
-| [references/markdown-conventions.md](references/markdown-conventions.md) | Creating or editing Markdown, including headings, TOC markers, callouts, links, and section structure.       |
-| [references/command-reference.md](references/command-reference.md)       | Documenting commands, scripts, options, arguments, output, side effects, validation, or extension contracts. |
+| Reference                                                                | Read when                                                                                                                                 |
+| ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| [references/documentation-modes.md](references/documentation-modes.md)   | Selecting or adapting tutorial, how-to, reference, explanation, troubleshooting, maintainer, README, or personal-documentation structure. |
+| [references/markdown-conventions.md](references/markdown-conventions.md) | Creating or editing Markdown, including headings, TOCs, callouts, editorial markers, links, and renderer-aware syntax.                    |
+| [references/command-reference.md](references/command-reference.md)       | Documenting commands, scripts, options, arguments, output, side effects, validation, or extension contracts.                              |
 
-For command-oriented Markdown documentation, read both references.
+For command-oriented Markdown documentation, read all three references.
 
 ## Workflow
 
 Use this workflow unless the task needs a smaller review-only pass:
 
-1. Read active project instructions and identify storage or formatting rules.
+1. Read active project instructions and identify storage, formatting, renderer, and validation rules. Treat clear project-local rules as authoritative over reusable Writer defaults.
 2. Identify the document mode and intended reader.
 3. Inspect the current document, source files, help metadata, and relevant call sites.
 4. Separate verified behavior from assumptions and open questions.
@@ -47,17 +48,15 @@ Use this workflow unless the task needs a smaller review-only pass:
 
 Ask clarifying questions when audience, platform, version, safety, or intended document mode changes the result.
 
+Accept project-local documentation guidance in any clear form. Do not require a dedicated configuration schema, template, filename, or separate contract artifact.
+
+When the user explicitly asks to establish documentation formatting, offer a short human-readable section in the relevant local `AGENTS.md`. Explain the proposed fields and wait for approval before editing project instructions. When current rules are unclear or conflicting, ask only about choices that materially affect the document.
+
 ## Document Mode
 
-Identify the mode from the user's request and the existing document.
+Identify the mode from the user's request and the existing document. Read [references/documentation-modes.md](references/documentation-modes.md) to select or adapt the detailed structure.
 
-Common modes:
-
-- Tutorial or onboarding guide: emphasize outcomes, prerequisites, ordered steps, expected output, and troubleshooting.
-- Maintainer reference: emphasize concise structure, conventions, discoverability, extension points, and low-maintenance wording.
-- Personal notes or dotfiles documentation: preserve owner preferences, compact reminders, and established local conventions.
-- Command reference: emphasize complete syntax, arguments, options, defaults, returns, effects, errors, and examples.
-- Troubleshooting guide: connect symptoms to safe diagnostics, likely causes, and recovery steps.
+Common modes include tutorial, how-to, reference, explanation, troubleshooting, maintainer, README, and personal documentation. Choose one primary reader need rather than blending every mode into one document.
 
 Do not impose tutorial requirements on personal documentation or maintainer references. Omit obvious requirements, setup, troubleshooting, or links when they do not help the intended reader.
 
@@ -194,11 +193,13 @@ Ask before saving a deliverable when project instructions require approval.
 
 Format completed Markdown after creating or editing it.
 
-Resolve `script/format-md.sh` relative to this skill directory and run it only on the intended writable document:
+Resolve `script/format-md.sh` from the active Tech Docs Writer skill directory. Run that resolved script only on the intended writable document:
 
 ```bash
-bash /home/tricky-fat-cat/.agents/skills/tech-docs-writer/script/format-md.sh path/to/document.md
+bash "$TECH_DOCS_WRITER_DIR/script/format-md.sh" path/to/document.md
 ```
+
+`TECH_DOCS_WRITER_DIR` is explanatory notation for the resolved skill directory, not a required environment variable.
 
 The script runs `dprint fmt` and modifies the target file in place.
 
