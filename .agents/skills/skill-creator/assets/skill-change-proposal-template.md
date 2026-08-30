@@ -4,7 +4,7 @@ Use this template before creating, modifying, moving, deleting, or reorganizing 
 
 When saving a proposal artifact, use `<artifact-role>-<concise-action>-<concise-subject>`, following the active project's filename style. Keep the role word once and put it first. Example: `proposal-add-readable-output-examples.md`.
 
-Write proposals in direct, scannable style. Use short labeled lists for orientation and keep detailed evidence, wording, paths, and examples under the relevant action.
+Write proposals in direct, scannable style. Treat the proposal as an approval contract, not a complete implementation draft. Use short labeled lists for orientation and keep only approval-relevant evidence, wording, paths, and examples under the relevant action.
 
 When the active workflow tracks saved proposals:
 
@@ -90,7 +90,7 @@ Omit empty labels. For a rename or move, show old values before new values, comp
 
 ### <Detailed Action Group>
 
-Describe behavior, exact wording, examples, migration, or other details belonging to this action.
+Describe the behavior, fields, boundaries, migration, validation, and trade-offs needed for informed approval. Link accepted Audit or research evidence instead of restating it. Do not draft an entire future resource unless its exact content is fragile or decision-relevant.
 
 For concrete wording changes, show the current wording before the replacement. Prefer vertical blocks over a grid.
 
@@ -156,3 +156,15 @@ Proceed with these exact file changes?
 
 For a tracked proposal, keep `status: proposed` during review. Record `approved` only after exact acceptance. Implement in a separate phase and record `implemented` only after validation.
 ````
+
+## Final Approval-Density Check
+
+Before requesting approval:
+
+- remove source evidence already available through links;
+- remove detail that cannot change approval, scope, trade-offs, safety, validation, lifecycle, or authority;
+- keep exact paths, roles, naming, boundaries, migrations, and required validation;
+- keep exact wording only when it is fragile, safety-critical, schema-like, migration-sensitive, or directly under review; and
+- omit optional sections that do not help the decision.
+
+Do not use artifact length as a pass/fail limit.

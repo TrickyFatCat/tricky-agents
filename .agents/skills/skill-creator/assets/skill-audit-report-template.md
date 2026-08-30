@@ -123,3 +123,15 @@ Use only for `Proposal required`. Name candidate areas and dependencies without 
 - Dependencies:
 - Scope still to resolve:
 ```
+
+## Final Concision Check
+
+Before saving the Audit:
+
+- assign each fact to one primary section;
+- remove duplication across the summary, evaluation, findings, outcome, and handoff;
+- link accepted evidence instead of restating it;
+- omit optional sections that do not change the judgment; and
+- preserve short local context only when needed for safety, confidence, scope, or authority.
+
+Do not use artifact length as a pass/fail limit.

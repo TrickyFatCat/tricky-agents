@@ -121,3 +121,9 @@ Before finalizing:
 - Confirm every materially related resource was evaluated.
 - Confirm unrelated owned resources are explicitly excluded.
 - Keep proposal approval and implementation outside the Audit.
+- Assign each fact to one primary section.
+- Remove duplication across the summary, triage, resource evaluation, findings, outcome, and handoff.
+- Link accepted evidence instead of restating it.
+- Omit optional sections that do not change the judgment.
+- Preserve short local context only when needed for safety, confidence, scope, or authority.
+- Do not use artifact length as a pass/fail limit.

@@ -133,6 +133,21 @@ Check for:
 
 Preserve good decisions and explain the trade-off of each proposed change.
 
+## Formal Artifact Concision
+
+For substantial Audits and proposals, run a final decision-density check:
+
+- Assign each fact or boundary to one primary section.
+- Remove repeated evidence across summaries, evaluations, findings, outcomes, and handoffs.
+- Link accepted Audit, research, or report evidence instead of restating it.
+- Remove paragraphs that do not change evidence, confidence, scope, impact, action, trade-offs, validation, lifecycle, or authority.
+- Omit optional template sections that do not help the current decision.
+- Keep short local restatements when needed to preserve safety, confidence, scope, or approval meaning.
+
+For proposals, confirm detailed actions define the approval contract rather than draft complete future resources by default. Include exact wording when wording is fragile, safety-critical, schema-like, migration-sensitive, or directly under review. Keep exact paths, roles, naming, boundaries, validation, and lifecycle fields.
+
+Do not use artifact length as a pass/fail rule. Record it only as supporting evidence when useful.
+
 ## Script and Asset Checks
 
 For scripts:

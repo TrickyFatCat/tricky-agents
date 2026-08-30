@@ -78,6 +78,26 @@ Use only sections that help:
 
 Keep visible section names concise. Put ordering, priority, and status details inside sections rather than appending them to headings.
 
+## Section Ownership and Final Pass
+
+Give each concept one primary location:
+
+- `Scope and Evidence`: targets, sources, methods, exclusions, and evidence limits.
+- Resource evaluation or report triage: concise judgments about assessed items.
+- `Findings`: evidence, impact, and recommended action for material problems.
+- `Good Decisions`: preserved behavior not already recorded as a pass finding.
+- `Audit Outcome`: outcome, report states when applicable, and next action.
+- `Proposal Handoff`: candidate areas and unresolved dependencies without repeating findings or proposal content.
+
+Before finalizing a formal Audit:
+
+1. Remove repeated rationale across the summary, evaluation, findings, outcome, and handoff.
+2. Link accepted source evidence instead of restating it.
+3. Remove paragraphs that do not change evidence, confidence, scope, impact, action, outcome, or authority.
+4. Omit optional sections that do not help the judgment.
+
+Repeat a boundary briefly only when omission would make a local judgment misleading about safety, confidence, scope, or authority. Do not use line, heading, sentence, or paragraph counts as pass/fail limits.
+
 ## Audit Summary
 
 Begin a substantial saved Audit with no more than five short bullets:
