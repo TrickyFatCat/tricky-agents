@@ -1,6 +1,8 @@
-# Skill Audit Report Template
+# Full Skill Audit Report Template
 
-Use this template for a substantial saved skill Audit. Omit sections that do not help. Do not use it mechanically for a lightweight informal Review.
+Use this template for a substantial saved full Skill Audit. Evaluate the whole skill and all owned resources. Omit sections that do not help. Do not use it mechanically for Usage Report Audit or lightweight informal Review.
+
+Use [skill-usage-report-audit-template.md](skill-usage-report-audit-template.md) when selected usage reports and materially related resources define the scope.
 
 ```markdown
 ## Audit Summary
@@ -33,17 +35,15 @@ Use no more than five short bullets.
 
 Use concise prose instead when the skill has no owned resources or only one trivial resource. Include directly linked shared dependencies when they materially affect behavior; exclude unrelated global resources.
 
-## Findings Overview
-
-Use only for three or more findings. Link each detailed finding.
-
-- [1. <Short title>](#1-short-title) — <priority or status>
-- [2. <Short title>](#2-short-title) — <priority or status>
-- [3. <Short title>](#3-short-title) — <priority or status>
-
 ## Findings
 
-### 1. <Concise noun phrase>
+For three or more findings, add a numbered linked navigation list. Omit it when one or two findings are already easy to scan.
+
+1. [<Short title>](#short-title) — <priority or status>
+2. [<Short title>](#another-short-title) — <priority or status>
+3. [<Short title>](#third-short-title) — <priority or status>
+
+### <Concise noun phrase>
 
 Priority: 🔴 High | 🟡 Medium | 🟢 Low
 
@@ -57,9 +57,9 @@ Priority: 🔴 High | 🟡 Medium | 🟢 Low
 
 **Recommended action**
 
-<Smallest useful change direction and key trade-off if needed. For concrete wording replacements, show old wording before new wording in vertical blocks, not a grid or table. For reusable output patterns, add one compact example when it improves reviewability.>
+<Smallest useful change direction and key trade-off if needed. For concrete wording replacements, show old wording before new wording in vertical blocks, not a grid. For reusable output patterns, add one compact example when useful.>
 
-### 2. <Accepted, declined, or optional-polish note>
+### <Accepted, declined, or optional-polish note>
 
 Status: ✅ Pass | 🟢 Optional polish | ⛔ Declined
 
@@ -70,6 +70,8 @@ Status: ✅ Pass | 🟢 Optional polish | ⛔ Declined
 **Recommended action**
 
 <Smallest useful action. Omit when no action is needed.>
+
+Keep detailed finding headings descriptive and free of numeric prefixes. Ensure headings produce unique anchors in the target renderer.
 
 ## Best-Practice Check
 
@@ -90,7 +92,7 @@ Use only when auditing against Agent Skills or another explicit baseline.
 
 ## Questions
 
-Ask only questions whose answers can change the recommendation, scope, migration path, or audit outcome.
+Ask only questions whose answers can change the recommendation, scope, migration path, or outcome.
 
 - <Question>?
 

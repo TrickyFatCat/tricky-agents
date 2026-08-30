@@ -76,7 +76,7 @@ A shorter core is not automatically better. The criterion is whether always-load
 
 ## Formal Audit Resource Checks
 
-For a substantial formal skill Audit, confirm:
+For full Skill Audit, confirm:
 
 - Every skill-owned reference is evaluated for need, quality, and writing.
 - Every skill-owned template is evaluated for need and quality.
@@ -85,7 +85,16 @@ For a substantial formal skill Audit, confirm:
 - Unrelated global references and templates remain excluded.
 - Small skills or skills without owned resources use proportional wording instead of empty tables.
 
-Inventory and link checks support this evaluation but do not replace it.
+For Usage Report Audit, confirm:
+
+- Every selected report has an evidence-backed judgment and next lifecycle state.
+- Every core section, reference, template, script, instruction, decision, commit, or dependency that can materially change the report judgment is evaluated.
+- Unrelated owned resources are explicitly listed as excluded.
+- The Audit does not imply whole-skill coverage.
+- Broad routing, safety, responsibility, architecture, migration, or uncertain interactions trigger escalation to full Skill Audit.
+- Lifecycle-only or traceability-only correction with no behavior change uses lightweight triage when formal Audit would add no value.
+
+Inventory, report count, and link checks support these evaluations but do not replace qualitative judgment.
 
 ## Target-Skill Artifact Capability Checks
 

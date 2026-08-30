@@ -57,14 +57,15 @@ Known limitation: the link checker ignores fenced code blocks but is still a lig
 
 Use assets as copyable or pattern-matching templates. Adapt them and omit irrelevant sections.
 
-| Asset                                                                                  | Use                                          |
-| -------------------------------------------------------------------------------------- | -------------------------------------------- |
-| [assets/skill-core-template.md](assets/skill-core-template.md)                         | Drafting or restructuring a `SKILL.md` core. |
-| [assets/skill-reference-template.md](assets/skill-reference-template.md)               | Drafting focused optional references.        |
-| [assets/skill-change-proposal-template.md](assets/skill-change-proposal-template.md)   | Preparing exact-file approval proposals.     |
-| [assets/skill-audit-report-template.md](assets/skill-audit-report-template.md)         | Producing substantial formal skill audits.   |
-| [assets/script-output-contract-template.md](assets/script-output-contract-template.md) | Proposing or documenting bundled scripts.    |
-| [assets/decision-record-template.md](assets/decision-record-template.md)               | Drafting skill decision records.             |
+| Asset                                                                                      | Use                                                    |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------ |
+| [assets/skill-core-template.md](assets/skill-core-template.md)                             | Drafting or restructuring a `SKILL.md` core.           |
+| [assets/skill-reference-template.md](assets/skill-reference-template.md)                   | Drafting focused optional references.                  |
+| [assets/skill-change-proposal-template.md](assets/skill-change-proposal-template.md)       | Preparing exact-file approval proposals.               |
+| [assets/skill-audit-report-template.md](assets/skill-audit-report-template.md)             | Producing full formal skill audits.                    |
+| [assets/skill-usage-report-audit-template.md](assets/skill-usage-report-audit-template.md) | Auditing selected usage reports and related resources. |
+| [assets/script-output-contract-template.md](assets/script-output-contract-template.md)     | Proposing or documenting bundled scripts.              |
+| [assets/decision-record-template.md](assets/decision-record-template.md)                   | Drafting skill decision records.                       |
 
 ## When to Use
 
@@ -107,11 +108,16 @@ Define the skill's trigger, boundary, workflow, references, and validation befor
 
 ### Audit
 
-For a tracked pre-change assessment, inspect the skill and dependencies, save a bounded audit, and record one outcome: `no change`, `research`, `defer`, or `proposal required`. Do not create the proposal until the user reviews the audit.
+Choose the smallest formal scope that can support a reliable outcome:
+
+- Use **Usage Report Audit** for selected usage reports and materially related resources.
+- Use **full Skill Audit** when the user explicitly requests whole-skill coverage or the candidate change has broad or uncertain impact.
+
+Save either Audit and record one outcome: `no change`, `research`, `defer`, or `proposal required`. Do not create the proposal until the user reviews the Audit.
 
 ### Review
 
-Use Review for informal critique or for user feedback on an audit, proposal, or implementation result. Do not create a persistent Audit artifact unless the request or tracked workflow requires one.
+Use Review for informal critique, user feedback on an audit, proposal, or implementation result, or lightweight report triage when conclusive evidence shows that only lifecycle metadata or traceability needs correction and no behavior change is proposed. Do not create a persistent Audit artifact unless the request or tracked workflow requires one.
 
 ### Update
 
@@ -195,11 +201,11 @@ Read [references/skill-design.md](references/skill-design.md) for detailed desig
 
 ## Audit and Review Output
 
-Read [references/audit-format.md](references/audit-format.md) before producing a formal skill audit or substantial informal review. Use [assets/skill-audit-report-template.md](assets/skill-audit-report-template.md) for substantial saved audits.
+Read [references/audit-format.md](references/audit-format.md) before producing a formal Skill Audit, Usage Report Audit, or substantial informal Review. Use [assets/skill-audit-report-template.md](assets/skill-audit-report-template.md) for full Skill Audit and [assets/skill-usage-report-audit-template.md](assets/skill-usage-report-audit-template.md) for Usage Report Audit.
 
-For a substantial audit, begin with an `Audit Summary` of no more than five short bullets and end with an explicit `Audit Outcome`. Use concise numbered findings and report no more than five highest-value findings unless the user requests an exhaustive audit.
+For either formal Audit, begin with an `Audit Summary` of no more than five short bullets and end with an explicit `Audit Outcome`. Report no more than five highest-value findings unless the user requests exhaustive coverage or the bounded scope requires more.
 
-Evaluate every skill-owned reference for need, quality, and writing. Evaluate every skill-owned template for need and quality, including whether missing recurring template capability is justified. Include directly linked shared dependencies only when they materially affect behavior; exclude unrelated global resources. Keep this resource evaluation proportional and allow one concise statement when the skill has no owned resources.
+For full Skill Audit, evaluate every skill-owned reference for need, quality, and writing; evaluate every skill-owned template for need and quality, including whether missing recurring template capability is justified. For Usage Report Audit, evaluate every resource materially related to the selected reports and explicitly list unrelated owned resources as excluded. Inventory and report count support but do not replace qualitative evaluation.
 
 For an informal Review, scale the response down and normally keep it conversational. Do not save a formal Audit artifact unless the request or tracked workflow requires one. Do not rewrite the skill during Audit or Review mode.
 
@@ -212,7 +218,7 @@ At minimum, confirm:
 - Frontmatter is valid and routing is specific.
 - The portable skill name matches its directory.
 - Referenced files exist and relative paths resolve.
-- Formal Audits evaluate owned references, templates, and justified missing template capability.
+- Full Skill Audits evaluate all owned references, templates, and justified missing template capability; Usage Report Audits evaluate all materially related resources, explicit exclusions, lifecycle judgments, and escalation need.
 - Target-skill decision-record, Audit/Review, and Proposal capabilities are independently justified and conditionally loaded.
 - No stale name or routing references remain after a rename.
 - Markdown is formatted.

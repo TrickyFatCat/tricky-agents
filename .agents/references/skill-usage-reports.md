@@ -14,6 +14,26 @@ Do not assume that the word "report" means a persistent skill usage report. It c
 
 When a request uses ambiguous wording such as "this report", "that report", or "make a report", first decide whether the user may mean agent output in chat. If more than one report type is plausible, ask what kind of report they want before writing files. Practical options include skill usage report, review report, research report, task/status report, conversation summary, or saved note.
 
+## Ambiguous Reusable Feedback
+
+Ask a short skill-usage-report question when feedback is:
+
+1. about reusable agent, skill, setup, or workflow behavior;
+2. substantial enough to defer, hand off, or add to later global work; and
+3. not already captured by an existing usage report.
+
+A deferred task note preserves context but does not replace the report prompt when all three conditions apply.
+
+Do not prompt for:
+
+- minor preferences;
+- routine correction of the current artifact;
+- illustrative examples;
+- requirements already inside the active task scope; or
+- issues already covered by an existing report.
+
+When it is unclear whether the user intends only a current-artifact correction or reusable feedback, ask a short clarifying question. Do not create a report automatically. If the user confirms a report, follow the normal location, metadata, lifecycle, traceability, and validation workflow below.
+
 ## Report Location
 
 Use the active project's linked reports vault when it exists:
@@ -288,12 +308,12 @@ When archiving:
 1. Move the report from `skill-usage/reports/...` to the matching path under `skill-usage/archive/...`.
 2. Set metadata:
 
-   ```yaml
-   status: archived
-   archived: <yyyy-mm-dd>
-   archive_reason: <short reason>
-   updated: <yyyy-mm-dd>
-   ```
+    ```yaml
+    status: archived
+    archived: <yyyy-mm-dd>
+    archive_reason: <short reason>
+    updated: <yyyy-mm-dd>
+    ```
 
 3. Preserve existing `related_proposals`, `related_decisions`, `addressed_by`, and `superseded_by` links.
 4. Add a final note to `Resolution` if the archive reason is not already clear.

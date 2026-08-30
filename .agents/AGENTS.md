@@ -58,7 +58,7 @@ Use a skill when its description matches the task. Read the matching skill befor
 
 When the user asks for a skill usage report, or asks to use skill usage reports for skill proposals or decisions, read `~/.agents/references/skill-usage-reports.md` and follow its reporting, traceability, missing-vault, status, and archiving workflow.
 
-When the user clearly points out a problem with agent, skill, setup, or workflow behavior, ask whether they want a skill usage report. Do not create one automatically; ask a short question and follow `~/.agents/references/skill-usage-reports.md` if they approve.
+When the user clearly points out a reusable agent, skill, setup, or workflow problem, or gives substantial reusable feedback that must be deferred or handed off, ask whether they want a skill usage report unless the issue is already reported. Do not create one automatically. Do not prompt for routine current-task corrections or minor preferences. If current-artifact feedback and reusable setup feedback are both plausible, ask a short clarifying question. Follow `~/.agents/references/skill-usage-reports.md` when they approve.
 
 Skill selection rules:
 
