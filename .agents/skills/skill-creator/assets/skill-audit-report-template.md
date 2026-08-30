@@ -19,6 +19,20 @@ Use no more than five short bullets.
 - Sources:
 - Excluded:
 
+## Skill Resource Evaluation
+
+### References
+
+| Reference | Need | Quality | Writing | Audit result |
+| --------- | ---- | ------- | ------- | ------------ |
+
+### Templates
+
+| Template or missing capability | Need | Quality | Audit result |
+| ------------------------------ | ---- | ------- | ------------ |
+
+Use concise prose instead when the skill has no owned resources or only one trivial resource. Include directly linked shared dependencies when they materially affect behavior; exclude unrelated global resources.
+
 ## Findings Overview
 
 Use only for three or more findings. Link each detailed finding.

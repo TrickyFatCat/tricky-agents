@@ -2,7 +2,10 @@
 
 Status: Accepted
 Date: 2026-08-27
-Amended By: [Skill Proposal Artifact Name Order](0013-skill-proposal-artifact-name-order.md)
+Amended By:
+
+- [Skill Proposal Artifact Name Order](0013-skill-proposal-artifact-name-order.md)
+- [Skill Artifact Assessment and Proposal Guidance](0015-skill-artifact-assessment-and-proposal-guidance.md)
 
 ## Context
 

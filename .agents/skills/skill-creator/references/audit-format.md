@@ -25,15 +25,16 @@ Use only the sections that help:
 
 1. Audit Summary.
 2. Scope and Evidence.
-3. Findings Overview, for three or more findings.
-4. Findings.
-5. Good Decisions.
-6. Best-Practice Check, only when comparing against an explicit baseline.
-7. Questions, only when answers would change the outcome.
-8. Decision Record.
-9. Audit Outcome.
-10. Untested Areas.
-11. Proposal Handoff, only for `proposal required`.
+3. Skill Resource Evaluation.
+4. Findings Overview, for three or more findings.
+5. Findings.
+6. Good Decisions.
+7. Best-Practice Check, only when comparing against an explicit baseline.
+8. Questions, only when answers would change the outcome.
+9. Decision Record.
+10. Audit Outcome.
+11. Untested Areas.
+12. Proposal Handoff, only for `proposal required`.
 
 Keep visible section names concise. Put ordering, priority, and status details inside sections rather than appending them to headings.
 
@@ -52,6 +53,25 @@ Begin a substantial saved Audit with no more than five short bullets:
 ```
 
 Use the whole-artifact summary for orientation, not as a second Findings Overview. Reference findings instead of repeating their evidence. Omit it for a small informal Review.
+
+## Skill Resource Evaluation
+
+Evaluate every skill-owned reference and template during a substantial formal Audit.
+
+For references, assess:
+
+- **Need:** Separate loading is justified and has a clear trigger.
+- **Quality:** Guidance is accurate, sufficiently complete, consistent, and aligned with the core.
+- **Writing:** Text is direct, scannable, proportional, and not duplicative.
+
+For templates, assess:
+
+- **Need:** Recurring or fragile output justifies the template, and existing templates remain necessary.
+- **Quality:** The template is adaptable, semantically named, locally overridable, safe to copy, and explicit about optional sections.
+
+Also state whether missing recurring template capability is justified. Include directly linked shared dependencies only when they materially affect behavior. Exclude unrelated global references and templates.
+
+Use a compact table for several resources. Use concise prose when the skill has no owned resources or only one trivial resource. Keep this section optional for informal Review.
 
 ## Findings Overview
 

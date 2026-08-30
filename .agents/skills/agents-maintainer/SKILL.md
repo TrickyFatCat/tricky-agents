@@ -84,6 +84,8 @@ For created, moved, renamed, or reorganized artifacts, include:
 
 Use semantic filenames that describe the artifact subject and type. Reserve `README.md` for real directory, package, or collection overviews unless an external format requires it and the exception is explicitly approved.
 
+For human-facing rename or move approval, show old values before new values. Compare basenames for renames and parent directories without filenames for moves. For a combined operation, compare both components, then show the resulting full path. Apply the same sequence to files and directories.
+
 For detailed durable workflows, schemas, lifecycle rules, or cross-skill conventions, use a reference-first proposal:
 
 - keep `AGENTS.md` to a concise routing rule;

@@ -28,6 +28,7 @@ Before a persistent change:
 - Explain the proposed state change and why it helps.
 - Identify important trade-offs or lost historical meaning.
 - List every exact file or board entry to create, modify, move, or delete.
+- For human-facing rename or move approval, show old values before new values. Compare basenames for renames and parent directories without filenames for moves. For combined operations, compare both, then show the resulting full path. Apply the same sequence to files and directories.
 - Wait for explicit user approval.
 
 If approved content must change because of new facts, pause and explain the difference before writing it.

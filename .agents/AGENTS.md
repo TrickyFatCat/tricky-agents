@@ -44,6 +44,8 @@ Before creating, modifying, deleting, or reorganizing global agent instructions,
 
 For created, moved, renamed, or reorganized artifacts, include each file's artifact role, naming rule, and any reserved-name exception in the proposal. Use semantic filenames that describe the artifact subject and type. Reserve `README.md` for real directory, package, or collection overviews unless an external format requires it and the exception is explicitly approved.
 
+For human-facing rename or move proposals, show old values before new values and compare changed components separately. For renames, compare basenames. For moves, compare parent directories without filenames. For combined operations, compare both, then end with the resulting full path. Apply the same pattern to files and directories.
+
 Approval applies only to the described scope. Pause and request approval again if inspection reveals additional files or materially different behavior.
 
 Do not create new skills, commands, prompt templates, scripts, or automation in the agents repository without prior approval.

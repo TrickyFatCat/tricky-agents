@@ -20,9 +20,19 @@ Read only the references needed for the task:
 | [references/audit-format.md](references/audit-format.md)                             | Producing a formal skill audit or an informal review of a skill and its supporting resources.                                                                                |
 | [references/decision-records.md](references/decision-records.md)                     | Assessing, creating, or backfilling repository decision records that document skill changes.                                                                                 |
 | [references/decision-record-capability.md](references/decision-record-capability.md) | Designing or reviewing a target skill that may create or manage decision records during normal use.                                                                          |
+| [references/audit-review-capability.md](references/audit-review-capability.md)       | Designing or reviewing a target skill that may perform domain-specific Audits or Reviews during normal use.                                                                  |
+| [references/proposal-capability.md](references/proposal-capability.md)               | Designing or reviewing a target skill that may propose domain changes during normal use.                                                                                     |
 | [../../references/safety-inspection.md](../../references/safety-inspection.md)       | Creating, reviewing, or substantially changing a skill that can execute code, access sensitive or external data, use networks or credentials, or create high-impact effects. |
 
-Read both design and validation references for a new skill or substantial refactor. Read the audit-format reference for a formal Audit or substantial informal Review. Read [references/decision-records.md](references/decision-records.md) for every skill task. Read [references/decision-record-capability.md](references/decision-record-capability.md) only when the target skill may create or manage decision records during normal use.
+Read both design and validation references for a new skill or substantial refactor. Read the audit-format reference for a formal Audit or substantial informal Review. Read [references/decision-records.md](references/decision-records.md) for every skill task.
+
+Read capability references only when designing or reviewing that capability in a target skill's normal runtime behavior:
+
+- [references/decision-record-capability.md](references/decision-record-capability.md) for decision records;
+- [references/audit-review-capability.md](references/audit-review-capability.md) for domain-specific Audit or Review;
+- [references/proposal-capability.md](references/proposal-capability.md) for domain change proposals.
+
+Do not load capability guidance merely because Skill Creator uses the corresponding artifact while changing the target skill.
 
 ## Available Scripts
 
@@ -68,6 +78,7 @@ Use this skill when the user asks to:
 - Add or review scripts, assets, templates, or validation guidance inside a skill.
 - Create or backfill a decision record that documents a skill change.
 - Design or review decision-record capability for a target skill.
+- Design or review domain-specific Audit, Review, or Proposal capability for a target skill.
 - Diagnose skill discovery, frontmatter, naming, or reference problems.
 
 Do not create a new skill merely because guidance could be written down. Prefer a skill when the method is reusable, domain-specific, and likely to improve future behavior.
@@ -110,6 +121,8 @@ Improve an existing skill while preserving useful behavior and limiting scope to
 
 Treat the rename as a migration. Update the directory, frontmatter, routing dependencies, documentation references, and validation targets together.
 
+For human-facing rename or move approval, show old values before new values. Compare basenames for renames and parent directories without filenames for moves. For combined operations, compare both, then show the resulting full path. Apply the same sequence to files and directories.
+
 ### Decision Record
 
 Assess, create, or backfill a concise record for a durable skill decision. A direct request makes the record mandatory, but repository approval and exact-file scope still apply.
@@ -147,18 +160,19 @@ Skip an irrelevant optional capability when the skill remains complete without i
 5. Read current harness documentation when discovery or frontmatter behavior matters.
 6. Define the skill's responsibility boundary and routing relationships.
 7. Ground the design in source material: user corrections, real tasks, reports, project artifacts, execution traces, or external standards when available.
-8. Decide what belongs in the always-loaded core and what should load from references or assets. Read [references/decision-record-capability.md](references/decision-record-capability.md) when the target skill may create or manage decision records during normal use.
-9. Perform the shared safety inspection when the skill has sensitive, executable, networked, state-changing, or high-impact capabilities.
-10. Assess whether the current skill change needs its own repository decision record using [references/decision-records.md](references/decision-records.md). Always state why a record is or is not recommended.
-11. If a record is recommended or directly requested, choose its exact path, include it in the approval scope, and create it with the approved skill changes. Do not make it an optional follow-up after approval.
-12. For a tracked skill change, save and link the audit, let the user review it, and record its outcome before creating a proposal.
-13. When the outcome is `proposal required`, create and link a separate proposal with `status: proposed` using [assets/skill-change-proposal-template.md](assets/skill-change-proposal-template.md).
-14. Revise the saved proposal during user review. Record `status: approved` only after the user accepts its exact scope.
-15. Before editing, confirm the tracked proposal exists, is linked, and is approved. Never create it retrospectively or combine proposal preparation and implementation in one step.
-16. Apply only approved changes in a separate implementation step, using targeted edits when practical.
-17. Format Markdown and validate frontmatter, references, routing, safety boundaries, migrations, decision records, and repository state. Then update the same proposal to `status: implemented`.
-18. Report changed files, validation, limitations, anything not tested, and the decision-record outcome with its reason.
-19. Commit only when the user explicitly asks and the responsible repository workflow permits it.
+8. Decide what belongs in the always-loaded core and what should load from references or assets.
+9. Assess target-skill artifact capabilities independently. Read the decision-record, Audit/Review, or Proposal capability reference only when the target skill may own that behavior during normal use.
+10. Perform the shared safety inspection when the skill has sensitive, executable, networked, state-changing, or high-impact capabilities.
+11. Assess whether the current skill change needs its own repository decision record using [references/decision-records.md](references/decision-records.md). Always state why a record is or is not recommended.
+12. If a record is recommended or directly requested, choose its exact path, include it in the approval scope, and create it with the approved skill changes. Do not make it an optional follow-up after approval.
+13. For a tracked skill change, save and link the audit, let the user review it, and record its outcome before creating a proposal.
+14. When the outcome is `proposal required`, create and link a separate proposal with `status: proposed` using [assets/skill-change-proposal-template.md](assets/skill-change-proposal-template.md).
+15. Revise the saved proposal during user review. Record `status: approved` only after the user accepts its exact scope.
+16. Before editing, confirm the tracked proposal exists, is linked, and is approved. Never create it retrospectively or combine proposal preparation and implementation in one step.
+17. Apply only approved changes in a separate implementation step, using targeted edits when practical.
+18. Format Markdown and validate frontmatter, references, routing, safety boundaries, migrations, decision records, and repository state. Then update the same proposal to `status: implemented`.
+19. Report changed files, validation, limitations, anything not tested, and the decision-record outcome with its reason.
+20. Commit only when the user explicitly asks and the responsible repository workflow permits it.
 
 ## Core Design Principles
 
@@ -185,6 +199,8 @@ Read [references/audit-format.md](references/audit-format.md) before producing a
 
 For a substantial audit, begin with an `Audit Summary` of no more than five short bullets and end with an explicit `Audit Outcome`. Use concise numbered findings and report no more than five highest-value findings unless the user requests an exhaustive audit.
 
+Evaluate every skill-owned reference for need, quality, and writing. Evaluate every skill-owned template for need and quality, including whether missing recurring template capability is justified. Include directly linked shared dependencies only when they materially affect behavior; exclude unrelated global resources. Keep this resource evaluation proportional and allow one concise statement when the skill has no owned resources.
+
 For an informal Review, scale the response down and normally keep it conversational. Do not save a formal Audit artifact unless the request or tracked workflow requires one. Do not rewrite the skill during Audit or Review mode.
 
 ## Validation
@@ -196,6 +212,8 @@ At minimum, confirm:
 - Frontmatter is valid and routing is specific.
 - The portable skill name matches its directory.
 - Referenced files exist and relative paths resolve.
+- Formal Audits evaluate owned references, templates, and justified missing template capability.
+- Target-skill decision-record, Audit/Review, and Proposal capabilities are independently justified and conditionally loaded.
 - No stale name or routing references remain after a rename.
 - Markdown is formatted.
 - Only approved files changed.

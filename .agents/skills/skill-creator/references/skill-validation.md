@@ -74,6 +74,30 @@ Confirm:
 
 A shorter core is not automatically better. The criterion is whether always-loaded content is necessary for correct behavior.
 
+## Formal Audit Resource Checks
+
+For a substantial formal skill Audit, confirm:
+
+- Every skill-owned reference is evaluated for need, quality, and writing.
+- Every skill-owned template is evaluated for need and quality.
+- Missing recurring template capability is explicitly assessed.
+- Directly linked shared dependencies are included only when they materially affect behavior.
+- Unrelated global references and templates remain excluded.
+- Small skills or skills without owned resources use proportional wording instead of empty tables.
+
+Inventory and link checks support this evaluation but do not replace it.
+
+## Target-Skill Artifact Capability Checks
+
+When the target skill may own decision-record, Audit/Review, or Proposal capability, confirm:
+
+- The capability belongs to a recurring runtime responsibility rather than the current Skill Creator workflow.
+- Each capability is assessed independently and loads only for relevant requests.
+- Advice, assessment, proposal, approval, and implementation boundaries remain clear.
+- Project-local storage, naming, lifecycle, approval, and validation rules remain authoritative.
+- Concrete templates are justified, semantically named, and owned by the target skill.
+- Skill Creator's own templates are not copied as universal target-skill assets.
+
 ## Content Review
 
 Review in source order when practical and prioritize behavior-changing findings.

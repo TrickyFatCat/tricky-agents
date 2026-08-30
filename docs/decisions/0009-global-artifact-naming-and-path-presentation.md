@@ -2,6 +2,7 @@
 
 Status: Accepted
 Date: 2026-08-28
+Amended By: [Skill Artifact Assessment and Proposal Guidance](0015-skill-artifact-assessment-and-proposal-guidance.md)
 
 ## Context
 

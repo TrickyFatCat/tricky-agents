@@ -32,6 +32,18 @@ Before naming or writing the skill, identify:
 
 Do not create a skill for one-off facts, project instructions already expressed clearly elsewhere, or a workflow too vague to route reliably.
 
+## Target-Skill Artifact Capabilities
+
+Assess reusable artifact capabilities independently:
+
+- Read [decision-record-capability.md](decision-record-capability.md) when the target skill may manage durable domain decisions.
+- Read [audit-review-capability.md](audit-review-capability.md) when recurring domain assessment may belong to the target skill.
+- Read [proposal-capability.md](proposal-capability.md) when the target skill may propose domain changes during normal use.
+
+Add a capability only when it belongs to the target skill, recurs across real tasks, and preserves clear approval and implementation boundaries. Do not add it merely because Skill Creator used the corresponding artifact while changing the skill.
+
+A target skill may need one capability without the others. Keep concrete output templates with the target skill and create them only when recurring or fragile output justifies one. Do not copy Skill Creator's own Audit, Proposal, or decision-record templates into unrelated skills.
+
 ## Frontmatter
 
 A portable `SKILL.md` starts with YAML frontmatter:
@@ -246,6 +258,8 @@ For saved proposal artifacts, use `<artifact-role>-<concise-action>-<concise-sub
 
 Keep templates minimal and adaptable. Tell the agent to omit irrelevant sections so templates do not become rigid checklists. Do not make one project's storage conventions the global default unless the skill is project-specific.
 
+Before adding an Audit/Review, Proposal, or decision-record template, apply the corresponding capability test. A skill that only evaluates or hands off an artifact usually does not need its own template.
+
 Current templates:
 
 | Asset                                                                                        | Use                                          |
@@ -289,3 +303,4 @@ Before implementation, confirm:
 8. The proposed file list includes dependencies and migration records.
 9. The proposal explains source material, artifact roles, semantic filenames, and `README.md` exceptions.
 10. Substantial changes include a refinement plan: trial task, routing check, execution trace review, or a clear reason this was not tested.
+11. Target-skill Audit/Review, Proposal, and decision-record capabilities are independently justified, conditionally loaded, and assigned to the correct template owner.

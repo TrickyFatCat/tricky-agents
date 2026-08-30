@@ -1,10 +1,10 @@
 # Skill Change Proposal Template
 
-Use this template before creating, modifying, moving, deleting, or reorganizing skill resources.
+Use this template before creating, modifying, moving, deleting, or reorganizing skill resources. Adapt it and omit sections that do not help.
 
 When saving a proposal artifact, use `<artifact-role>-<concise-action>-<concise-subject>`, following the active project's filename style. Keep the role word once and put it first. Example: `proposal-add-readable-output-examples.md`.
 
-Write proposals in direct style: recommendation first, bullets over prose, rationale only when it changes the approval decision.
+Write proposals in direct, scannable style. Use short labeled lists for orientation and keep detailed evidence, wording, paths, and examples under the relevant action.
 
 When the active workflow tracks saved proposals:
 
@@ -18,7 +18,9 @@ When the active workflow tracks saved proposals:
 Do not require a saved proposal for unrelated trivial work unless the user, repository, or active project requires one.
 
 ````markdown
-## Proposal Summary
+## Proposal Snapshot
+
+Use no more than five orientation bullets.
 
 - Decision requested: <exact approval decision>
 - Files: <create/modify/move/delete counts>
@@ -26,66 +28,71 @@ Do not require a saved proposal for unrelated trivial work unless the user, repo
 - Main trade-off: <one-line trade-off>
 - Status: Proposed
 
-## Proposal
+## Overview
 
-<One-sentence recommended change.>
+**Change**
 
-## Source Material
+- <major change group>.
+- <intended outcome>.
 
-Ground the proposal in concrete evidence:
+**Preserve**
 
-- User request or correction:
-- Audit outcome:
-- Usage reports:
-- Existing skill/task artifacts:
-- Agent Skills or upstream references:
-- Execution traces or trial runs:
+- <important existing behavior>.
+- <important boundary>.
 
 ## Reasoning
 
-- Why this change is needed:
-- What it improves:
-- Main trade-off:
-- Default approach chosen:
-- Alternatives considered briefly:
+Use compact problem labels with one direct sentence each.
 
-## Examples
+- **<Problem>:** <why the change is needed>.
+- **<Impact>:** <what the selected change improves>.
 
-Use this section only when the proposal changes a reusable output pattern, command shape, audit format, or other concrete artifact pattern.
+## Recommended Approach
 
-Good example:
+- <selected design or action>.
+- <how it operates>.
+- <important boundary>.
 
-```markdown
-<small example that shows the preferred pattern>
-```
+**Main trade-off:** <cost or limitation that affects approval>.
 
-Avoid this pattern, when a likely mistake needs contrast:
+### Rejected Alternatives
 
-```markdown
-<small counterexample or pattern to avoid>
-```
+Use only when rejected options affect the decision. Keep one short list.
 
-Omit this section for routine wording edits, simple file moves, or conceptual recommendations where an example would add ceremony.
+- **<Alternative>:** <why it was not selected>.
 
-## Exact Files
+## Actions
 
-### Create
+Link each action group and keep its description concise.
+
+1. [<Action>](#action-anchor) — <concise purpose>.
+2. [Confirm the exact file boundary](#exact-files) — <counts>.
+
+### Exact Files
+
+State that this list is the complete approval boundary and that additional targets require renewed approval.
+
+**Create**
 
 | Path     | Artifact role | Naming rule or exception         |
 | -------- | ------------- | -------------------------------- |
 | `<path>` | `<role>`      | `<why this filename is correct>` |
 
-### Modify
+**Modify**
 
 | Path     | Change      |
 | -------- | ----------- |
 | `<path>` | `<summary>` |
 
-### Wording Changes
+**Move, rename, or delete:** None.
 
-Use this section only for concrete wording edits where exact replacement text matters. Show old wording before new wording. Prefer vertical blocks, not a grid or table, because replacement text is often too long for horizontal scanning.
+Omit empty labels. For a rename or move, show old values before new values, compare changed components separately, and end with the resulting full path.
 
-#### `<location>`
+### <Detailed Action Group>
+
+Describe behavior, exact wording, examples, migration, or other details belonging to this action.
+
+For concrete wording changes, show the current wording before the replacement. Prefer vertical blocks over a grid.
 
 Old wording:
 
@@ -99,34 +106,39 @@ New wording:
 <proposed wording>
 ```
 
-### Move/Rename/Delete
+Add a compact positive example only when it improves reviewability. Add an avoid example only for a likely mistake.
 
-| From     | To              | Reason and history impact |
-| -------- | --------------- | ------------------------- |
-| `<path>` | `<path or n/a>` | `<reason>`                |
+## Source Material
 
-Omit empty subsections.
+List the full evidence inventory after Actions:
+
+- User request or correction:
+- Audit outcome:
+- Usage reports:
+- Existing skill or task artifacts:
+- Agent Skills or upstream references:
+- Execution traces or trial runs:
 
 ## Scope Boundaries
 
-In scope:
+### In Scope
 
 - <approved target>.
 
-Out of scope:
+### Out of Scope
 
 - <nearby but excluded target>.
 
 ## Validation Plan
 
-- Frontmatter/name checks:
-- Description/routing checks, including matching and near-miss boundary prompts when practical:
+- Frontmatter and name checks:
+- Description and routing checks, including a matching and near-miss request when practical:
 - Main `SKILL.md` line count under 500, or exception rationale:
-- Reference/link checks:
+- Reference and link checks:
 - Markdown formatting:
 - Script tests or non-execution reason:
-- Repository status/diff scope:
-- Runtime discovery not tested/tested by:
+- Repository status and exact diff scope:
+- Runtime discovery tested or explicitly untested:
 - Follow-up trial or execution-trace review:
 
 ## Decision Record
@@ -142,5 +154,5 @@ Out of scope:
 
 Proceed with these exact file changes?
 
-For a tracked proposal, keep the status `proposed` during review. Record `approved` only after exact acceptance, and record `implemented` only after validation.
+For a tracked proposal, keep `status: proposed` during review. Record `approved` only after exact acceptance. Implement in a separate phase and record `implemented` only after validation.
 ````
