@@ -21,3 +21,7 @@
 .pi/agent/git/
 .pi/agent/models-store.json
 .pi/agent/pi-agents-setup.json
+
+# Skill usage reports
+.agents/skill-usage-reports/*
+!.agents/skill-usage-reports/templates/
