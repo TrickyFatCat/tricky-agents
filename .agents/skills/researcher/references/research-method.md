@@ -4,6 +4,19 @@ Read this reference for substantial research, disputed claims, multi-source comp
 
 Use only the steps needed for the question. Do not turn a small factual check into a research project.
 
+## Match Rigor to the Research Shape
+
+Scale source breadth, verification depth, persistence, and documentation to consequence, uncertainty, conflict, and the cost of error.
+
+| Research shape                   | Method                                                                                                                                             |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Quick evaluation                 | Inspect the smallest sufficient source set and answer directly. Escalate only when uncertainty or conflict can change the answer.                  |
+| Focused research                 | Define a bounded question and visible criteria, inspect applicable evidence, and show material limits.                                             |
+| Substantial research             | Define questions and stopping criteria, map important claims, record material methods, and use a source ledger when source detail warrants it.     |
+| Systematic or regulated research | Follow the applicable domain protocol, specialist, evidence-selection, documentation, and review requirements. Do not infer compliance from rigor. |
+
+Use a more rigorous shape when a missing fact could reverse the recommendation, create a safety risk, or invalidate applicability. Use a smaller shape when extra process would not change confidence or the user's decision.
+
 ## Define the Question and Scope
 
 Identify:
@@ -33,7 +46,10 @@ Use secondary sources to discover terminology, primary sources, or competing exp
 
 ## Source Access and Verification
 
-A citation is not verified merely because its URL is known.
+A citation is not verified merely because its URL is known. Verify two separate questions:
+
+1. **Citation identity:** Does the source exist, and do its title, author, date, version, and location match the citation?
+2. **Claim support:** Does the inspected source actually support the attributed claim in the relevant scope?
 
 For sources used as evidence:
 
@@ -42,14 +58,33 @@ For sources used as evidence:
 - Check publication or update date.
 - Check product, version, platform, region, and account scope.
 - Link to the most specific useful page, release, issue, section, or document.
+- Label evidence as directly `inspected`, `indirect`, `inaccessible`, `generated lead`, `inferred`, or `unknown` when the distinction affects confidence.
 
 If a source cannot be accessed:
 
 - State that limitation.
 - Do not describe its contents as verified.
-- Treat snippets, cached text, or third-party summaries as indirect evidence.
+- Treat snippets, cached text, AI output, or third-party summaries as indirect evidence or generated leads.
 
 When local files are evidence, cite precise paths and distinguish observed content from inferred runtime behavior.
+
+## AI-Assisted Research
+
+Treat AI-generated claims, quotations, summaries, citations, and confidence statements as unverified leads. Verify citation identity separately from whether the inspected source supports the attributed claim.
+
+When AI assistance materially affects substantial research, record:
+
+- provider or tool;
+- model or feature when known;
+- access date;
+- research role, such as discovery, extraction, synthesis, translation, or critique;
+- retrieval mode and whether cited sources were directly inspected;
+- important limitations; and
+- human checks performed.
+
+Do not retain full prompts, private context, credentials, personal data, or sensitive content merely for reproducibility. Do not transmit them to an external AI or research service without explicit destination and payload authorization.
+
+Treat vendor AI documentation as evidence about the vendor's product, not independent evidence of effectiveness. Preserve human responsibility for source selection, interpretation, recommendations, and consequential judgments.
 
 ## Claim-to-Source Mapping
 
@@ -102,6 +137,14 @@ Confidence applies to a claim or conclusion, not automatically to the entire res
 
 Name the reason for medium or low confidence.
 
+## Decision Framing
+
+Use visible criteria, assumptions, realistic alternatives, and decision-changing unknowns when they improve the research question. Do not invent alternatives merely to fill a table.
+
+Use `rubber-duck` before research when the goal, criteria, alternatives, or values are still exploratory. Research supplies external evidence; it does not decide which personal or organizational preference should dominate.
+
+Recommendations remain advisory. Use `Decision` only for a choice the user or an authorized owner explicitly adopts.
+
 ## Comparison Research
 
 Before comparing options, identify two to four decision criteria.
@@ -116,7 +159,7 @@ Compare each option against the same criteria. Useful criteria include:
 - Price or licensing.
 - Migration effort.
 
-Use `rubber-duck` after evidence gathering when the remaining work is primarily weighing trade-offs or making a preference-based decision.
+Use `rubber-duck` before research when the decision frame is still exploratory. Return after evidence gathering when the remaining choice depends on preferences or trade-offs rather than missing facts.
 
 ## Stopping Criteria
 
@@ -131,13 +174,30 @@ Continue when a missing fact could reverse the recommendation, create a safety r
 
 Do not keep searching merely to increase the number of citations.
 
+## Human-Facing Saved Research
+
+Assign one primary owner to each concept:
+
+- `Conclusion` owns the answer and overall confidence.
+- `Findings` or research-question answers own evidence and reasoning.
+- `Recommendations` owns actionable deltas, not repeated rationale or adopted decisions.
+- `Method and Limitations` owns process, exclusions, conflicts, AI assistance, human verification, and uncertainty.
+- The source ledger owns detailed source inventory, source quality, claim mapping, and source-level limitations.
+
+Link instead of restating. Lead with the conclusion, keep sections short, group related lists, show material limitations, and suppress tangents. End with one next action when work remains. Every saved research artifact must include a project- or renderer-compatible table of contents.
+
+Do not duplicate the conclusion or recommendations in the source ledger. Use inline attribution instead of a separate ledger when it remains clear.
+
 ## Final Research Check
 
-Before responding:
+Before responding or saving:
 
 1. Confirm important factual claims map to inspected evidence.
-2. Recheck versions, dates, product names, and platform scope.
-3. Separate facts, inferences, assumptions, and unknowns.
-4. State inaccessible sources or unverified runtime behavior.
-5. Confirm the recommendation follows from the evidence and visible criteria.
-6. Include a concise source list for user review when external sources were used.
+2. Verify citation identity separately from claim support.
+3. Recheck versions, dates, product names, and platform scope.
+4. Separate inspected facts, indirect evidence, generated leads, inferences, assumptions, and unknowns.
+5. State inaccessible sources or unverified runtime behavior.
+6. Confirm the recommendation follows from the evidence and visible criteria without presenting it as an adopted decision.
+7. Record material AI assistance, limitations, and human checks when applicable.
+8. Check section ownership, navigation, and non-duplication for saved artifacts.
+9. Include a concise source list for user review when external sources were used.

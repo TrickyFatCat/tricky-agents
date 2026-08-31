@@ -1,7 +1,8 @@
 # Research Persistence Workflow
 
-Status: Accepted
+Status: Superseded
 Date: 2026-08-26
+Superseded by: [Researcher Evidence and Artifact Workflow](0019-researcher-evidence-and-artifact-workflow.md)
 
 ## Context
 
@@ -66,5 +67,6 @@ Keeping the detailed workflow in a reference preserves the researcher's primary 
 
 ## Related Changes
 
+- Superseded by [Researcher Evidence and Artifact Workflow](0019-researcher-evidence-and-artifact-workflow.md).
 - `.agents/skills/researcher/SKILL.md`
 - `.agents/skills/researcher/references/research-storage.md`
