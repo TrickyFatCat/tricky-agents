@@ -187,6 +187,27 @@ During assessment:
 - preserve good decisions and behavior that should not regress;
 - exceed five findings only when the approved Audit scope requires broader coverage.
 
+### Section Ownership and Final Pass
+
+Give each concept one primary location:
+
+- `Audit Summary`: orientation, outcome, highest-priority reader concern, preserved behavior, and next action without detailed evidence.
+- `Scope and Evidence`: documentation mode, reader, goal, targets, sources, criteria, exclusions, evidence method, and confidence.
+- `Findings`: observed issue, location, evidence, reader impact, direction, and only decision-relevant examples.
+- `Good Decisions`: preserved reader benefit not already recorded as an accepted finding.
+- `Questions`: only unknowns whose answers can change a finding, confidence, scope, recommendation, or outcome.
+- `Untested Areas`: source, renderer, environment, version, workflow, or document areas not tested.
+- `Audit Outcome`: final state, concise reason, authority boundary, and next action without repeating finding rationale.
+
+Before finalizing:
+
+1. Remove repeated reader context, evidence, rationale, outcomes, and next actions across sections.
+2. Link accepted sources or prior findings instead of restating them.
+3. Omit optional sections that do not help the judgment.
+4. Preserve short local context when needed for safety, correctness, reader impact, evidence confidence, scope, or authority.
+
+Do not use line, heading, sentence, or paragraph counts as pass/fail limits.
+
 End with one domain outcome:
 
 | Body outcome         | Metadata value         | Use                                                                      |

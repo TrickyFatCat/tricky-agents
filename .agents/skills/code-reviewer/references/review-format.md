@@ -144,6 +144,27 @@ Record:
 - findings, good decisions, limitations, outcome, and next action; and
 - external sources when used.
 
+### Section Ownership and Final Pass
+
+Give each concept one primary location:
+
+- `Audit Summary`: orientation, outcome, highest-value concern, preserved behavior, and next action without detailed evidence.
+- `Scope and Evidence`: purpose, target, snapshot, included and excluded areas, evidence origins, methods, checks, and coverage limits.
+- `Findings`: material evidence, impact, triggering conditions, recommendation, confidence, location, and finding state.
+- `Good Decisions`: preserved behavior not already recorded as an accepted finding.
+- `Questions`: only unknowns whose answers can change the Audit.
+- `Untested Areas`: behavior or environments not tested; keep evidence unavailability in `Scope and Evidence`.
+- `Audit Outcome`: final state, confidence, assurance boundary, and next action without repeating finding evidence.
+
+Before finalizing:
+
+1. Remove repeated scope, evidence, rationale, outcomes, and next actions across sections.
+2. Link accepted external context instead of restating it.
+3. Omit optional sections that do not help the judgment.
+4. Preserve short local context when needed for safety, evidence origin, confidence, scope, or authority.
+
+Do not use line, heading, sentence, or paragraph counts as pass/fail limits.
+
 ### Formal Findings
 
 Use one parent `Findings` section. For three or more findings, begin with numbered linked navigation:

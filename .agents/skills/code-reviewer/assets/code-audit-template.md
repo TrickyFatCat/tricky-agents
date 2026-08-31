@@ -114,6 +114,11 @@ Location: `<path:line>`
 - Use one parent `Findings` section.
 - For three or more findings, use numbered linked navigation followed by descriptive unnumbered headings.
 - Keep priority or status separate from finding headings.
+- Give Audit Summary, Scope and Evidence, Findings, Good Decisions, Questions, Audit Outcome, and Untested Areas one primary responsibility each.
+- Use Audit Summary for orientation, not detailed evidence; use Audit Outcome for final state, confidence, assurance boundary, and next action without restating findings.
+- Do not duplicate an accepted finding under Good Decisions. Keep unavailable evidence in Scope and Evidence and behavior not tested in Untested Areas.
+- Before saving, remove repeated scope, evidence, rationale, outcomes, and next actions; omit empty optional sections; and link accepted context instead of restating it.
+- Preserve short local context when needed for safety, evidence origin, confidence, scope, or authority. Do not use artifact length as a pass/fail rule.
 - Include exact source locations when available.
 - Distinguish supplied evidence from reproduced results.
 - Record checks actually performed, specialists, tools, confidence, unavailable evidence, and untested areas when material.

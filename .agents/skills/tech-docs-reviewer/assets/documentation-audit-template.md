@@ -108,6 +108,11 @@ This outcome records assessment state. It does not approve a proposal, source-do
 - Omit `focus`, `Questions`, or other optional content when empty.
 - Keep Audit Summary to no more than five bullets.
 - Keep linked finding navigation inside `Findings`.
+- Give Audit Summary, Scope and Evidence, Findings, Good Decisions, Questions, Audit Outcome, and Untested Areas one primary responsibility each.
+- Use Audit Summary for orientation, not detailed evidence; use Audit Outcome for final state, concise reason, authority boundary, and next action without restating finding rationale.
+- Do not duplicate an accepted finding under Good Decisions or repeat the same rationale under Reader impact and another label.
+- Before saving, remove repeated reader context, evidence, rationale, outcomes, and next actions; omit empty optional sections; and link accepted sources or prior findings instead of restating them.
+- Preserve short local context when needed for safety, correctness, reader impact, evidence confidence, scope, or authority. Do not use artifact length as a pass/fail rule.
 - Preserve safety and correctness context; brevity is not the only goal.
 - Tie findings to concrete reader friction and end with one focused next action.
 - Do not claim medical or accessibility guarantees.

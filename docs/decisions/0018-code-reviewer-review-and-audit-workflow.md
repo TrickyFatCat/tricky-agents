@@ -2,6 +2,9 @@
 
 Status: Accepted
 Date: 2026-08-30
+Amended By:
+
+- [Domain Audit Section Ownership](0022-domain-audit-section-ownership.md)
 
 ## Context
 
