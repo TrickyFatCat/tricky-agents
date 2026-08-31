@@ -7,6 +7,10 @@ Amends:
 - [Skill Audit and Proposal Workflow](0012-skill-audit-and-proposal-workflow.md)
 - [Skill Artifact Assessment and Proposal Guidance](0015-skill-artifact-assessment-and-proposal-guidance.md)
 
+Amended By:
+
+- [Skill Usage Report System and Interaction Rules](0023-skill-usage-report-system-and-interaction-rules.md)
+
 Related: [Tech Docs Reviewer Review and Audit Workflow](0016-tech-docs-reviewer-review-and-audit-workflow.md)
 
 ## Context

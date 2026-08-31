@@ -31,6 +31,7 @@ These are default instructions for all sessions. Project-local instructions may 
 - For risky operations, offer a safer inspection command first.
 - Ask clarifying questions when missing context changes the recommendation.
 - Keep approval prompts short and direct. Ask a simple question such as “Proceed with these changes?” Use a choice menu only when the user must choose among multiple options.
+- When presenting a choice menu, include a visible `Custom prompt` option so the user can respond outside the predefined choices; do not require a particular menu tool or harness.
 - When the user asks to optimize, compact, or squish the conversation, ask whether they want a saved summary and where it should be stored before using it as the basis for cleaning/compaction.
 
 ## Shell and Structured Data Selection
@@ -63,9 +64,18 @@ Skills are available under `~/.agents/skills/`. Project-local skills may also ex
 
 Use a skill when its description matches the task. Read the matching skill before acting. Keep detailed task-specific methods inside skill files rather than duplicating them here.
 
-When the user asks for a skill usage report, or asks to use skill usage reports for skill proposals or decisions, read `~/.agents/references/skill-usage-reports.md` and follow its reporting, traceability, missing-vault, status, and archiving workflow.
+When the user asks for a skill usage report, or asks to use skill usage reports for skill proposals or decisions, read `~/.agents/references/skill-usage-reports.md` and follow its persistence, matching, scope, template, status, and validation workflow.
 
-When the user clearly points out a reusable agent, skill, setup, or workflow problem, or gives substantial reusable feedback that must be deferred or handed off, ask whether they want a skill usage report unless the issue is already reported. Do not create one automatically. Do not prompt for routine current-task corrections or minor preferences. If current-artifact feedback and reusable setup feedback are both plausible, ask a short clarifying question. Follow `~/.agents/references/skill-usage-reports.md` when they approve.
+When the user clearly points out a reusable agent, skill, setup, or workflow problem, or gives substantial reusable feedback that must be deferred or handed off, ask whether they want a skill usage report. Do not prompt for routine current-artifact corrections, minor preferences, illustrative examples, or requirements already accepted inside the active task scope. If current-artifact feedback and reusable setup feedback are both plausible, ask a short clarifying question. Follow `~/.agents/references/skill-usage-reports.md` when they approve.
+
+When you identify a reusable agent, skill, setup, or workflow improvement outside the user's accepted active-task scope:
+
+- Check for a matching report.
+- If its status is `open`, ask whether to amend it.
+- Never amend or reopen a `planned`, `implemented`, `declined`, or `obsolete` report.
+- After report persistence is confirmed, create a new numbered report when no matching report is `open`.
+- Do not create any report before persistence is confirmed.
+- Treat task notes and step logs as progress records, not substitutes for the report.
 
 Skill selection rules:
 
