@@ -33,6 +33,13 @@ These are default instructions for all sessions. Project-local instructions may 
 - Keep approval prompts short and direct. Ask a simple question such as “Proceed with these changes?” Use a choice menu only when the user must choose among multiple options.
 - When the user asks to optimize, compact, or squish the conversation, ask whether they want a saved summary and where it should be stored before using it as the basis for cleaning/compaction.
 
+## Shell and Structured Data Selection
+
+- Use Nushell as the default language for shell commands, pipelines, and structured-data processing when it is available and compatible with the task and execution contract.
+- When Nushell already produces or consumes structured values, keep filtering and transformation in Nushell. Add `jq` or another processor only for a specific requirement or material advantage.
+- Use Bash or a POSIX shell as a fallback when a script, command, repository tool, or harness requires it; Nushell is unavailable; higher-priority instructions require another shell; or Bash is materially better suited to the task.
+- Treat this as a tool-selection preference, not a prohibition. A harness tool or wrapper name does not by itself require its shell language, but do not bypass an explicit execution contract.
+
 ## Agent Setup Change Approval
 
 Before creating, modifying, deleting, or reorganizing global agent instructions, skills, commands, prompt templates, themes, settings examples, or helper scripts under `~/.agents` or repo-backed `~/.pi/agent` resources:
