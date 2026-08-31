@@ -144,7 +144,9 @@ For substantial Audits and proposals, run a final decision-density check:
 - Omit optional template sections that do not help the current decision.
 - Keep short local restatements when needed to preserve safety, confidence, scope, or approval meaning.
 
-For proposals, confirm detailed actions define the approval contract rather than draft complete future resources by default. Include exact wording when wording is fragile, safety-critical, schema-like, migration-sensitive, or directly under review. Keep exact paths, roles, naming, boundaries, validation, and lifecycle fields.
+For proposals, confirm detailed actions define the approval contract rather than draft complete future resources by default. Before user review, account for every exact file and action and give each material decision one primary review location. Include current and proposed wording when exact replacement text affects approval. Include an exact template, schema, or reusable output structure when its shape affects approval. Keep defaults, precedence, paths, roles, naming, boundaries, migration, compatibility, safety, validation, and lifecycle detail when they change the decision.
+
+For every exact block, identify the approval decision it can change. Remove or summarize content that cannot affect scope, behavior, compatibility, safety, validation, migration, authority, or wording approval. Do not require a human-facing coverage grid or use artifact length as a pass/fail rule.
 
 Do not use artifact length as a pass/fail rule. Record it only as supporting evidence when useful.
 

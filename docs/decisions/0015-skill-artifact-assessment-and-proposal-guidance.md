@@ -8,7 +8,10 @@ Amends:
 - [Global Artifact Naming and Path Presentation](0009-global-artifact-naming-and-path-presentation.md)
 - [Skill Audit and Proposal Workflow](0012-skill-audit-and-proposal-workflow.md)
 
-Amended By: [Skill Assessment and Usage Report Guidance](0017-skill-assessment-and-usage-report-guidance.md)
+Amended By:
+
+- [Skill Assessment and Usage Report Guidance](0017-skill-assessment-and-usage-report-guidance.md)
+- [Skill Proposal Reviewability Preflight](0020-skill-proposal-reviewability-preflight.md)
 
 Related: [Skill Proposal Artifact Name Order](0013-skill-proposal-artifact-name-order.md)
 

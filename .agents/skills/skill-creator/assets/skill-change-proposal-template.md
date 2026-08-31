@@ -157,14 +157,28 @@ Proceed with these exact file changes?
 For a tracked proposal, keep `status: proposed` during review. Record `approved` only after exact acceptance. Implement in a separate phase and record `implemented` only after validation.
 ````
 
-## Final Approval-Density Check
+## Proposal Preflight
 
-Before requesting approval:
+### Approval-Content Coverage
+
+Before requesting review, account for every exact file and action. Give each material decision one primary review location and classify the content it needs:
+
+- concise behavior contract;
+- current and proposed wording when exact replacement text affects approval;
+- exact template, schema, or reusable output structure when shape affects approval;
+- defaults, precedence, naming, migration, compatibility, safety, or validation detail; or
+- a link to accepted evidence when the proposal needs only its implementation consequence.
+
+Do not add a mandatory coverage grid to the human-facing proposal.
+
+### Exact-Block Removal
+
+For every exact wording, schema, template, example, or structure block, name the approval decision it can change. Remove or summarize the block when no scope, behavior, compatibility, safety, validation, migration, authority, or wording decision depends on it.
+
+Then:
 
 - remove source evidence already available through links;
-- remove detail that cannot change approval, scope, trade-offs, safety, validation, lifecycle, or authority;
-- keep exact paths, roles, naming, boundaries, migrations, and required validation;
-- keep exact wording only when it is fragile, safety-critical, schema-like, migration-sensitive, or directly under review; and
-- omit optional sections that do not help the decision.
-
-Do not use artifact length as a pass/fail limit.
+- keep exact paths, artifact roles, naming, boundaries, migrations, and required validation;
+- preserve full proposed structures for new reusable templates when metadata, section ownership, optionality, navigation, or duplication affects approval;
+- omit optional sections that do not help the decision; and
+- do not use artifact length as a pass/fail limit.

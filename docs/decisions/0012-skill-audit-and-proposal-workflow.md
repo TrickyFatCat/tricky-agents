@@ -7,6 +7,7 @@ Amended By:
 
 - [Skill Artifact Assessment and Proposal Guidance](0015-skill-artifact-assessment-and-proposal-guidance.md)
 - [Skill Assessment and Usage Report Guidance](0017-skill-assessment-and-usage-report-guidance.md)
+- [Skill Proposal Reviewability Preflight](0020-skill-proposal-reviewability-preflight.md)
 
 ## Context
 

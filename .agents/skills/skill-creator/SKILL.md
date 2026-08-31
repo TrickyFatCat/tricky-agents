@@ -172,7 +172,7 @@ Skip an irrelevant optional capability when the skill remains complete without i
 11. Assess whether the current skill change needs its own repository decision record using [references/decision-records.md](references/decision-records.md). Always state why a record is or is not recommended.
 12. If a record is recommended or directly requested, choose its exact path, include it in the approval scope, and create it with the approved skill changes. Do not make it an optional follow-up after approval.
 13. For a tracked skill change, save and link the audit, let the user review it, and record its outcome before creating a proposal.
-14. When the outcome is `proposal required`, create and link a separate proposal with `status: proposed` using [assets/skill-change-proposal-template.md](assets/skill-change-proposal-template.md).
+14. When the outcome is `proposal required`, create and link a separate proposal with `status: proposed` using [assets/skill-change-proposal-template.md](assets/skill-change-proposal-template.md). Before requesting review, run its proposal preflight: account for every exact file and action, include the review content each material decision needs, and remove exact blocks that cannot change approval.
 15. Revise the saved proposal during user review. Record `status: approved` only after the user accepts its exact scope.
 16. Before editing, confirm the tracked proposal exists, is linked, and is approved. Never create it retrospectively or combine proposal preparation and implementation in one step.
 17. Apply only approved changes in a separate implementation step, using targeted edits when practical.
