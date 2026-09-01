@@ -16,7 +16,8 @@ Read only the references needed for the request:
 | Reference                                                              | Read when                                                                                                                 |
 | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | [references/task-design.md](references/task-design.md)                 | Breaking down uncertain or multi-step work, defining outcomes, handling dependencies, or deciding whether metadata helps. |
-| [references/saved-task-workflow.md](references/saved-task-workflow.md) | Creating, updating, moving, resuming, replacing, or adding reminders to persistent task artifacts or boards.              |
+| [references/saved-task-workflow.md](references/saved-task-workflow.md) | Creating, updating, moving, resuming, replacing, or adding reminders to persistent task state.                            |
+| [references/taskmd-workflow.md](references/taskmd-workflow.md)         | Reading or managing persistent taskmd state, templates, worklogs, queries, or validation.                                 |
 
 A short inline plan does not require either reference.
 
@@ -72,6 +73,9 @@ A request can move between modes, but saved-state changes and implementation req
 - Add investigation before implementation when a decision-changing unknown remains.
 - Include validation, approval, rollback, or safety outcomes when risk justifies them.
 - Preserve the user's constraints and existing workflow.
+- Follow stronger project-local task authority. When Task Manager owns persistent task state, use the taskmd specification and require the taskmd binary for managed operations.
+- Keep task files as the source of truth and taskmd as the operating and validation tool. Permit direct body edits only when taskmd creates or resolves the task and validates the result.
+- If taskmd is unavailable, limit work to safe diagnosis and read-only inspection. Stop before creating, mutating, completing, or otherwise managing persistent task state.
 - Ask only questions that can change the plan, task state, or storage decision.
 - Do not create busywork, duplicate tracking systems, or promise proactive reminders without a working integration.
 
@@ -102,6 +106,18 @@ Before creating, modifying, moving, deleting, finishing, or superseding persiste
 Approval applies only to the described change. Pause when new scope or materially different content becomes necessary.
 
 Read [references/saved-task-workflow.md](references/saved-task-workflow.md) before applying persistent task changes.
+
+## taskmd Safety Boundary
+
+Read [references/taskmd-workflow.md](references/taskmd-workflow.md) before persistent task operations.
+
+- Confirm the approved project, `.taskmd.yaml`, task directory, and taskmd availability before managing state.
+- Do not install, upgrade, initialize, or globally register taskmd automatically.
+- Run writes only from the approved project directory or owning worktree.
+- Obtain saved-state approval before add, set, body edits, rename, template or configuration changes, worklog writes, archive, or deletion.
+- Inspect task-defined verification and obtain separate command approval before execution. Do not add `--verify` automatically.
+- Treat web, MCP, sync, credentials, global registry changes, and destructive commands as separate capabilities outside normal task management.
+- Stop when project identity, binary availability, write scope, or command effects remain unclear.
 
 ## Default Response Shape
 

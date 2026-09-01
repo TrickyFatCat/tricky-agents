@@ -1,184 +1,146 @@
 # Saved Task Workflow
 
-Read this reference before creating, updating, moving, finishing, superseding, or adding reminders to persistent task artifacts or boards.
+Read this reference before creating, updating, resuming, replacing, completing, cancelling, or adding reminders to persistent task state.
 
-Project-local instructions are authoritative for storage, naming, statuses, metadata, history, and board behavior.
+Project-local instructions are authoritative for storage, configuration, naming, templates, metadata, history, and task views. When Task Manager owns persistent task state, use taskmd and read [taskmd-workflow.md](taskmd-workflow.md) before managing it.
 
 ## Inspect Before Changing State
 
 Before proposing a saved change:
 
-1. Read the active project instructions.
-2. Inspect the owning task and relevant card, plan, todo, board entry, note, or index.
-3. Inspect nearby related artifacts and established examples when extending an existing task history.
-4. Identify project-defined naming, linking, step-log, index, history, and validation conventions that apply.
-5. Determine which artifact is the source of truth.
-6. Determine the target's storage and validation context.
-7. Check repository state when the target is expected to be version-controlled.
-8. Identify the exact state transition and affected files.
+1. Read active project instructions.
+2. Resolve the approved project root and `.taskmd.yaml`.
+3. Resolve the configured task directory, workflow mode, worklogs, ID strategy, and template sources.
+4. Confirm taskmd availability and relevant command support.
+5. Identify the authoritative task ID and file.
+6. Inspect related dependencies, parent links, worklogs, and generated state when they affect the change.
+7. Determine the exact transition, expected file effect, storage context, and validation method.
+8. Check repository state only when the target is expected to be Git-backed.
 
-Apply only conventions established by the active project. Do not make nearby examples, numbered step logs, backlinks, indexes, or other local patterns mandatory globally.
-
-Do not create a parallel task system when an active workflow already exists.
+Do not create a parallel task system, manual board, fallback card, or direct-write path.
 
 ## Approval
 
 Before a persistent change:
 
-- Explain the proposed state change and why it helps.
-- Identify important trade-offs or lost historical meaning.
-- List every exact file or board entry to create, modify, move, or delete.
-- For human-facing rename or move approval, show old values before new values. Compare basenames for renames and parent directories without filenames for moves. For combined operations, compare both, then show the resulting full path. Apply the same sequence to files and directories.
-- Wait for explicit user approval.
+- explain the state change and why it helps;
+- identify the task ID, current state, target state, and expected file effects;
+- explain important trade-offs or lost historical meaning;
+- list exact affected files when known;
+- for task creation, state the expected taskmd-allocated path and stop if allocation is materially uncertain;
+- show old and new values for human-facing renames or moves; and
+- wait for explicit approval.
 
-If approved content must change because of new facts, pause and explain the difference before writing it.
+Approval applies only to the described effect and scope. If taskmd reports a materially different target or effect, stop before additional changes.
 
 ## Storage and Identity
 
-Follow project-local locations and naming rules.
+Follow project-local taskmd configuration. Treat task IDs as stable identity and filenames as human-readable locators.
 
-If no applicable rules exist, clarify:
+- Let taskmd allocate IDs and filenames.
+- Resolve tasks by ID rather than title or slug when possible.
+- Ask when a query is ambiguous.
+- Do not invent IDs, duplicate task files, or silently move task state.
+- Keep generated list, status, next, and board output as views rather than separate state.
 
-- The task subject and human-readable identity.
-- Whether to create a new artifact or update an existing one.
-- The save location and filename.
-- Whether an index or board should change.
-- Whether history needs a snapshot or can remain in a done log.
+Task notes and decision records are separate domains. Do not create or manage them as Task Manager runtime artifacts.
 
-Do not choose persistent storage silently.
+## Status and Views
 
-## Status and Boards
+Use the active taskmd project's status vocabulary:
 
-Use the project's status vocabulary when available.
+- `pending`: ready or planned but not started.
+- `in-progress`: actively being worked on.
+- `blocked`: cannot proceed until a named blocker is resolved.
+- `in-review`: awaiting review or integration under the configured workflow.
+- `completed`: finished and validated.
+- `cancelled`: intentionally stopped without completion.
 
-If none exists, use only statuses that help the workflow. A practical fallback is:
+Treat task files as the source of truth. Use taskmd list, status, next, and board output as generated views; do not maintain duplicate task status in a manual board.
 
-- `backlog`: planned for later.
-- `active`: currently being worked on.
-- `waiting`: blocked by a decision, dependency, or event.
-- `done`: completed and verified.
-- `optional`: useful but not required.
-- `superseded`: replaced by a newer task artifact.
+Ask before changing status. Before `completed`, `cancelled`, or `in-review`, inspect Tasks and Acceptance Criteria and gather appropriate validation evidence. Run task-defined verification only after separate inspection and execution approval.
 
-Treat artifact metadata as the source of truth unless project instructions say otherwise. Keep boards high-level; detailed todos belong in the task artifact.
+## Creating Tasks
 
-Ask before adding, moving, or removing board entries. When useful, link a waiting task to its blocker and the blocker back to its dependent task.
+Require taskmd for persistent task creation. Select an available built-in, user, or project template when it fits; otherwise use the approved neutral `task` template.
 
-## Creating and Updating Tasks
+Before creation, confirm:
 
-Create one meaningful task artifact unless the workflow or user requires separate artifacts.
+- project and target group;
+- concise title and one desired outcome;
+- selected template and its source;
+- material priority, effort, tags, dependencies, parent, or owner; and
+- expected allocated path and write effect.
 
-When updating an existing task:
+Obtain approval, let taskmd allocate identity and filename, fill meaningful body content, and validate the result. Do not create persistent task files or allocate IDs directly when taskmd is unavailable.
 
-- Preserve confirmed decisions and useful context.
-- Record meaningful completed outcomes in the project's done-log style.
-- Keep the next action and blockers current.
-- Remove stale instructions only when the user approves and history remains understandable.
-- Do not mark work done without evidence appropriate to its definition of done.
+## Updating Tasks
 
-Do not overwrite historical snapshots when the project preserves immutable plan history.
+Use taskmd for supported metadata and status changes. Edit body content directly only after taskmd resolves the authoritative file.
 
-## Replacement and Superseding
+- Preserve confirmed decisions, useful context, and checked outcomes.
+- Keep Objective, Tasks, and Acceptance Criteria current when they help execution.
+- Record meaningful approaches, blockers, decisions, and completion context in enabled worklogs.
+- Do not mark work complete without evidence appropriate to its acceptance criteria.
+- Do not add optional fields or custom metadata without an observed project need.
+- Validate after every approved write.
 
-Do not assume replacement requires a timestamped file.
+## Replacement and Cancellation
 
-Follow project-local history rules:
+Do not assume replacement requires migration, archival, or a timestamped file.
 
-- Stable-card workflows usually update the existing card and its log.
-- Snapshot workflows may create a new version or timestamped artifact.
-- A replacement artifact is appropriate when identity, scope, ownership, or approach changes materially and preserving the old state helps.
+Before replacing or cancelling a task, confirm:
 
-Before superseding, confirm:
+- old and new task identities;
+- why replacement or cancellation is needed;
+- preserved context and relationship between tasks;
+- dependency and parent effects;
+- status and worklog changes; and
+- any destructive or archive effect.
 
-- The old and new task identities.
-- Why replacement is needed.
-- The status and note to add to the old artifact.
-- Required links between old and new artifacts.
-- Board or index changes.
-
-Never mark a task finished, abandoned, or superseded without explicit approval.
+Use taskmd status and relationship fields where supported. Preserve replacement reasoning in task bodies or enabled worklogs when useful. Handle archive or deletion only after an explicit user request and separate approval.
 
 ## Resume Mode
 
-Use a resume report when the user returns to existing work or asks what to do next.
-
-Suggested shape:
+Use taskmd to resolve the task, then derive a resume report from the task file, relationships, and worklog:
 
 ```markdown
 ## Resume Report
 
 Goal: <desired outcome>
-Current state: <where the work stands>
+Current state: <status and meaningful progress>
 Done evidence: <verified completed outcomes>
 Blockers: <none or current blockers>
-Open decisions: <none or decisions still needed>
+Open decisions: <none or unresolved choices>
 Next action: <smallest meaningful next step>
 ```
 
-Adapt or omit fields to match the project. Derive the report from inspected task material; do not infer completed work without evidence.
-
-Update saved task state only when the user requests and approves the update. A resume report can remain conversational.
+Adapt or omit fields. Do not infer completed work without evidence. Update persistent state only when requested and approved.
 
 ## Reminders
 
 When the user asks for a reminder, clarify whether they want:
 
-- Metadata stored in the task artifact.
-- A date or revisit condition.
-- An external reminder integration that can trigger proactively.
+- task body content;
+- a project-approved custom field;
+- a revisit date or condition; or
+- an external reminder integration that can trigger proactively.
 
-Do not promise proactive notification without an available and configured integration.
-
-A metadata-only reminder can use the project's format or a simple fallback:
-
-```markdown
-Reminder: <yyyy-mm-dd> — Revisit the unresolved decision.
-```
-
-Explain that metadata does not trigger itself and the user must return to or query the task unless an integration exists.
-
-## Fallback Task Format
-
-Use the project's format whenever one exists. Otherwise propose a minimal structure and obtain approval before saving:
-
-```markdown
-# Task Title
-
-Status: active
-Created: <yyyy-mm-dd>
-
-## Goal
-
-A concise desired outcome.
-
-## Todo
-
-- [ ] Complete a meaningful outcome.
-- [ ] Validate the result.
-
-## Blockers
-
-None.
-
-## Done Log
-
-- <yyyy-mm-dd>: Task created.
-```
-
-Add priority, effort, decisions, context, links, reminders, or resume fields only when useful. Do not add per-item difficulty by default.
+Use taskmd to resolve the task, obtain approval, edit the exact body or supported field, then validate. Explain that stored text does not trigger itself. Do not promise notification without an available configured integration.
 
 ## Validate Saved Changes
 
-After writing:
+After approved changes:
 
-1. Re-read changed task artifacts and board entries.
-2. Confirm metadata, links, statuses, and project-defined relationships agree.
-3. Confirm only approved files changed.
-4. Format changed Markdown when the project uses a formatter.
-5. Validate each target according to its storage context:
-    - use repository status and diff checks when the target is expected to be version-controlled;
-    - use direct content, metadata, link, and relationship inspection for non-Git vaults and plain directories;
-    - validate each location with its applicable mode when artifacts span multiple storage systems.
-6. Report files changed, state transitions, validation mode, and anything not tested.
+1. Run taskmd validation from the approved project root; use strict validation when applicable.
+2. Re-read every changed task and worklog.
+3. Confirm IDs, required fields, statuses, dependencies, parent links, filenames, and template placeholders are valid.
+4. Confirm only approved paths and effects changed.
+5. Format changed Markdown when required.
+6. Validate each location by storage context:
+    - use repository status and exact diffs where Git is expected;
+    - use direct content, metadata, and relationship inspection for linked vaults and non-Git storage; and
+    - validate user-level templates or configuration directly when they are outside a repository.
+7. Report created or changed IDs and paths, validation results, and anything not tested.
 
-Describe Git as unavailable only when the project expected Git validation but it could not be performed. Otherwise report direct inspection as the applicable validation mode without presenting the absence of Git as a deficiency.
+Do not treat manual inspection as equivalent to taskmd validation. Report when runtime discovery, template rendering, or task-defined verification was not performed.

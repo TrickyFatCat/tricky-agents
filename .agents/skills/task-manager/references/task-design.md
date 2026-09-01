@@ -30,6 +30,8 @@ Prefer tasks that represent meaningful progress:
 
 Avoid mechanical tasks such as opening a file, reading one line, typing one sentence, or saving a document.
 
+Prefer one clear deliverable per task. For substantial tasks, use an Objective, Tasks, and Acceptance Criteria. Treat more than roughly 8–10 distinct subtasks, several independent deliverables, or work unlikely to fit one focused session as a split signal rather than an automatic rule.
+
 Split a task when parts have different outcomes, owners, blockers, statuses, or validation requirements. Keep related actions together when splitting would add tracking overhead without making progress clearer.
 
 ## Handle Uncertainty
@@ -69,7 +71,15 @@ A useful blocker statement identifies:
 - Who or what can resolve it, when known.
 - The next action available while waiting, if any.
 
+Create a dependency only when the dependent task cannot realistically start without the predecessor's output. Use priority for preference ordering and tags for non-blocking relationships.
+
 Do not create dependency links that add no practical navigation or scheduling value.
+
+## taskmd Organization
+
+Start persistent taskmd work with a flat task directory. Add groups when task volume or durable work areas make the flat view noisy; do not pre-build a hierarchy for a small or uncertain project.
+
+Let taskmd allocate identity and derive group from directories when appropriate. Keep metadata proportional and use an applicable template to reduce repeated structure rather than adding speculative fields.
 
 ## Priority
 
@@ -130,4 +140,5 @@ Before presenting the plan, confirm:
 3. Decisions are not presented as settled when they remain open.
 4. Validation and approval are included where needed.
 5. Metadata is no heavier than the workflow requires.
-6. The next action is visible.
+6. Persistent taskmd work has one deliverable, proportional metadata, and only genuine blocking dependencies.
+7. The next action is visible.
