@@ -2,7 +2,7 @@
 
 Use this template when creating or substantially restructuring a `SKILL.md` core.
 
-Adapt it. Omit sections that do not change behavior. Keep safety-critical rules in the core. Keep the main `SKILL.md` under 500 lines by default; move long detail to references or assets.
+Adapt it. Omit sections that do not change behavior, including routing or handoff sections with no material boundary. Keep safety-critical rules in the core. Keep the main `SKILL.md` under 500 lines by default; move long detail to references or assets.
 
 ## Source Material Check
 
@@ -89,14 +89,13 @@ Include this table only when the skill has several common task types with differ
 
 Omit this section when one workflow covers most requests.
 
-## Skill Routing
+## Required Handoffs
 
-Use complementary skills when another activity is primary:
+Include this section only when another skill or workflow must participate to preserve ownership, approval, safety, or a required capability.
 
-- Use `<skill>` when <handoff condition>.
-- Use `<skill>` when <handoff condition>.
+- Use `<skill-or-workflow>` when <material handoff condition>.
 
-`<this-skill>` owns <primary responsibility>. It does not replace <approval, safety, repository, research, review, or implementation boundary>.
+Do not list generic complementary skills merely because they could help. Omit this section when the reference table, approval section, shared-workflow section, or global rules already make every required handoff clear.
 
 ## Operating Modes
 

@@ -1,21 +1,20 @@
 # Skill Validation
 
-Read this reference when reviewing, completing, or renaming a skill.
+Read this reference when reviewing, completing, migrating, or renaming a skill.
 
-Validation should cover discovery, content, references, dependencies, formatting, and repository scope. Passing a Markdown check alone does not prove that a skill routes or behaves correctly.
+Validation covers discovery, content, references, dependencies, formatting, and repository scope. Markdown checks alone do not prove correct routing or behavior.
 
 ## Pre-Change Inventory
 
 Before editing:
 
-- Resolve the skill location and repository root.
-- Inspect repository status.
-- Read the complete `SKILL.md` and relevant references.
-- List scripts, assets, and nested resources.
-- Use `scripts/skill-audit.nu inventory <skills-root> --exclude nushell --format json` when it can speed the inventory.
-- Search for the skill name, command, directory path, title, and known aliases.
-- Identify routing dependencies in other skills, prompts, instructions, documentation, and task records.
-- Separate current dependencies from historical records before proposing changes.
+- resolve the skill location and repository root;
+- inspect repository status;
+- read the complete core and relevant references;
+- list scripts, assets, and nested resources;
+- use `scripts/skill-audit.nu` for bounded inventory or links when useful;
+- search for names, paths, titles, commands, and aliases; and
+- separate active dependencies from historical records.
 
 Do not scan sensitive or unrelated directories without permission.
 
@@ -23,21 +22,14 @@ Do not scan sensitive or unrelated directories without permission.
 
 Confirm:
 
-- `SKILL.md` starts with valid YAML frontmatter.
-- `name` and `description` are present and non-empty.
-- The name uses 1-64 lowercase letters, digits, or hyphens.
-- The name has no leading, trailing, or consecutive hyphens.
-- The name matches the directory for portability.
-- The description is no more than 1024 characters.
-- The description uses imperative phrasing by default, such as `Use when...` or `Use this skill when...`, unless a clear reason supports another style.
-- The description states both capability and activation context.
-- The description describes user intent before implementation mechanics.
-- The description includes specific routing keywords.
-- The description avoids rationale, benefits, implementation history, and motivational prose unless needed for routing.
-- `compatibility`, when present, is 1-500 characters and tied to real environment requirements.
-- Most skills omit `compatibility` unless there is a real runtime, product, network, or tool requirement.
-- `disable-model-invocation: true` is preserved for explicit-only skills.
-- Optional fields are supported and necessary.
+- `SKILL.md` begins with valid YAML frontmatter;
+- `name` and `description` are present and non-empty;
+- the name uses 1–64 lowercase letters, digits, or hyphens;
+- the name has no leading, trailing, or consecutive hyphens;
+- the name matches the directory;
+- the description is at most 1024 characters, uses imperative phrasing by default, and states capability plus activation context;
+- optional fields are supported and necessary; and
+- `disable-model-invocation: true` remains intact for explicit-only skills.
 
 Malformed frontmatter or a missing description can prevent discovery.
 
@@ -45,225 +37,210 @@ Malformed frontmatter or a missing description can prevent discovery.
 
 Ask:
 
-- Does the description activate for the intended requests?
-- Is it likely to activate for unrelated requests?
-- For substantial changes, can one matching request and one near-miss boundary request be tested or reasoned through?
-- Does the description avoid overfitting to one prompt set?
-- Are overlaps with adjacent skills resolved through clear handoffs?
-- Does the skill distinguish review, planning, research, and implementation?
-- Does it avoid routing to skills that do not exist?
-- Are renamed skills updated in every active routing dependency?
+- Does the description activate for intended requests and avoid unrelated ones?
+- Can one matching request and one near-miss boundary request test substantial routing changes?
+- Are material ownership overlaps resolved through explicit handoffs?
+- Does every named handoff change ownership, required workflow, approval or safety behavior, necessary context transfer, or a stopping condition?
+- Are `audit-workflow` and `decision-record` loaded only when their artifact mechanics are relevant?
+- Does the skill avoid generic helper-skill catalogs and repeated global or local routing rules?
+- Can any handoff be removed without losing an ownership, safety, approval, context-transfer, or stopping boundary?
+- Does the skill distinguish assessment, research, planning, approval, and implementation?
+- Do all named skills exist in the configured registry?
+- Are renamed or removed resources absent from active routing dependencies?
 
-Search the actual skill registry or configured locations rather than assuming another skill exists.
+Search configured skill locations instead of assuming dependencies exist.
 
 ## Core and Reference Checks
 
 Confirm:
 
-- The core contains the always-needed purpose, routing, workflow, and safety rules.
-- The main `SKILL.md` stays under 500 lines by default, or the proposal/review explains why an exception is justified.
-- Optional detail is moved to references when it would obscure the default path.
-- Every linked reference exists.
-- Every reference has a clear load condition in the core.
-- Relative paths resolve from the skill directory.
-- References do not contradict the core or active project instructions.
-- Critical rules are not available only in an optional reference.
-- Templates do not impose one project's conventions globally.
-- Templates live in `assets/` when they are copied or used as output patterns.
-- Template filenames are semantic and avoid generic names such as `README.md`, `template.md`, or `notes.md` unless an approved exception applies.
+- the core contains always-needed purpose, workflow, approval, safety, and material routing boundaries without requiring a dedicated routing section;
+- the core remains under 500 lines by default or has an explained exception;
+- optional detail is moved to references;
+- every reference exists and has a clear loading condition;
+- relative paths resolve;
+- references do not contradict the core or project instructions;
+- critical rules are not available only in optional references; and
+- shared mechanics are referenced rather than copied without a boundary reason.
 
-A shorter core is not automatically better. The criterion is whether always-loaded content is necessary for correct behavior.
+A shorter core is not automatically better. Always-loaded correctness is the criterion.
 
-## Formal Audit Resource Checks
+## Shared Artifact Checks
 
-For full Skill Audit, confirm:
+Use `audit-workflow` to validate generic Review, Audit, proposal, lifecycle, persistence, metadata, TOC, section ownership, and base-template mechanics.
 
-- Every skill-owned reference is evaluated for need, quality, and writing.
-- Every skill-owned template is evaluated for need and quality.
-- Missing recurring template capability is explicitly assessed.
-- Directly linked shared dependencies are included only when they materially affect behavior.
-- Unrelated global references and templates remain excluded.
-- Small skills or skills without owned resources use proportional wording instead of empty tables.
+Use `decision-record` to validate record worthiness, content, status, storage, supersession, traceability, and record links.
 
-For Usage Report Audit, confirm:
+Skill Creator validates the domain additions:
 
-- Every selected report has an evidence-backed judgment and next lifecycle state.
-- Every core section, reference, template, script, instruction, decision, commit, or dependency that can materially change the report judgment is evaluated.
-- Unrelated owned resources are explicitly listed as excluded.
-- The Audit does not imply whole-skill coverage.
-- Broad routing, safety, responsibility, architecture, migration, or uncertain interactions trigger escalation to full Skill Audit.
-- Lifecycle-only or traceability-only correction with no behavior change uses lightweight triage when formal Audit would add no value.
+- Skill Audits include the required resource and capability evaluation.
+- Usage Report Audits assess every selected report and materially related resource, list exclusions, and escalate broad or uncertain effects.
+- Skill proposals expose exact global-resource scope, artifact roles, naming, handoffs, migration effects, validation, and decision-record outcome.
+- Project-local conventions override shared defaults.
+- Shared guidance loads only when the request enters the relevant mode.
 
-Inventory, report count, and link checks support these evaluations but do not replace qualitative judgment.
+## Target-Skill Audit and Review Capability
 
-## Target-Skill Artifact Capability Checks
+When a target skill may own domain assessment, confirm:
 
-When the target skill may own decision-record, Audit/Review, or Proposal capability, confirm:
+- recurring domain Review or Audit belongs to its runtime responsibility;
+- it contributes evidence criteria and judgment generic review would miss;
+- Review and Audit remain proportional and distinct under `audit-workflow`;
+- assessment cannot silently become proposal or implementation;
+- project-local persistence and lifecycle rules remain authoritative;
+- shared templates are used directly by default; and
+- a target-owned template exists only with recurring evidence for a distinct output contract.
 
-- The capability belongs to a recurring runtime responsibility rather than the current Skill Creator workflow.
-- Each capability is assessed independently and loads only for relevant requests.
-- Advice, assessment, proposal, approval, and implementation boundaries remain clear.
-- Project-local storage, naming, lifecycle, approval, and validation rules remain authoritative.
-- Concrete templates are justified, semantically named, and owned by the target skill.
-- Skill Creator's own templates are not copied as universal target-skill assets.
+Read [audit-review-capability.md](audit-review-capability.md) for the complete domain test.
+
+## Target-Skill Proposal Capability
+
+When a target skill may own domain proposals, confirm:
+
+- proposal behavior belongs to recurring runtime responsibility;
+- the target supplies domain decisions, evidence, and validation additions rather than copying shared mechanics;
+- advice, Review, proposal, approval, and implementation remain distinct;
+- proposals cannot approve themselves or expand implementation scope;
+- project-local storage and lifecycle rules remain authoritative; and
+- a target-owned template is justified rather than copied from a shared or Skill Creator asset.
+
+Read [proposal-capability.md](proposal-capability.md) for the complete domain test.
+
+## Decision-Record Handoff
+
+Do not add target-owned decision-record mechanics or templates by default. Confirm the skill hands relevant domain context to `decision-record`, including:
+
+- the decision question or confirmed outcome;
+- evidence, constraints, and alternatives;
+- consequences and compatibility effects;
+- owner authority; and
+- source tasks, reports, Audits, proposals, or related decisions.
+
+For every skill task, ensure the final response states whether a record is recommended and why. Use the shared owner for substantive assessment and all persistent record work.
 
 ## Content Review
 
-Review in source order when practical and prioritize behavior-changing findings.
+Review in source order when practical. Prioritize behavior-changing findings.
 
 Check for:
 
-- Mandatory restatements or preambles that add no value.
-- Long paragraphs or ungrouped lists that hide the next action.
-- Descriptions that explain benefits instead of routing triggers.
-- Reference text that uses prose where direct instructions would be clearer.
-- Repeated rationale, motivational prose, or generic benefits.
-- Fixed response structures that do not scale down.
-- Excessive questions, metadata, or mechanical task steps.
-- Undefined confidence, status, priority, or severity labels.
-- Workflows without stopping criteria.
-- Recommendations treated as confirmed decisions.
-- Missing approval, handoff, rollback, or validation rules.
-- Contradictions with global or project-local instructions.
-- Stale examples, dates, paths, tool names, or unavailable skills.
-- Generic model-knowledge guidance where concrete source material is available.
-- Missing source-material, user-correction, usage-report, or execution-trace context for substantial changes.
-- Overly broad menus where one default should be chosen.
-- Overly rigid template steps applied where judgment should remain flexible.
+- mandatory preambles that add no value;
+- long paragraphs or ungrouped lists that hide action;
+- descriptions that explain benefits rather than routing;
+- repeated rationale or generic motivational prose;
+- fixed response structures that do not scale down;
+- undefined status, confidence, priority, or severity labels;
+- workflows without stopping criteria;
+- recommendations presented as decisions;
+- missing approval, safety, handoff, rollback, or validation rules;
+- contradictions with shared skills or active instructions;
+- stale names, paths, examples, dates, or unavailable skills; and
+- generic guidance where concrete task or report evidence exists.
 
-Preserve good decisions and explain the trade-off of each proposed change.
+Preserve useful decisions and explain material trade-offs.
 
-## Formal Artifact Concision
+## Skill Audit Checks
 
-For substantial Audits and proposals, run a final decision-density check:
+For a full Skill Audit, confirm:
 
-- Assign each fact or boundary to one primary section.
-- Remove repeated evidence across summaries, evaluations, findings, outcomes, and handoffs.
-- Link accepted Audit, research, or report evidence instead of restating it.
-- Remove paragraphs that do not change evidence, confidence, scope, impact, action, trade-offs, validation, lifecycle, or authority.
-- Omit optional template sections that do not help the current decision.
-- Keep short local restatements when needed to preserve safety, confidence, scope, or approval meaning.
+- every owned reference is evaluated for need, quality, and writing;
+- every owned template is evaluated for need and quality;
+- missing recurring template capability is assessed;
+- scripts are inspected and tested only with approval;
+- directly linked shared dependencies are included only when behaviorally relevant; and
+- unrelated global resources are excluded.
 
-For proposals, confirm detailed actions define the approval contract rather than draft complete future resources by default. Before user review, account for every exact file and action and give each material decision one primary review location. Include current and proposed wording when exact replacement text affects approval. Include an exact template, schema, or reusable output structure when its shape affects approval. Keep defaults, precedence, paths, roles, naming, boundaries, migration, compatibility, safety, validation, and lifecycle detail when they change the decision.
+For a Usage Report Audit, confirm:
 
-For every exact block, identify the approval decision it can change. Remove or summarize content that cannot affect scope, behavior, compatibility, safety, validation, migration, authority, or wording approval. Do not require a human-facing coverage grid or use artifact length as a pass/fail rule.
+- every selected report has an evidence-backed judgment and next lifecycle state;
+- every materially related resource is assessed;
+- unrelated owned resources are explicitly excluded;
+- broad routing, safety, responsibility, architecture, migration, or uncertain interaction triggers escalation; and
+- lifecycle-only correction uses lightweight triage when no behavior change is proposed.
 
-Do not use artifact length as a pass/fail rule. Record it only as supporting evidence when useful.
+Use [audit-format.md](audit-format.md) for Skill Creator domain criteria and `audit-workflow` for shared output mechanics.
+
+## Proposal Preflight
+
+Before asking the user to approve a tracked skill proposal:
+
+1. Account for every exact file and action.
+2. Give each material decision one primary review location.
+3. Include current and proposed wording when exact text affects approval.
+4. Include reusable structures only when shape affects approval.
+5. Preserve defaults, precedence, paths, roles, naming, boundaries, migration, compatibility, safety, validation, lifecycle, and authority when they change the decision.
+6. For every exact block, identify the approval decision it can change; remove or summarize blocks that cannot change one.
+7. Link accepted evidence instead of repeating it.
+
+Do not require a human-facing coverage grid or use artifact length as a pass/fail rule.
 
 ## Script and Asset Checks
 
 For scripts:
 
-- Read the script before running it.
-- Verify inputs, outputs, dependencies, side effects, and error handling.
-- Prefer help, version, check, or dry-run execution first.
-- Check portability and relative-path assumptions.
-- Review security-sensitive operations and credential handling.
-- Use `code-reviewer` for implementation quality.
+- read before execution;
+- verify inputs, outputs, dependencies, side effects, and errors;
+- prefer help, check, or dry-run paths;
+- inspect portability and relative-path assumptions; and
+- use `code-reviewer` for implementation quality.
 
 For assets:
 
-- Confirm they are referenced intentionally.
-- Check that generated output does not overwrite the asset.
-- Verify templates contain no private paths, credentials, or project-specific secrets.
-- Verify templates state when to adapt or omit irrelevant sections.
-- Verify filename semantics: artifact role and subject should be understandable from the basename.
+- confirm every asset is intentionally referenced;
+- ensure generated output cannot overwrite the source asset;
+- reject private paths, credentials, or project-specific secrets;
+- require adaptation and omission guidance;
+- use semantic filenames; and
+- avoid local copies of shared templates without distinct recurring need.
 
-Do not execute user-provided or state-changing scripts without approval.
+## Rename and Migration Checks
 
-## Rename and Migration Checklist
+Treat a rename as a migration. Confirm approved scope covers:
 
-Treat a rename as more than changing frontmatter.
+1. old and new directories;
+2. frontmatter name and visible title;
+3. relative links and routing mentions;
+4. prompts, instructions, and documentation;
+5. active tasks and inventories;
+6. commands, scripts, aliases, or settings;
+7. approved historical updates; and
+8. alias retention or removal.
 
-Confirm the approved migration covers:
-
-1. Old and new directories.
-2. Frontmatter name and visible title.
-3. References and relative links.
-4. Routing mentions in other skills.
-5. Prompt templates and instructions.
-6. Documentation, source inventories, and active task records.
-7. Commands, aliases, scripts, or settings that use the old name.
-8. Historical records the user explicitly wants updated.
-9. Removal or retention of compatibility aliases.
-
-After migration, search for stale variants:
-
-```bash
-rg --hidden -n "old-skill|Old Skill|old skill" <approved-search-roots>
-```
-
-Do not update historical wording unless the user approves that trade-off.
+Search for stale variants after migration. Do not rewrite historical wording without approval.
 
 ## Formatting and Static Validation
 
-Format changed Markdown with the project's intended formatter.
+Format changed Markdown with the intended project formatter. Then check:
 
-Then check:
+- trailing whitespace and conflict markers;
+- broken relative references;
+- frontmatter and directory agreement;
+- unexpected machine-specific paths;
+- missing scripts or assets;
+- stale active links to deleted resources; and
+- exact approved Git scope.
 
-- Trailing whitespace and conflict markers.
-- Broken relative references.
-- Frontmatter and directory agreement.
-- Unexpected absolute or machine-specific paths.
-- Missing scripts or assets.
-- Broken local Markdown links; use `scripts/skill-audit.nu links <skill-dir> --format json` when useful.
-- Only approved files changed.
-
-For a Git-backed repository, use the resolved repository root:
-
-```bash
-git -C "$repo_root" status --short
-git -C "$repo_root" diff --check
-git -C "$repo_root" diff -- <approved-paths...>
-```
-
-Untracked files may not appear in an ordinary unstaged diff. Inspect them directly or stage exact paths only after commit approval and then validate the cached diff.
-
-For non-Git storage, report that limitation and use direct content, whitespace, link, and stale-reference checks.
+For Git-backed repositories, inspect `status`, `diff --check`, and exact-path diffs. Untracked files need direct inspection or exact-path staging only after commit approval.
 
 ## Runtime Discovery
 
-Pi scans skill locations and extracts frontmatter at startup.
+When appropriate, start a fresh session or skill scan and confirm:
 
-When runtime testing is appropriate:
+- no startup warnings or collisions;
+- the skill appears under the expected name;
+- explicit invocation works when supported; and
+- matching and near-miss requests route correctly.
 
-- Start a new session or otherwise trigger a fresh skill scan.
-- Check startup warnings for malformed or colliding skills.
-- Confirm the skill appears under the expected name.
-- Invoke `/skill:<name>` when skill commands are enabled and explicit loading needs verification.
-- Test one matching request and one boundary request when routing behavior matters.
-- For substantial skill changes, review a trial task or execution trace when available, or report why that was not practical.
-
-Do not claim runtime discovery was tested when only files were inspected. An active session may not reflect newly created or renamed skills until discovery runs again.
-
-## Commit Validation
-
-Commit only when explicitly requested and permitted by the repository workflow.
-
-Before committing:
-
-1. Inspect status and the complete relevant diff.
-2. Stage exact approved paths.
-3. Run:
-
-    ```bash
-    git -C "$repo_root" diff --cached --check
-    ```
-
-4. Confirm deletions, renames, and new references are all staged.
-5. Commit with a focused message.
-6. Verify repository state afterward.
-
-Do not include unrelated changes or unapproved historical records.
+Do not claim runtime testing when only files were inspected. Report trial or execution-trace limitations.
 
 ## Final Report
 
 Report:
 
-- Files created, modified, moved, or deleted.
-- Skill behavior and routing changes.
-- Dependencies and records updated.
-- Formatting and validation performed.
-- Runtime discovery or scripts not tested.
-- Repository limitations and remaining changes.
-- Commit hash when a commit was requested.
+- files created, modified, moved, or deleted;
+- routing and behavior changes;
+- dependencies and records updated;
+- formatting and validation performed;
+- scripts, runtime discovery, renderer behavior, or trials not tested;
+- remaining repository changes; and
+- commit hash only when a commit was requested.

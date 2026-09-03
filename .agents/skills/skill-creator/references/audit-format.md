@@ -1,308 +1,156 @@
-# Skill Audit and Review Format
+# Skill Audit and Review Domain Guidance
 
-Read this reference before producing a full Skill Audit, Usage Report Audit, or substantial informal Review.
+Read this reference when applying Skill Creator's domain criteria to a formal Skill Audit, Usage Report Audit, or substantial informal Review.
 
-## Mode Boundary
+Pair it with the relevant shared workflow:
 
-Use **Review** for informal critique, user feedback on an Audit or proposal, and lightweight report triage. Keep it proportional and normally conversational.
+- Read [`audit-workflow/references/review.md`](../../audit-workflow/references/review.md) for conversational Review mechanics.
+- Read [`audit-workflow/references/audit.md`](../../audit-workflow/references/audit.md) for formal Audit structure, lifecycle, findings, persistence, and section ownership.
+- Use [`audit-workflow/assets/artifact-audit-template.md`](../../audit-workflow/assets/artifact-audit-template.md) as the saved Audit base.
 
-Use **Usage Report Audit** for a formal, saved assessment of selected usage reports and the resources that can materially change their judgments.
-
-Use **full Skill Audit** for a formal, saved whole-skill assessment. Prefer it when the user explicitly requests full coverage or the candidate change has broad or uncertain impact.
-
-Both formal Audit modes record evidence, prioritized findings, preserved behavior, limitations, a preliminary decision-record signal, and one outcome: `no change`, `research`, `defer`, or `proposal required`.
-
-For a tracked skill change:
-
-1. Save the selected Audit before creating a proposal.
-2. Let the user review the Audit and add corrections or skipped checks.
-3. Record one Audit outcome.
-4. Create a separate proposal only after a reviewed Audit records `proposal required`.
-
-Do not put exact implementation approval in an Audit.
+This reference supplies skill-domain scope, evidence, judgment, and additions. It does not redefine the shared artifact format.
 
 ## Choose the Assessment Scope
 
-### Lightweight Report Triage
+### Review
 
-Use Review instead of formal Audit when conclusive evidence shows that only usage-report lifecycle metadata or traceability needs correction and no behavior change is proposed.
+Use Review for informal skill critique, user feedback on an Audit or proposal, implementation follow-up, and lightweight report triage when only lifecycle or traceability needs correction.
 
-Record the evidence and correction without creating Audit or proposal ceremony. Follow report-state approval rules.
+Keep Review proportional and normally conversational. Skill Creator supplies architecture, routing, progressive-disclosure, safety, migration, and validation criteria; `audit-workflow` supplies shared Review mechanics.
 
 ### Usage Report Audit
 
-Use Usage Report Audit when one or more usage reports may lead to a skill or global-agent change.
+Use Usage Report Audit when selected skill usage reports may lead to a skill or global-agent change and their materially related resources define a reliable bounded scope.
 
-Focus on:
+Assess:
 
-- each report's user-pointed issue and interpretation;
+- each report's user issue separately from agent interpretation;
 - observed behavior and supporting evidence;
 - validity, overlap, duplication, and current lifecycle state;
-- improvement candidates and affected resources;
+- every resource that can materially change the report judgment;
+- explicit exclusions; and
 - the smallest reliable next state.
 
-Evaluate only core sections, references, templates, scripts, instructions, decisions, commits, execution traces, and dependencies that can materially change the report judgment. Explicitly list unrelated owned resources as excluded and do not imply whole-skill coverage.
-
-Escalate to full Skill Audit when:
-
-- the user explicitly requests full or whole-skill assessment;
-- findings affect broad routing, safety, responsibility, architecture, or resource-wide migration;
-- interactions outside the focused resource set can materially change the recommendation; or
-- focused evidence cannot support a confident outcome.
-
-Use [../assets/skill-usage-report-audit-template.md](../assets/skill-usage-report-audit-template.md) for substantial saved Usage Report Audits.
+Escalate to full Skill Audit when findings affect broad routing, safety, responsibility, architecture, resource-wide migration, or uncertain interactions outside the focused set.
 
 ### Full Skill Audit
 
-Use full Skill Audit for whole-skill quality, architecture, routing, resource, migration, or capability assessment.
+Use full Skill Audit for whole-skill quality, architecture, routing, resource, migration, or capability assessment, or whenever the user explicitly requests whole-skill coverage.
 
-Evaluate the core, every owned reference and template, missing recurring template capability, scripts, and behaviorally relevant shared dependencies. Exclude unrelated global resources.
+Evaluate:
 
-Use [../assets/skill-audit-report-template.md](../assets/skill-audit-report-template.md) for substantial saved full Skill Audits.
+- the complete core;
+- every owned reference for need, quality, and writing;
+- every owned template for need and quality;
+- missing recurring template capability;
+- every owned script and its documented contract;
+- behaviorally relevant shared dependencies; and
+- migration and routing dependencies that can change the judgment.
 
-## Common Audit Structure
+Exclude unrelated global resources. Inventory and link counts support but never replace qualitative evaluation.
 
-Use only sections that help:
+## Skill-Domain Evidence
 
-1. Audit Summary.
-2. Scope and Evidence.
-3. Skill Resource Evaluation for full Skill Audit, or Usage Report Triage and Related Resource Evaluation for Usage Report Audit.
-4. Findings, with numbered linked navigation for three or more findings.
-5. Good Decisions.
-6. Best-Practice Check, only when comparing against an explicit baseline.
-7. Questions, only when answers would change the outcome.
-8. Decision Record.
-9. Audit Outcome.
-10. Untested Areas.
-11. Proposal Handoff, only for `proposal required`.
+Use concrete evidence such as:
 
-Keep visible section names concise. Put ordering, priority, and status details inside sections rather than appending them to headings.
+- user corrections and usage reports;
+- task history and execution traces;
+- current skill cores, references, assets, and scripts;
+- direct routing dependencies;
+- accepted decisions and proposals;
+- harness documentation when discovery matters; and
+- read-only inventory, link, and repository checks.
 
-## Section Ownership and Final Pass
+Separate observed facts, interpretation, and recommendations when confusion could change approval or scope.
 
-Give each concept one primary location:
+## Shared Template Adaptation
 
-- `Scope and Evidence`: targets, sources, methods, exclusions, and evidence limits.
-- Resource evaluation or report triage: concise judgments about assessed items.
-- `Findings`: evidence, impact, and recommended action for material problems.
-- `Good Decisions`: preserved behavior not already recorded as a pass finding.
-- `Audit Outcome`: outcome, report states when applicable, and next action.
-- `Proposal Handoff`: candidate areas and unresolved dependencies without repeating findings or proposal content.
+Start a saved formal Audit from the shared artifact Audit template. Adapt it with only the Skill Creator sections needed for the selected mode.
 
-Before finalizing a formal Audit:
+### Full Skill Audit Additions
 
-1. Remove repeated rationale across the summary, evaluation, findings, outcome, and handoff.
-2. Link accepted source evidence instead of restating it.
-3. Remove paragraphs that do not change evidence, confidence, scope, impact, action, outcome, or authority.
-4. Omit optional sections that do not help the judgment.
+Add `Skill Resource Evaluation` when owned resources exist. Evaluate:
 
-Repeat a boundary briefly only when omission would make a local judgment misleading about safety, confidence, scope, or authority. Do not use line, heading, sentence, or paragraph counts as pass/fail limits.
+| Resource type      | Required judgment                                                              |
+| ------------------ | ------------------------------------------------------------------------------ |
+| References         | Need, quality, writing, loading condition, and duplication.                    |
+| Templates          | Recurring need, quality, adaptability, naming, and overlap with shared assets. |
+| Scripts            | Need, contract, side effects, safety, and validation evidence.                 |
+| Missing capability | Whether recurring or fragile output justifies a new resource.                  |
 
-## Audit Summary
+Include target-skill Audit/Review and proposal capability only when normal runtime behavior may own it. Default decision-record mechanics to the shared `decision-record` skill.
 
-Begin a substantial saved Audit with no more than five short bullets:
+### Usage Report Audit Additions
 
-```markdown
-## Audit Summary
-
-- Outcome: Proposal required
-- Findings: 2 high, 3 medium
-- Main concern: The saved proposal is not required before implementation.
-- Preserve: Existing findings formatting and exact-file approval.
-- Next: User reviews this Audit before proposal creation.
-```
-
-Use the whole-artifact summary for orientation, not as a duplicate of finding navigation. Reference findings instead of repeating their evidence. Omit it for a small informal Review.
-
-## Skill Resource Evaluation
-
-Use this section for full Skill Audit.
-
-For every owned reference, assess:
-
-- **Need:** Separate loading is justified and has a clear trigger.
-- **Quality:** Guidance is accurate, sufficiently complete, consistent, and aligned with the core.
-- **Writing:** Text is direct, scannable, proportional, and not duplicative.
-
-For every owned template, assess:
-
-- **Need:** Recurring or fragile output justifies it.
-- **Quality:** It is adaptable, semantically named, locally overridable, safe to copy, and explicit about optional sections.
-
-Also assess missing recurring template capability. Include directly linked shared dependencies only when they materially affect behavior. Use concise prose when the skill has no owned resources or only one trivial resource.
-
-## Usage Report Triage
-
-Use this section for Usage Report Audit.
-
-For each selected report, record:
+Add `Usage Report Triage`:
 
 | Report | User issue | Evidence-backed judgment | Related resources | Next lifecycle state |
 | ------ | ---------- | ------------------------ | ----------------- | -------------------- |
 
-Check whether the report is valid, duplicated, already implemented, stale, superseded, rejected, or still actionable. Preserve the user's issue separately from agent interpretation.
+Add `Related Resource Evaluation` and list unrelated owned resources under scope exclusions. Do not imply whole-skill coverage.
 
-Use report lifecycle accurately:
+### Skill Audit Outcome
 
-- Keep new reports `open` before triage.
-- Mark confirmed reports `triaged` after assessment.
-- Mark a report `proposed` only when a separate proposal links it.
-- Mark a report `decided` only when a decision links it.
-- Mark `implemented`, `rejected`, `stale`, or `superseded` only with a clear final reason and traceability.
+Record one Skill Creator outcome after applying the shared Audit judgment:
 
-## Related Resource Evaluation
+- `no change`: preserve audited behavior;
+- `research`: gather named evidence before deciding;
+- `defer`: state the condition for resuming; or
+- `proposal required`: prepare a separate exact-file proposal only after Audit review.
 
-Use this section for Usage Report Audit.
+For `proposal required`, name candidate areas and unresolved dependencies without drafting implementation inside the Audit.
 
-Evaluate every resource that can materially change the report judgment. For each resource, state why it is related, what was checked, and the result.
+## Skill Finding Priorities
 
-Explicitly list unrelated owned resources as excluded. If exclusions or uncertain interactions weaken confidence, escalate to full Skill Audit.
-
-Inventory and link checks support both Audit modes but do not replace qualitative evaluation.
-
-## Findings
-
-Report no more than five highest-value findings unless the user requests exhaustive coverage or the bounded scope requires more.
-
-For three or more findings, begin the parent section with a numbered linked navigation list:
-
-```markdown
-## Findings
-
-1. [Routing](#routing) — ✅ Pass
-2. [Approval gate](#approval-gate) — 🔴 High
-3. [Safety section](#safety-section) — 🟢 Optional polish
-
-### Routing
-
-Status: ✅ Pass
-```
-
-Keep each navigation line to the finding link plus priority or status. Keep detailed headings descriptive and free of numeric prefixes. Ensure headings produce unique anchors in the target renderer. For one or two findings, omit navigation when it would duplicate the details.
-
-Present findings in source or application order when that makes the artifact easier to apply. For multi-file work, group findings by file in a stable order. Let priority labels communicate severity without reordering findings.
-
-## Finding Priority and Status
-
-Use one metadata line after the heading. Never put priority or status in the heading.
-
-Use `Priority` for problems:
+Use shared finding structure. Apply priorities to skill-domain impact:
 
 - `🔴 High`: likely to break discovery or routing, weaken approval or safety, leave broken references, or make migration incomplete.
 - `🟡 Medium`: likely to create unclear responsibility, maintenance problems, validation gaps, or ineffective progressive disclosure.
-- `🟢 Low`: wording, organization, naming, consistency, or other low-risk polish.
+- `🟢 Low`: wording, organization, naming, consistency, or low-risk polish.
 
-Use `Status` for non-problem notes:
-
-- `✅ Pass`: checked behavior is correct and should stay unchanged.
-- `🟢 Optional polish`: low-risk readability or organization improvement that is not a blocker.
-- `⛔ Declined`: the user rejected or overrode the suggestion; do not repeat it without new evidence.
-
-## Finding Format
-
-Use a concise noun phrase for the heading:
-
-```markdown
-### Marker discovery
-
-Priority: 🔴 High
-
-**Evidence**
-
-The workflow defines supported marker formats, but the initial search failed to find two `> REVIEW` blocks.
-
-**Why it matters**
-
-Missed markers can make an Audit appear complete while user feedback remains unresolved.
-
-**Recommended action**
-
-Use a broad whole-word search before classifying exact marker syntax.
-```
-
-Keep headings short and unnumbered. Use `**Evidence**` for the observation and support. Use `**Why it matters**` for impact, failure modes, maintenance cost, and risks. Omit it for pass notes or simple optional polish when it adds noise. Use `**Recommended action**` for the smallest useful change and key trade-off.
-
-For concrete wording replacements, show old wording before new wording in compact vertical blocks. For reusable output patterns, add one compact positive example when it improves reviewability. Add an avoid example only for a likely mistake.
-
-Omit labels that do not help a simple finding.
-
-## Accepted and Declined Notes
-
-Keep pass notes concise:
-
-```markdown
-### Approval gate
-
-Status: ✅ Pass
-
-**Evidence**
-
-The gate names exact files and requires separate approval for expanded scope. Preserve it.
-```
-
-Keep declined findings equally direct. Do not apply the full finding structure unless the note teaches something important.
-
-## Best-Practice Check
-
-Use a compact best-practice table only when comparing against Agent Skills or another explicit baseline. Check relevant areas such as source material, progressive disclosure, context economy, calibrated control, templates, validation, and routing.
-
-Do not add this section when it would repeat the findings.
+Use status for non-problem notes such as `✅ Pass`, `🟢 Optional polish`, or `⛔ Declined` when useful. Present findings in source or application order when that makes changes easier to review.
 
 ## Good Decisions
 
-Name concrete decisions worth preserving, explain their benefit, and state what should remain unchanged when useful. Do not duplicate pass findings.
+Preserve concrete behavior that prevents regression, including:
 
-## Questions
+- focused routing descriptions;
+- clear adjacent-skill handoffs;
+- safety and approval rules in the core;
+- justified progressive disclosure;
+- domain criteria that remain outside shared mechanics;
+- deterministic read-only validation; and
+- project-local precedence.
 
-Ask only questions whose answers can change the recommendation, scope, escalation, migration path, lifecycle judgment, or Audit outcome. Keep them few and decision-oriented.
+Do not repeat pass findings as generic praise.
 
-## Follow-Up Audits and Reviews
+## Decision-Record Signal
 
-When previous history matters:
+For every skill task, state whether a decision record is recommended and why. Use `decision-record` for substantive worthiness checks and all persistent record work.
 
-1. Verify resolved findings instead of presenting them as new.
-2. Preserve accepted and declined decisions when they prevent repetition.
-3. Identify newly discovered issues as new findings.
-4. Do not change a previous status without user confirmation or new evidence.
+In a formal Audit, keep this signal preliminary. If the outcome is `proposal required`, confirm the final outcome and exact path in the proposal. Do not create a proposal merely to repeat a `no change`, `research`, or `defer` signal.
 
-## Decision Record
+## Tracked Skill Changes
 
-Use one compact heading for the preliminary signal:
+Use `audit-workflow` for lifecycle mechanics. Skill Creator adds these domain gates:
 
-```markdown
-## Decision Record
+1. Save the selected Audit before a tracked proposal.
+2. Let the user review and correct it.
+3. Record one Skill Creator outcome.
+4. If the outcome is `proposal required`, use the shared proposal template and add exact skill-resource scope, migration, validation, and decision-record context.
+5. Run the Skill Creator proposal preflight from `skill-validation.md`.
+6. Keep implementation separate from proposal approval.
 
-- Stage: Preliminary
-- Signal: Recommended
+## Final Domain Checks
 
-**Reason**
+Before presenting or saving the assessment, confirm:
 
-- The candidate change affects a shared format and approval workflow.
-- Confirm the final outcome and path in the proposal.
-```
-
-Use `Recommended` or `Not recommended` and state why. For `proposal required`, leave the final outcome and exact path to the proposal.
-
-## Audit Outcome
-
-Record one outcome and the next action in every formal Audit:
-
-```markdown
-## Audit Outcome
-
-- Outcome: Proposal required
-- Next: Create a separate proposal only after user review of this Audit.
-```
-
-Allowed outcomes:
-
-- `no change`: preserve audited behavior; no proposal follows.
-- `research`: gather named evidence before deciding.
-- `defer`: preserve the finding and state the condition for resuming.
-- `proposal required`: create a separate exact-file proposal after user review.
-
-## Proposal Handoff
-
-For `proposal required`, identify only candidate areas, dependencies, and unresolved scope. Do not duplicate exact proposal tables, final wording, approval request, or lifecycle state.
-
-Use [../assets/skill-change-proposal-template.md](../assets/skill-change-proposal-template.md) later when the proposal phase begins.
+- the selected mode matches the requested and required scope;
+- domain criteria came from Skill Creator rather than the shared artifact workflow;
+- full Skill Audit evaluated every owned resource and missing capability;
+- Usage Report Audit evaluated all selected reports and materially related resources with explicit exclusions;
+- broad or uncertain report effects triggered escalation;
+- shared templates and lifecycle rules were applied without local duplication;
+- recommendations did not become implementation approval;
+- decision-record need and reason are visible; and
+- runtime, renderer, source, or validation checks not performed are stated.

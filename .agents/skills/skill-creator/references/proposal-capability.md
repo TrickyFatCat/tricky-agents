@@ -1,131 +1,99 @@
 # Proposal Capability Design
 
-Read this reference when designing or reviewing a target skill that may propose domain changes during normal use.
+Read this reference when deciding whether a target skill should own domain-specific proposal behavior during normal use.
 
-Do not read this reference merely because the current skill change needs Skill Creator's own exact-file proposal. Use [../assets/skill-change-proposal-template.md](../assets/skill-change-proposal-template.md) for proposals that change skills.
+Use [`audit-workflow/references/proposals.md`](../../audit-workflow/references/proposals.md) for generic proposal structure, lifecycle, exact-scope contracts, persistence, and template mechanics. This reference covers only target-skill domain responsibility and additions.
+
+Do not read it merely because the current skill change needs a proposal.
 
 ## Capability Test
 
-Add Proposal capability to a target skill only when all applicable conditions are met:
+Add domain proposal capability only when all applicable conditions are met:
 
-- Proposing domain changes belongs to the skill's primary responsibility or a clear supporting responsibility.
-- The behavior recurs across real tasks.
-- The skill holds context that a handoff would lose.
-- The skill can define exact scope, approval, lifecycle, and validation without weakening project rules.
-- The capability remains inactive during requests that need only advice, review, or implementation.
+- proposing domain changes belongs to the target skill's primary or clear supporting responsibility;
+- the behavior recurs across real tasks;
+- the domain skill holds evidence, constraints, trade-offs, or validation context a shared-only handoff would lose;
+- the skill can keep advice, proposal, approval, and implementation separate; and
+- the capability remains inactive during requests that need only advice, assessment, or implementation.
 
-Do not add the capability merely because:
-
-- Skill Creator proposed changes to the skill;
-- the skill makes recommendations;
-- one task needed approval;
-- another workflow already owns planning or change control;
-- a generic proposal template could be copied into the skill.
+Do not add capability merely because Skill Creator proposed changes to the skill, the skill makes recommendations, one task needed approval, or a generic template could be copied.
 
 ## Responsibility Boundary
 
-Define which operations the target skill owns:
+The target skill may own:
 
-- decide when a durable proposal is justified;
-- explain the recommended domain change and trade-off;
-- identify exact affected artifacts or systems;
-- distinguish the selected approach from rejected alternatives;
-- record approval and lifecycle state when the project requires it;
-- hand approved scope to the responsible implementation workflow;
-- validate proposal traceability and state relationships.
+- domain triggers for a durable proposal;
+- domain evidence, decision criteria, constraints, and trade-offs;
+- the selected domain approach and meaningful rejected alternatives;
+- domain-specific actions, systems, or artifacts affected;
+- domain validation and rollback expectations; and
+- context handed to the responsible implementation workflow.
 
-Do not assign implementation, repository operations, deployment, publication, or destructive effects automatically. Keep those actions with their responsible workflows and approval gates.
+Delegate to `audit-workflow`:
 
-## Proposal versus Implementation
+- proposal-versus-implementation boundaries;
+- generic lifecycle and approval semantics;
+- exact file or system scope mechanics;
+- shared section ownership and proposal structure;
+- persistence and naming fallbacks; and
+- the base proposal template and generic preflight.
 
-A proposal requests a decision. It does not grant its own approval and does not prove implementation.
+Keep repository operations, deployment, publication, destructive effects, and implementation with their responsible workflows.
 
-Keep these phases distinct when the workflow tracks them:
+## Domain Contract
 
-1. Prepare the proposal.
-2. Let the user review and revise it.
-3. Record exact approval.
-4. Implement in a separate phase.
-5. Validate before recording completion.
+Define only what shared proposal mechanics cannot supply:
 
-Do not create a proposal retrospectively to justify changes already made.
+1. Requests that justify a durable domain proposal.
+2. Evidence and criteria used to choose the approach.
+3. Domain actions and exact affected systems or artifact types.
+4. Trade-offs, compatibility, migration, safety, or rollback specific to the domain.
+5. Domain validation and completion evidence.
+6. Context the implementation owner needs.
+7. Adjacent-skill handoffs and stopping conditions.
 
-## Proposal Content Contract
+Do not repeat generic proposal lifecycle or approval mechanics in the target skill.
 
-A substantial proposal should provide:
+## Project Authority
 
-- compact orientation and current lifecycle state;
-- concise overview of the change and preserved behavior;
-- reasoning and selected approach;
-- lightweight rejected alternatives when they affect the decision;
-- linked action groups;
-- exact approval boundary;
-- source material;
-- scope boundaries;
-- validation plan;
-- decision-record outcome when the domain uses one;
-- explicit approval request or approval record.
+Follow project-local storage, naming, metadata, lifecycle, approval, and validation rules before shared defaults.
 
-Use short human-facing sections. Keep exact wording, examples, paths, migrations, and technical detail under the relevant action.
-
-Small proposals may omit or merge sections when the decision and approval boundary remain unambiguous.
-
-## Approval and Lifecycle
-
-Follow the active project lifecycle first.
-
-When a tracked workflow needs fallback states, use:
-
-- `proposed`: under review;
-- `approved`: exact scope accepted before implementation;
-- `implemented`: approved work completed and validated.
-
-Do not infer approval from silence, an approved Audit, or a request to discuss the proposal. Approval applies only to the named scope. Pause when implementation needs additional targets or materially different behavior.
-
-## Project Storage
-
-Follow project-local storage, naming, metadata, linking, and validation rules.
-
-Do not require a saved proposal for unrelated trivial work unless the user, repository, or active project requires one. Do not impose one task-vault, repository, or filename convention globally.
-
-When saved proposals are required, link them from the owning workflow and preserve review chronology.
+A proposal requests a decision. It cannot approve itself, broaden its own scope, or prove implementation. Record approval only through the active project or repository workflow.
 
 ## Template Ownership
 
-Keep concrete proposal templates with the skill that repeatedly produces domain proposals.
+Use `audit-workflow/assets/artifact-proposal-template.md` directly by default. Express domain additions in the target skill's reference.
 
-Create a target-skill template only when recurring or fragile output justifies one. Use a semantic filename, mark sections as conditional, support project-local overrides, and avoid empty scaffolding.
+Propose a target-owned template only when recurring evidence shows the shared template plus domain guidance is insufficient and a distinct reusable structure is fragile enough to justify duplicate maintenance.
 
-Do not reuse `skill-creator/assets/skill-change-proposal-template.md` as a universal target-skill output asset. It is reserved for proposals that change skills.
-
-A skill that only advises or hands proposals to another workflow usually does not need a template.
+Do not copy historical Skill Creator proposal templates into target skills.
 
 ## Per-Skill Proposal Requirements
 
-When proposing Proposal capability for a target skill, include:
+When proposing domain proposal capability, include:
 
-1. Exact runtime trigger and responsibility.
-2. Why the capability belongs in this skill instead of a handoff.
-3. Proposal versus implementation boundary.
-4. Required proposal concepts and exact-scope behavior.
-5. Approval and lifecycle rules.
+1. Exact runtime trigger and domain responsibility.
+2. Why the target skill must remain active alongside `audit-workflow`.
+3. Domain evidence, criteria, constraints, and trade-offs.
+4. Domain additions to shared proposal actions and scope.
+5. Advice, assessment, proposal, approval, and implementation boundaries.
 6. Storage, linking, and project-local authority.
-7. Template need and ownership.
-8. Adjacent-skill handoffs.
-9. Validation and untested runtime behavior.
+7. Template justification, if any.
+8. Adjacent-skill and implementation handoffs.
+9. Domain validation, rollback, and untested runtime behavior.
 
-Use old-before-new wording blocks for modified instructions. Include exact paths, artifact roles, naming rules, and reserved-name exceptions for new or reorganized files.
+Use old-before-new wording when exact instructions affect approval. Include exact paths, artifact roles, naming rules, and reserved-name exceptions for created or reorganized resources.
 
 ## Validation
 
-Confirm that:
+Confirm:
 
 - recurring domain proposals genuinely belong to the target skill;
-- advice, Review, Proposal, approval, and implementation remain distinct;
-- proposals cannot approve themselves or broaden implementation scope;
-- unrelated requests do not load or apply the capability;
-- project-local storage and approval rules remain authoritative;
-- lifecycle states, exact boundaries, and links are internally consistent;
-- any template is justified, semantically named, and owned by the target skill;
-- relative links resolve and the change includes only approved files;
+- domain context would be materially weaker with only the shared workflow;
+- unrelated requests do not activate proposal behavior;
+- shared mechanics are referenced rather than copied;
+- advice, Review, proposal, approval, and implementation remain distinct;
+- project-local conventions remain authoritative;
+- any target-owned template has recurring evidence and a distinct contract;
+- relative links resolve and only approved files changed; and
 - runtime routing or trial behavior is reported as untested when not exercised.

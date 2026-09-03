@@ -1,71 +1,68 @@
 ---
 name: skill-creator
-description: Use when creating, auditing, reviewing, updating, refactoring, or renaming agent skills and their references, scripts, assets, or decision records. Provides skill architecture, routing, progressive-disclosure, migration, decision-record, and validation guidance.
+description: Use when creating, auditing, reviewing, updating, refactoring, or renaming agent skills and their references, scripts, or assets. Provides skill architecture, routing, progressive disclosure, domain assessment, migration, and validation guidance.
 ---
 
 # Skill Creator
 
 Use this skill to design and maintain focused, discoverable, portable agent skills.
 
-The goal is not to put every useful instruction into one file. The goal is to give the agent the right workflow at the right time while keeping optional detail available through progressive disclosure.
+Give the agent the right workflow at the right time. Keep always-needed behavior in the core and load optional detail only when relevant.
 
 ## Reference Files
 
-Read only the references needed for the task:
+Read only the references needed for the request:
 
-| Reference                                                                            | Read when                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [references/skill-design.md](references/skill-design.md)                             | Defining scope, frontmatter, routing, core structure, optional references, scripts, assets, or handoffs.                                                                     |
-| [references/skill-validation.md](references/skill-validation.md)                     | Reviewing, validating, migrating, or renaming a skill and its dependencies.                                                                                                  |
-| [references/audit-format.md](references/audit-format.md)                             | Producing a formal skill audit or an informal review of a skill and its supporting resources.                                                                                |
-| [references/decision-records.md](references/decision-records.md)                     | Assessing, creating, or backfilling repository decision records that document skill changes.                                                                                 |
-| [references/decision-record-capability.md](references/decision-record-capability.md) | Designing or reviewing a target skill that may create or manage decision records during normal use.                                                                          |
-| [references/audit-review-capability.md](references/audit-review-capability.md)       | Designing or reviewing a target skill that may perform domain-specific Audits or Reviews during normal use.                                                                  |
-| [references/proposal-capability.md](references/proposal-capability.md)               | Designing or reviewing a target skill that may propose domain changes during normal use.                                                                                     |
-| [../../references/safety-inspection.md](../../references/safety-inspection.md)       | Creating, reviewing, or substantially changing a skill that can execute code, access sensitive or external data, use networks or credentials, or create high-impact effects. |
+| Reference                                                                      | Read when                                                                                                               |
+| ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| [references/skill-design.md](references/skill-design.md)                       | Defining scope, frontmatter, routing, progressive disclosure, references, scripts, assets, or handoffs.                 |
+| [references/skill-validation.md](references/skill-validation.md)               | Reviewing, validating, migrating, or renaming a skill and its dependencies.                                             |
+| [references/audit-format.md](references/audit-format.md)                       | Applying skill-domain criteria to a formal Skill Audit, Usage Report Audit, or substantial informal Review.             |
+| [references/audit-review-capability.md](references/audit-review-capability.md) | Deciding whether a target skill should own domain-specific Audit or Review behavior.                                    |
+| [references/proposal-capability.md](references/proposal-capability.md)         | Deciding whether a target skill should own domain-specific proposal behavior.                                           |
+| [../../references/safety-inspection.md](../../references/safety-inspection.md) | Creating or substantially changing a skill with executable, sensitive, networked, credentialed, or high-impact effects. |
 
-Read both design and validation references for a new skill or substantial refactor. Read the audit-format reference for a formal Audit or substantial informal Review. Read [references/decision-records.md](references/decision-records.md) for every skill task.
+Read both design and validation references for a new skill or substantial refactor. Read capability references only when the target skill may own that behavior during normal use; do not load them merely because Skill Creator is auditing or proposing changes to the target.
 
-Read capability references only when designing or reviewing that capability in a target skill's normal runtime behavior:
+## Shared Workflow Handoffs
 
-- [references/decision-record-capability.md](references/decision-record-capability.md) for decision records;
-- [references/audit-review-capability.md](references/audit-review-capability.md) for domain-specific Audit or Review;
-- [references/proposal-capability.md](references/proposal-capability.md) for domain change proposals.
+Load shared workflow mechanics only when relevant:
 
-Do not load capability guidance merely because Skill Creator uses the corresponding artifact while changing the target skill.
+| Shared skill                                     | Use                                                                                                                                                                                                   |
+| ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`audit-workflow`](../audit-workflow/SKILL.md)   | Use for shared Review, formal Audit, and proposal structure, lifecycle, persistence, templates, and approval-contract mechanics. Apply Skill Creator's domain references afterward.                   |
+| [`decision-record`](../decision-record/SKILL.md) | Use for substantive decision-worthiness checks and all record structure, status, storage, supersession, traceability, and validation work. Pass skill-domain evidence and authority into the handoff. |
 
-## Available Scripts
+Skill Creator owns skill architecture, domain assessment, migration completeness, and artifact quality. It does not own shared artifact mechanics, repository approval, commits, or the user's decision.
 
-Use bundled scripts only when they fit the active request and approval scope. Prefer read-only checks before proposing changes.
+## Available Script
+
+Use the bundled script only when it fits the active request and approval scope. Read it before execution.
 
 | Script                   | Use                                                            |
 | ------------------------ | -------------------------------------------------------------- |
 | `scripts/skill-audit.nu` | Read-only inventory and local Markdown-link checks for skills. |
 
-Run from the skill directory with Nushell and no user config:
+Run it from the skill directory with Nushell and no user config:
 
 ```bash
 nu -n scripts/skill-audit.nu inventory ~/.agents/skills --exclude nushell --format json
 nu -n scripts/skill-audit.nu links ~/.agents/skills/skill-creator --format json
 ```
 
-The script performs no writes, network access, installs, or fixes. Inventory output includes name, description, main-file line-count, reference, script, and asset checks. It emits JSON by default and supports `--format table` for quick inspection. Treat results as evidence for review, not as permission to edit.
-
-Known limitation: the link checker ignores fenced code blocks but is still a lightweight Markdown regex check, not a full Markdown parser.
+The script performs no writes, network access, installs, or fixes. Treat results as evidence, not edit approval. Its link checker ignores fenced code blocks but remains a lightweight Markdown regex check rather than a full parser.
 
 ## Template Assets
 
-Use assets as copyable or pattern-matching templates. Adapt them and omit irrelevant sections.
+Use Skill Creator assets only for skill-specific resources:
 
-| Asset                                                                                      | Use                                                    |
-| ------------------------------------------------------------------------------------------ | ------------------------------------------------------ |
-| [assets/skill-core-template.md](assets/skill-core-template.md)                             | Drafting or restructuring a `SKILL.md` core.           |
-| [assets/skill-reference-template.md](assets/skill-reference-template.md)                   | Drafting focused optional references.                  |
-| [assets/skill-change-proposal-template.md](assets/skill-change-proposal-template.md)       | Preparing exact-file approval proposals.               |
-| [assets/skill-audit-report-template.md](assets/skill-audit-report-template.md)             | Producing full formal skill audits.                    |
-| [assets/skill-usage-report-audit-template.md](assets/skill-usage-report-audit-template.md) | Auditing selected usage reports and related resources. |
-| [assets/script-output-contract-template.md](assets/script-output-contract-template.md)     | Proposing or documenting bundled scripts.              |
-| [assets/decision-record-template.md](assets/decision-record-template.md)                   | Drafting skill decision records.                       |
+| Asset                                                                                  | Use                                        |
+| -------------------------------------------------------------------------------------- | ------------------------------------------ |
+| [assets/skill-core-template.md](assets/skill-core-template.md)                         | Drafting or restructuring a skill core.    |
+| [assets/skill-reference-template.md](assets/skill-reference-template.md)               | Drafting a focused optional reference.     |
+| [assets/script-output-contract-template.md](assets/script-output-contract-template.md) | Proposing or documenting a bundled script. |
+
+Use `audit-workflow` assets directly for Audits and proposals. Use `decision-record` assets according to project-local precedence for decision records.
 
 ## When to Use
 
@@ -75,32 +72,16 @@ Use this skill when the user asks to:
 - Audit or review a skill's scope, routing, structure, or maintainability.
 - Update or refactor a skill and its references.
 - Split an overloaded core into optional references.
-- Rename or migrate a skill and update its dependencies.
+- Rename or migrate a skill and update dependencies.
 - Add or review scripts, assets, templates, or validation guidance inside a skill.
-- Create or backfill a decision record that documents a skill change.
-- Design or review decision-record capability for a target skill.
-- Design or review domain-specific Audit, Review, or Proposal capability for a target skill.
+- Design or review domain-specific Audit, Review, or proposal behavior for a target skill.
 - Diagnose skill discovery, frontmatter, naming, or reference problems.
 
-Do not create a new skill merely because guidance could be written down. Prefer a skill when the method is reusable, domain-specific, and likely to improve future behavior.
-
-## Skill Routing
-
-Use complementary skills and preserve responsibility boundaries:
-
-- Use `agents-maintainer` for approval, path safety, Git operations, and commits involving the global agents repository.
-- Use `rubber-duck` when the skill's purpose, audience, or responsibility boundary is still uncertain.
-- Use `researcher` when current external standards, upstream documentation, or competing implementations determine the design.
-- Use `code-reviewer` for executable helper scripts, program logic, or configuration-as-code bundled with a skill.
-- Use `tech-docs-reviewer` for a documentation-focused review of long human-facing references.
-- Use `tech-docs-writer` when writing or formatting Markdown skill documentation.
-- Use `task-manager` when an approved skill change needs persistent planning or tracked migration work.
-
-`skill-creator` owns skill artifact quality. It does not replace repository approval, safety, or commit workflows.
+Do not create a skill merely because guidance could be written down. Prefer a skill when the method is reusable, domain-specific, and likely to improve future behavior.
 
 ## Operating Modes
 
-Choose the mode that matches the request:
+Choose the smallest mode that satisfies the request.
 
 ### Create
 
@@ -108,32 +89,25 @@ Define the skill's trigger, boundary, workflow, references, and validation befor
 
 ### Audit
 
-Choose the smallest formal scope that can support a reliable outcome:
+Pair with `audit-workflow`. Use `references/audit-format.md` for Skill Creator's domain scope, evidence, resource evaluation, report triage, findings, and outcomes.
 
-- Use **Usage Report Audit** for selected usage reports and materially related resources.
-- Use **full Skill Audit** when the user explicitly requests whole-skill coverage or the candidate change has broad or uncertain impact.
-
-Save either Audit and record one outcome: `no change`, `research`, `defer`, or `proposal required`. Do not create the proposal until the user reviews the Audit.
+For tracked skill changes, save and review the Audit before preparing a separate proposal. Audit approval does not authorize implementation.
 
 ### Review
 
-Use Review for informal critique, user feedback on an audit, proposal, or implementation result, or lightweight report triage when conclusive evidence shows that only lifecycle metadata or traceability needs correction and no behavior change is proposed. Do not create a persistent Audit artifact unless the request or tracked workflow requires one.
+Pair with `audit-workflow` for substantial Review mechanics. Keep ordinary critique and follow-up review conversational and unsaved unless the user or project requires persistence.
 
 ### Update
 
-Improve an existing skill while preserving useful behavior and limiting scope to approved files.
+Improve an existing skill while preserving useful behavior and limiting edits to approved files.
 
 ### Rename
 
-Treat the rename as a migration. Update the directory, frontmatter, routing dependencies, documentation references, and validation targets together.
+Treat a rename as a migration. Update the directory, frontmatter, routing dependencies, documentation references, and validation targets together.
 
-For human-facing rename or move approval, show old values before new values. Compare basenames for renames and parent directories without filenames for moves. For combined operations, compare both, then show the resulting full path. Apply the same sequence to files and directories.
+For human-facing rename or move approval, show old values before new values. Compare basenames for renames and parent directories without filenames for moves. For combined operations, compare both, then show the resulting full path.
 
-### Decision Record
-
-Assess, create, or backfill a concise record for a durable skill decision. A direct request makes the record mandatory, but repository approval and exact-file scope still apply.
-
-A task can combine modes, but do not silently turn a review into an edit or a design discussion into implementation.
+A task can combine modes, but do not silently turn assessment or design discussion into implementation.
 
 ## Approval Gate
 
@@ -145,106 +119,86 @@ Before creating, modifying, moving, deleting, or reorganizing skill resources:
 4. Identify external records or routing dependencies that may also need changes.
 5. Wait for explicit user approval.
 
-Approval applies only to the described scope. Pause if inspection reveals additional files or materially different behavior.
-
-Use `agents-maintainer` for this gate when global repository resources are involved.
+Use `agents-maintainer` for this gate when global repository resources are involved. Approval applies only to the described scope; pause when inspection reveals additional files or materially different behavior.
 
 ## Safety Inspection
 
-Read [../../references/safety-inspection.md](../../references/safety-inspection.md) when a skill can execute commands or scripts, access sensitive or externally controlled data, modify or delete state, use credentials or networks, or publish, deploy, install, or commit.
+Read [../../references/safety-inspection.md](../../references/safety-inspection.md) when a skill can execute commands or scripts, access sensitive or externally controlled data, modify or delete state, use credentials or networks, or create high-impact effects.
 
-Use the inspection to identify trust boundaries, allowed effects, tool scope, approval, data handling, network destinations, stop conditions, validation, and supply-chain assumptions. Keep every safety rule needed during normal skill use in the skill's always-loaded `SKILL.md`; the shared reference guides design and review rather than replacing skill-specific boundaries.
-
-Skip an irrelevant optional capability when the skill remains complete without it. Stop the design or review when a required unsafe effect, unresolved provenance, or missing authorization boundary prevents a safe artifact.
+Keep safety rules needed during normal use in the target skill's always-loaded core. Skip irrelevant optional capabilities and stop when a required effect lacks safe provenance, containment, or authorization.
 
 ## Workflow
 
-1. Identify whether the task is creation, audit, review, update, rename, decision record, or a combination.
+1. Identify whether the task is creation, Audit, Review, update, rename, or capability design.
 2. Read active project and global instructions.
-3. Inspect the target skill, optional resources, repository state, and direct dependencies.
-4. Use `scripts/skill-audit.nu` for a bounded read-only inventory or local-link check when it can reduce manual inspection.
+3. Inspect the target skill, owned resources, repository state, and direct dependencies.
+4. Use `scripts/skill-audit.nu` for bounded read-only inventory or link checking when useful.
 5. Read current harness documentation when discovery or frontmatter behavior matters.
 6. Define the skill's responsibility boundary and routing relationships.
-7. Ground the design in source material: user corrections, real tasks, reports, project artifacts, execution traces, or external standards when available.
+7. Ground design in user corrections, real tasks, reports, project artifacts, execution traces, or external standards.
 8. Decide what belongs in the always-loaded core and what should load from references or assets.
-9. Assess target-skill artifact capabilities independently. Read the decision-record, Audit/Review, or Proposal capability reference only when the target skill may own that behavior during normal use.
-10. Perform the shared safety inspection when the skill has sensitive, executable, networked, state-changing, or high-impact capabilities.
-11. Assess whether the current skill change needs its own repository decision record using [references/decision-records.md](references/decision-records.md). Always state why a record is or is not recommended.
-12. If a record is recommended or directly requested, choose its exact path, include it in the approval scope, and create it with the approved skill changes. Do not make it an optional follow-up after approval.
-13. For a tracked skill change, save and link the audit, let the user review it, and record its outcome before creating a proposal.
-14. When the outcome is `proposal required`, create and link a separate proposal with `status: proposed` using [assets/skill-change-proposal-template.md](assets/skill-change-proposal-template.md). Before requesting review, run its proposal preflight: account for every exact file and action, include the review content each material decision needs, and remove exact blocks that cannot change approval.
-15. Revise the saved proposal during user review. Record `status: approved` only after the user accepts its exact scope.
-16. Before editing, confirm the tracked proposal exists, is linked, and is approved. Never create it retrospectively or combine proposal preparation and implementation in one step.
-17. Apply only approved changes in a separate implementation step, using targeted edits when practical.
-18. Format Markdown and validate frontmatter, references, routing, safety boundaries, migrations, decision records, and repository state. Then update the same proposal to `status: implemented`.
-19. Report changed files, validation, limitations, anything not tested, and the decision-record outcome with its reason.
-20. Commit only when the user explicitly asks and the responsible repository workflow permits it.
+9. Assess target-skill Audit/Review and proposal capability independently; read the matching capability reference only when normal runtime behavior may own it.
+10. Default decision-record behavior to a `decision-record` handoff rather than adding mechanics or templates to the target skill.
+11. Perform the shared safety inspection when required.
+12. For every skill task, report whether a decision record is recommended and why. Use `decision-record` for substantive assessment and all record work. Routine wording or formatting corrections may report `not recommended` without loading the full workflow.
+13. Pair with `audit-workflow` for saved Audits and proposals. Apply `references/audit-format.md`, `references/skill-validation.md`, and the relevant capability reference as Skill Creator's domain additions.
+14. For tracked changes, confirm the Audit was reviewed before preparing a proposal. Use the shared proposal template, preserve exact-file scope, and run the Skill Creator proposal preflight.
+15. Revise the proposal during review. Record approval before editing and implement in a separate phase.
+16. Apply only approved changes, format them, and validate frontmatter, references, routing, safety, migration completeness, and repository scope.
+17. Report changes, validation, limitations, untested runtime behavior, and the decision-record outcome.
+18. Commit only when the user explicitly asks and the repository workflow permits it.
 
 ## Core Design Principles
 
+- Give each skill one clear primary responsibility.
 - Make the frontmatter description specific enough to route correctly.
-- Write skill and reference text as direct instructions: action first, imperative verbs, no motivational prose.
-- Keep one clear primary responsibility per skill.
+- Keep always-needed routing, safety, and approval rules in the core.
+- Move optional methods, long checklists, and domain detail to references.
+- Put copyable or pattern-matching skill resources in assets.
+- Use shared artifact templates directly rather than maintaining local copies.
 - Ground changes in real source material rather than generic model knowledge.
 - Prefer the smallest workflow that reliably changes behavior.
-- Keep safety-critical rules in the core even when they repeat higher-level policy deliberately.
-- Put optional methods, long checklists, and domain detail in references.
-- Put copyable or pattern-matching templates in assets.
-- Link references and assets explicitly and state when to read or use them.
-- Use relative paths within the skill directory.
-- Keep scripts and assets inside the skill unless an intentional shared dependency is documented.
-- Make response structures conditional rather than forcing unnecessary headings.
-- Define handoffs so exploration, research, review, planning, and implementation do not blur together.
-- Avoid duplicating active project or global instructions unless the duplication protects an important boundary.
+- Use direct, imperative instructions and keep rationale only when it changes a decision.
+- Preserve confirmed decisions without presenting recommendations as decisions.
+- Define handoffs so exploration, research, assessment, planning, and implementation remain distinct.
+- Avoid duplicating global or shared-skill instructions unless repetition protects a critical local boundary.
 
 Read [references/skill-design.md](references/skill-design.md) for detailed design guidance.
 
 ## Audit and Review Output
 
-Read [references/audit-format.md](references/audit-format.md) before producing a formal Skill Audit, Usage Report Audit, or substantial informal Review. Use [assets/skill-audit-report-template.md](assets/skill-audit-report-template.md) for full Skill Audit and [assets/skill-usage-report-audit-template.md](assets/skill-usage-report-audit-template.md) for Usage Report Audit.
+Use `audit-workflow` for structure, lifecycle, persistence, finding layout, and templates. Use [references/audit-format.md](references/audit-format.md) for Skill Creator's mode selection, evidence, resource evaluation, report lifecycle, priorities, and outcome vocabulary.
 
-For either formal Audit, begin with an `Audit Summary` of no more than five short bullets and end with an explicit `Audit Outcome`. Report no more than five highest-value findings unless the user requests exhaustive coverage or the bounded scope requires more.
-
-For full Skill Audit, evaluate every skill-owned reference for need, quality, and writing; evaluate every skill-owned template for need and quality, including whether missing recurring template capability is justified. For Usage Report Audit, evaluate every resource materially related to the selected reports and explicitly list unrelated owned resources as excluded. Inventory and report count support but do not replace qualitative evaluation.
-
-For an informal Review, scale the response down and normally keep it conversational. Do not save a formal Audit artifact unless the request or tracked workflow requires one. Do not rewrite the skill during Audit or Review mode.
+A full Skill Audit evaluates every owned reference and template plus justified missing capability. A Usage Report Audit evaluates selected reports and every materially related resource while listing unrelated exclusions. Inventory and link counts support but do not replace qualitative evaluation.
 
 ## Validation
 
-Read [references/skill-validation.md](references/skill-validation.md) before declaring a skill creation, substantial update, or rename complete.
+Read [references/skill-validation.md](references/skill-validation.md) before declaring a creation, substantial update, or rename complete.
 
 At minimum, confirm:
 
 - Frontmatter is valid and routing is specific.
 - The portable skill name matches its directory.
-- Referenced files exist and relative paths resolve.
-- Full Skill Audits evaluate all owned references, templates, and justified missing template capability; Usage Report Audits evaluate all materially related resources, explicit exclusions, lifecycle judgments, and escalation need.
-- Target-skill decision-record, Audit/Review, and Proposal capabilities are independently justified and conditionally loaded.
-- No stale name or routing references remain after a rename.
+- References exist, load conditionally, and resolve.
+- Shared Audit/proposal/decision guidance is loaded only when relevant.
+- Skill-domain criteria remain clear after shared handoffs.
+- No stale names or links remain after deletion, rename, or migration.
 - Markdown is formatted.
 - Only approved files changed.
-- High-capability skills expose their trust, authorization, data, network, stop, and validation boundaries in the always-loaded core.
+- High-capability skills expose normal-use safety boundaries in the core.
 - Runtime discovery limitations are reported when not tested.
 
 ## Default Response Shape
 
 Use only the parts that help:
 
-1. Overview, recommendation, or current state.
-2. Main design decisions or findings.
-3. Exact proposed or completed file changes.
-4. Validation, limitations, and next decision.
-5. Decision-record outcome and reason.
+1. Current state, recommendation, or finding.
+2. Main design decisions or exact proposed changes.
+3. Validation, limitations, and next decision.
+4. Decision-record outcome and reason.
 
-Do not force headings onto a small answer. The decision-record outcome may be one concise line rather than a separate section.
+Do not force headings onto a small answer.
 
 ## Tone
 
-Be a practical skill-design partner:
-
-- Lead with the instruction, decision, or next action.
-- Prefer clear boundaries over clever abstractions.
-- Explain trade-offs only when they affect the decision.
-- Preserve useful existing behavior.
-- Make migration impact visible.
-- Keep reusable methodology in the skill rather than rediscovering it in every review.
+Be a practical skill-design partner. Lead with the next action or decision, preserve useful behavior, make migration impact visible, and keep reusable methodology in the responsible skill.

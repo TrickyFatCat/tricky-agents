@@ -2,47 +2,49 @@
 
 Read this reference when creating or substantially restructuring a skill.
 
-A skill is a reusable capability package. Its core should establish when it applies and how behavior changes; optional resources should provide detail only when needed.
+A skill is a reusable capability package. Its core establishes when it applies and how behavior changes; optional resources provide detail only when needed.
 
-Use [../assets/skill-core-template.md](../assets/skill-core-template.md) when creating or substantially restructuring a core. Use [../assets/skill-reference-template.md](../assets/skill-reference-template.md) for focused optional references.
+Use [../assets/skill-core-template.md](../assets/skill-core-template.md) for a new or substantially restructured core. Use [../assets/skill-reference-template.md](../assets/skill-reference-template.md) for focused optional guidance.
 
 ## Source Material
 
 Ground skill work in concrete evidence when available:
 
-- Hands-on task history.
-- User corrections and preferences.
-- Input/output formats.
-- Existing project artifacts, runbooks, reports, and reviews.
-- Failure cases and execution traces.
-- External standards, such as Agent Skills, when relevant.
+- hands-on task history;
+- user corrections and preferences;
+- existing project artifacts, runbooks, reports, and reviews;
+- input and output formats;
+- failure cases and execution traces; and
+- external standards when relevant.
 
-Do not synthesize a skill only from generic model knowledge when domain-specific context exists. Ask what source material is available when the answer can change the design.
+Do not synthesize a skill only from generic model knowledge when domain-specific context exists.
 
 ## Define the Responsibility
 
 Before naming or writing the skill, identify:
 
-- The recurring task or decision it supports.
-- The user requests that should activate it.
-- The requests that belong to a different skill.
-- The behavior that should change after the skill loads.
-- Whether the workflow is advisory, state-changing, or both.
-- Whether the skill is global, project-local, or package-provided.
+- the recurring task or decision it supports;
+- requests that should and should not activate it;
+- behavior that should change after loading;
+- material ownership overlaps or required handoffs that change execution;
+- whether it advises, assesses, or changes state; and
+- whether it is global, project-local, or package-provided.
 
-Do not create a skill for one-off facts, project instructions already expressed clearly elsewhere, or a workflow too vague to route reliably.
+Do not create a skill for one-off facts, clear project instructions already expressed elsewhere, or a workflow too vague to route reliably.
 
-## Target-Skill Artifact Capabilities
+## Shared Artifact Responsibilities
 
-Assess reusable artifact capabilities independently:
+Use shared skills as the default for reusable artifact mechanics:
 
-- Read [decision-record-capability.md](decision-record-capability.md) when the target skill may manage durable domain decisions.
-- Read [audit-review-capability.md](audit-review-capability.md) when recurring domain assessment may belong to the target skill.
-- Read [proposal-capability.md](proposal-capability.md) when the target skill may propose domain changes during normal use.
+- Use `audit-workflow` for Review, Audit, and proposal structure, lifecycle, persistence, and base templates.
+- Use `decision-record` for decision-worthiness, record structure, status, storage, supersession, traceability, and validation.
+- Keep domain evidence, criteria, judgment, recommendations, and implementation with their responsible domain workflows.
 
-Add a capability only when it belongs to the target skill, recurs across real tasks, and preserves clear approval and implementation boundaries. Do not add it merely because Skill Creator used the corresponding artifact while changing the skill.
+Read [audit-review-capability.md](audit-review-capability.md) only when deciding whether recurring domain assessment belongs in a target skill. Read [proposal-capability.md](proposal-capability.md) only when deciding whether the target skill should own domain proposal behavior.
 
-A target skill may need one capability without the others. Keep concrete output templates with the target skill and create them only when recurring or fragile output justifies one. Do not copy Skill Creator's own Audit, Proposal, or decision-record templates into unrelated skills.
+Do not add target-owned artifact templates merely because Skill Creator used an Audit or proposal while changing the target. Use shared templates directly unless recurring evidence proves that a domain-specific output shape cannot be expressed through reference guidance.
+
+Do not add target-owned decision-record mechanics or templates by default. A target skill may supply domain context to `decision-record` without owning the record workflow.
 
 ## Frontmatter
 
@@ -55,239 +57,164 @@ description: Use when the user asks to perform the recurring task. Explain what 
 ---
 ```
 
-For a full starting shape, use [../assets/skill-core-template.md](../assets/skill-core-template.md).
-
 ### Name
 
 Use a name that:
 
-- Contains 1-64 lowercase letters, digits, or hyphens.
-- Has no leading, trailing, or consecutive hyphens.
-- Matches the parent directory for portability across Agent Skills implementations.
-- Describes the capability rather than one narrow output format.
-
-Some harnesses permit a directory mismatch, but matching is the safer shared convention.
+- contains 1–64 lowercase letters, digits, or hyphens;
+- has no leading, trailing, or consecutive hyphens;
+- matches the parent directory; and
+- describes the capability rather than one output format.
 
 ### Description
 
-The description is always visible during skill discovery, so treat it as routing logic.
+Treat the description as routing logic. It is always visible during skill discovery.
 
 A useful description:
 
-- Uses imperative phrasing by default, such as `Use when...` or `Use this skill when...`.
-- Says what the skill does.
-- Says when to use it.
-- Names distinctive triggers or artifacts.
-- Describes user intent before implementation mechanics.
-- Distinguishes adjacent skills when overlap is likely.
-- Remains under the harness limit; Pi permits at most 1024 characters.
+- uses imperative phrasing such as `Use when...`;
+- states what the skill does and when to use it;
+- names distinctive triggers or artifacts;
+- describes user intent before implementation mechanics;
+- distinguishes adjacent skills; and
+- remains within the harness limit of 1024 characters.
 
-Do not put the full workflow, rationale, user benefits, implementation history, or motivational prose in the description. Make it a routing instruction, not a summary.
-
-For substantial routing changes, sanity-check the description with at least one matching request and one near-miss boundary request when practical. Do not overfit the wording to a single test set.
+Do not include the full workflow, implementation history, generic benefits, or motivational prose. For substantial routing changes, test or reason through one matching request and one near-miss request.
 
 ### Optional Fields
 
-Use optional frontmatter only when it serves a real requirement:
+Use optional frontmatter only for a demonstrated requirement:
 
-- `license`: license name or bundled license reference.
-- `compatibility`: environment or runtime requirements.
-- `metadata`: implementation-specific key-value information.
-- `allowed-tools`: experimental pre-approved tool declaration when supported.
-- `disable-model-invocation: true`: hide an explicit-only skill from automatic discovery.
+- `license` for a license name or bundled license reference;
+- `compatibility` for real runtime or environment requirements;
+- `metadata` for implementation-specific key-value information;
+- `allowed-tools` as a compatibility declaration when supported; and
+- `disable-model-invocation: true` for an explicit-only skill.
 
-Unknown fields may be ignored by the harness. Do not rely on them for critical behavior without verifying support.
+Do not rely on optional fields for critical containment unless the harness verifies and enforces them.
 
 ## Scope and Routing
 
-Give the skill one clear primary responsibility.
+Give the skill one primary responsibility. Document:
 
-Document:
+- positive triggers;
+- negative boundaries;
+- material ownership overlaps or required handoffs; and
+- when assessment, research, or exploration may become implementation.
 
-- Positive triggers: when to use the skill.
-- Negative boundaries: what it should not do.
-- Adjacent skills: when to combine, hand off, or stop.
-- State boundaries: when review, research, or exploration may become implementation.
+Include a handoff only when it changes the owner, required workflow, approval or safety behavior, necessary context transfer, or a stopping condition. Do not list generic helper skills merely because they may be useful.
 
-Prefer explicit handoffs over overlapping claims of ownership.
+State each handoff once where the agent needs it. Do not repeat global skill-selection rules or handoffs already clear in reference loading, approval guidance, or a dedicated shared-workflow section. Omit a routing section when no material boundary remains unresolved.
 
-Examples:
-
-- Exploration hands confirmed decisions to task management.
-- Research provides evidence but does not silently implement.
-- Artifact design hands repository operations to a maintainer.
-- Script review hands documentation edits to a documentation writer when needed.
+Keep a handoff explicit when removing it would blur ownership, approval, safety, required context transfer, or stopping behavior. Domain skills should add context to shared workflows rather than copy their mechanics.
 
 ## Progressive Disclosure
 
-The full `SKILL.md` loads when the skill activates. Keep always-needed routing, safety, and workflow there.
+Keep always-needed routing, safety, and workflow rules in `SKILL.md`. Move detail to `references/` when it is:
 
-Move optional material into `references/` when it is:
+- a specialized analysis lens;
+- a detailed checklist or protocol;
+- relevant to only one operating mode; or
+- likely to obscure the default path.
 
-- A detailed checklist.
-- A specialized analysis lens.
-- A long template or example.
-- Relevant only to one operating mode.
-- A protocol, command reference, or domain-specific method.
+Use a reference table near the beginning of the core and state a specific load condition for every reference. Do not create references the core never routes to.
 
-Use a reference table near the beginning of the core:
-
-```markdown
-## Reference Files
-
-| Reference                                      | Read when                           |
-| ---------------------------------------------- | ----------------------------------- |
-| [references/example.md](references/example.md) | The task needs the optional method. |
-```
-
-State when to load a reference. Do not create references that the core never routes to.
-
-Keep the main `SKILL.md` under 500 lines by default. Move detailed reference material, long templates, examples, and optional methods to `references/` or `assets/`. If exceeding 500 lines is justified, state why in the proposal or review.
-
-Use the line count as a practical ceiling, not a substitute for judgment. Split a core when optional detail obscures routing, safety, or the default workflow.
+Keep `SKILL.md` under 500 lines by default. Exceed it only when always-loaded behavior genuinely requires the space and explain the exception in the proposal or review.
 
 ## Core Structure
 
-Use only sections that affect behavior. A practical structure is:
+Use only sections that affect behavior. A practical core may include:
 
 1. Purpose and goal.
-2. Reference routing.
-3. When to use and boundaries.
-4. Skill routing or handoffs.
-5. Operating modes or workflow.
-6. Safety or approval requirements.
-7. Default response guidance.
-8. Validation and final reporting.
+2. References and required shared-workflow handoffs.
+3. Use cases and boundaries.
+4. Operating modes.
+5. Approval and safety.
+6. Workflow.
+7. Validation and final reporting.
 
-Do not copy this structure mechanically. A small skill may need only purpose, workflow, and validation.
+Do not copy this structure mechanically. Small skills may need less.
 
 ## Instruction Design
 
-Use this context-economy test for each instruction:
+Use this test for every instruction:
 
-> Would the agent likely get this wrong, miss it, or waste time rediscovering it without this instruction?
+> Would the agent likely get this wrong, miss it, or waste time rediscovering it without the instruction?
 
-If no, cut it or move it to an optional reference or asset. If yes and the agent needs it before recognizing the situation, keep it in the core.
+If no, remove it or place it in a more relevant optional resource. If yes and the agent needs it before recognizing the situation, keep it in the core.
 
 Prefer instructions that are:
 
-- Observable: the result can be inspected or verified.
-- Conditional: detail appears only when relevant.
-- Prioritized: safety and routing precede optional polish.
-- Reversible: exploratory work does not become persistent state automatically.
-- Specific: vague verbs are paired with criteria or expected evidence.
+- observable;
+- conditional;
+- prioritized;
+- reversible; and
+- specific enough to validate.
 
-Useful patterns include:
-
-- Lead with the instruction, answer, or current state.
-- Use imperative verbs for required behavior.
-- Keep paragraphs short and action-first.
-- Keep rationale only when it changes a design, approval, or validation decision.
-- Restate a request only when it resolves ambiguity.
-- Ask only questions that can change the outcome.
-- Use no more sections or metadata than the task needs.
-- Preserve confirmed decisions without presenting recommendations as decisions.
-- Stop when additional work is unlikely to change the result.
-
-Avoid mandatory preambles, motivational prose, repeated rationale, fixed report structures for trivial tasks, exhaustive checklists applied mechanically, and instructions that duplicate the entire global policy.
+Use action-first language, short paragraphs, clear defaults, and only questions that can change the outcome. Avoid mandatory preambles, fixed report structures for trivial tasks, exhaustive checklists applied mechanically, and duplicated global or shared-skill policy.
 
 ## Calibrated Control
 
-Match instruction strictness to task fragility:
+Be prescriptive for discovery, routing, approval, safety, naming, migration, scripts, and validation gates. Allow judgment where several safe approaches satisfy the goal.
 
-- Be prescriptive for discovery, routing, approval, safety, naming, migration, path boundaries, scripts, and validation gates.
-- Give the agent flexibility when several safe approaches can satisfy the goal.
-- Provide a clear default path and mention alternatives briefly instead of presenting broad menus.
-- Explain why a rule exists when context-dependent judgment matters.
-
-## Task-to-Approach Tables
-
-Use a task-to-approach table near the top of the core when the skill supports several common task types with different default methods. Keep it short and concrete.
-
-```markdown
-| Task        | Default approach                          |
-| ----------- | ----------------------------------------- |
-| <task type> | <tool, mode, or workflow to prefer first> |
-```
-
-Do not add a table when one workflow covers most requests.
-
-## Gotchas
-
-Use a `Gotchas` section only when non-obvious mistakes are likely and the agent may not recognize the trigger before reading an optional reference.
-
-Good gotchas are concrete corrections from user feedback, failures, or project facts. Avoid generic reminders such as “handle errors carefully.”
+Use task-to-approach tables only when common task types need materially different methods. Use `Gotchas` only for concrete, non-obvious mistakes the agent may not recognize before loading a reference.
 
 ## Safety and Approval
 
-Keep safety-critical boundaries in the core.
+Keep safety-critical boundaries in the core. For state-changing skills, define:
 
-For skills that can change files or state, define:
+- what needs explicit approval;
+- which paths or systems are in scope;
+- what state is protected by default;
+- what inspection precedes changes;
+- how scope expansion is handled; and
+- whether commits, deployment, or destructive operations need separate approval.
 
-- What requires explicit approval.
-- Which paths or systems are in scope.
-- Which state is protected by default.
-- What inspection happens before a change.
-- How scope expansion is handled.
-- Whether commits, deployments, or destructive operations need separate approval.
-
-Project and global instructions remain authoritative. A skill can strengthen those boundaries but should not weaken them.
+Project and global instructions remain authoritative. Skills may strengthen but never weaken them.
 
 ## Scripts
 
-Add a script only when deterministic automation provides more value than instructions alone.
+Add a script only when deterministic automation is more reliable than instructions alone.
 
 Before adding one:
 
-- Explain why a script is preferable.
-- Keep it inside the skill's `scripts/` directory.
-- Use relative paths from the skill directory.
-- Document inputs, outputs, dependencies, side effects, and failure behavior.
-- Provide a non-destructive help, check, or dry-run path when practical.
-- Review executable code with `code-reviewer`.
+- explain why a script is preferable;
+- keep it under `scripts/`;
+- document inputs, outputs, dependencies, side effects, and failure behavior;
+- provide a non-destructive help, check, or dry-run path when practical; and
+- use `code-reviewer` for implementation quality.
 
-Do not add installers, daemons, hooks, or broad automation by default.
+Use [../assets/script-output-contract-template.md](../assets/script-output-contract-template.md) when the script contract is recurring or fragile. Do not add installers, daemons, hooks, or broad automation by default.
 
 ## Assets and Templates
 
-Use `assets/` for files consumed or copied by the workflow rather than read as instructions.
+Use `assets/` for files copied or used as output patterns rather than read as instructions.
 
-Use semantic filenames that identify the artifact role, such as `skill-core-template.md` or `script-output-contract-template.md`. Reserve `README.md` for a real directory, package, or collection overview unless an external format requires it and the user approves the exception.
+Use semantic filenames that identify role and subject. Reserve `README.md` for a real collection overview unless an external format requires it and the user approves the exception.
 
-For saved proposal artifacts, use `<artifact-role>-<concise-action>-<concise-subject>`. Follow project filename style. Keep the role word once and first. Examples: `proposal-add-readable-output-examples.md`, `Proposal Define Artifact Naming.md`.
+Keep templates minimal and adaptable. Omit irrelevant sections, support project-local overrides, and avoid embedding one project's conventions globally.
 
-Keep templates minimal and adaptable. Tell the agent to omit irrelevant sections so templates do not become rigid checklists. Do not make one project's storage conventions the global default unless the skill is project-specific.
+Skill Creator owns these skill-domain assets:
 
-Before adding an Audit/Review, Proposal, or decision-record template, apply the corresponding capability test. A skill that only evaluates or hands off an artifact usually does not need its own template.
+| Asset                                                                                        | Use                                 |
+| -------------------------------------------------------------------------------------------- | ----------------------------------- |
+| [../assets/skill-core-template.md](../assets/skill-core-template.md)                         | Drafting a skill core.              |
+| [../assets/skill-reference-template.md](../assets/skill-reference-template.md)               | Drafting a focused reference.       |
+| [../assets/script-output-contract-template.md](../assets/script-output-contract-template.md) | Defining a bundled script contract. |
 
-Current templates:
-
-| Asset                                                                                        | Use                                          |
-| -------------------------------------------------------------------------------------------- | -------------------------------------------- |
-| [../assets/skill-core-template.md](../assets/skill-core-template.md)                         | Drafting or restructuring a `SKILL.md` core. |
-| [../assets/skill-reference-template.md](../assets/skill-reference-template.md)               | Drafting focused optional references.        |
-| [../assets/skill-change-proposal-template.md](../assets/skill-change-proposal-template.md)   | Preparing exact-file approval proposals.     |
-| [../assets/skill-audit-report-template.md](../assets/skill-audit-report-template.md)         | Producing substantial formal skill audits.   |
-| [../assets/script-output-contract-template.md](../assets/script-output-contract-template.md) | Proposing or documenting bundled scripts.    |
-| [../assets/decision-record-template.md](../assets/decision-record-template.md)               | Drafting skill decision records.             |
+Use shared assets from `audit-workflow` for Audits and proposals and from `decision-record` for decision records. Keep domain adaptation in references unless a separate target-owned template has recurring evidence and a distinct contract.
 
 ## Response Design
 
-Define a small default response shape only when it improves consistency.
+Define a small default response shape only when it improves consistency. Useful optional elements are:
 
-Make headings optional for small answers. Common useful elements are:
+- current state or recommendation;
+- main findings or decisions;
+- unknowns and blockers;
+- proposed or completed changes; and
+- validation and next action.
 
-- Recommendation or current state.
-- Main findings or decisions.
-- Unknowns, risks, or blockers.
-- Proposed or completed changes.
-- Validation and next action.
-
-When a saved skill audit is substantial, begin with an `Audit Summary` of no more than five short bullets. Include the outcome, finding count, highest-priority concern, behavior to preserve, and next action when applicable. Reference numbered findings instead of repeating their evidence.
-
-For an informal Review, keep the response proportional. Avoid a separate summary when one or two findings are already easy to scan.
-
-Response design should help the user decide or act, not display every step the agent performed.
+Response structure should help the user decide or act, not display every internal step.
 
 ## Design Check
 
@@ -295,12 +222,13 @@ Before implementation, confirm:
 
 1. The name and description route to the intended recurring task.
 2. The skill has one primary responsibility.
-3. Adjacent-skill handoffs are explicit.
+3. Material ownership overlaps and required shared-workflow handoffs are explicit without forming a generic skill catalog.
 4. Safety and approval boundaries remain in the core.
-5. Optional details have clear reference-loading conditions.
-6. Scripts or assets are justified and documented.
-7. The response pattern scales down for small requests.
+5. Optional details have clear loading conditions.
+6. Scripts and assets are justified and documented.
+7. Shared artifact templates are used directly unless domain evidence justifies another.
 8. The proposed file list includes dependencies and migration records.
-9. The proposal explains source material, artifact roles, semantic filenames, and `README.md` exceptions.
-10. Substantial changes include a refinement plan: trial task, routing check, execution trace review, or a clear reason this was not tested.
-11. Target-skill Audit/Review, Proposal, and decision-record capabilities are independently justified, conditionally loaded, and assigned to the correct template owner.
+9. New, moved, or reorganized artifacts have roles, semantic names, and any reserved-name exception.
+10. Substantial changes include a trial, routing check, execution-trace review, or a stated reason it was not practical.
+11. Target-skill Audit/Review and proposal capabilities are independently justified and add domain behavior rather than shared mechanics.
+12. Decision-record work defaults to the shared owner and preserves domain context in the handoff.
