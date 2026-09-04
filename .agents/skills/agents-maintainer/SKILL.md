@@ -1,12 +1,12 @@
 ---
 name: agents-maintainer
-description: Use only when the user explicitly asks to review or update global agent instructions, global skills, prompt templates, repo-backed Pi resources, or the agents repository, or invokes /skill:agents-maintainer.
+description: Use only when the user explicitly asks to review or update global agent resources, audit or propose changes to project-specific AGENTS.md files, maintain the agents repository, or invokes /skill:agents-maintainer.
 disable-model-invocation: true
 ---
 
 # Agents Maintainer
 
-Use this skill only for explicit requests to maintain the user's global agent setup.
+Use this skill only for explicit requests to maintain the user's global agent setup or audit and propose changes to project-specific `AGENTS.md` files.
 
 This skill is hidden from automatic model invocation. It exists as the user-requested command `/skill:agents-maintainer`.
 
@@ -14,7 +14,11 @@ This skill is hidden from automatic model invocation. It exists as the user-requ
 
 | Reference                                                                      | Read when                                                                                                                                                |
 | ------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [references/maintenance-audit.md](references/maintenance-audit.md)             | Performing a formal Audit of global agent resources or repository-maintenance behavior; pair with `audit-workflow` for shared Audit mechanics.           |
+| [references/maintenance-proposals.md](references/maintenance-proposals.md)     | Preparing or reviewing a durable maintenance proposal; pair with `audit-workflow` for shared proposal mechanics.                                         |
 | [../../references/safety-inspection.md](../../references/safety-inspection.md) | Inspecting third-party or project-local agent resources with scripts, dependencies, network access, credentials, sensitive data, or high-impact effects. |
+
+Use ordinary inspection and conversational Review for bounded maintenance requests. Use the maintenance Audit reference for a formal bounded assessment and the maintenance proposal reference for a durable exact-scope approval contract. An Audit or proposal does not authorize implementation.
 
 ## Scope
 
@@ -24,6 +28,8 @@ Maintain approved files inside the resolved agents Git repository, commonly expo
 - `~/.agents/skills/`
 - repo-backed `~/.pi/agent/AGENTS.md`
 - repo-backed `~/.pi/agent/prompts/`
+
+When explicitly requested, audit project-specific `AGENTS.md` files outside the agents repository and prepare exact proposed changes. Treat those files as read-only: do not edit, move, delete, stage, commit, or push them. Hand implementation to the project-local workflow under its active instructions.
 
 The setup may use nested symlinks. Resolve the repository through Git instead of assuming a fixed directory layout:
 
@@ -92,13 +98,13 @@ For detailed durable workflows, schemas, lifecycle rules, or cross-skill convent
 - place the detailed process in a global reference or skill reference;
 - state this split so the user can evaluate always-loaded instructions separately from optional detail.
 
-When an approved workflow requires a saved proposal, confirm before editing that the proposal exists, is linked from the owning task, records the exact file scope, and has `status: approved`. Do not create it retrospectively or combine proposal preparation and implementation. This check does not require a saved proposal for unrelated trivial work unless the user or active project requires one.
+Before implementing a saved maintenance proposal, follow [references/maintenance-proposals.md](references/maintenance-proposals.md) and confirm that the proposal exists, is linked from the owning task, records the exact file scope, and has `status: approved`. Do not create it retrospectively or combine proposal preparation and implementation. This check does not require a saved proposal for unrelated trivial work unless the user or active project requires one.
 
 Approval applies only to the described scope. Pause and request approval again if new files, broader changes, or materially different behavior become necessary.
 
 ## Maintenance Workflow
 
-1. Confirm the request concerns global instructions, skills, prompt templates, repo-backed Pi resources, or the agents repository.
+1. Confirm the request concerns global instructions, skills, prompt templates, repo-backed Pi resources, the agents repository, or a read-only Audit or proposal for project-specific `AGENTS.md`.
 2. Resolve `agents_path` and `repo_root` as shown above.
 3. Inspect repository state before proposing changes:
 
@@ -108,52 +114,29 @@ Approval applies only to the described scope. Pause and request approval again i
 
 4. Read the relevant files and inspect target paths without changing state.
 5. Perform the shared safety inspection when the work involves third-party resources, executable helpers, dependencies, sensitive data, networks, credentials, or high-impact effects.
-6. Present the proposal required by the approval gate.
-7. After approval, make only the approved changes.
-8. Keep durable project-wide behavior in `AGENTS.md`; keep task-specific methods in skills or their references.
-9. Use targeted edits for existing files. Use full rewrites only when restructuring an approved file, and use new-file writes only for approved new files.
-10. Preserve portability across machines. In human-facing output, show home-directory paths as `~/...` unless the full resolved path is needed for boundary evidence, debugging, incident scope, or a machine-consumed value.
-11. Avoid absolute paths unless documenting an intentional local bootstrap layout.
-12. Avoid scripts, install hooks, daemons, cron jobs, or destructive setup unless explicitly requested and approved.
-13. Run artifact-specific validation and inspect the final diff.
-14. Do not commit unless the user explicitly asks.
+6. Enter formal Audit mode when the user requests it or when broad scope, migration, repository authority, safety, or uncertain interactions require durable assessment. Complete Audit review before preparing its proposal.
+7. Present the proposal required by the approval gate. Use a conversational exact-file proposal for proportional changes. Use the durable proposal workflow when the user, project, reviewed Audit, or change risk requires a saved approval contract.
+8. Resume implementation only after the applicable approval gate is satisfied. Make only the approved changes. For project-specific `AGENTS.md` files outside the agents repository, stop after the proposal and hand implementation to the project-local workflow.
+9. Keep durable project-wide behavior in `AGENTS.md`; keep task-specific methods in skills or their references.
+10. Use targeted edits for existing files. Use full rewrites only when restructuring an approved file, and use new-file writes only for approved new files.
+11. Preserve portability across machines. In human-facing output, show home-directory paths as `~/...` unless the full resolved path is needed for boundary evidence, debugging, incident scope, or a machine-consumed value.
+12. Avoid absolute paths unless documenting an intentional local bootstrap layout.
+13. Avoid scripts, install hooks, daemons, cron jobs, or destructive setup unless explicitly requested and approved.
+14. Run artifact-specific validation and inspect the final diff.
 
 ## Skill Maintenance
 
-Use `skill-creator` for skill architecture, frontmatter, routing, progressive disclosure, review, update, rename, and artifact-specific validation.
-
-When both skills apply:
-
-- `skill-creator` owns the quality and migration completeness of the skill artifact.
-- `agents-maintainer` owns global-resource approval, repository boundaries, path safety, staging, commits, and final repository state.
-- Apply the `agents-maintainer` approval gate before creating or changing global skill files.
-- Return to `agents-maintainer` for exact-path validation and any requested commit after skill work is complete.
-
-Do not let skill-design guidance weaken repository safeguards or broaden the user's approved scope.
-
-## Writing Style
-
-Use direct style for proposals, reviews, and final reports:
-
-- lead with the action, decision, or current state;
-- use bullets or numbered steps for multi-step work;
-- keep rationale only when it changes approval, safety, repository-scope, or validation decisions;
-- preserve safety and approval detail even when concise wording is preferred.
+For global skill changes, pair with `skill-creator`: it owns skill architecture, routing, artifact quality, and migration completeness; Agents Maintainer owns global-resource approval, repository and symlink boundaries, exact-path validation, staging, commits, and final repository state. Apply the Approval Gate before edits, and do not let skill guidance broaden the approved scope.
 
 ## Validation
 
-Validate only the approved changed files and their relevant relationships.
+Run artifact-specific validation from the owning workflow; use `skill-creator` for global skill validation. Agents Maintainer independently confirms:
 
-For skills, check:
-
-- Required frontmatter fields exist and match the directory.
-- Explicit-only invocation settings remain intact.
-- Referenced files exist and relative paths resolve.
-- Markdown is formatted with the intended formatter.
-- No unintended absolute or machine-specific paths were introduced.
-- Human-facing output uses `~/...` for home-directory paths unless an exception is justified.
-- Created, moved, renamed, or reorganized artifacts use approved semantic filenames and reserved-name exceptions.
-- Third-party resources have evidence for applicable provenance, scripts, dependencies, network, credential, filesystem, and side-effect boundaries.
+- changed paths and effects match the exact approval;
+- implementation targets and symlinks remain inside the approved repository boundary;
+- applicable explicit-only, portability, and safety boundaries remain intact;
+- required specialist validation completed; and
+- unrelated changes remain untouched and unavailable checks are reported.
 
 For all agent-repository changes, run:
 
@@ -163,11 +146,9 @@ git -C "$repo_root" diff --check
 git -C "$repo_root" diff -- <approved-paths...>
 ```
 
-Confirm that only approved files changed. Report validation that was not possible or tests that were not run.
-
 ## Commit Workflow
 
-Commit only when the user explicitly asks after reviewing or approving the changes.
+Follow stronger repository-local commit rules. Commit only when the user explicitly asks after reviewing or approving the changes.
 
 Before committing:
 
