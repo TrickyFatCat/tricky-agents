@@ -25,6 +25,8 @@
 # Skill usage reports
 .agents/skill-usage-reports/*
 !.agents/skill-usage-reports/templates/
+docs/proposals
+docs/audit
 
 # Taskmd files
 tasks/*
