@@ -35,11 +35,7 @@ Read references according to the task:
 | [../tech-docs-writer/references/documentation-modes.md](../tech-docs-writer/references/documentation-modes.md)   | Identifying or assessing tutorial, how-to, reference, explanation, troubleshooting, maintainer, README, or personal-documentation mode.                |
 | [../tech-docs-writer/references/markdown-conventions.md](../tech-docs-writer/references/markdown-conventions.md) | Resolving document paths or reviewing renderer behavior, editorial markers, callouts, TOCs, links, headings, document location, or Markdown structure. |
 
-## Template Assets
-
-| Asset                                                                            | Use                                                                                     |
-| -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| [assets/documentation-audit-template.md](assets/documentation-audit-template.md) | Producing a formal, bounded, always-saved Documentation Audit. Adapt it to the project. |
+Use `audit-workflow` for shared conversational Review and formal Audit mechanics. Apply `review-format.md` afterward for documentation-domain criteria and `review-persistence.md` for documentation-specific saved operations. Do not load formal Audit mechanics for a bounded Quick Review.
 
 ## When to Use
 
@@ -59,23 +55,17 @@ If the request is to create documentation from scratch, use `tech-docs-writer` u
 
 ### Quick Review
 
-Use Quick Review by default.
+Use Quick Review by default. Apply shared Review mechanics proportionally, then use `review-format.md` for documentation judgment.
 
 - Print concise, high-value findings directly to chat.
 - Save only when the user requests it.
-- Scale from one comment to a detailed response without turning depth alone into Audit.
 - Keep a detailed chat response as Review unless it claims formal bounded coverage.
 
 ### Documentation Audit
 
-Use Documentation Audit when the user explicitly requests:
+Use Documentation Audit when the user explicitly requests an Audit, formal bounded coverage, retained detailed assessment, or explicit scope, evidence, exclusions, outcome, and untested areas.
 
-- an Audit;
-- formal or bounded coverage;
-- a detailed assessment that must be retained; or
-- explicit scope, evidence, exclusions, outcome, and untested areas.
-
-A Documentation Audit is always saved. Resolve its destination before formal assessment begins and use [assets/documentation-audit-template.md](assets/documentation-audit-template.md). If no durable destination can be agreed, explain that the Audit contract cannot be completed and offer an expanded Quick Review instead.
+A Documentation Audit is always saved. Resolve its destination before formal assessment begins, apply shared Audit mechanics and the shared [artifact Audit template](../audit-workflow/assets/artifact-audit-template.md), then add the domain guidance from `review-format.md` and `review-persistence.md`. If no durable destination can be agreed, explain that the Audit contract cannot be completed and offer an expanded Quick Review instead.
 
 If `detailed review` is ambiguous, ask whether the user wants an expanded chat Review or a saved Documentation Audit.
 
@@ -85,7 +75,7 @@ Neither mode authorizes a proposal, documentation edit, file move, or implementa
 
 1. Read active project instructions and identify document, storage, safety, metadata, renderer, formatting, and approval constraints.
 2. Locate the exact document or documentation set. Do not silently substitute a similarly named generated or output copy.
-3. Select Quick Review or Documentation Audit.
+3. Select Quick Review or Documentation Audit and load the corresponding shared mechanics.
 4. Identify the documentation mode, intended reader, reader goal, and requested focus. Load Writer's documentation-mode reference when these affect the assessment.
 5. State coverage and exclusions for a large document or documentation set. Resolve the destination before beginning an Audit.
 6. Read the document and relevant references.
