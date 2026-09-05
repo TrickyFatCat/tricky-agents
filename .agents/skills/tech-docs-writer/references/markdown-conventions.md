@@ -11,6 +11,7 @@ Read this reference when creating or editing human-facing Markdown documentation
 - [Renderer-Aware Syntax](#renderer-aware-syntax)
 - [Callouts](#callouts)
 - [Section Structure](#section-structure)
+- [Frontmatter and Prose](#frontmatter-and-prose)
 - [Document Location](#document-location)
 - [Section Introductions](#section-introductions)
 - [Editorial Markers](#editorial-markers)
@@ -77,6 +78,8 @@ Follow established local heading syntax before changing a document. Validate raw
 ## Table of Contents
 
 Add a table of contents when it materially improves nonlinear navigation or helps readers resume work. Do not require one solely because a document crosses a line or heading threshold; use size and section count as prompts to reconsider navigation.
+
+Reconsider TOC need after substantial structural edits and during the final pass. A document that began without useful navigation may need it after sections are added, split, renamed, or reordered. Length and heading count remain review signals, not universal thresholds.
 
 Prefer the established project or renderer mechanism. A renderer may generate navigation automatically, use configuration, filter headings, or require document markers.
 
@@ -180,6 +183,12 @@ Avoid redundant structure:
 - Do not repeat filenames or companion tools in multiple ending sections without a reader need.
 - When adjacent output examples repeat most of the same context, use one representative full example and focused snippets only for meaningful variants.
 - Keep normal states, expected omissions, and feature-specific messages with the relevant feature. Keep a Troubleshooting item only when symptom-led diagnosis, recovery steps, or cross-feature context adds reader value.
+
+## Frontmatter and Prose
+
+When a document uses frontmatter, do not repeat lifecycle status, dates, scope fields, task IDs, or other obvious metadata in prose unless the prose adds interpretation, reasoning, or a decision that metadata cannot express.
+
+Preserve readable summaries that add meaning. Follow project-local metadata conventions rather than imposing a universal schema.
 
 ## Document Location
 

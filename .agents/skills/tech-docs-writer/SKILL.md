@@ -1,6 +1,6 @@
 ---
 name: tech-docs-writer
-description: Use when writing or editing human-facing Markdown documentation for tools, scripts, command-line workflows, setup steps, usage guides, troubleshooting notes, and project documentation. Includes an optional AI Notice when requested or required, and automatically formats generated Markdown with dprint.
+description: Use when writing or editing human-facing Markdown documentation for tools, scripts, command-line workflows, setup steps, usage guides, troubleshooting notes, and project documentation. Applies source-backed drafting, renderer-aware Markdown, approved formatting, and post-format validation.
 ---
 
 # Technical Documentation Writer
@@ -31,6 +31,8 @@ Read the relevant references before drafting or editing:
 
 For command-oriented Markdown documentation, read all three references.
 
+For Review, Audit, or proposal artifacts, use `audit-workflow` for shared structure, lifecycle, persistence, and approval-boundary mechanics. Tech Docs Writer remains responsible for reader-focused drafting and editing, source validation, Markdown conventions, and post-format checks. Do not load Audit Workflow for ordinary documentation.
+
 ## Workflow
 
 Use this workflow unless the task needs a smaller review-only pass:
@@ -39,18 +41,37 @@ Use this workflow unless the task needs a smaller review-only pass:
 2. Identify the document mode and intended reader.
 3. Inspect the current document, source files, help metadata, and relevant call sites.
 4. Separate verified behavior from assumptions and open questions.
-5. Choose the smallest useful structure.
+5. Plan the reader journey and choose the smallest useful structure.
 6. Draft or edit with reader tasks, safety, and source accuracy in mind.
 7. Compare documented behavior against the current source.
-8. Format the intended Markdown file.
-9. Re-read the modified sections and perform the post-format checks.
-10. Report files changed, validation performed, and anything not tested.
+8. Review the whole document before polishing local prose.
+9. Reconsider whether the current structure needs a table of contents.
+10. Format the intended Markdown file under the approved formatter contract.
+11. Re-read the modified sections and perform the post-format checks.
+12. Report files changed, validation performed, and anything not tested.
 
 Ask clarifying questions when audience, platform, version, safety, or intended document mode changes the result.
 
 Accept project-local documentation guidance in any clear form. Do not require a dedicated configuration schema, template, filename, or separate contract artifact.
 
 When the user explicitly asks to establish documentation formatting, offer a short human-readable section in the relevant local `AGENTS.md`. Explain the proposed fields and wait for approval before editing project instructions. When current rules are unclear or conflicting, ask only about choices that materially affect the document.
+
+## Structural Planning and Review
+
+For substantive documentation, plan before drafting:
+
+1. Confirm the primary reader, goal, and document mode.
+2. Map each planned section to one responsibility.
+3. Order prerequisites, actions, outcomes, and recovery information along the reader's path.
+
+Before formatting, re-read the document as one reader journey:
+
+1. Check progression, transitions, dependencies, point-of-need placement, duplication, mixed modes, audience boundaries, and the ending.
+2. Check terminology, complexity, density, abstraction, repetition, and tone where they affect reader success.
+3. Fix whole-document structure before polishing local prose.
+4. Reconsider navigation after sections are added, split, renamed, or reordered.
+
+Scale both passes to the task. Do not turn every dimension into a mandatory section or finding, and do not impose one universal document template.
 
 ## Document Mode
 
@@ -191,29 +212,26 @@ Ask before saving a deliverable when project instructions require approval.
 
 ## Formatting
 
-Format completed Markdown after creating or editing it.
-
-Resolve `script/format-md.sh` from the active Tech Docs Writer skill directory. Run that resolved script only on the intended writable document:
+Follow active project formatter requirements first. When the project does not name a formatter, use the global Markdown helper only on the intended writable document:
 
 ```bash
-bash "$TECH_DOCS_WRITER_DIR/script/format-md.sh" path/to/document.md
+~/.agents/scripts/format-markdown.sh path/to/document.md
 ```
 
-`TECH_DOCS_WRITER_DIR` is explanatory notation for the resolved skill directory, not a required environment variable.
+Before promising formatted output, confirm that the target is writable and that the approved helper and formatter are available and applicable.
 
-The script runs `dprint fmt` and modifies the target file in place.
+- If formatting is required but unavailable, stop and report the blocker.
+- If the artifact contract permits unformatted delivery, perform the manual Markdown checks and disclose that formatting was not performed.
 
-Do not format read-only source material, including files under `input/` or `linked-input/`.
-
-If formatting fails, report the error. Do not install tools or change unrelated files automatically.
+Do not format read-only source material, including files under `input/` or `linked-input/`. Never install, substitute, or reconfigure a formatter without approval.
 
 ## Post-Format Validation
 
 After formatting:
 
 1. Re-read the modified sections.
-2. Confirm the title and heading hierarchy.
-3. Confirm TOC markers remain and entries match current headings.
+2. Reconsider TOC need using the document's current size, structure, and navigation demands.
+3. When a TOC is present, confirm its markers, entries, headings, and renderer-specific anchors remain valid.
 4. Confirm tables, callouts, code fences, local links, and relative paths remain valid.
 5. Compare documented commands and behavior with the current source.
 6. Confirm names, signatures, defaults, return values, effects, and examples are still accurate.
@@ -223,16 +241,18 @@ Formatting is not validation. Do not report a document as verified solely becaus
 
 ## Final Checklist
 
-Before finalizing, check:
+**Content and structure**
 
-- [ ] The document mode and intended reader are clear.
-- [ ] The structure is useful and non-redundant.
+- [ ] The document mode, intended reader, and reader goal are clear.
+- [ ] The structure supports the reader journey without duplicated responsibilities.
 - [ ] Source-backed claims match current files or authoritative documentation.
 - [ ] Commands, options, inputs, outputs, defaults, and side effects are accurate.
 - [ ] Examples are relevant, copyable, and safely testable where possible.
+
+**Safety and delivery**
+
 - [ ] Warnings appear beside risky actions.
-- [ ] Headings, TOC markers, tables, callouts, code fences, and links are valid.
+- [ ] TOC need was reconsidered; headings, markers, tables, callouts, code fences, and links are valid.
 - [ ] New or removed public commands are reflected in command references.
-- [ ] The intended Markdown file was formatted.
-- [ ] Modified sections were re-read after formatting.
-- [ ] Anything not tested is reported.
+- [ ] The intended file was formatted, or an allowed fallback and its manual checks were disclosed.
+- [ ] Modified sections were re-read, and anything not tested was reported.

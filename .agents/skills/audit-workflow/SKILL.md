@@ -26,6 +26,8 @@ Use assets as adaptable output patterns, not mandatory forms:
 | [assets/artifact-audit-template.md](assets/artifact-audit-template.md)       | Starting a formal saved Audit when no stronger domain template exists. |
 | [assets/artifact-proposal-template.md](assets/artifact-proposal-template.md) | Starting a saved proposal when no stronger domain template exists.     |
 
+Use `tech-docs-writer` when drafting or editing human-facing documentation content in a Review, Audit, or proposal. Use the global Markdown formatter directly for formatting-only work. Audit Workflow continues to own artifact mechanics and does not authorize implementation.
+
 ## When to Use
 
 Use this skill when the user asks to:

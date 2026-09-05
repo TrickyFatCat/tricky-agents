@@ -37,4 +37,4 @@ for document in "$@"; do
 
 done
 
-dprint fmt "$@"
+dprint fmt --no-gitignore "$@"

@@ -41,6 +41,10 @@ These are default instructions for all sessions. Project-local instructions may 
 - Use Bash or a POSIX shell as a fallback when a script, command, repository tool, or harness requires it; Nushell is unavailable; higher-priority instructions require another shell; or Bash is materially better suited to the task.
 - Treat this as a tool-selection preference, not a prohibition. A harness tool or wrapper name does not by itself require its shell language, but do not bypass an explicit execution contract.
 
+## Markdown Formatting
+
+Follow project-local formatter rules first. Otherwise use `~/.agents/scripts/format-markdown.sh` only on explicit writable Markdown files. If required formatting is unavailable, stop and report the blocker; when the artifact contract permits unformatted delivery, perform manual Markdown checks and disclose that formatting was not performed. Never install, substitute, or reconfigure a formatter without approval.
+
 ## Agent Setup Change Approval
 
 Before creating, modifying, deleting, or reorganizing global agent instructions, skills, commands, prompt templates, themes, settings examples, or helper scripts under `~/.agents` or repo-backed `~/.pi/agent` resources:
