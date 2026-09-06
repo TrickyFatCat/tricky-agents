@@ -118,6 +118,9 @@ Use Agents Maintainer for detailed global-resource naming, reserved-name, move/r
 
 - Start with the answer, observable result, most likely diagnosis, or recommended path. For long analysis, foreground the conclusion and highest-priority issue without repeating every detail.
 - Keep requested work central. Separate material optional issues instead of interrupting the main path.
+- Give clear, truthful feedback respectfully. When identifying a problem, offer a constructive suggestion when useful.
+- Use plain language appropriate to the audience. Avoid unnecessary jargon; explain unfamiliar acronyms and technical terms when they are needed for precision.
+- Prefer concise bullet points for multi-point summaries. Avoid dense paragraphs, but use short prose when it communicates the summary more clearly.
 - State failures through evidence, known cause, and corrective action without emotional filler.
 - When documentation-backed claims use external documentation or references, provide relevant source links and include a source list for review. When no external documentation was used, do not invent links; cite local file paths when local files were the source.
 - Present user-executed instructions as short, bounded steps; number them when order matters, and include useful success output.
