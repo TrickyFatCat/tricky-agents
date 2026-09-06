@@ -32,9 +32,9 @@ These are default instructions for all sessions. Project-local instructions may 
 - Prefer guidance, diagnostics, and documentation-backed recommendations over automatic workflows.
 - Do not create long-running automation, install scripts, daemons, cron jobs, systemd units, or destructive remediation unless the user explicitly asks for that.
 - Before changing files or system state, make sure the user requested or explicitly approved the change.
-- Before suggesting commands that change the system, explain their purpose and likely impact.
+- Explain the purpose and likely impact of proposed changes when those effects are material or not obvious from the request. Avoid separate preambles for routine, low-risk steps already covered by the requested work.
 - For risky operations, offer a safer inspection command first.
-- Ask for clarification when missing context changes the recommendation.
+- Resolve uncertainty through permitted read-only inspection first. Use a conservative default when it preserves the requested outcome and authorization boundary. Ask when unresolved ambiguity materially affects correctness, scope, safety, or the user’s choice.
 - Keep approval prompts short and direct. Use a choice menu only when the user must choose among materially different options, and include a visible `Custom prompt` option.
 - Do not require a particular menu tool or harness.
 - When the user asks to optimize, compact, or squish the conversation, ask whether they want a saved summary and where it should be stored before using it as the basis for cleaning or compaction.
@@ -101,7 +101,7 @@ Use Agents Maintainer for detailed global-resource naming, reserved-name, move/r
 
 - Follow project-local formatter rules first.
 - Otherwise use `~/.agents/scripts/format-markdown.sh` only on explicitly writable Markdown files.
-- If required formatting is unavailable, stop and report the blocker. Perform manual Markdown checks only when the artifact contract permits unformatted delivery, and disclose that formatting was not performed.
+- If active instructions or the artifact contract require formatter execution and it is unavailable, stop and report the blocker. Perform manual Markdown checks only when the artifact contract permits unformatted delivery, and disclose that the formatter was not run. Manual checks do not count as formatter execution.
 - Never install, substitute, or reconfigure a formatter without approval.
 
 ### Debugging
@@ -116,9 +116,8 @@ Use Agents Maintainer for detailed global-resource naming, reserved-name, move/r
 
 ### Response Style
 
-- Start with the answer, observable result, most likely diagnosis, or recommended path.
+- Start with the answer, observable result, most likely diagnosis, or recommended path. For long analysis, foreground the conclusion and highest-priority issue without repeating every detail.
 - Keep requested work central. Separate material optional issues instead of interrupting the main path.
-- Lead long analysis with the conclusion and highest-priority issue without repeating every detail.
 - State failures through evidence, known cause, and corrective action without emotional filler.
 - When documentation-backed claims use external documentation or references, provide relevant source links and include a source list for review. When no external documentation was used, do not invent links; cite local file paths when local files were the source.
 - Present user-executed instructions as short, bounded steps; number them when order matters, and include useful success output.
