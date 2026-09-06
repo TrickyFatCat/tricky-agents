@@ -2,7 +2,15 @@
 
 Read this reference when reviewing, completing, migrating, or renaming a skill.
 
-Validation covers discovery, content, references, dependencies, formatting, and repository scope. Markdown checks alone do not prove correct routing or behavior.
+Validation confirms that the current or implemented skill satisfies its selected design, approved decisions, and active technical, safety, and authority requirements. It covers discovery, content, outcomes, references, dependencies, formatting, and repository scope; Markdown checks alone do not prove correct routing or behavior.
+
+## Design Conformance
+
+Skill Creator's Create, Review, or Audit mode selects or reconsiders the design. Validation checks that the implementation matches it without repeating the initial capability-worthiness assessment.
+
+If design evidence is absent, contradictory, unsafe, outdated, or invalidated by a failed outcome check, report the failed assumption and return it to design or assessment. Do not silently redesign, broaden approval, or declare completion. Escalate broad or uncertain effects to full Skill Audit; a small design question need not become a formal Audit.
+
+Approval is not proof of correctness and cannot override stronger rules. Preserve safety, content, outcome, and regression checks even when the implementation literally matches an approved design.
 
 ## Pre-Change Inventory
 
@@ -75,36 +83,36 @@ Skill Creator validates the domain additions:
 
 - Skill Audits include the required resource and capability evaluation.
 - Usage Report Audits assess every selected report and materially related resource, list exclusions, and escalate broad or uncertain effects.
-- Skill proposals expose exact global-resource scope, artifact roles, naming, handoffs, migration effects, validation, and decision-record outcome.
+- Skill proposals expose exact global-resource scope, artifact roles, naming, handoffs, migration effects, validation, and the decision-record outcome when the core's trigger applies.
 - Project-local conventions override shared defaults.
 - Shared guidance loads only when the request enters the relevant mode.
 
 ## Target-Skill Audit and Review Capability
 
-When a target skill may own domain assessment, confirm:
+When the selected design includes domain assessment, confirm:
 
-- recurring domain Review or Audit belongs to its runtime responsibility;
-- it contributes evidence criteria and judgment generic review would miss;
+- implemented Review/Audit triggers match the selected runtime responsibility;
+- the implementation supplies the design's domain evidence, criteria, and judgment;
 - Review and Audit remain proportional and distinct under `audit-workflow`;
 - assessment cannot silently become proposal or implementation;
 - project-local persistence and lifecycle rules remain authoritative;
 - shared templates are used directly by default; and
-- a target-owned template exists only with recurring evidence for a distinct output contract.
+- any target-owned template matches the selected distinct output contract and its supporting evidence.
 
-Read [audit-review-capability.md](audit-review-capability.md) for the complete domain test.
+Use [audit-review-capability.md](audit-review-capability.md) if design reassessment is needed; follow its conditional architecture-loading route.
 
 ## Target-Skill Proposal Capability
 
-When a target skill may own domain proposals, confirm:
+When the selected design includes domain proposals, confirm:
 
-- proposal behavior belongs to recurring runtime responsibility;
-- the target supplies domain decisions, evidence, and validation additions rather than copying shared mechanics;
+- implemented proposal triggers match the selected runtime responsibility;
+- the target supplies the design's domain decisions, evidence, and validation additions rather than copying shared mechanics;
 - advice, Review, proposal, approval, and implementation remain distinct;
 - proposals cannot approve themselves or expand implementation scope;
 - project-local storage and lifecycle rules remain authoritative; and
-- a target-owned template is justified rather than copied from a shared or Skill Creator asset.
+- any target-owned template matches the selected output contract rather than copying a shared or Skill Creator asset.
 
-Read [proposal-capability.md](proposal-capability.md) for the complete domain test.
+Use [proposal-capability.md](proposal-capability.md) if design reassessment is needed; follow its conditional architecture-loading route.
 
 ## Decision-Record Handoff
 
@@ -116,7 +124,7 @@ Do not add target-owned decision-record mechanics or templates by default. Confi
 - owner authority; and
 - source tasks, reports, Audits, proposals, or related decisions.
 
-For every skill task, ensure the final response states whether a record is recommended and why. Use the shared owner for substantive assessment and all persistent record work.
+Apply the core's [Decision-Record Trigger](../SKILL.md#decision-record-trigger). When it applies, verify that the outcome and reason are reported and any recommended record is included in approved exact-file scope. Routine work without a broader decision does not need a `not recommended` announcement. Use the shared owner for substantive assessment and all persistent record work.
 
 ## Content Review
 

@@ -2,9 +2,9 @@
 
 Read this reference when deciding whether a target skill should own domain-specific proposal behavior during normal use.
 
-Use [`audit-workflow/references/proposals.md`](../../audit-workflow/references/proposals.md) for generic proposal structure, lifecycle, exact-scope contracts, persistence, and template mechanics. This reference covers only target-skill domain responsibility and additions.
+Before evaluating this capability, read [Shared Artifact Responsibilities](skill-design.md#shared-artifact-responsibilities) unless already loaded, then continue here. Follow that section's nested capability links only for a capability being assessed; do not reload this reference or load unrelated capabilities in a loop.
 
-Do not read it merely because the current skill change needs a proposal.
+Use the shared [proposal workflow](../../audit-workflow/references/proposals.md) for artifact mechanics. This reference owns only the capability-specific context and tests below. Do not read it merely because the current skill change needs a proposal.
 
 ## Capability Test
 
@@ -29,14 +29,7 @@ The target skill may own:
 - domain validation and rollback expectations; and
 - context handed to the responsible implementation workflow.
 
-Delegate to `audit-workflow`:
-
-- proposal-versus-implementation boundaries;
-- generic lifecycle and approval semantics;
-- exact file or system scope mechanics;
-- shared section ownership and proposal structure;
-- persistence and naming fallbacks; and
-- the base proposal template and generic preflight.
+Use shared artifact mechanics and templates by default under the linked architecture principle. Project authority prevails; a proposal cannot approve itself or authorize implementation.
 
 Keep repository operations, deployment, publication, destructive effects, and implementation with their responsible workflows.
 

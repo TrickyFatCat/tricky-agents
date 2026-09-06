@@ -13,14 +13,15 @@ Give the agent the right workflow at the right time. Keep always-needed behavior
 
 Read only the references needed for the request:
 
-| Reference                                                                      | Read when                                                                                                               |
-| ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
-| [references/skill-design.md](references/skill-design.md)                       | Defining scope, frontmatter, routing, progressive disclosure, references, scripts, assets, or handoffs.                 |
-| [references/skill-validation.md](references/skill-validation.md)               | Reviewing, validating, migrating, or renaming a skill and its dependencies.                                             |
-| [references/audit-format.md](references/audit-format.md)                       | Applying skill-domain criteria to a formal Skill Audit, Usage Report Audit, or substantial informal Review.             |
-| [references/audit-review-capability.md](references/audit-review-capability.md) | Deciding whether a target skill should own domain-specific Audit or Review behavior.                                    |
-| [references/proposal-capability.md](references/proposal-capability.md)         | Deciding whether a target skill should own domain-specific proposal behavior.                                           |
-| [../../references/safety-inspection.md](../../references/safety-inspection.md) | Creating or substantially changing a skill with executable, sensitive, networked, credentialed, or high-impact effects. |
+| Reference                                                                          | Read when                                                                                                               |
+| ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| [references/skill-design.md](references/skill-design.md)                           | Defining scope, frontmatter, routing, progressive disclosure, references, scripts, assets, or handoffs.                 |
+| [references/skill-validation.md](references/skill-validation.md)                   | Reviewing, validating, migrating, or renaming a skill and its dependencies.                                             |
+| [references/audit-format.md](references/audit-format.md)                           | Applying skill-domain criteria to a formal Skill Audit, Usage Report Audit, or substantial informal Review.             |
+| [references/audit-review-capability.md](references/audit-review-capability.md)     | Deciding whether a target should own domain Audit/Review; load the shared architecture section it links first.          |
+| [references/proposal-capability.md](references/proposal-capability.md)             | Deciding whether a target should own domain proposals; load the shared architecture section it links first.             |
+| [../../references/skill-usage-reports.md](../../references/skill-usage-reports.md) | Assessing supplied usage reports or handling an explicitly approved report persistence effect.                          |
+| [../../references/safety-inspection.md](../../references/safety-inspection.md)     | Creating or substantially changing a skill with executable, sensitive, networked, credentialed, or high-impact effects. |
 
 Read both design and validation references for a new skill or substantial refactor. Read capability references only when the target skill may own that behavior during normal use; do not load them merely because Skill Creator is auditing or proposing changes to the target.
 
@@ -97,6 +98,14 @@ For tracked skill changes, save and review the Audit before preparing a separate
 
 Pair with `audit-workflow` for substantial Review mechanics. Keep ordinary critique and follow-up review conversational and unsaved unless the user or project requires persistence.
 
+### Usage Report Review/Audit
+
+When selected reports are supplied for skill improvement, read [references/audit-format.md](references/audit-format.md) and the [usage-report contract](../../references/skill-usage-reports.md). Use conversational Review for lifecycle-only triage; use Usage Report Audit when bounded evidence may justify a skill change.
+
+Separate the user's issue from agent interpretation, check whether it still applies, and inspect materially related resources with explicit exclusions. Escalate broad routing, architecture, ownership, safety, migration, or uncertain cross-resource effects to full Skill Audit.
+
+Choose the smallest justified outcome: `no change`, `research`, `defer`, or `proposal required`. A proposal follows reviewed Audit evidence, not report status alone. Recommend lifecycle outcomes without mutating report state unless separately authorized under its owning workflow.
+
 ### Update
 
 Improve an existing skill while preserving useful behavior and limiting edits to approved files.
@@ -129,24 +138,21 @@ Keep safety rules needed during normal use in the target skill's always-loaded c
 
 ## Workflow
 
-1. Identify whether the task is creation, Audit, Review, update, rename, or capability design.
-2. Read active project and global instructions.
-3. Inspect the target skill, owned resources, repository state, and direct dependencies.
-4. Use `scripts/skill-audit.nu` for bounded read-only inventory or link checking when useful.
-5. Read current harness documentation when discovery or frontmatter behavior matters.
-6. Define the skill's responsibility boundary and routing relationships.
-7. Ground design in user corrections, real tasks, reports, project artifacts, execution traces, or external standards.
-8. Decide what belongs in the always-loaded core and what should load from references or assets.
-9. Assess target-skill Audit/Review and proposal capability independently; read the matching capability reference only when normal runtime behavior may own it.
-10. Default decision-record behavior to a `decision-record` handoff rather than adding mechanics or templates to the target skill.
-11. Perform the shared safety inspection when required.
-12. For every skill task, report whether a decision record is recommended and why. Use `decision-record` for substantive assessment and all record work. Routine wording or formatting corrections may report `not recommended` without loading the full workflow.
-13. Pair with `audit-workflow` for saved Audits and proposals. Apply `references/audit-format.md`, `references/skill-validation.md`, and the relevant capability reference as Skill Creator's domain additions.
-14. For tracked changes, confirm the Audit was reviewed before preparing a proposal. Use the shared proposal template, preserve exact-file scope, and run the Skill Creator proposal preflight.
-15. Revise the proposal during review. Record approval before editing and implement in a separate phase.
-16. Apply only approved changes, format them, and validate frontmatter, references, routing, safety, migration completeness, and repository scope.
-17. Report changes, validation, limitations, untested runtime behavior, and the decision-record outcome.
-18. Commit only when the user explicitly asks and the repository workflow permits it.
+Use these stages as agent workflow guidance, not mandatory user-facing announcements.
+
+1. **Scope:** Identify the mode and read active instructions. Inspect the target, owned resources, repository state, and direct dependencies; use the read-only helper when useful. Read current harness documentation when discovery or frontmatter behavior matters. Establish evidence from real tasks, corrections, reports, artifacts, traces, or relevant standards. Continue when responsibility and scope are clear; resolve uncertainty that could change them first.
+2. **Assess or design:** Define responsibility, routing, and core/reference placement. Assess Audit/Review and proposal capability independently and only when the target may own that runtime behavior. Check the [decision-record trigger](#decision-record-trigger); default record mechanics to the shared owner. Perform required safety inspection. An assessment-only request stops with its outcome; design or safety uncertainty returns here rather than silently advancing.
+3. **Obtain approval:** Use `audit-workflow` for shared artifacts and the relevant domain references for additions. For tracked changes, save and review the Audit before preparing a separate exact-file proposal; use the shared template and run proposal preflight. Revise during review and record exact approval before implementation. Small corrections retain the proportional approval gate. Missing approval or expanded scope blocks implementation.
+4. **Implement:** Only when requested and within approved scope. Preserve naming, migration, safety, and repository containment requirements. Format approved files and stop for renewed approval if a dependency, path, or effect changes materially.
+5. **Validate:** Check content, frontmatter, routing, references, safety, migration, and exact diffs under [Skill Validation](references/skill-validation.md). Return missing or unsafe design assumptions to assessment; do not declare completion on failed required checks. Report changes, validation, limitations, untested runtime behavior, and the record outcome when the trigger applies. Commit only on explicit request and when the repository workflow permits it.
+
+## Decision-Record Trigger
+
+Check whether the work creates or changes durable architecture, responsibility, workflow, compatibility, migration, safety, or a similarly consequential decision. When it does, use `decision-record` for substantive assessment and report the outcome and reason. A direct record request or stronger active requirement also activates that workflow.
+
+Routine wording, formatting, or validation-only work with no broader decision needs neither a separate worthiness assessment nor a routine `not recommended` announcement. Reversibility alone does not exempt consequential work. If the impact is unclear, assess it rather than treating it as routine.
+
+When a record is recommended, include its exact path in the approval scope and create it with the approved changes. Keep preliminary Audit signals and final proposal outcomes distinct; do not defer a required record to an optional retrospective follow-up.
 
 ## Core Design Principles
 
@@ -195,7 +201,7 @@ Use only the parts that help:
 1. Current state, recommendation, or finding.
 2. Main design decisions or exact proposed changes.
 3. Validation, limitations, and next decision.
-4. Decision-record outcome and reason.
+4. Decision-record outcome and reason when the [trigger](#decision-record-trigger) applies.
 
 Do not force headings onto a small answer.
 

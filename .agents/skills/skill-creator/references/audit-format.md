@@ -10,6 +10,8 @@ Pair it with the relevant shared workflow:
 
 This reference supplies skill-domain scope, evidence, judgment, and additions. It does not redefine the shared artifact format.
 
+Assessment determines whether the skill is well designed and what, if anything, should change: evidence interpretation, issue validity, resource quality, capability justification, priorities, and outcomes belong here. Create and proportional Review may also resolve design questions; not every question requires formal Audit. [Skill Validation](skill-validation.md#design-conformance) checks the selected design and returns failed or unsafe assumptions to assessment rather than silently redesigning.
+
 ## Choose the Assessment Scope
 
 ### Review
@@ -126,9 +128,9 @@ Do not repeat pass findings as generic praise.
 
 ## Decision-Record Signal
 
-For every skill task, state whether a decision record is recommended and why. Use `decision-record` for substantive worthiness checks and all persistent record work.
+Apply the core's [Decision-Record Trigger](../SKILL.md#decision-record-trigger). When it applies, state whether a record is recommended and why; use `decision-record` for substantive worthiness checks and all persistent record work. Do not add a routine `not recommended` announcement when no broader decision or stronger requirement exists.
 
-In a formal Audit, keep this signal preliminary. If the outcome is `proposal required`, confirm the final outcome and exact path in the proposal. Do not create a proposal merely to repeat a `no change`, `research`, or `defer` signal.
+In a formal Audit, keep an applicable signal preliminary. If the outcome is `proposal required`, confirm the final record outcome and any recommended record's exact path in the proposal. Do not create a proposal merely to repeat a `no change`, `research`, or `defer` signal.
 
 ## Tracked Skill Changes
 
@@ -152,5 +154,5 @@ Before presenting or saving the assessment, confirm:
 - broad or uncertain report effects triggered escalation;
 - shared templates and lifecycle rules were applied without local duplication;
 - recommendations did not become implementation approval;
-- decision-record need and reason are visible; and
+- decision-record need and reason are visible when the core's trigger applies; and
 - runtime, renderer, source, or validation checks not performed are stated.

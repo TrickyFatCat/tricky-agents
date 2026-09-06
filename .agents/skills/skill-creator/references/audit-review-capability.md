@@ -2,9 +2,9 @@
 
 Read this reference when deciding whether a target skill should own domain-specific Audit or Review behavior during normal use.
 
-Use `audit-workflow` for generic Review, Quick Review, formal Audit, finding, lifecycle, persistence, section-ownership, and template mechanics. This reference covers only target-skill domain responsibility and the additions it must supply.
+Before evaluating this capability, read [Shared Artifact Responsibilities](skill-design.md#shared-artifact-responsibilities) unless already loaded, then continue here. Follow that section's nested capability links only for a capability being assessed; do not reload this reference or load unrelated capabilities in a loop.
 
-Do not read it merely because Skill Creator is assessing the target skill.
+Use the shared [Review](../../audit-workflow/references/review.md) or [Audit](../../audit-workflow/references/audit.md) mechanics for the active mode. This reference owns only the capability-specific evidence and tests below. Do not read it merely because Skill Creator is assessing the target skill.
 
 ## Capability Test
 
@@ -30,13 +30,7 @@ The target skill may own:
 - domain escalation conditions; and
 - approved persistence additions required by project-local rules.
 
-Delegate to `audit-workflow`:
-
-- generic Review, Quick Review, and Audit structures;
-- finding layout and navigation;
-- metadata, TOC, lifecycle, persistence, and section ownership;
-- generic Review-versus-Audit mechanics; and
-- base Audit and proposal templates.
+Use shared artifact mechanics and templates by default under the linked architecture principle. Project authority prevails; assessment cannot authorize proposal or implementation.
 
 Keep research, task management, repository approval, implementation, commits, and unrelated review domains with their responsible workflows.
 

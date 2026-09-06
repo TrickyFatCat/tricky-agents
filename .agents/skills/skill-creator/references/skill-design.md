@@ -40,7 +40,9 @@ Use shared skills as the default for reusable artifact mechanics:
 - Use `decision-record` for decision-worthiness, record structure, status, storage, supersession, traceability, and validation.
 - Keep domain evidence, criteria, judgment, recommendations, and implementation with their responsible domain workflows.
 
-Read [audit-review-capability.md](audit-review-capability.md) only when deciding whether recurring domain assessment belongs in a target skill. Read [proposal-capability.md](proposal-capability.md) only when deciding whether the target skill should own domain proposal behavior.
+A domain skill owns domain evidence, criteria, judgment, constraints, and validation context. The shared workflow owns generic artifact structure, lifecycle, persistence, approval mechanics, and reusable templates. Add target-owned capability only when recurring runtime work needs domain context that a shared-only handoff would materially weaken.
+
+Read [audit-review-capability.md](audit-review-capability.md) only when deciding whether recurring domain assessment belongs in a target skill. Read [proposal-capability.md](proposal-capability.md) only when deciding whether the target skill should own domain proposal behavior. When either reference sends you here, continue its capability test afterward; do not reload it or load an unrelated capability merely because this section links to it.
 
 Do not add target-owned artifact templates merely because Skill Creator used an Audit or proposal while changing the target. Use shared templates directly unless recurring evidence proves that a domain-specific output shape cannot be expressed through reference guidance.
 
@@ -150,6 +152,8 @@ Prefer instructions that are:
 - prioritized;
 - reversible; and
 - specific enough to validate.
+
+When a workflow transition is unclear, state its goal, action, continuation evidence, and blocked path. Use these as design questions, not required headings. For example: “Inspect the target and direct dependencies. Continue when responsibility and scope are clear. If a dependency changes the proposed scope, resolve it before requesting approval.” Omit labels that add no useful behavior.
 
 Use action-first language, short paragraphs, clear defaults, and only questions that can change the outcome. Avoid mandatory preambles, fixed report structures for trivial tasks, exhaustive checklists applied mechanically, and duplicated global or shared-skill policy.
 

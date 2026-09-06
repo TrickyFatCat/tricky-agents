@@ -1,7 +1,8 @@
 # Skill Decision Record Workflow
 
-Status: Accepted
+Status: Accepted (partially superseded)
 Date: 2026-08-26
+Partially superseded by: [Conditional Skill Creator Record Assessment](0027-skill-creator-conditional-record-assessment.md) for Skill Creator's every-task assessment and outcome-reporting obligation only.
 
 ## Context
 

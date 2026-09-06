@@ -1,174 +1,52 @@
 # Skill Core Template
 
-Use this template when creating or substantially restructuring a `SKILL.md` core.
+Use this template when creating or substantially restructuring a `SKILL.md` core. Adapt it to the target; do not migrate existing skills merely to match these headings.
 
-Adapt it. Omit sections that do not change behavior, including routing or handoff sections with no material boundary. Keep safety-critical rules in the core. Keep the main `SKILL.md` under 500 lines by default; move long detail to references or assets.
+## Authoring Notes
 
-## Source Material Check
+Read [Skill Design](../references/skill-design.md) for evidence, frontmatter, routing, and placement rules, and [Skill Validation](../references/skill-validation.md) for authoring checks. Use concrete tasks, corrections, artifacts, or traces when available rather than inventing domain behavior. These notes guide the author; do not copy them into the generated skill.
 
-Before writing, gather concrete context:
+Replace every angle-bracket placeholder. Omit optional sections that add no behavior, but retain always-needed safety, authority, material handoffs, and domain validation in the core even when headings are merged. Keep the core under 500 lines by default. Generated skills must not need Skill Creator's references to operate safely.
 
-- hands-on task history;
-- user corrections and preferences;
-- input/output formats;
-- existing project artifacts, runbooks, reports, and reviews;
-- failure cases or execution traces.
+Add compatibility metadata only for real supported requirements; keep its value within 1–500 characters. Preserve explicit-only metadata when required. Domain-specific gotchas, use-case tables, response guidance, scripts, and additional modes are optional, not mandatory sections.
 
-Do not synthesize a skill only from generic model knowledge when domain-specific context exists.
+Keep authoring-only frontmatter and discovery checklists outside generated runtime instructions unless skill authoring or discovery is the target's own domain. Preserve evidence requirements and output checks that the target needs during normal use.
 
 ## Template
 
 ```markdown
 ---
 name: <skill-name>
-description: Use when <activation context>. <What the skill does, user intents it handles, and distinctive artifacts or decisions it covers>.
-# compatibility: <Only when real runtime, tool, product, network, or environment requirements exist. Most skills do not need this.>
+description: Use when <specific activation context>. <Recurring capability>.
 ---
 
 # <Skill Title>
 
-Use this skill to <recurring capability>.
+<Purpose, intended requests, and negative boundary.>
 
-The goal is <what improves when this skill loads>.
+## References
 
-## Frontmatter Requirements
+<Optional: relative links with specific loading conditions.>
 
-Keep these constraints satisfied:
+## Scripts and Modes
 
-- `name` is required.
-- `name` is 1-64 characters.
-- `name` uses lowercase letters, digits, and hyphens only.
-- `name` does not start or end with a hyphen.
-- `name` has no consecutive hyphens.
-- `name` matches the parent directory.
-- `description` is required.
-- `description` is 1-1024 characters.
-- `description` uses imperative phrasing by default, such as `Use when...` or `Use this skill when...`.
-- `description` explains what the skill does and when to use it.
-- `description` describes user intent before implementation mechanics.
-- `description` includes specific routing keywords.
-- For substantial routing changes, test or reason through one matching request and one near-miss boundary request.
-- `compatibility` is optional; most skills do not need it.
-- If `compatibility` is present, keep it 1-500 characters and tied to real environment requirements.
-
-## Reference Files
-
-Read only the references needed for the task:
-
-| Reference                                      | Read when                  |
-| ---------------------------------------------- | -------------------------- |
-| [references/<topic>.md](references/<topic>.md) | <specific load condition>. |
-
-## Available Scripts
-
-Use scripts only when they fit the active request and approval scope.
-
-| Script                  | Use                                                                  |
-| ----------------------- | -------------------------------------------------------------------- |
-| `scripts/<script-name>` | <read-only check, generation, validation, or other bounded purpose>. |
-
-State if the skill has no scripts, or omit this section.
-
-## When to Use
-
-Use this skill when the user asks to:
-
-- <trigger 1>.
-- <trigger 2>.
-- <trigger 3>.
-
-Do not use this skill for <negative boundary>. Route or hand off instead.
-
-## Common Tasks
-
-Include this table only when the skill has several common task types with different default approaches.
-
-| Task        | Default approach                          |
-| ----------- | ----------------------------------------- |
-| <task type> | <tool, mode, or workflow to prefer first> |
-
-Omit this section when one workflow covers most requests.
-
-## Required Handoffs
-
-Include this section only when another skill or workflow must participate to preserve ownership, approval, safety, or a required capability.
-
-- Use `<skill-or-workflow>` when <material handoff condition>.
-
-Do not list generic complementary skills merely because they could help. Omit this section when the reference table, approval section, shared-workflow section, or global rules already make every required handoff clear.
-
-## Operating Modes
-
-Choose the smallest mode that satisfies the request.
-
-### <Mode>
-
-<Behavior, boundary, and output for this mode.>
-
-### <Mode>
-
-<Behavior, boundary, and output for this mode.>
-
-## Gotchas
-
-Use this section only for non-obvious mistakes the agent is likely to make without seeing the warning in the core.
-
-- <Concrete correction or edge case>.
-
-Omit this section when there are no recurring gotchas.
+<Optional: bounded script effects, prerequisites, modes, and material handoffs.>
 
 ## Approval and Safety
 
-Before creating, modifying, moving, deleting, executing, transmitting, installing, or committing anything in this skill's scope:
-
-1. Explain the proposed change or effect.
-2. Explain the reasoning and trade-offs.
-3. List exact files, paths, commands, destinations, or records affected.
-4. Wait for explicit user approval when active instructions require it.
-
-Approval applies only to the described scope. Pause when scope or effect changes materially.
+<Always-needed domain safeguards and protected state. Follow active authority;
+explain material effects and obtain required exact-scope approval before acting.
+Stop on material scope change.>
 
 ## Workflow
 
-1. Identify the task mode and boundaries.
-2. Read active project/global instructions and only the needed references.
-3. Inspect current state with read-only commands first.
-4. Use bounded helper scripts only when they reduce uncertainty.
-5. Add what the agent would otherwise get wrong; omit what it already knows.
-6. Preserve confirmed decisions and distinguish assumptions.
-7. Be prescriptive for fragile safety, approval, naming, or migration steps.
-8. Give flexibility where multiple safe approaches are valid.
-9. Present a proposal before state-changing work.
-10. Apply only approved changes.
-11. Validate the result with artifact-specific checks.
-12. Report changes, validation, limitations, and next action.
+1. <Inspect inputs and establish the task boundary.>
+2. <Apply the domain method only within authorized scope.>
+3. <Validate the result; stop or hand off when evidence is insufficient.>
 
 ## Validation
 
-Before declaring the task complete, confirm:
-
-- <artifact-specific validation>.
-- Frontmatter constraints are satisfied.
-- References and links resolve.
-- Markdown or code formatting is checked.
-- Only approved files or state changed.
-- Full home paths are not exposed in human-facing output unless justified.
-- For substantial skill changes, one matching request and one boundary request were tested, or runtime routing was reported as not tested.
-- Execution traces, user corrections, or trial tasks were considered when available.
-- Runtime/discovery behavior is reported as tested or not tested.
-
-## Default Response Shape
-
-Use only the parts that help:
-
-1. Current state or recommendation.
-2. Main findings, decisions, or proposal.
-3. Exact changes or next action.
-4. Validation and limitations.
-
-Do not force headings onto a small answer.
-
-## Tone
-
-Be <style>. Lead with the current state or next action. Prefer concrete defaults over broad menus. Keep paragraphs short and action-first. Group long lists into must/optional or now/later.
+- <Domain output check and observable success criterion.>
+- Confirm only authorized files or state changed.
+- Report failed or unavailable checks; do not claim untested behavior passed.
 ```
