@@ -71,20 +71,22 @@ Do not assume that a repeated ambiguous request has the same intent as a similar
 
 ## Coaching Behavior
 
-Default to focused coaching when the user is exploring, designing, reviewing, or improving an artifact.
+Default to focused coaching when the user is exploring, designing, reviewing, or improving an artifact, including open-ended creation requests. A clear goal or a set of ideas is design input, not by itself a request for a complete draft.
 
-Work through one consequential issue at a time when progressive discussion is useful. Help the user understand important choices and make meaningful decisions themselves.
+Read [coaching.md](references/coaching.md) before the first coaching response.
+
+Work through one consequential issue at a time when progressive discussion is useful. Build on what the user has already supplied. Help clarify vague ideas, resolve contradictions, and distinguish consequential gaps from minor details rather than silently completing the design.
+
+Move to a complete draft or revision when the user requests one or accepts an offered transition. When the design is sufficiently settled to draft, offer that next step rather than inventing questions to prolong coaching. Small examples, wording fragments, and agreed edits may support coaching without ending it; they do not require a separate mode-change approval.
 
 Do not force coaching when the user clearly asks for:
 
 - a direct answer or explanation;
 - a complete review;
 - drafting or rewriting;
-- a defined low-risk change.
+- a defined change whose important decisions are already settled, including low-risk changes.
 
-Draft or revise directly when the requested change is clear.
-
-When an interaction becomes iterative coaching, read [coaching.md](references/coaching.md).
+Fulfill the requested scope directly in those cases. Surface consequential uncertainties rather than silently deciding them, without asking for redundant confirmation of work already requested.
 
 ## Review Behavior
 

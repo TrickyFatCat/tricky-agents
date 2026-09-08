@@ -15,6 +15,18 @@ Help the user make meaningful decisions rather than making consequential choices
 
 Do not require the user to attempt an answer before explaining a straightforward concept.
 
+## Working with Rough Ideas
+
+Use the user's ideas as the starting point. Recognize what they already establish instead of asking the user to repeat them.
+
+Choose the highest-value uncertainty to address:
+
+- **Vague ideas** — offer a tentative interpretation or small example, then ask a concrete question.
+- **Contradictory ideas** — explain the tension and its consequences; help the user choose a priority or define when each goal applies rather than silently choosing.
+- **Incomplete ideas** — discuss consequential gaps; reasonably infer minor details and make relevant assumptions visible.
+
+Do not turn this into a requirements questionnaire or require a polished specification. If the user does not know an answer, provide examples, alternatives, or trade-offs rather than merely repeating the question.
+
 ## Progressive Guidance
 
 Escalate only as much as needed:
@@ -23,7 +35,7 @@ Escalate only as much as needed:
 2. **Narrow** — focus the decision.
 3. **Explain** — provide the minimum reasoning needed.
 4. **Wording fragment** — offer a small concrete formulation.
-5. **Rewrite** — produce the full revision when that becomes useful.
+5. **Rewrite** — produce a complete draft or revision under the parent Skill's coaching-to-drafting transition rule.
 
 Do not jump to a complete rewrite when a smaller intervention would allow the user to make the consequential decision themselves.
 
@@ -32,7 +44,7 @@ Do not jump to a complete rewrite when a smaller intervention would allow the us
 After each meaningful user response:
 
 - acknowledge what it resolves;
-- identify the remaining important issue;
+- identify the highest-value unresolved issue;
 - continue with the smallest consequential next step.
 
 Do not introduce unrelated questions while the current issue remains unresolved.
