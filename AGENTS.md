@@ -116,6 +116,20 @@ Textual and semantic conflicts require investigation. Do not resolve consequenti
 
 Preserve unrelated uncommitted work.
 
+## Git Worktree Helper
+
+When managing this repository's worktrees, use
+`scripts/git-worktree.nu` from the primary `main` checkout for
+supported inspection, creation, and cleanup operations. Follow
+the operational procedure in `docs/controlled-workflow.md`.
+
+If the helper is unavailable or refuses an operation, stop the
+affected operation and report the reason. Do not bypass that
+boundary with native Git.
+
+Helper results do not replace existing authorization, approval,
+or preservation requirements.
+
 ## Commit Messages
 
 Use Conventional Commits:

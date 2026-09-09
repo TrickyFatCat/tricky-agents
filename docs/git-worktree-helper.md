@@ -1,6 +1,6 @@
 # Git worktree helper
 
-A user-invoked Nushell CLI for inspecting, creating, and cleaning up local Git worktrees. It automates mechanical checks and operations, not approval or semantic conflict resolution. Repository instructions and [the controlled workflow](controlled-workflow.md) still govern when an operation is authorized.
+A Nushell CLI for inspecting, creating, and cleaning up local Git worktrees. It automates mechanical checks and operations, not approval or semantic conflict resolution. Repository instructions and [the controlled workflow](controlled-workflow.md) still govern when an operation is authorized.
 
 ## Requirements and layout
 

@@ -62,6 +62,51 @@ Use one worktree per active work branch.
 
 Do not point stable-environment symlinks at development worktrees.
 
+## Helper Invocation
+
+Locate the primary checkout through Git's worktree registration,
+not by assuming the current directory is primary. Native Git
+may be used for this lookup.
+
+Run:
+
+```sh
+nu --no-config-file "<primary>/scripts/git-worktree.nu" "<operation>" "<branch>" --repo "<repo>"
+```
+
+Replace `<operation>` with `inspect`, `create`, or `cleanup`,
+`<branch>` with the target branch, and `<repo>` with the intended
+repository path. Use the default JSON output.
+
+See [the helper guide](git-worktree-helper.md) for commands,
+result fields, and exit codes.
+
+### Handling Results
+
+Check both the exit code and JSON result before continuing.
+Treat the operation as successful only when both indicate success.
+
+On failure or missing, malformed, or inconsistent output, stop
+the affected sequence. Report the issues, completed steps, and
+any remaining or uncertain state.
+
+Investigate before retrying. A failed operation may already
+have changed files or refs; do not assume nothing happened or
+attempt destructive rollback.
+
+### Operations Outside the Helper
+
+Use native Git for operations outside the helper's documented
+capabilities, following the existing authorization and safety
+rules in this workflow.
+
+These include fetching, committing, synchronization, merging,
+pushing, remote-branch deletion, attaching a worktree to an
+existing branch, and creating one from another authorized base.
+
+A refusal, error, or unavailable helper does not make a
+supported operation unsupported.
+
 ## Branch State and Selection
 
 An **active work branch** is an unmerged branch that still represents ongoing or unresolved work.
@@ -69,6 +114,19 @@ An **active work branch** is an unmerged branch that still represents ongoing or
 Determine branch state from repository history and current changes, not from branch name or existence alone.
 
 Determine branch state against the current stable repository state, not a knowingly stale local view.
+
+Inspect an existing branch being considered for reuse:
+
+```sh
+nu --no-config-file "<primary>/scripts/git-worktree.nu" inspect "<branch>" --repo "<repo>"
+```
+
+The helper does not fetch; its upstream information is locally
+cached. Refresh and verify the stable base separately when the
+decision requires current state.
+
+Use the result alongside the purpose and current changes of
+the existing work to apply the selection rules below.
 
 Reuse an existing branch or worktree only when its purpose and current changes clearly correspond to the work being resumed.
 
@@ -99,6 +157,18 @@ New independent work must start from the current stable `main`.
 Do not base independent work on another development branch merely because its worktree is currently active.
 
 When one active branch intentionally depends on another, establish the dependency and merge order with the user before integrating the branches.
+
+## Worktree Creation
+
+When the selection and base rules call for a new branch and
+worktree from local `main`, run:
+
+```sh
+nu --no-config-file "<primary>/scripts/git-worktree.nu" create "<branch>" --repo "<repo>"
+```
+
+An existing branch or path requires investigation under the
+selection rules, not automatic renaming or replacement.
 
 ## Active Development
 
@@ -259,27 +329,40 @@ Do not expose a development worktree as the stable deployment source during inte
 
 Treat successfully integrated work as completed and dead.
 
-After successful integration:
+After successful integration, verify that cleanup will not
+discard uncommitted or otherwise needed work. Then run from
+a retained directory:
 
-- remove the development worktree when no needed work remains;
-- delete the merged local branch;
-- delete the corresponding remote branch when one exists;
-- do not reuse or archive the branch.
+```sh
+nu --no-config-file "<primary>/scripts/git-worktree.nu" cleanup "<branch>" --repo "<repo>"
+```
 
-Later work starts from the current `main` on a new appropriately named branch and worktree.
+Successful cleanup removes both the development worktree and
+the local branch. Delete the corresponding remote branch with
+native Git when one exists.
 
-Before cleanup, verify that it will not discard uncommitted or otherwise needed work.
+Do not reuse or archive the branch. Later work starts from the
+current `main` on a new appropriately named branch and worktree.
 
 ## Abandoned Work
 
 When the user explicitly abandons unmerged work, treat it as closed and disposable.
 
-After confirming that no needed work must be preserved:
+After confirming that no needed work must be preserved, run
+from a retained directory:
 
-- remove its worktree;
-- delete the local branch;
-- delete the corresponding remote branch when present;
-- do not reuse or archive the branch.
+```sh
+nu --no-config-file "<primary>/scripts/git-worktree.nu" cleanup "<branch>" --abandon --repo "<repo>"
+```
+
+`--abandon` permits discarding unmerged commits, not tracked
+changes, untracked files, or ignored files. Handle those separately.
+
+Successful cleanup removes both the worktree and the local
+branch. Delete the corresponding remote branch with native Git
+when one exists.
+
+Do not reuse or archive the branch.
 
 Do not infer abandonment merely because work is inactive or stale.
 
