@@ -18,6 +18,43 @@
 #
 # Supporting another tool is one new row in `tool-targets` below.
 
+# Print a refusal and exit 2.
+#
+# A refusal is not an error. Nothing is malformed; the script is declining on a
+# safety rule. Plain output rather than Nushell's error box, so the two read
+# differently.
+def refuse [msg: string, detail: string] {
+    print -e $"(ansi red)Refused(ansi reset): ($msg)\n"
+    print -e $detail
+    exit 2
+}
+
+# Refuse anywhere but the primary checkout.
+#
+# Links point at the checkout this script runs from. Made inside a worktree, a
+# new skill link would target a directory that worktree-cleanup.nu later
+# deletes, leaving the tool with a dead link.
+#
+# The two git dirs are the same path in the primary checkout; in a worktree the
+# first sits under the second.
+def check-primary-checkout [root: string] {
+    let dir = ^git -C $root rev-parse --git-dir | complete
+    let common = ^git -C $root rev-parse --git-common-dir | complete
+
+    if $dir.exit_code != 0 or $common.exit_code != 0 {
+        return   # not a git checkout, so there is no worktree to confuse it with
+    }
+
+    let here = $root | path join ($dir.stdout | str trim) | path expand --no-symlink
+    let shared = $root | path join ($common.stdout | str trim) | path expand --no-symlink
+
+    if $here == $shared {
+        return
+    }
+
+    refuse "not the primary checkout" $"  (ansi red)($root)(ansi reset)  is a worktree\n\nA link made here dies when the worktree is removed. Run install from the primary checkout:\n\n  (ansi green)($shared | path dirname)(ansi reset)"
+}
+
 # ~/... for anything under the home directory, unchanged otherwise.
 def tilde [path: string] {
     try {
@@ -265,6 +302,8 @@ def main [
 ] {
     # From the script's own location, so any working directory works.
     let root = $env.FILE_PWD | path join ".." | path expand
+    check-primary-checkout $root
+
     let rules_source = $root | path join "global" "global-agents.md"
     let with_rules = ($skill | is-empty)
 
@@ -290,5 +329,12 @@ def main [
         return
     }
 
-    install-all $work
+    let report = install-all $work
+
+    print $report
+
+    # A blocked row is not a failure, but the run did less than it was asked to.
+    if ($report | any {|r| ($r.action | ansi strip) == "blocked" }) {
+        exit 3
+    }
 }

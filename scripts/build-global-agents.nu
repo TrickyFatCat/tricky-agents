@@ -16,6 +16,17 @@
 # intact. It stops on a heading too deep to demote, and on a heading in one
 # source that reads like one in the other.
 
+# Print a refusal and exit 2.
+#
+# A refusal is not an error. The sources are readable and the flags are valid;
+# the build is declining because it cannot produce a correct file. Plain output
+# rather than Nushell's error box, so the two read differently.
+def refuse [msg: string, detail: string] {
+    print -e $"(ansi red)Refused(ansi reset): ($msg)\n"
+    print -e $detail
+    exit 2
+}
+
 # Relative to the root when the path sits under it, absolute otherwise.
 def relative-or-absolute [path: string, root: string] {
     try {
@@ -144,10 +155,7 @@ def check-max-level [headings: list<any>] {
         | str join "\n"
     )
 
-    error make --unspanned {
-        msg: "heading too deep to demote"
-        help: $"($listed)\n\nEvery heading is demoted one level, and markdown stops at six. Raise these headings, or split the section into its own file."
-    }
+    refuse "heading too deep to demote" $"($listed)\n\nEvery heading is demoted one level, and markdown stops at six. Raise these headings, or split the section into its own file."
 }
 
 # Abort when any heading in one source resembles a heading in the other.
@@ -193,10 +201,7 @@ def check-heading-clashes [machine: list<any>, personal: list<any>, threshold: f
         | str join "\n\n"
     )
 
-    error make --unspanned {
-        msg: "Similar headings across sources"
-        help: $"($clashes | length) heading pair\(s\) look similar:\n\n($detail)\n\nRename one side of each pair, or raise (ansi blue)--similarity(ansi reset) \(currently ($threshold)\)."
-    }
+    refuse "similar headings across sources" $"($clashes | length) heading pair\(s\) look similar:\n\n($detail)\n\nRename one side of each pair, or raise (ansi blue)--similarity(ansi reset) \(currently ($threshold)\)."
 }
 
 def main [
