@@ -331,7 +331,14 @@ def main [
 
     let report = install-all $work
 
-    print $report
+    # A --skill run repeats one name down the whole item column, which says
+    # nothing. The name goes in a heading instead, and the column goes.
+    if ($skill | is-empty) {
+        print $report
+    } else {
+        print $"($skill)\n"
+        print ($report | reject item)
+    }
 
     # A blocked row is not a failure, but the run did less than it was asked to.
     if ($report | any {|r| ($r.action | ansi strip) == "blocked" }) {
