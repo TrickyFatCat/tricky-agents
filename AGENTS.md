@@ -22,8 +22,24 @@ All scripts are Nushell. They are written for this repository only — no
 | `scripts/*.nu` | Source |
 | `chats/` | Source, per-service chat personalisation — ChatGPT mobile, Grok web |
 | `docs/` | Documentation about this repository |
+| `tmp/` | Scratch, ignored, never committed |
 
 Never edit `global/global-agents.md`. Edit a source and rebuild.
+
+## Working Files
+
+`tmp/` holds scratch for work in progress: decision registers, logs, baseline
+copies, notes. Git ignores it and nothing in it is ever committed.
+
+It is disposable. Nothing outside it may depend on a file in it once the work
+is done, so anything worth keeping moves to a committed path or out of the
+repository before the task ends.
+
+Every worktree has its own `tmp/`, and the two paths read identically in a
+prompt. Say which checkout you mean before deleting one.
+
+A worktree holding files in `tmp/` is not clean, so `worktree-cleanup.nu`
+refuses it. Empty it before cleaning up.
 
 ## Merge Contract
 
