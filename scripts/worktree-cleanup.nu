@@ -94,6 +94,21 @@ def is-primary [checkout: string] {
     $here == $shared
 }
 
+# The primary checkout, wherever this script was run from.
+#
+# The shared git dir sits in the primary checkout, so its parent is that
+# checkout. A hint that says "pull" has to name the checkout holding `main`,
+# not whichever worktree the script happens to live in.
+def primary-checkout [root: string] {
+    let common = git-run "-C" $root "rev-parse" "--git-common-dir"
+
+    if $common.exit_code != 0 {
+        return $root
+    }
+
+    $root | path join ($common.stdout | str trim) | path expand --no-symlink | path dirname
+}
+
 def main [
     path: string    # the worktree directory to remove
     --abandon       # remove the branch even though main has not merged it
@@ -165,6 +180,16 @@ def main [
         let names = $merged.stdout | lines | each {|l| $l | str trim }
 
         if $wt.branch not-in $names {
+            # Local main is the authority: origin/main is a cache of the last
+            # fetch, so it explains the refusal without ever lifting it.
+            # Without this, "merge it" is the advice given to someone who did.
+            let remote = git-run "-C" $root "branch" "--merged" "origin/main" "--format" "%(refname:short)"
+            let on_remote = $remote.exit_code == 0 and ($wt.branch in ($remote.stdout | lines | each {|l| $l | str trim }))
+
+            if $on_remote {
+                refuse $"branch ($wt.branch) is merged on the remote, not locally" $"  (ansi red)($literal)(ansi reset)\n\norigin/main has it as of your last fetch; local main does not. Update the primary checkout, then run this again:\n\n  (ansi blue)git -C (primary-checkout $root) pull --ff-only(ansi reset)"
+            }
+
             refuse $"branch ($wt.branch) is not merged into main" $"  (ansi red)($literal)(ansi reset)\n\nMerge it, or pass (ansi blue)--abandon(ansi reset) to throw the work away."
         }
     }
