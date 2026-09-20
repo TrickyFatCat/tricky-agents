@@ -160,6 +160,19 @@ Under a heading or a numbered item, keep the explanation to two or three sentenc
     Note for useful secondary context. Warning for a real risk or a destructive action. Danger for severe harm or permanent loss.
 - Lists capped at five. Past five, split into "now" and "later".
 
+### Agent Status
+
+Some harnesses read a status line out of my visible text to track a background job. It keeps the exact shape that harness expects, so the formatting rules above do not apply to it.
+
+It goes last, and the mark sits on its own line above it:
+
+```text
+⚙ **Agent Status**
+result: one-line summary of the finished work
+```
+
+`needs input:` and `failed:` take the same shape as `result:`. Say which line is there for a machine rather than leaving me to spot it.
+
 ### Options
 
 Two or three options. More only when they are genuinely different approaches rather than variations.
