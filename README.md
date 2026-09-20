@@ -1,26 +1,53 @@
 # tricky-agents
 
-Personal configuration for AI coding agents: the rules they follow, the skills
-they can load, and the scripts that install both.
+Personal configuration for the AI coding agents on this machine. It holds three
+things:
 
-One author, one machine, Linux. Nothing here is written to be portable.
+- The rules every agent follows.
+- The skills an agent loads for a specific job.
+- The scripts that build and install both.
 
-## What Is Here
+## Requirements
+
+- Linux.
+- [Nushell](https://www.nushell.sh). Every script here is Nushell, with no
+  fallback for another shell.
+- Git.
+
+## Layout
 
 | Path | What it holds |
 |---|---|
-| `global/` | The rules every agent reads, as two sources and one generated file |
+| `global/` | The rules every agent reads |
 | `skills/` | One folder per skill, each with a `SKILL.md` |
-| `scripts/` | Nushell scripts that build, install, and clean up |
+| `scripts/` | Build, install, and worktree cleanup |
 | `chats/` | Per-service chat personalisation — ChatGPT mobile, Grok web |
 | `docs/` | Documentation about this repository |
-| `tmp/` | Scratch for work in progress, ignored by git |
+| `AGENTS.md` | Rules for agents changing this repository |
+| `tmp/` | Scratch, ignored by git |
 
-`chats/` and `docs/` are reserved and currently empty.
+## Rules Files
 
-## The Rules File
+`global/` holds three files. Two are yours to edit, one is built from them.
 
-Two hand-edited sources merge into one generated file.
+**`machine-rules.md`** — hand-edited. Defaults that apply to any project:
+decision policy, change discipline, safety, and which tools to use.
+
+**`personal-rules.md`** — hand-edited. How an answer should be written,
+structured, and scoped, and what the author works on.
+
+**`global-agents.md`** — generated. The build joins the two sources under a
+banner and drops every heading one level, so both sit under it as peers.
+
+> ⚠️ **Warning**
+>
+> Never hand-edit `global-agents.md` — the next build overwrites it.
+
+Changing a rule takes three steps.
+
+1. Edit `machine-rules.md` or `personal-rules.md`.
+2. Run `nu scripts/build-global-agents.nu`.
+3. Commit the source and `global-agents.md` together.
 
 ```text
 global/machine-rules.md    ┐
@@ -28,57 +55,32 @@ global/machine-rules.md    ┐
 global/personal-rules.md   ┘
 ```
 
-`machine-rules.md` holds defaults that apply to any project: decision policy,
-change discipline, safety, tooling. `personal-rules.md` holds the author's own
-preferences: how answers should be written, structured, and scoped.
-
-> ⚠️ **Warning**
->
-> Never hand-edit `global/global-agents.md` — the next build overwrites it.
-
-Edit a source, then rebuild:
+## Install
 
 ```nu
-nu scripts/build-global-agents.nu
+nu scripts/install.nu
 ```
 
-The generated file is committed, so the rebuilt output goes in the same commit
-as the source change.
+Nothing is copied. The script creates symlinks, so a file edited in the
+checkout changes what the tools read with no second step.
 
-## How Agents See It
+It links two kinds of thing:
 
-`install.nu` symlinks the generated file into each tool's configuration
-directory. There is no copy and no deploy step: the file in the checkout is the
-file the tools read.
+- The generated rules file, once per tool, under the name that tool expects.
+- Each skill folder, one at a time, into the tool's skills directory. Linking
+  that directory itself would hide the skills already in it from elsewhere.
 
-```text
-~/.agents/AGENTS.md   ┐
-~/.claude/CLAUDE.md   ├─→  global/global-agents.md
-~/.codex/AGENTS.md    ┘
-```
+| Tool | Rules file | Skills |
+|---|---|---|
+| `agents` | `~/.agents/AGENTS.md` | `~/.agents/skills/` |
+| `claude` | `~/.claude/CLAUDE.md` | `~/.claude/skills/` |
+| `codex` | `~/.codex/AGENTS.md` | `~/.codex/skills/` |
 
-Skills are linked one folder at a time, because a tool's skills directory also
-holds folders from elsewhere.
+Two flags narrow the run.
 
-## Scripts
+- `--tool claude` installs for one tool instead of all three.
+- `--skill <name>` links one skill and leaves the rules files alone.
 
-All scripts are Nushell and assume this repository's layout.
-
-| Script | What it does |
-|---|---|
-| `build-global-agents.nu` | Merges the two rule sources into the generated file |
-| `install.nu` | Creates the symlinks for rules and skills |
-| `worktree-cleanup.nu` | Removes a finished worktree and its branch |
-
-They share four exit codes: `0` done, `1` error, `2` refused, `3` partial. A
-refusal means the request was valid and a safety rule declined it, so it prints
-a plain block rather than an error box.
-
-## Working On This Repo
-
-The primary checkout stays on `main`, because its `global-agents.md` is the live
-file. Changes happen in a worktree beside it.
-
-`AGENTS.md` has the full workflow: worktree rules, the build-before-commit
-order, commit format, and how cleanup decides what is safe to delete. Read it
-before changing anything.
+Nothing is replaced or deleted. A path already in use is reported and skipped,
+and repairing it is a manual job. Run the script from the main checkout: links
+point at whichever copy runs, so one made elsewhere dies with that copy.
