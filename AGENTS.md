@@ -132,8 +132,12 @@ nu scripts/worktree-cleanup.nu <worktree-path>
 
 It refuses when the branch is `main`, when the target is the primary checkout,
 when the worktree holds uncommitted, untracked or ignored files, when the path
-resolves through a symlink, when the worktree is locked, or when the branch is
-not merged into `main`. Pass `--abandon` to drop an unmerged branch on purpose.
+resolves through a symlink, or when the branch is not merged into `main`. Pass
+`--abandon` to drop an unmerged branch on purpose.
+
+A lock is not a refusal. Once the worktree is clean and the branch is merged,
+the script clears the lock itself and says which one it cleared. A run that ends
+in a refusal leaves the lock untouched.
 
 The branch is deleted only if it still points at the head the worktree had, so a
 commit added in the meantime is never discarded.

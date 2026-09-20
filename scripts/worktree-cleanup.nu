@@ -13,6 +13,9 @@
 # had. Anything committed to that branch between the merged check and the delete
 # makes the delete fail rather than discard the work.
 #
+# A lock is cleared rather than refused. Once the worktree is clean and the
+# branch is merged there is no work in progress left for the lock to guard.
+#
 # Exit codes: 0 done, 1 error, 2 refused, 3 worktree gone but branch kept.
 
 # A refusal is not an error. The command is well-formed and a safety rule is
@@ -52,8 +55,8 @@ def field [lines: list<string>, prefix: string] {
 # Every worktree of this repository as {path, head, branch, detached, locked}.
 #
 # `locked` appears bare or with a reason after it. Reading it matters: git
-# refuses to remove a locked worktree, so without this the script passes every
-# check it makes and then fails on git's own error at the last step.
+# refuses to remove a locked worktree, so the script clears the lock first, and
+# the reason is what it names in the output when it does.
 def worktrees [root: string] {
     let listed = git-run "-C" $root "worktree" "list" "--porcelain"
 
@@ -150,14 +153,6 @@ def main [
         refuse "branch is main" $"  (ansi red)($literal)(ansi reset)\n\nmain is never deleted."
     }
 
-    # Before the cleanliness and merged checks: a lock is not something the user
-    # can fix by tidying the worktree, so saying so first saves the wrong work.
-    if $wt.locked {
-        let why = if ($wt.reason | is-empty) { "no reason recorded" } else { $wt.reason }
-
-        refuse "worktree is locked" $"  (ansi red)($literal)(ansi reset)\n\n  ($why)\n\nA lock usually means a session still has it open. Close that session, or clear the lock yourself:\n\n  (ansi blue)git worktree unlock ($literal)(ansi reset)"
-    }
-
     let status = git-run "-C" $literal "status" "--porcelain" "--ignored"
 
     if $status.exit_code != 0 {
@@ -194,10 +189,26 @@ def main [
         }
     }
 
+    # After the clean and merged checks, never before them. A lock is cleared
+    # only for a worktree this script is about to remove, so a refusal higher up
+    # leaves it in place for whoever set it.
+    if $wt.locked {
+        let why = if ($wt.reason | is-empty) { "no reason recorded" } else { $wt.reason }
+        let unlocked = git-run "-C" $root "worktree" "unlock" $literal
+
+        if $unlocked.exit_code != 0 {
+            fail "could not unlock the worktree" ($unlocked.stderr | str trim)
+        }
+
+        print $"Cleared lock (ansi yellow)($why)(ansi reset)"
+    }
+
     let removed = git-run "-C" $root "worktree" "remove" $literal
 
     if $removed.exit_code != 0 {
-        fail "could not remove the worktree" ($removed.stderr | str trim)
+        let note = if $wt.locked { "\n\nThe lock was cleared first, so the worktree is now unlocked." } else { "" }
+
+        fail "could not remove the worktree" $"($removed.stderr | str trim)($note)"
     }
 
     # The ref goes only if it still points at the head the worktree had, so a
