@@ -83,12 +83,22 @@ happens in it.
 
 **Work happens in a worktree**
 
+Beside the primary checkout, never inside it.
+
 ```nu
 git worktree add -b <branch> ../tricky-agents-<branch>
 ```
 
+Run that from the primary checkout. From anywhere else `../` resolves somewhere
+else and nests the worktree quietly, so pass the absolute path instead.
+
 A worktree has its own `global/global-agents.md`, so building inside it leaves
 the live file alone. That isolation is the point.
+
+An agent that starts in a worktree somewhere else creates a conforming one and
+switches to it before making any change. After the first change it must not
+relocate, because moving then strands the work: it stops and says where it is.
+You may waive the location for that session.
 
 **After the merge**
 
@@ -97,14 +107,17 @@ there, because the built file arrives with the merge.
 
 **Cleaning up**
 
+Update the primary checkout first. The merged check reads local `main`, so a
+branch merged only on the remote still counts as unmerged.
+
 ```nu
-nu scripts/worktree-cleanup.nu ../tricky-agents-<branch>
+nu scripts/worktree-cleanup.nu <worktree-path>
 ```
 
 It refuses when the branch is `main`, when the target is the primary checkout,
 when the worktree holds uncommitted, untracked or ignored files, when the path
-resolves through a symlink, or when the branch is not merged into `main`. Pass
-`--abandon` to drop an unmerged branch on purpose.
+resolves through a symlink, when the worktree is locked, or when the branch is
+not merged into `main`. Pass `--abandon` to drop an unmerged branch on purpose.
 
 The branch is deleted only if it still points at the head the worktree had, so a
 commit added in the meantime is never discarded.
@@ -132,8 +145,15 @@ Do not run this on the author's behalf.
 nu scripts/install.nu --skill <name>
 ```
 
-Allowed after that skill is merged into `main`, from the primary checkout. It
-links the named skill and nothing else, and leaves the rules files alone.
+Allowed after that skill is merged into `main`. The script resolves the checkout
+from its own location, not from the working directory, so what matters is which
+copy runs. An agent working in a worktree runs the primary checkout's copy.
+
+```nu
+nu <primary-checkout>/scripts/install.nu --skill <name>
+```
+
+It links the named skill and nothing else, and leaves the rules files alone.
 
 ## Commits
 
