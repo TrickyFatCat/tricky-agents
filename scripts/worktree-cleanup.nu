@@ -49,7 +49,11 @@ def field [lines: list<string>, prefix: string] {
     }
 }
 
-# Every worktree of this repository as {path, head, branch, detached}.
+# Every worktree of this repository as {path, head, branch, detached, locked}.
+#
+# `locked` appears bare or with a reason after it. Reading it matters: git
+# refuses to remove a locked worktree, so without this the script passes every
+# check it makes and then fails on git's own error at the last step.
 def worktrees [root: string] {
     let listed = git-run "-C" $root "worktree" "list" "--porcelain"
 
@@ -68,6 +72,8 @@ def worktrees [root: string] {
             head: (field $lines "HEAD ")
             branch: (field $lines "branch refs/heads/")
             detached: ($lines | any {|l| ($l | str trim) == "detached" })
+            locked: ($lines | any {|l| ($l | str trim) == "locked" or ($l | str starts-with "locked ") })
+            reason: (field $lines "locked ")
         }
     }
 }
@@ -127,6 +133,14 @@ def main [
 
     if $wt.branch == "main" {
         refuse "branch is main" $"  (ansi red)($literal)(ansi reset)\n\nmain is never deleted."
+    }
+
+    # Before the cleanliness and merged checks: a lock is not something the user
+    # can fix by tidying the worktree, so saying so first saves the wrong work.
+    if $wt.locked {
+        let why = if ($wt.reason | is-empty) { "no reason recorded" } else { $wt.reason }
+
+        refuse "worktree is locked" $"  (ansi red)($literal)(ansi reset)\n\n  ($why)\n\nA lock usually means a session still has it open. Close that session, or clear the lock yourself:\n\n  (ansi blue)git worktree unlock ($literal)(ansi reset)"
     }
 
     let status = git-run "-C" $literal "status" "--porcelain" "--ignored"
