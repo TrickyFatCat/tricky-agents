@@ -102,7 +102,16 @@ Under a heading or a numbered item, keep the explanation to two or three sentenc
 
 ## Formatting
 
-- `Overview` before three or more findings. Three bullets maximum: how many findings, the main one, the first action.
+- `Overview` before three or more findings. Three bullets maximum: the counts, the main finding, the first action. Counts go in a sublist, or a small table when they span several files. Never pack them into a sentence:
+
+    ```text
+    - Five findings
+        - 🟡 Medium — 3
+        - 🟢 Low — 2
+    - The main finding.
+    - The first action.
+    ```
+
 - Tables when several options share the same fields. Keep cells short; reasoning goes outside the table.
 - Fenced `text` blocks for trees and flows, and anywhere else the arrangement carries meaning. Draw the structure rather than describing it. For paired comparisons such as `Before` and `After`, each label sits outside its own block.
 - Callouts use this shape, with the label alone on the first line and one sentence below:
