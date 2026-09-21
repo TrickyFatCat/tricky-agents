@@ -16,16 +16,13 @@ This skill has such modes:
 
 ### Review vs Discussion
 
-Both start with you raising something. The difference is whether a file came
-with it.
+The main difference is whether you mentioned or attached a specific file.
 
-- **Review** — you attached something to assess, as in "what do you think of
-    this reference?".
-- **Discussion** — there is nothing to look at yet, as in "should this mode
-    exist at all?".
+- **Review** — you have a file in mind. "What do you think of this reference?"
+- **Discussion** — you do not. "Should this mode exist at all?"
 
 Ask for both at once, as in "review this and fix the worst part", and it
-starts in Review. It moves to Planning when work on a finding begins.
+starts in Review. It moves to Planning once work on a finding begins.
 
 ## What Needs Your Approval
 
@@ -39,15 +36,24 @@ However, some important changes require approval:
 - Changing a line that contains **must**, **never**, **only** or **ask**.
 - Asking it to plan.
 
-### Why A One-Word Change Needs Approval
+### One-Word Approval
 
-Two of those triggers catch edits that look tiny.
+> ℹ️ **Note**
+>
+> A small change can still need approval.
 
-**Touching more than one file.** Two one-word edits in two files still count
-as two files.
+The skill judges a change by its effect, not by its size. Two triggers catch
+edits that look tiny.
 
-**Changing a line with must, never, only or ask.** The line counts even when
-you changed a different word on it.
+**Touching more than one file.** Two one-word edits in two files are still two
+files.
+
+**Changing a line with must, never, only or ask.** Those four words carry
+permissions, so a small edit to such a line can change what the skill is
+allowed to do.
+
+For example, fixing a typo in a sentence that begins "Never edit…" needs
+approval, because the line it sits on sets a rule.
 
 ## References
 
@@ -130,7 +136,7 @@ safety issues:
 
 > ⚠️ **Warning**
 >
-> A clean scan is evidence, not proof.
+> The scan does not guarantee safety and only helps to catch some issues.
 
 The scan reads text, so it misses:
 
@@ -138,9 +144,5 @@ The scan reads text, so it misses:
 - A harmful action described in innocent words.
 - Code that only runs under a condition it cannot evaluate.
 
-It also over-reports. A security tool uses dangerous patterns because that is
-its subject, and documentation shows one in order to warn about it. A match is
-something to look at, not a verdict.
-
-A skill you did not write is scanned in full before it runs, and you approve
-it. That repeats every time you update it.
+It also over-reports. Security tools and warnings about dangerous patterns
+both match, so check a match rather than trusting it.
