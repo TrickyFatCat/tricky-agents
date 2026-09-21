@@ -72,7 +72,7 @@ When It Does Not Fit      →  Poor Fit
 
 - Findings use `Overview`, `Cause`, `Fix`, `Impact`, `Risk`.
 - Choices use `Options`, `Trade-Off`, `Good Fit`, `Poor Fit`, `Next Decision`.
-- Supporting blocks use `Example`, `Rationale`, `Known Limits`.
+- Supporting blocks use `Example`, `Rationale`, `Verification`, `Known Limits`.
 
 Peer items inside a labelled block are named by what distinguishes them, not by a role.
 
@@ -94,11 +94,18 @@ In a comparison, each side gets its own paragraph. Do not describe A and B in th
 
 **3. Three or more items become a list**
 
-Not "ordinary tables, documents, or indexes, shaped for each query".
+An item is a clause as well as a noun. Both of these are lists written as sentences:
+
+```text
+Not  "ordinary tables, documents, or indexes, shaped for each query"
+Not  "spec, routes and size pass, and safety stayed at 13"
+```
 
 **4. Two to three sentences per block, then stop**
 
 Under a heading or a numbered item, keep the explanation to two or three sentences. If more reasoning is needed, split it into a labelled sub-block or bullets.
+
+One long sentence is not a short block. Split a sentence that carries more than one item or trails a qualifier after a dash.
 
 ## Formatting
 
@@ -112,7 +119,7 @@ Under a heading or a numbered item, keep the explanation to two or three sentenc
     - The first action.
     ```
 
-- Tables when several options share the same fields. Keep cells short; reasoning goes outside the table.
+- Tables when several items share the same fields, results and checks included. Keep cells short; reasoning goes outside the table.
 - Fenced `text` blocks for trees and flows, and anywhere else the arrangement carries meaning. Draw the structure rather than describing it. For paired comparisons such as `Before` and `After`, each label sits outside its own block.
 - Callouts use this shape, with the label alone on the first line and one sentence below:
 
