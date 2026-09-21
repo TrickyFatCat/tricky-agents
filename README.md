@@ -21,6 +21,11 @@ Built for Linux and not tested on any other system.
 | `chats/`   | Per-service chat personalisation — ChatGPT mobile, Grok web |
 | `docs/`    | Documentation for skills                                    |
 
+## Skill Documentation
+
+- [agent-setup-helper](docs/agent-setup-helper.md) — designing, reviewing and
+    safety-checking skills and `AGENTS.md` files.
+
 ## Rules Files
 
 `global/` holds:
