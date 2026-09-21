@@ -21,25 +21,26 @@ Built for Linux and not tested on any other system.
 | `chats/`   | Per-service chat personalisation — ChatGPT mobile, Grok web |
 | `docs/`    | Documentation for skills                                    |
 
-`AGENTS.md` in the root covers the working process — worktrees, commits, and
-cleaning up afterwards. It is written for agents, and this file is not.
-
 ## Rules Files
 
-`global/` holds three files. Two are yours to edit, one is built from them.
+`global/` holds:
 
-**`machine-rules.md`** — hand-edited. Defaults that apply to any project:
+- `machine-rules.md` — hand-edited
+- `personal-rules.md` — hand-edited
+- `global-agents.md` — generated from the other two
+
+**`machine-rules.md`** — defaults that apply to any project:
 
 - Decision policy.
 - Change discipline.
 - Safety.
 - Tools and workflows.
 
-**`personal-rules.md`** — hand-edited. Response rules, formatting preferences,
-and who the author is.
+**`personal-rules.md`** — response rules, formatting preferences, and who the
+author is.
 
-**`global-agents.md`** — generated. The build joins the two sources under a
-banner and drops every heading one level, so both sit under it as peers.
+**`global-agents.md`** — the build joins the two sources under a banner and
+drops every heading one level, so both sit under it as peers.
 
 > ⚠️ **Warning**
 >
@@ -53,19 +54,26 @@ Changing a rule takes three steps.
 
 ## Install
 
+To install the global rules and every skill, run:
+
 ```nu
 nu scripts/install.nu
 ```
 
-Nothing is copied. The script creates symlinks, so a file edited in the
-checkout changes what the tools read with no second step.
+The script does:
 
-Nothing is replaced or deleted either. A path already in use is reported and
+1. Link the generated rules file, once per tool, under the name that tool
+    expects.
+2. Link each skill folder on its own, into the tool's skills directory.
+
+It does not:
+
+1. Copy anything.
+2. Replace or delete anything.
+
+Because it links rather than copies, a file edited in the checkout changes what
+the tools read with no second step. A path already in use is reported and
 skipped, and repairing it is left to you.
-
-It links two kinds of thing: the generated rules file, once per tool under the
-name that tool expects, and each skill folder, one at a time, into the tool's
-skills directory.
 
 > ℹ️ **Note**
 >
@@ -82,7 +90,12 @@ skills directory.
 
 ### Flags
 
+| Flag              | Effect                                                |
+| ----------------- | ----------------------------------------------------- |
+| `--tool <tool>`   | Install for one tool only. The default is every tool. |
+| `--skill <skill>` | Install one skill only, and skip the rules file.      |
+
 ```nu
-nu scripts/install.nu --tool claude               # one tool, rules and all skills
-nu scripts/install.nu --skill tech-docs-writer    # one skill, no rules file
+nu scripts/install.nu --tool claude
+nu scripts/install.nu --skill tech-docs-writer
 ```
