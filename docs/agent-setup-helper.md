@@ -1,40 +1,40 @@
 # agent-setup-helper
 
-This skill helps you design, review, change and validate agent skills and
-`AGENTS.md` files.
+This skill helps you build and change agent skills and `AGENTS.md` files.
 
-Its defining behaviour is a gate. Some changes it will not make until you
-approve a written plan, and it decides that from the change itself rather than
-from how you asked for it.
+It will not change a file that needs approval until you approve a plan. That is
+the behaviour you notice first.
 
-This document describes the shape of the skill rather than its rules. For the
-exact wording of a rule, open `skills/agent-setup-helper/SKILL.md`. That file
-is the authority, and this one is a map.
+`SKILL.md` holds the exact rules. This page is a map.
 
 ## Modes
 
-The mode decides what the skill may do. It comes from what you want to do, not
-from the topic you are discussing.
+This skill has such modes:
 
-| Mode            | You get it when                                 | May change files        |
-| --------------- | ----------------------------------------------- | ----------------------- |
-| Direct answer   | You ask a conceptual or factual question        | No                      |
-| Discussion      | You talk design and there is nothing to look at | No                      |
-| Review          | You give it an artefact to assess               | No                      |
-| Direct Drafting | You ask for a clear change that opens no gate   | Yes, and shows the diff |
-| Planning        | A gate opens, or you ask to plan                | Only after you approve  |
+| Mode            | You get it when                                   | Can change files  |
+| --------------- | ------------------------------------------------- | ----------------- |
+| Direct answer   | You ask about a concept or a fact                 | No                |
+| Discussion      | You talk design with nothing to look at           | No                |
+| Review          | You give it something to assess                   | No                |
+| Direct Drafting | You ask for a clear change that needs no approval | Yes, with a diff  |
+| Planning        | A change needs approval, or you ask to plan       | After you approve |
 
-Review and Discussion differ by whether something exists to look at. "What do
-you think of this reference?" with the file attached is Review. "Should this
-mode exist at all?" is Discussion.
+### Review Or Discussion
 
-A mixed request such as "review this and fix the worst part" starts in Review.
-It moves to Planning when work on a finding actually begins.
+The difference is whether there is something to look at.
 
-## What Makes It Stop And Ask
+- "What do you think of this reference?", with the file attached, is Review.
+- "Should this mode exist at all?" is Discussion.
 
-Planning starts on its own when a change is large enough to need approval
-first. These are the triggers.
+Ask for both at once, as in "review this and fix the worst part", and it starts
+in Review. It moves to Planning when work on a finding begins.
+
+## What Needs Your Approval
+
+Most changes it makes directly and shows you the diff. Some it will not touch
+until you approve a plan.
+
+The triggers are:
 
 - Creating, deleting, renaming or splitting a file.
 - Changing a trigger, a permission or a routing rule.
@@ -42,111 +42,96 @@ first. These are the triggers.
 - Changing a line that contains **must**, **never**, **only** or **ask**.
 - Asking it to plan.
 
-Anything else is edited directly and shown to you as a diff.
+### Why It Stopped For Something Small
 
-### Two That Are Easy To Trip
+Two of those triggers catch edits that feel tiny.
 
-The last two triggers catch changes that feel small.
+A second file always counts, even when both edits are one word. So does any
+line containing must, never, only or ask, even when those words are not the
+part you changed.
 
-Touching a second file opens the gate even when both edits are trivial. So
-does editing a line that happens to contain one of the four words, even if the
-words are not the part you are changing.
+## References
 
-### Temporary Files
+The skill splits its rules across separate files and loads the ones the work
+needs.
 
-A working file created outside the skill folder does not open a gate. A file
-created inside the skill folder always does.
+| Reference                  | Loads when                                 | Can change files    |
+| -------------------------- | ------------------------------------------ | ------------------- |
+| `planning.md`              | A change needs approval                    | After you approve   |
+| `change-integrity.md`      | You approve a plan                         | Only approved scope |
+| `review.md`                | Review mode                                | No                  |
+| `authoring-guidance.md`    | Designing or reviewing a skill             | No                  |
+| `agents-md.md`             | The file is an `AGENTS.md`                 | No                  |
+| `architecture-analysis.md` | A skill gains, loses or merges a reference | After you approve   |
+| `corner-case-discovery.md` | A new skill, or a changed trigger          | After you approve   |
+| `skill-spec.md`            | Creating a skill or changing frontmatter   | No                  |
+| `safety.md`                | Any create, change, review or install      | No                  |
 
-## The Nine References
+### Why A New Skill Takes Longer
 
-The skill loads a reference when the work needs it, and several can be loaded
-at once. The last column is what to check when you are wondering whether
-something is allowed to change a file.
+Two of those references are stages inside planning rather than modes of their
+own, and they run before you see a plan.
 
-| Reference                  | Loads when                                         | May authorise a change  |
-| -------------------------- | -------------------------------------------------- | ----------------------- |
-| `planning.md`              | A gate opens                                       | Not before approval     |
-| `change-integrity.md`      | Approval is given                                  | Only the approved scope |
-| `review.md`                | Review mode                                        | Never                   |
-| `authoring-guidance.md`    | Designing or reviewing a skill or reference        | Never                   |
-| `agents-md.md`             | The artefact is an `AGENTS.md`                     | Never                   |
-| `architecture-analysis.md` | A skill gains, loses, splits or merges a reference | A stage inside Planning |
-| `corner-case-discovery.md` | A new skill, or a change to a trigger or must-line | A stage inside Planning |
-| `skill-spec.md`            | Creating a skill, or changing frontmatter          | Never                   |
-| `safety.md`                | Any create, change, review, install or update      | Findings only           |
+`architecture-analysis.md` runs when a skill gains, loses or merges a
+reference. `corner-case-discovery.md` runs for a new skill, and for an
+`AGENTS.md` that describes behaviour.
 
-`architecture-analysis.md` and `corner-case-discovery.md` are stages inside
-Planning rather than separate modes. They run before you see a brief, which is
-why a new skill takes longer to reach approval than a one-line edit.
-
-### Behavioural Or Static
-
-`corner-case-discovery.md` only loads for an `AGENTS.md` that is behavioural.
-
-An `AGENTS.md` is behavioural when it defines workflows, interaction
-behaviour, decision ownership or state transitions. It is static when it
-records paths, commands, conventions or constraints and nothing more.
-
-Length does not decide this. A long list of paths is static, and one sentence
-about when to ask you is behavioural.
+An `AGENTS.md` describes behaviour when it says who decides something, or what
+happens in what order. It is static when it lists paths, commands and
+conventions. A long list of paths is static. One sentence about when to ask you
+is not.
 
 ## The Validation Script
 
-`scripts/check.py` reports. It decides nothing and writes nothing.
+`check.py` looks at a skill folder and tells you what is wrong with it. It
+never changes a file.
 
-Run it against a skill folder:
+> ℹ️ **Note**
+>
+> The script needs Python 3.11 or newer, and PyYAML for the frontmatter check.
+
+Run it like this:
 
 ```bash
 python3 skills/agent-setup-helper/scripts/check.py all <skill-dir>
 ```
 
-It takes any Python 3.11 or newer.
+It can check:
 
-| Subcommand         | What it checks                                                  |
-| ------------------ | --------------------------------------------------------------- |
-| `spec`             | Frontmatter fields and types                                    |
-| `routes`           | References exist, are named, and links resolve inside the skill |
-| `size`             | `SKILL.md` lines, characters, and a token estimate              |
-| `permission-lines` | Changed lines containing must, never, only or ask               |
-| `safety`           | Pattern matches from `references/safety.md`                     |
-| `all`              | Every check above, in one report                                |
+- `spec` — frontmatter fields and types.
+- `routes` — that references exist and links resolve.
+- `size` — `SKILL.md` length against the limits.
+- `permission-lines` — changed lines containing must, never, only or ask.
+- `safety` — pattern matches from `safety.md`.
+- `all` — everything above, in one report.
 
-| Exit | Meaning                                               |
-| ---- | ----------------------------------------------------- |
-| 0    | Every check passed                                    |
-| 1    | At least one check has findings                       |
-| 2    | Usage error, Python too old, or a check could not run |
-| 3    | No findings, and at least one check was limited       |
+The script can return such exit codes:
 
-Output is JSON on stdout, and diagnostics go to stderr.
+| Exit | Meaning                                  |
+| ---- | ---------------------------------------- |
+| 0    | Everything passed                        |
+| 1    | Something was found                      |
+| 2    | Usage error, or the script could not run |
+| 3    | Nothing found, but a check was limited   |
 
-### When A Check Is Limited
-
-`permission-lines` needs a baseline to compare against. Outside a repository,
-or on a file with no committed version, it reports every rule-bearing line as
-unbaselined rather than telling you what changed.
-
-`spec` needs PyYAML to parse frontmatter. Without it that one check reports
-Limited and every other check still runs.
+A limited check could not do its whole job. Without PyYAML, `spec` is the one
+that reports it.
 
 ## Safety Scanning
 
-`safety.md` loads whenever an `AGENTS.md` or a skill is created, changed,
-reviewed, installed or updated. It carries five pattern groups.
+The skill scans every skill and `AGENTS.md` it touches, looking for
+instructions that could harm you.
 
-| Group | Covers                             |
-| ----- | ---------------------------------- |
-| S1    | Instruction manipulation           |
-| S2    | Hidden content                     |
-| S3    | Data leaving the machine           |
-| S4    | Privilege and destruction          |
-| S5    | Supply chain, persistence, secrets |
+It scans for:
 
-Two rules change what you have to do with the result.
+- Instruction manipulation
+- Hidden content
+- Data leaving the machine
+- Privilege and destruction
+- Supply chain, persistence and secrets
 
-A pattern match is a finding for review, never a verdict. A clean scan is
-evidence, not proof. Expect matches on text that forbids a behaviour, because
-the pattern cannot tell the difference.
+A match is something to look at, not a verdict. Expect matches on text that
+forbids the behaviour, because the pattern cannot tell the difference.
 
-A third-party artefact is read and scanned in full before anything runs, and
-you approve it. That repeats on every update, not just the first install.
+Anything from someone else is read and scanned in full before it runs, and you
+approve it. That happens again on every update.
