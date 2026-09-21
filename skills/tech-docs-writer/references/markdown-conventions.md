@@ -11,6 +11,7 @@ Read this reference when creating or editing human-facing Markdown documentation
 - [Renderer-Aware Syntax](#renderer-aware-syntax)
 - [Callouts](#callouts)
 - [Section Structure](#section-structure)
+- [Lists and Prose](#lists-and-prose)
 - [Frontmatter and Prose](#frontmatter-and-prose)
 - [Document Location](#document-location)
 - [Section Introductions](#section-introductions)
@@ -178,11 +179,34 @@ Place information where readers need it:
 Avoid redundant structure:
 
 - Do not add a subsection that only repeats its parent heading.
+- Do not restate in an entry what an index above it already said. When a list names each file and its role, the block explaining that file does not repeat the role.
+- Do not explain what the reader can see from the document itself.
 - Merge one-paragraph sections unless the heading improves navigation.
 - Add related links only when they provide useful navigation.
 - Do not repeat filenames or companion tools in multiple ending sections without a reader need.
 - When adjacent output examples repeat most of the same context, use one representative full example and focused snippets only for meaningful variants.
 - Keep normal states, expected omissions, and feature-specific messages with the relevant feature. Keep a Troubleshooting item only when symptom-led diagnosis, recovery steps, or cross-feature context adds reader value.
+
+## Lists and Prose
+
+A sentence that announces a count and then enumerates it in clauses is a list written as prose. Convert it. This holds at any count: two items packed into one sentence is the same defect as five.
+
+```text
+Weak    `global/` holds three files. Two are yours to edit, one is built
+        from them.
+
+Strong  `global/` holds:
+
+        - `machine-rules.md` — hand-edited
+        - `personal-rules.md` — hand-edited
+        - `global-agents.md` — generated from the other two
+```
+
+The signals are a number word, a phrase such as "two kinds of thing", or a sentence whose second half exists only to split what the first half counted.
+
+Follow the list with the per-item explanation when each item needs one. The list is the index; the blocks below it carry the detail, and neither repeats the other.
+
+Keep prose for reasoning, cause, consequence and trade-off, where the connection between sentences is the content.
 
 ## Frontmatter and Prose
 
@@ -204,7 +228,9 @@ Use this order:
 
 ## Section Introductions
 
-Start a major section with one or two short sentences when readers need orientation before a table, list, or group of subsections.
+Start a major section with one or two short sentences when readers need orientation before a table, list, code block, command, or group of subsections.
+
+A section never opens on a code block. Name what the command does before showing it, so the reader knows what they are about to run.
 
 An introduction can:
 

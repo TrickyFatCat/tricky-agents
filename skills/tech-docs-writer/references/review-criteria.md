@@ -18,7 +18,11 @@ inside it.
     navigation.
 4. Assess terminology, density, abstraction and tone where they affect reader
     success.
-5. Convert only material reader impact into findings.
+5. Check the document against the writing conventions, which are loaded for
+    review as well as for writing. A counted sentence, a section opening on a
+    code block, and a flag explained only in a comment are defects a reader
+    feels and rarely names.
+6. Convert only material reader impact into findings.
 
 Run the whole-document pass before local prose critique. Structure changes how
 individual passages read.

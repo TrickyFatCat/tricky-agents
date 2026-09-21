@@ -85,7 +85,7 @@ available and defined in `references/document-modes.md`.
 | ------------------------------------ | ----------------------------------------------------- |
 | `references/context-gate.md`         | Before drafting, whenever required context is missing |
 | `references/document-modes.md`       | Selecting or adapting a document's shape              |
-| `references/markdown-conventions.md` | Creating or editing Markdown                          |
+| `references/markdown-conventions.md` | Creating, editing or reviewing Markdown               |
 | `references/cli-reference.md`        | Documenting commands, flags or shell workflows        |
 | `references/code-reference.md`       | Documenting a source-level API                        |
 | `references/source-verification.md`  | Any claim that can be checked against an authority    |

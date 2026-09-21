@@ -58,7 +58,7 @@ For state-changing commands, prefer:
 
 When a compact group intentionally mixes query, validation, or operational commands, use a neutral column such as `Result`. Do not describe an action as a return value. Split the group only when a neutral column would hide important side effects or make the commands harder to compare.
 
-For options, use columns such as `Option`, `Type`, `Default`, and `Description` only when they add useful comparison.
+Flags get a table of their own, and it comes before the examples. A reader looking up what a flag does should not have to infer it from an example that happens to use it. Use columns such as `Option`, `Type`, `Default`, and `Description`, and drop a column that is empty for every row.
 
 Omit a `Command` column when it merely repeats the command already shown in `Syntax`.
 
@@ -115,6 +115,13 @@ mwm-get-client-id firefox
 ```
 
 Avoid comments that only repeat the command name or section heading.
+
+A flag's meaning is not on that list. Document it in the flag table, not in a trailing comment:
+
+```nu
+# Wrong. The flag is documented nowhere else.
+nu scripts/install.nu --skill combat    # one skill, no rules file
+```
 
 Each example should include:
 
