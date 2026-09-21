@@ -21,6 +21,9 @@ Built for Linux and not tested on any other system.
 | `chats/` | Per-service chat personalisation — ChatGPT mobile, Grok web |
 | `docs/` | Documentation for skills |
 
+`AGENTS.md` in the root covers the working process — worktrees, commits, and
+cleaning up afterwards. It is written for agents, and this file is not.
+
 ## Rules Files
 
 `global/` holds three files. Two are yours to edit, one is built from them.
@@ -57,6 +60,9 @@ nu scripts/install.nu
 Nothing is copied. The script creates symlinks, so a file edited in the
 checkout changes what the tools read with no second step.
 
+Nothing is replaced or deleted either. A path already in use is reported and
+skipped, and repairing it is left to you.
+
 It links two kinds of thing: the generated rules file, once per tool under the
 name that tool expects, and each skill folder, one at a time, into the tool's
 skills directory.
@@ -78,5 +84,5 @@ skills directory.
 
 ```nu
 nu scripts/install.nu --tool claude     # one tool, rules and all skills
-nu scripts/install.nu --skill combat    # one skill, no rules file
+nu scripts/install.nu --skill tech-docs-writer   # one skill, no rules file
 ```
