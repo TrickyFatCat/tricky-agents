@@ -1,0 +1,9 @@
+{
+  // Fallback only. Used when the target project has no dprint config.
+  // Keep the plugin version aligned with the user's projects.
+  "markdown": {},
+  "includes": ["**/*.md"],
+  "plugins": [
+    "npm:@dprint/markdown@0.24.0"
+  ]
+}
