@@ -1,6 +1,5 @@
 #!/usr/bin/env nu
 
-# Run dprint once, and retry with the bundled config when the project has none.
 def run-dprint [
     verb: string
     file: string
@@ -8,6 +7,9 @@ def run-dprint [
 ] {
     let first = (^dprint $verb $file | complete)
 
+    # dprint publishes no exit code for a missing configuration, and 0.57.4
+    # returns 11, which is not in its documented set. So the retry keys on the
+    # message text instead.
     if ($first.exit_code != 0) and ($first.stderr | str contains "No config file found") {
         print -e $"No dprint configuration found. Retrying with the bundled fallback config: ($fallback)"
         let second = (^dprint $verb --config $fallback $file | complete)
@@ -19,19 +21,28 @@ def run-dprint [
 
 # Format one Markdown document with dprint.
 #
-# Reports what happened; decides nothing. Exits 0 when the file is formatted or
-# already formatted, 20 when --check finds unformatted content, 3 when dprint is
-# not on PATH, and 1 when dprint reports an error.
+# Reports what happened and decides nothing. The caller reads the exit code and
+# the stdout record to choose its next step.
+#
+#   0   formatted, or already formatted
+#   20  --check found unformatted content
+#   3   dprint is not on PATH
+#   1   dprint reported an error
 def main [
-    file: string    # The one document to format
-    --check         # Report whether the file is formatted, and change nothing
+    file: string    # One document. This never formats a directory.
+    --check         # Report the formatting state without changing the file
 ] {
+    # A script cannot report its own interpreter missing, so the caller checks
+    # for nu before running this, and this checks for dprint.
     if (which dprint | is-empty) {
         print -e "dprint is not on PATH. Run the manual checks and report the document as not formatted."
         exit 3
     }
 
+    # Resolved from the script's own location, because the working directory of
+    # whoever called it is arbitrary.
     let fallback = ($env.FILE_PWD | path dirname | path join "assets" "dprint.default.jsonc")
+
     let verb = if $check { "check" } else { "fmt" }
     let outcome = (run-dprint $verb $file $fallback)
     let code = $outcome.result.exit_code
@@ -52,6 +63,8 @@ def main [
         exit 0
     }
 
+    # 20 survives as itself so the caller can tell unformatted content from a
+    # real failure. Every other code collapses to 1.
     if $code == 20 {
         exit 20
     }
