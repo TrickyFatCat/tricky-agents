@@ -13,13 +13,13 @@ Built for Linux and not tested on any other system.
 
 ## Layout
 
-| Path | What it holds |
-|---|---|
-| `global/` | Source files for the global `AGENTS.md` |
-| `skills/` | Global skills, one folder each |
-| `scripts/` | Build, install, and worktree cleanup |
-| `chats/` | Per-service chat personalisation — ChatGPT mobile, Grok web |
-| `docs/` | Documentation for skills |
+| Path       | What it holds                                               |
+| ---------- | ----------------------------------------------------------- |
+| `global/`  | Source files for the global `AGENTS.md`                     |
+| `skills/`  | Global skills, one folder each                              |
+| `scripts/` | Build, install, and worktree cleanup                        |
+| `chats/`   | Per-service chat personalisation — ChatGPT mobile, Grok web |
+| `docs/`    | Documentation for skills                                    |
 
 `AGENTS.md` in the root covers the working process — worktrees, commits, and
 cleaning up afterwards. It is written for agents, and this file is not.
@@ -74,15 +74,15 @@ skills directory.
 
 ### Supported Tools
 
-| Tool | Rules file | Skills |
-|---|---|---|
+| Tool     | Rules file            | Skills              |
+| -------- | --------------------- | ------------------- |
 | `agents` | `~/.agents/AGENTS.md` | `~/.agents/skills/` |
 | `claude` | `~/.claude/CLAUDE.md` | `~/.claude/skills/` |
-| `codex` | `~/.codex/AGENTS.md` | `~/.codex/skills/` |
+| `codex`  | `~/.codex/AGENTS.md`  | `~/.codex/skills/`  |
 
 ### Flags
 
 ```nu
-nu scripts/install.nu --tool claude     # one tool, rules and all skills
-nu scripts/install.nu --skill tech-docs-writer   # one skill, no rules file
+nu scripts/install.nu --tool claude               # one tool, rules and all skills
+nu scripts/install.nu --skill tech-docs-writer    # one skill, no rules file
 ```
