@@ -144,5 +144,11 @@ The scan reads text, so it misses:
 - A harmful action described in innocent words.
 - Code that only runs under a condition it cannot evaluate.
 
-It also over-reports. Security tools and warnings about dangerous patterns
-both match, so check a match rather than trusting it.
+It also over-reports, because a pattern cannot tell doing something from
+forbidding it.
+
+For example, `tech-docs-writer` has the line "Never record an assumption
+silently". The scan flags it as an action being hidden, even though the line
+forbids exactly that.
+
+So read each match before acting on it.
