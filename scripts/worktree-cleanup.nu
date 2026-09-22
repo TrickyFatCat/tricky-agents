@@ -27,9 +27,10 @@ def refuse [msg: string, detail: string] {
 }
 
 def fail [msg: string, detail: string] {
-    print -e $"(ansi red)Error(ansi reset): ($msg)\n"
-    print -e $detail
-    exit 1
+    error make --unspanned {
+        msg: $msg
+        help: $detail
+    }
 }
 
 # Run git, handing back `complete`'s {exit_code, stdout, stderr}.
