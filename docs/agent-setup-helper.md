@@ -145,4 +145,5 @@ forbidding it.
 `tech-docs-writer` has the line "Never record an assumption silently". The scan
 flags it as an action being hidden, even though the line forbids exactly that.
 
-So read each match before acting on it.
+The scan gives you a list of candidates, not a verdict. Read each match
+yourself before you act on it.
