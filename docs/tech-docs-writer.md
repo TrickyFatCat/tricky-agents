@@ -33,25 +33,36 @@ The skill works in one of two modes:
 Write produces a new document, or edits one you already have. It gathers
 context and picks a document type before it drafts anything.
 
-Before it shows you the result, it reads the finished document again as a reader
-would and fixes what it finds. Each check in this pass is a search or a count,
-because a check phrased as a quality to confirm tends to get confirmed without
-being run.
+Before it shows you the result, the skill:
+
+1. Reads the finished document as a reader would.
+2. Runs a set of checks. Each check is a search or a count.
+3. Fixes what it finds.
+
+A check such as "is this clear?" is easy to pass without really checking. A
+search or a count has to be done.
 
 ### Review
 
 Review produces findings. It does not edit the reviewed file.
 
-Applying a finding is a Write, so it happens only when you ask. Name one
-finding and it changes that one, leaving the rest of the document alone.
+> ℹ️ **Note**
+>
+> A review stays in the conversation and has at most five findings, unless you
+> ask for more.
+
+Review mode does not apply changes. Use Write mode to do that. You can ask it to
+apply specific findings.
 
 **Example**
 
-Ask for "review this and fix the worst part" and it reviews first, shows the
-findings, and waits for you to say which one to fix.
+Ask for "review this and fix the worst part", and the skill:
 
-A review stays in the conversation. It gives you at most five findings. Ask for
-more if you need them.
+1. Reviews the document.
+2. Shows the findings.
+3. Waits for you to say which one to fix.
+
+#### Findings
 
 Each finding carries a severity:
 
@@ -69,19 +80,21 @@ When you answer a finding, it closes with one of two marks:
 
 #### Self-Review
 
-If the document under review is one the skill wrote earlier in the same
-conversation, it says so and checks every claim against the source again.
+Sometimes the skill reviews a document it wrote earlier in the same
+conversation. When that happens, it tells you, and it checks every claim
+against the source again.
 
-Memory of writing the document is not a check. A mistake made while writing can
-still be there.
+It does not trust its memory of writing the document. It could have made a
+mistake then.
 
 ## Context Gathering
 
-The skill asks questions before it drafts. Without the document type and the
-reader it cannot choose a shape, so it does not start.
+The skill can ask you questions to gather important context, such as the
+target audience and the type of document. The answers help it create a better
+result.
 
 It asks one question at a time, and only about things that change the
-document. Where it can guess, it offers the guess for you to confirm.
+document. It can guess some details and ask you to confirm them.
 
 **Example**
 
