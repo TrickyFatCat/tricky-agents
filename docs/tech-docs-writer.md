@@ -227,7 +227,8 @@ What the skill finds decides what it is allowed to claim:
 | `nu` or `dprint` missing                  | Not formatted, manual checks only, and it says so |
 
 The skill formats only the document it is writing, never the files it reads
-for research. The script takes one file, never a directory.
+for research. The script takes one file. It refuses a directory or a glob
+pattern, because `dprint` would format every file that matches.
 
 To check a document without changing it:
 
@@ -241,6 +242,7 @@ The script reports the outcome through its exit code:
 | ---- | ----------------------------------- |
 | 0    | Formatted, or already formatted     |
 | 1    | `dprint` reported an error          |
+| 2    | Not a single file, so nothing ran   |
 | 3    | `dprint` is not on `PATH`           |
 | 20   | `--check` found unformatted content |
 

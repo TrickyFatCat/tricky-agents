@@ -27,11 +27,19 @@ def run-dprint [
 #   0   formatted, or already formatted
 #   20  --check found unformatted content
 #   3   dprint is not on PATH
+#   2   the argument is not a single file, so nothing ran
 #   1   dprint reported an error
 def main [
-    file: string    # One document. This never formats a directory.
+    file: string    # One document. A directory or glob is refused.
     --check         # Report the formatting state without changing the file
 ] {
+    # dprint expands a directory or glob into every file it matches, which would
+    # reformat source material the caller was only reading.
+    if ($file | path type) != "file" {
+        print -e $"Refused: ($file) is not a single file. This script formats one document only."
+        exit 2
+    }
+
     # A script cannot report its own interpreter missing, so the caller checks
     # for nu before running this, and this checks for dprint.
     if (which dprint | is-empty) {

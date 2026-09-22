@@ -142,7 +142,7 @@ present. Do not ask the user to install one during a task.
 
 Rungs 2 and 3 run `nu scripts/format-docs.nu <file>`. It exits 0 when the file
 is formatted, 20 when `--check` finds unformatted content, 3 when dprint is
-absent, and 1 on a dprint error. Its stdout record reports whether the project
+absent, 2 when the argument is not a single file, and 1 on a dprint error. Its stdout record reports whether the project
 or the bundled fallback config was used.
 
 Never report a document as formatted when it was not. Never install a
