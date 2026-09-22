@@ -4,7 +4,7 @@ This skill helps you build and change agent skills and `AGENTS.md` files.
 
 ## Modes
 
-This skill has such modes:
+This skill has these modes:
 
 | Mode            | Trigger                                           | Can change files |
 | --------------- | ------------------------------------------------- | ---------------- |
@@ -16,13 +16,14 @@ This skill has such modes:
 
 ### Review vs Discussion
 
-The main difference is whether you mentioned or attached a specific file.
+Review and Discussion are told apart by one thing: whether you named or
+attached a specific file.
 
 - **Review** — you have a file in mind. "What do you think of this reference?"
 - **Discussion** — you do not. "Should this mode exist at all?"
 
-Ask for both at once, as in "review this and fix the worst part", and it
-starts in Review. It moves to Planning once work on a finding begins.
+Ask for both at once, as in "review this and fix the worst part", and the skill
+reviews first. It asks for approval before it changes anything.
 
 ## What Needs Your Approval
 
@@ -36,24 +37,16 @@ However, some important changes require approval:
 - Changing a line that contains **must**, **never**, **only** or **ask**.
 - Asking it to plan.
 
-### One-Word Approval
+### Small Changes
 
 > ℹ️ **Note**
 >
 > A small change can still need approval.
 
-The skill judges a change by its effect, not by its size. Two triggers catch
-edits that look tiny.
-
-**Touching more than one file.** Two one-word edits in two files are still two
-files.
-
-**Changing a line with must, never, only or ask.** Those four words carry
-permissions, so a small edit to such a line can change what the skill is
-allowed to do.
-
-For example, fixing a typo in a sentence that begins "Never edit…" needs
-approval, because the line it sits on sets a rule.
+The skill judges a change by its effect, not by its size. Editing a line that
+begins "Never edit…" needs approval even for a typo, because those four words
+carry permissions and the line sets a rule. Two one-word edits in two files
+need approval for the same reason, because they are still two files.
 
 ## References
 
@@ -97,7 +90,7 @@ Dependencies:
 1. Python 3.11 or newer.
 2. PyYAML. Without it the `spec` check is limited and the rest still run.
 
-These checks are available:
+It runs these checks:
 
 | Check              | What it looks at                                  |
 | ------------------ | ------------------------------------------------- |
@@ -108,7 +101,7 @@ These checks are available:
 | `safety`           | Pattern matches from `safety.md`                  |
 | `all`              | Everything above, in one report                   |
 
-The script can return such exit codes:
+It returns these exit codes:
 
 | Exit | Meaning                                  |
 | ---- | ---------------------------------------- |
@@ -147,8 +140,9 @@ The scan reads text, so it misses:
 It also over-reports, because a pattern cannot tell doing something from
 forbidding it.
 
-For example, `tech-docs-writer` has the line "Never record an assumption
-silently". The scan flags it as an action being hidden, even though the line
-forbids exactly that.
+**Example**
+
+`tech-docs-writer` has the line "Never record an assumption silently". The scan
+flags it as an action being hidden, even though the line forbids exactly that.
 
 So read each match before acting on it.
