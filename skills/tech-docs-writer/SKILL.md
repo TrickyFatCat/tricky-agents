@@ -177,7 +177,10 @@ Behaviour claims      List each statement of what the subject does; point each a
 Placement             For each callout and example, name the paragraph it serves; it
                       sits directly after that paragraph
 Obvious statements    Read each sentence beside a table or callout; cut one if the other says it
-Terms                 List each defined term; search for other words used for it
+Terms                 List each name used in a heading, table or scope list; search the
+                      rest for other words for it
+Steps                 Search sentences joining three or more actions with commas; each
+                      is a numbered list
 Plain language        Search "so", "because" and "which" in long sentences; split any
                       sentence carrying two ideas; list each idiom and undefined term
 Orphan sentences      Read each section's first sentence with the heading hidden
