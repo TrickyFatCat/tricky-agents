@@ -21,7 +21,7 @@ All scripts are Nushell. They are written for this repository only — no
 | `skills/<name>/SKILL.md` | Source, one folder per skill |
 | `scripts/*.nu` | Source |
 | `chats/` | Source, per-service chat personalisation — ChatGPT mobile, Grok web |
-| `docs/` | Documentation about this repository |
+| `docs/` | Documentation about skills |
 | `tmp/` | Scratch, ignored, never committed |
 
 Never edit `global/global-agents.md`. Edit a source and rebuild.

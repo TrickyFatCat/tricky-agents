@@ -19,7 +19,7 @@ Built for Linux and not tested on any other system.
 | `skills/`  | Global skills, one folder each                              |
 | `scripts/` | Build, install, and worktree cleanup                        |
 | `chats/`   | Per-service chat personalisation — ChatGPT mobile, Grok web |
-| `docs/`    | Documentation for skills                                    |
+| `docs/`    | Documentation about skills                                  |
 
 ## Skill Documentation
 
