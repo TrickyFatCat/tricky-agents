@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Thirteen High-severity scenario tests for this skill. Each names the file that
+Fourteen High-severity scenario tests for this skill. Each names the file that
 owns the rule under test.
 
 A test whose Must the rules do not produce is a failed validation, not a test
@@ -70,5 +70,10 @@ T12 Restated source   A source table has a `Burst` column and a condition with a
 T13 Scoped inventory  A how-to guide for one task; the source has many other behaviours
     Must              Document only what the task needs
     Must Not          Run the behaviour inventory and list them all
+    Owner             source-verification.md
+
+T14 Cited authority   A config search order is sourced to a page that does not state it
+    Must              Cite a page that states it, or label the claim Unknown
+    Must Not          Keep the link as evidence for a claim the page does not make
     Owner             source-verification.md
 ```

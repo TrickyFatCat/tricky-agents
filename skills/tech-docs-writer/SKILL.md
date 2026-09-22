@@ -73,6 +73,9 @@ answers, and write the section to answer that question.
 A section that answers no question does not belong. A fact that fits no
 section means the structure is wrong, not that the fact is worthless.
 
+Two sections that answer the same question merge into one. A reader who finds
+the first stops looking and never reaches the second.
+
 A fact earns its place by changing what the reader does or decides. Cut what
 only shows that the writer understood the subject.
 
@@ -165,13 +168,21 @@ drafting is not verification. Prose is no different.
 Backward references   Search "the other", "those two", "the remaining"
 Table lead-ins        Read each lead-in alone; it names what the table lists
 Examples              Search "for example", "for instance", quoted cases and paragraphs
-                      holding two cases; each is labelled, adjacent ones distinctly
-Example reasons       Search each example for "because" and "same reason"; check the
-                      reason against the rule the example shows
+                      holding two cases; each is labelled, adjacent ones distinctly;
+                      the block after each example has its own heading or label
+Reasons               Search "because", "so" and "same reason"; point each reason at a
+                      source line, or cut it
+Behaviour claims      List each statement of what the subject does; point each at a
+                      source line, or label it as Source Verification requires
+Placement             For each callout and example, name the paragraph it serves; it
+                      sits directly after that paragraph
 Obvious statements    Read each sentence beside a table or callout; cut one if the other says it
 Terms                 List each defined term; search for other words used for it
+Plain language        Search "so", "because" and "which" in long sentences; split any
+                      sentence carrying two ideas; list each idiom and undefined term
 Orphan sentences      Read each section's first sentence with the heading hidden
-Reader address        Every sentence tells the reader something, not a tool
+Reader address        Every sentence tells the reader something, not a tool; it says
+                      what the reader gets or does, not how the subject classifies it
 Named actor           Every rule says who performs it
 Environment           No claim about one machine, no local absolute path
 ```

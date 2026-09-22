@@ -65,11 +65,12 @@ Strong  Reloads on SIGHUP or when the file changes, unless --no-watch is set.
 ```text
 1  Code intelligence tool        signature, symbols, call sites   → Fact
 2  Generated help or introspection  --help, go doc, help()        → Fact
-3  Static source reading         Read and Grep                    → Fact if unambiguous
+3  Static source reading         Read and Grep                    → Fact if unambiguous, else Assumption
 4  Nothing available             ─                                → Unknown, or ask
 ```
 
-A lower rung changes the label, not the claim. Rung 4 output must reach the
+An ambiguous source read is an inference, so it is an Assumption. A lower rung
+changes the label, not the claim. Rung 4 output must reach the
 reader labelled Unknown; it must never be written as though it were verified.
 
 ## Capability Detection
@@ -151,7 +152,8 @@ Inspect at least one direct usage when it clarifies the contract.
 
 ## Final Check
 
-1. Confirm every claim names or cites its basis.
+1. Confirm every claim names or cites its basis, and that a cited page states
+    the claim. A link to a page that does not say it is not evidence.
 2. Recheck names, paths, flags, defaults and quoted behaviour, and every
     restated condition clause by clause.
 3. Confirm source and documentation versions are compatible.

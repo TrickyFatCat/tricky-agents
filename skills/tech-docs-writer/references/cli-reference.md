@@ -114,7 +114,7 @@ Order examples by reader value:
 4. Safe validation.
 5. State-changing or advanced usage.
 
-Use short, self-contained examples. Explain the practical result before mechanics.
+Use short, self-contained examples. Lead with the practical result, as Voice in [markdown-conventions.md](markdown-conventions.md) requires.
 
 Concise comments are useful in dense command-reference blocks when they identify a return value, output shape, side effect, or fallback:
 

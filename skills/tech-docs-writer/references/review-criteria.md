@@ -66,8 +66,8 @@ the review.
 | 🟡 Medium | Confuses, slows down, or leaves an important gap         |
 | 🟢 Low    | Polish, consistency, minor readability                   |
 
-Within one conversation, `✅ Accepted` marks a finding the user resolved or
-judged intentional, and `⛔ Declined` marks one they rejected. Do not repeat a
+Within one conversation, the agent marks a finding `✅ Accepted` when the user
+resolves it or judges it intentional, and `⛔ Declined` when they reject it. Do not repeat a
 declined finding without new evidence.
 
 ## Finding Shape

@@ -256,6 +256,19 @@ Strong  `global/` holds:
 
 The signals are a number word, a phrase such as "two kinds of thing", or a sentence whose second half exists only to split what the first half counted.
 
+A sentence that lists three or more actions in order is a numbered list, even with no number word. The reader follows steps by position, and a sentence hides where one step ends.
+
+```text
+Weak    The pipeline builds the game, runs the tests, and publishes the build
+        to the store.
+
+Strong  The pipeline:
+
+        1. Builds the game.
+        2. Runs the tests.
+        3. Publishes the build to the store.
+```
+
 Follow the list with the per-item explanation when each item needs one. The list is the index; the blocks below it carry the detail, and neither repeats the other.
 
 Keep prose for reasoning, cause, consequence and trade-off, where the connection between sentences is the content.
@@ -287,6 +300,34 @@ ask whether there are two things.
 ```text
 Weak    Join a session from the lobby. The match starts when the room is full.
 Strong  Join a match from the lobby. The match starts when it is full.
+```
+
+Lead with what the reader gets or does, then the mechanism behind it. A rule
+stated as the subject's internal logic does not tell the reader why it matters
+to them.
+
+```text
+Weak    Without a save slot the game cannot store progress, so it does not
+        start.
+Strong  Choose a save slot so the game can keep your progress.
+```
+
+Write for a reader whose first language may not be English.
+
+- One idea per sentence. A rule and its reason are two sentences.
+- No idioms. "Stops short" becomes "does not reach".
+- Jargon is a term. Define it in one line where it first appears, as above.
+
+A native reader loses nothing from plain wording. A reader working in a second
+language has to translate an idiom before they can use the sentence.
+
+**Example**
+
+```text
+Weak    The cap keeps the spawner honest, since a runaway wave tanks the
+        frame rate.
+Strong  The spawner creates at most eight enemies at a time. More enemies
+        than that lower the frame rate.
 ```
 
 ## Tables
@@ -366,6 +407,10 @@ Put a worked example after the explanation it illustrates, not before it.
 
 Mark an example so the reader can tell it from the claims around it. An
 unlabelled example reads as one more assertion.
+
+An `Example` label has no end marker. Content that follows an example and is
+not part of it starts under a heading or a new label, or it reads as more of
+the example.
 
 Where several examples sit near each other, give each one a label that
 distinguishes it. A retry policy showing a failed call, a throttled call and a
