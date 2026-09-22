@@ -1,43 +1,59 @@
 # tech-docs-writer
 
-This skill writes and reviews documentation meant for people to read.
+This skill writes and reviews technical documentation.
 
-## Scope
+It handles:
 
-The line is who reads the file, not what the file is about.
+- READMEs.
+- Code and CLI references.
+- Tutorials and how-to guides.
+- Workflow documents.
+- Troubleshooting, maintainer and personal notes.
 
-| In scope                                       | Out of scope                         |
-| ---------------------------------------------- | ------------------------------------ |
-| README, code and CLI reference                 | `SKILL.md`, `AGENTS.md`, `CLAUDE.md` |
-| Tutorials, how-to guides, workflow documents   | Agent instruction files of any kind  |
-| Troubleshooting, maintainer and personal notes | Application code                     |
-| Reviewing documentation, including your own    | Marketing and product copy           |
+It does not handle:
 
-This repository holds both kinds side by side. `README.md` is in scope, and
-the `SKILL.md` two folders away is not. Agent instruction files go to
-`agent-setup-helper`.
+- Agent instruction files — `SKILL.md`, `AGENTS.md`, `CLAUDE.md`.
+- Application code.
+- Marketing and product copy.
 
-## Write And Review
+**Example**
 
-The skill does two things, and keeps them apart.
+A Python library's `README.md` is in scope. The `CLAUDE.md` sitting beside it
+in the same folder is not, and goes to `agent-setup-helper`.
 
-- **Write** — produces or edits a document.
-- **Review** — produces findings and nothing else.
+## Modes
 
-A review leaves no edited file behind, and no corrected version quoted in the
-reply either. Applying a finding is a Write, so you have to ask for it.
+The skill works in one of two modes:
 
-Accepting one finding does not authorise a rewrite. Ask for "review this and
-fix the worst part" and it reviews first, shows the findings, and changes only
-the ones you name.
+- **Write** — for writing and editing documents.
+- **Review** — for reviewing documents you already have.
 
-## The Context Gate
+### Write
 
-The gate is a check that runs before drafting. The skill will not write until
-it knows the document's mode and who reads it.
+Write produces a new document, or edits one you already have. It gathers
+context and picks a document type before it drafts anything.
+
+### Review
+
+Review produces findings. It does not edit the reviewed file.
+
+Applying a finding is a Write, so it happens only when you ask. Name one
+finding and it changes that one, leaving the rest of the document alone.
+
+**Example**
+
+Ask for "review this and fix the worst part" and it reviews first, shows the
+findings, and waits for you to say which one to fix.
+
+## Context Gathering
+
+The skill asks questions before it drafts. Without the document type and the
+reader it cannot choose a shape, so it does not start.
 
 It asks one question at a time, and only about things that change the
-document. Where it can guess, it offers the guess for you to confirm:
+document. Where it can guess, it offers the guess for you to confirm.
+
+**Example**
 
 ```text
 Weak    "Who is the reader?"
@@ -45,37 +61,59 @@ Strong  "This reads like a how-to for someone who already has the tool
          installed. Correct?"
 ```
 
-Say "you decide", answer vaguely, or leave it running unattended, and it
-chooses for itself. It then lists the choices under `Assumptions`, says the
-result is yours to correct, and continues without waiting.
+If you say "you decide", answer vaguely, or are not there to answer, the
+skill:
 
-It never assumes silently. The assumption block is what makes a wrong guess
-cheap to fix.
+1. Chooses a value for every open question.
+2. Lists those choices under `Assumptions`.
+3. Says the result is yours to correct.
+4. Continues without waiting.
 
-## Document Modes
+> ℹ️ **Note**
+>
+> The skill never assumes silently.
 
-The mode decides the document's shape. The skill picks it from what the reader
-needs to do.
+## Document Types
 
-| Reader need                             | Mode           |
-| --------------------------------------- | -------------- |
-| Orient a repository visitor             | README         |
-| Look up a source-level symbol           | Code Reference |
-| Look up a command                       | CLI Reference  |
-| Learn by completing a guided experience | Instructions   |
-| Complete a known goal                   | How-to         |
-| Follow a repeated multi-party process   | Workflow       |
+The type decides the document's shape. Ten are available:
 
-Four secondary modes — explanation, troubleshooting, maintainer and personal —
-cover documents that fit none of the six.
+| Type            | For a reader who                       |
+| --------------- | -------------------------------------- |
+| README          | Is new to the repository               |
+| Code Reference  | Looks up a source-level symbol         |
+| CLI Reference   | Looks up a command                     |
+| Instructions    | Learns by completing a guided task     |
+| How-to          | Knows the tool and has a goal          |
+| Workflow        | Follows a repeated multi-party process |
+| Explanation     | Wants to understand a design choice    |
+| Troubleshooting | Has a symptom and needs a fix          |
+| Maintainer      | Contributes to the project             |
+| Personal        | Is you, months later                   |
 
-Each mode adds its own required context on top of the reader. A Workflow needs
-the roles, the trigger, the terminal state, and who owns the process.
+### What Each Type Needs
 
-## Source Verification
+Every document needs its reader. Six types ask for more than that:
 
-Every claim carries a confidence label, and the label comes from how the claim
-was checked.
+| Type           | Also needs                                          |
+| -------------- | --------------------------------------------------- |
+| README         | Project purpose, the visitor, their next action     |
+| Code Reference | Source of truth, language, public-surface boundary  |
+| CLI Reference  | The command, its help output, which commands count  |
+| Instructions   | Starting state, the outcome, a safe environment     |
+| How-to         | Reader's competence, the goal, the real environment |
+| Workflow       | Roles, trigger, end state, who owns the process     |
+
+The other four ask only for the reader and the subject.
+
+> ℹ️ **Note**
+>
+> A file named `README.md` may really be a how-to guide. The name is evidence,
+> not the decision.
+
+## Confidence Labels
+
+You can tell how far to trust any claim in the document, because every claim
+carries a label.
 
 | Label      | Meaning                                                   |
 | ---------- | --------------------------------------------------------- |
@@ -83,27 +121,37 @@ was checked.
 | Assumption | Inferred from context, not confirmed                      |
 | Unknown    | Unavailable or unsafe to verify in this task              |
 
-Reading the source earns Fact when the source is unambiguous, and generated
-help such as `--help` earns it too. When there is nothing to check against,
-the claim reaches you marked Unknown rather than dressed up as verified.
-
-An older README is not proof. A document is evidence of what someone once
-wrote, not of what the code does now.
+To earn Fact, the skill goes to the source. It reads the code, or runs the
+tool's own help such as `--help`. A claim it cannot check that way reaches you
+as Unknown rather than dressed up as verified.
 
 > ⚠️ **Warning**
 >
 > The skill will not run a destructive or state-changing command just to
 > improve a document.
 
-A workflow document has no implementation to read, so its authority is a named
-process owner or a policy document. With neither, every step is labelled an
-Assumption and the document says so.
+**Example**
+
+An older README is not proof. It is evidence of what someone once wrote, not
+of what the code does now.
+
+Two cases limit what the skill can confirm.
+
+**No code intelligence tool**
+
+It falls back to reading source directly, and an ambiguous source then stops
+short of Fact.
+
+**A workflow document**
+
+There is no implementation to read. The authority is a named process owner or
+a policy document, and with neither, every step is labelled an Assumption.
 
 ## Reviews
 
-A review gives you at most five findings by default. Ask for more to get more.
+A review gives you at most five findings. If you want more, just ask.
 
-Each finding carries its severity as a word, not only as a colour.
+Each finding carries a severity, written as a word:
 
 | Mark      | Meaning                                                  |
 | --------- | -------------------------------------------------------- |
@@ -111,41 +159,46 @@ Each finding carries its severity as a word, not only as a colour.
 | 🟡 Medium | Confuses, slows down, or leaves an important gap         |
 | 🟢 Low    | Polish, consistency, minor readability                   |
 
-Within one conversation, `✅ Accepted` marks a finding you resolved or judged
-intentional, and `⛔ Declined` marks one you rejected. A declined finding does
-not come back without new evidence.
+Two marks close a finding. `✅ Accepted` means you fixed it or meant it that
+way, and `⛔ Declined` means you rejected it. A declined finding is not raised
+again in the same conversation.
 
-### Self-Review
+Findings live in the conversation. Nothing is written to a file, so anything
+worth keeping has to be copied out.
 
-A document the skill drafted earlier in the same session gets the same
-treatment as a stranger's, and the reply says that it is reviewing its own
-work.
+### Reviewing Its Own Draft
 
-Memory of writing a line is not evidence the line was right. A claim was as
-likely to be wrong when it was written as it is now.
+Ask it to review a document it wrote earlier in the same conversation and it
+says so, then checks every claim against the source again.
+
+It does not trust its own memory of writing the document. A claim that was
+wrong when it was written reads exactly the same in memory as a correct one.
 
 ## Formatting
 
-Formatting runs through `dprint`, and both it and Nushell are optional. The
-skill checks for them rather than assuming, and what it finds decides what it
-is allowed to claim.
+The skill formats what it writes with [dprint](https://dprint.dev), run
+through a bundled [Nushell](https://www.nushell.sh) script,
+`scripts/format-docs.nu`.
 
-| Situation                                    | Result                        |
-| -------------------------------------------- | ----------------------------- |
-| Project formatter, configured by the project | Formatted                     |
-| Bundled script, project `dprint` config      | Formatted                     |
-| Bundled script, bundled fallback config      | Formatted, fallback disclosed |
-| `nu` or `dprint` missing                     | Not formatted, disclosed      |
+Both tools are optional. The skill checks for them first, and what it finds
+decides what it is allowed to claim:
 
-On this machine `dprint` resolves `~/.config/dprint/dprint.jsonc`, so the
-second row is what runs and the script reports `config: project`. That field
-says `dprint` found a config on its own, not that the config belongs to the
-repository.
+| Situation                                 | Result                        |
+| ----------------------------------------- | ----------------------------- |
+| The project's own formatter               | Formatted                     |
+| `format-docs.nu` with a `dprint` config   | Formatted                     |
+| `format-docs.nu` with its fallback config | Formatted, fallback disclosed |
+| `nu` or `dprint` missing                  | Not formatted, and it says so |
 
-The bundled script formats one file at a time. Never a directory, and never
+`dprint` locates its own configuration file, and the script does not
+reimplement that search — see the
+[dprint configuration docs](https://dprint.dev/config/). Only when `dprint`
+reports that it found nothing does the script supply the bundled fallback.
+
+The script formats one file, the one being written. Not a directory, and not
 source material it is only reading.
 
-`scripts/format-docs.nu` reports what happened and decides nothing itself:
+It reports the outcome through its exit code:
 
 | Exit | Meaning                             |
 | ---- | ----------------------------------- |
@@ -157,23 +210,13 @@ source material it is only reading.
 To check a document without changing it:
 
 ```nu
-nu skills/tech-docs-writer/scripts/format-docs.nu --check docs/tech-docs-writer.md
+nu skills/tech-docs-writer/scripts/format-docs.nu --check <file>
 ```
 
-Formatting is not validation. A pass through `dprint` fixes spacing and table
-alignment, but it cannot tell whether a heading level survived or a relative
-link still resolves, so a checklist runs after it.
+Formatting is not validation. `dprint` fixes spacing and table alignment, but
+it cannot tell whether a heading level survived or a relative link still
+resolves, so a checklist runs after it.
 
 > ℹ️ **Note**
 >
 > The skill never installs a formatter as part of a documentation task.
-
-## Known Limits
-
-- It will not touch `SKILL.md`, `AGENTS.md` or `CLAUDE.md`. Those go to
-    `agent-setup-helper`.
-- A file named `README.md` may really be a how-to guide. The name is evidence,
-    not the decision.
-- Without a code intelligence tool it falls back to reading source directly.
-    An ambiguous source then stops short of Fact.
-- A review lives in the conversation. Nothing is saved to come back to later.
