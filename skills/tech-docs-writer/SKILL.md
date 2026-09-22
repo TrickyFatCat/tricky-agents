@@ -151,6 +151,21 @@ material the task is reading.
 After formatting, run the post-format checks in
 `references/markdown-conventions.md`. Formatting is not validation.
 
+## Before Delivering
+
+Run these checks over the finished document. Each is a rule from
+`references/markdown-conventions.md` that reads as obvious and still gets
+missed.
+
+```text
+Backward references   Search "the other", "those two", "the remaining"
+Table lead-ins        Every table has one sentence above it
+Examples              Every example is labelled, adjacent ones distinctly
+Obvious statements    Nothing restates what a table or list already shows
+Orphan sentences      No sentence depends on the heading above it for meaning
+Environment           No claim about one machine, no local absolute path
+```
+
 ## Gotchas
 
 - `nu` and `dprint` are both optional. Check, do not assume.

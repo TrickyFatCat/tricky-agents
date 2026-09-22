@@ -82,6 +82,15 @@ Do not put a count in a heading. The count changes and the heading goes stale.
 
 A heading that joins two things with `or` asks the reader to choose one of them. Use `vs` when the section compares them instead.
 
+A heading names the result the reader came for, not the internal stage, component or state that produces it. Implementation vocabulary reads as precise to the writer and as jargon to everyone else.
+
+```text
+Internal name           Reader's name
+Middleware Chain    →   How A Request Is Authorised
+Tick Group          →   When Your Script Runs
+Reconciliation Loop →   How Drift Gets Corrected
+```
+
 Follow established local heading syntax before changing a document. Validate raw HTML heading behavior in the intended renderer and output format.
 
 ## Table of Contents
@@ -180,6 +189,16 @@ Use [document-modes.md](document-modes.md) to select and adapt the structure. Fo
 
 For bundled configuration documentation, avoid standalone installation or verification sections unless the user explicitly asks for them. Prefer official runtime paths such as `~/.config/...` in user-facing docs. Use repository-internal paths only when documenting source layout or maintainer workflow.
 
+Describe the configuration, not one machine. Documentation is read on machines the writer never sees, so never state what happened on the machine it was written on, and never present a local absolute path as though it were general. Name the setting, file or environment variable that decides the outcome, and link to its authority.
+
+```text
+Wrong   On this machine the linter picked up ~/.config/lintrc.
+Right   The linter reads the first config it finds, starting in the working
+        directory and ending in ~/.config. See its configuration reference.
+```
+
+Naming where a tool looks is general. Asserting what one machine resolved is not.
+
 Place information where readers need it:
 
 - Defaults before optional setup paths.
@@ -187,6 +206,9 @@ Place information where readers need it:
 - Option explanations beside relevant syntax or examples.
 - Detailed mappings and implementation notes after common usage.
 - Troubleshooting after normal behavior has been shown.
+- Limits beside the thing they limit, never gathered into a closing section.
+
+A section that collects limits at the end separates each one from the material it qualifies, so the reader adopts an approach and learns where it fails afterwards. A caching guide that explains invalidation in one section and warns about stale reads in a closing list has already let the reader ship the bug.
 
 Avoid redundant structure:
 
@@ -294,6 +316,23 @@ Lead an explanation with its label rather than its example. Write
 trailing at the end.
 
 Put a worked example after the explanation it illustrates, not before it.
+
+Mark an example so the reader can tell it from the claims around it. An
+unlabelled example reads as one more assertion.
+
+Where several examples sit near each other, give each one a label that
+distinguishes it. A retry policy showing a failed call, a throttled call and a
+timeout needs `Failure`, `Throttled` and `Timeout`; unlabelled, the three merge
+into a single passage.
+
+A sentence states its own subject and object, without borrowing either from
+the heading above it. Headings get collapsed, linked to directly and read out
+of order.
+
+```text
+Weak    Two cases stop it short.
+Strong  Two cases stop a deployment from rolling back automatically.
+```
 
 Cut words that carry no context. "After you approve" becomes "After approval",
 and the meaning survives.

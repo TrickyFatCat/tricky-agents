@@ -37,6 +37,19 @@ so, and re-check every claim against its authority.
 Drafting-session memory is not verification. The claim was as likely to be
 wrong when it was written as it is now.
 
+## Feedback That Asks A Question
+
+When feedback questions a claim rather than stating it is wrong, verify the
+claim against its source and answer the question.
+
+Change the passage only when the wording is what caused the doubt. Never
+weaken or remove a correct claim because someone asked about it.
+
+A reviewer asking whether an endpoint really returns `204` is asking for the
+handler to be read. If it does, the reply says so and the document stands. If
+the sentence around it was ambiguous, that sentence is fixed and the `204`
+stays.
+
 ## Unclear Reader As A Finding
 
 When the intended reader is ambiguous and the user cannot supply it, assess
