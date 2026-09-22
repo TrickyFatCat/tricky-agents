@@ -25,6 +25,8 @@ Built for Linux and not tested on any other system.
 
 - [agent-setup-helper](docs/agent-setup-helper.md) — designing, reviewing and
     safety-checking skills and `AGENTS.md` files.
+- [tech-docs-writer](docs/tech-docs-writer.md) — writing, reviewing and
+    formatting human-facing documentation.
 
 ## Rules Files
 
