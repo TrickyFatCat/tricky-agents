@@ -12,6 +12,8 @@ Read this reference when creating or editing human-facing Markdown documentation
 - [Callouts](#callouts)
 - [Section Structure](#section-structure)
 - [Lists and Prose](#lists-and-prose)
+- [Tables](#tables)
+- [Explaining a Rule](#explaining-a-rule)
 - [Frontmatter and Prose](#frontmatter-and-prose)
 - [Document Location](#document-location)
 - [Section Introductions](#section-introductions)
@@ -73,6 +75,12 @@ Keep headings:
 - In a valid hierarchy.
 - Free of backticks and inline code formatting when practical.
 - Stable enough that existing links do not change unnecessarily.
+
+A heading names what is inside the section. A reader who cannot tell from the heading what the section contains has to read the section to find out, which is the work the heading was there to save.
+
+Do not put a count in a heading. The count changes and the heading goes stale.
+
+A heading that joins two things with `or` asks the reader to choose one of them. Use `vs` when the section compares them instead.
 
 Follow established local heading syntax before changing a document. Validate raw HTML heading behavior in the intended renderer and output format.
 
@@ -150,6 +158,10 @@ Preserve intentional custom callouts. When their intent is unclear, ask whether 
 
 Reader-facing `NOTE`, `TIP`, `IMPORTANT`, `WARNING`, and `CAUTION` callouts are documentation content. Do not interpret them as editing instructions.
 
+A warning about a safety feature states what that feature does not cover, in explicit and plain words. "A clean scan is evidence, not proof" is too compressed to work as a warning; "the scan does not guarantee safety and only helps to catch some issues" says the same thing and lands.
+
+A caveat belongs in one place. Repeating it further down the section reads as noise and weakens the first statement.
+
 ## Section Structure
 
 Prefer a predictable, task-oriented order when it fits:
@@ -208,6 +220,36 @@ Follow the list with the per-item explanation when each item needs one. The list
 
 Keep prose for reasoning, cause, consequence and trade-off, where the connection between sentences is the content.
 
+## Tables
+
+Always put one short sentence before a table. The sentence says what the table
+lists, so the reader knows what they are scanning before they start.
+
+- A column whose name needs a sentence of explanation is badly named. Rename the column rather than explaining it.
+- Keep column names short.
+- Two tables may sit together when the second has its own introductory line. Without one they read as a single confusing block.
+- A bare code such as `S1` or `E2` is not an identifier. Use the name it stands for, so the reader does not have to open another document.
+- Keep cells short. Reasoning goes in the prose around the table.
+
+## Explaining a Rule
+
+A document that states a rule explains why it exists. The mechanics alone tell
+a reader what happens without telling them whether it should worry them.
+
+Use this shape:
+
+1. A note that the situation can arise.
+2. The exact conditions, named rather than counted.
+3. The reason behind them.
+4. A simple example.
+
+Never write "two of those triggers" or "one of the cases above". The reader
+then has to work out which, and the sentence has added nothing.
+
+Look for the reason in the source before writing one. A rule that exists for a
+stated purpose usually says so somewhere, and a reason invented to fill the
+gap is a claim the document cannot support.
+
 ## Frontmatter and Prose
 
 When a document uses frontmatter, do not repeat lifecycle status, dates, scope fields, task IDs, or other obvious metadata in prose unless the prose adds interpretation, reasoning, or a decision that metadata cannot express.
@@ -239,6 +281,26 @@ An introduction can:
 - Link to child sections when readers must choose a path.
 
 Do not add introductory prose only to satisfy a template.
+
+Keep a lead-in short and literal. "This tool has these modes:" does the job; a
+paragraph explaining how modes are chosen does not, because the reader came
+for the list.
+
+A label introducing a short list goes on its own line, with the list beneath
+it.
+
+Lead an explanation with its label rather than its example. Write
+"**Review** — you have a file in mind", not the example first with the label
+trailing at the end.
+
+Put a worked example after the explanation it illustrates, not before it.
+
+Cut words that carry no context. "After you approve" becomes "After approval",
+and the meaning survives.
+
+Keep clause order parallel between neighbouring rows and sentences. A reader
+scanning a table compares cells position by position, and a reordered clause
+breaks that.
 
 ## Editorial Markers
 

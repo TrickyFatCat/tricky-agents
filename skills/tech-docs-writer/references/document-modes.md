@@ -372,8 +372,24 @@ field to make entries look identical.
 - Link related modes instead of duplicating large sections.
 - Remove sections added only because an example outline showed them.
 
-After drafting, verify that each major section supports the selected reader
-need.
+### The Question Each Section Answers
+
+Before drafting, write down the question each planned section answers. The
+question comes from the reader, in their words, not from the subject.
+
+```text
+Section                     Question it answers
+Modes                       Which mode am I in?
+What Needs Your Approval    Why did it stop?
+The Validation Script       What does that exit code mean?
+```
+
+A section with no question does not belong. A fact that fits no section means
+the structure is missing one, not that the fact is worthless — decide where it
+belongs before considering whether to cut it.
+
+After drafting, verify that each major section still answers its question and
+supports the selected reader need.
 
 ## Sources
 

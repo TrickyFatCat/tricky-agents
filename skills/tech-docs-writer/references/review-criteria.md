@@ -13,7 +13,9 @@ inside it.
 ## Order Of Passes
 
 1. Confirm purpose, mode, intended reader and reader goal.
-2. Map each section's responsibility and the reader's path.
+2. Map each section's responsibility and the reader's path. Ask what question
+    each section answers. A section that answers none is a finding, and so is
+    a passage that belongs to no section.
 3. Check progression, duplication, misplaced detail, mixed purposes and
     navigation.
 4. Assess terminology, density, abstraction and tone where they affect reader

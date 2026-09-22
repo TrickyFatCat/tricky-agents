@@ -65,6 +65,26 @@ result.
 `references/context-gate.md` owns the required fields, the question order and
 the assumption block.
 
+## Writing For A Human
+
+Build the structure before drafting. Decide what question each section
+answers, and write the section to answer that question.
+
+A section that answers no question does not belong. A fact that fits no
+section means the structure is wrong, not that the fact is worthless.
+
+A fact earns its place by changing what the reader does or decides. Cut what
+only shows that the writer understood the subject.
+
+Explain a rule by its reason, not only by its mechanics. The reason is usually
+already written in the source.
+
+Do not explain the category the document belongs to. Someone reading a tool's
+documentation already knows what a tool is.
+
+A sentence you have had to explain twice is in the wrong place or the wrong
+shape. Fix the structure before rewording it again.
+
 ## Mode Summary
 
 | Reader need                             | Mode           |

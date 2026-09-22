@@ -5,6 +5,15 @@ Read this reference when documenting commands, flags or shell workflows.
 This file owns documenting a command-line interface. The unit is an
 invocation.
 
+## Dependencies
+
+A tool's dependencies go in a list at the top of its section, before the
+reader runs anything. A dependency found halfway through a worked example has
+already cost them a failed run.
+
+Do not list an obvious dependency. A Python script needs Python; say which
+version, not that it needs one.
+
 ## Verification
 
 Generated help from the installed version is the primary authority for a CLI.
