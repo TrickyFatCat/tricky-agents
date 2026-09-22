@@ -114,10 +114,8 @@ the reader and the subject.
 
 ## Confidence Labels
 
-A claim the skill could not confirm is marked, so you can see which parts of a
-document to check yourself.
-
-The labels are:
+Every claim gets one of three labels, and the label says how well the skill
+could check it:
 
 | Label      | Meaning                                                   |
 | ---------- | --------------------------------------------------------- |
@@ -141,7 +139,7 @@ of what the code does now.
 
 ### When It Cannot Reach Fact
 
-Two cases stop the skill short.
+Two cases stop a claim from reaching Fact.
 
 **No code intelligence tool**
 
