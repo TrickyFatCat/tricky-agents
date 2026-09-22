@@ -28,6 +28,30 @@ A workflow document has no implementation to read.
 Never present a described process as established fact when no authority was
 named.
 
+## Restating A Source
+
+A document that restates a structured source, such as a table, an enum, or a
+list of states or triggers, keeps the source's field names and every clause of
+each condition. A renamed field or a shortened condition is a new claim, and
+needs its own evidence.
+
+Check clause by clause. A paraphrase that reads correctly can still have
+dropped the exception.
+
+**Renamed Field**
+
+A rate-limit table renames the source column `Burst` to `Max Per Second`, then
+fills the cells by the new name. `Burst` was a bucket size, not a rate, so every
+cell is now wrong.
+
+**Dropped Clause**
+
+```text
+Source  Reloads on SIGHUP, or when the file changes, unless --no-watch is set.
+Weak    Reloads when the file changes.
+Strong  Reloads on SIGHUP or when the file changes, unless --no-watch is set.
+```
+
 ## Confidence Labels
 
 | Label      | Meaning                                                   |
@@ -63,6 +87,20 @@ application state.
 Never run a destructive or state-changing command solely to improve a
 document.
 
+## Behaviour Inventory
+
+For a README or a reference, list what the source does that the reader meets,
+must approve, or is changed by. Each item is either documented or cut for a
+reason the writer can name.
+
+Instructions and how-to guides leave behaviour out on purpose, to keep the
+reader on one path. Do not run this check on them.
+
+**Example**
+
+A backup tool's README covers backup and restore. It never says that the tool
+deletes backups older than 30 days.
+
 ## Subject Checklists
 
 ### Command and Script Checks
@@ -80,7 +118,7 @@ Check whether documentation accurately represents:
 - File, process, network, or application-state side effects.
 - Discovery and utility commands.
 
-Compare documented commands against exported commands after the review. Note missing, removed, or renamed commands.
+For commands, the inventory is the exported command list. Note missing, removed, or renamed commands.
 
 ### Configuration and Setup Checks
 
@@ -114,7 +152,8 @@ Inspect at least one direct usage when it clarifies the contract.
 ## Final Check
 
 1. Confirm every claim names or cites its basis.
-2. Recheck names, paths, flags, defaults and quoted behaviour.
+2. Recheck names, paths, flags, defaults and quoted behaviour, and every
+    restated condition clause by clause.
 3. Confirm source and documentation versions are compatible.
 4. Separate implementation problems from documentation problems.
 5. Report what was not checked.

@@ -164,8 +164,12 @@ drafting is not verification. Prose is no different.
 ```text
 Backward references   Search "the other", "those two", "the remaining"
 Table lead-ins        Read each lead-in alone; it names what the table lists
-Examples              Every example is labelled, adjacent ones distinctly
-Obvious statements    Read each sentence beside a table; cut it if a cell says it
+Examples              Search "for example", "for instance", quoted cases and paragraphs
+                      holding two cases; each is labelled, adjacent ones distinctly
+Example reasons       Search each example for "because" and "same reason"; check the
+                      reason against the rule the example shows
+Obvious statements    Read each sentence beside a table or callout; cut one if the other says it
+Terms                 List each defined term; search for other words used for it
 Orphan sentences      Read each section's first sentence with the heading hidden
 Reader address        Every sentence tells the reader something, not a tool
 Named actor           Every rule says who performs it

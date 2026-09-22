@@ -280,12 +280,21 @@ A rule names who performs it. Where the document and its subject can both act,
 an unattributed rule leaves the reader deciding which one it means, and it does
 nothing for them until they do.
 
+Name one concept with one term. Define it where it first appears, and use the
+same word every time after. A second word for the same thing makes the reader
+ask whether there are two things.
+
+```text
+Weak    Join a session from the lobby. The match starts when the room is full.
+Strong  Join a match from the lobby. The match starts when it is full.
+```
+
 ## Tables
 
 Always put one short sentence before a table. The sentence says what the table
 lists, so the reader knows what they are scanning before they start.
 
-- A column whose name needs a sentence of explanation is badly named. Rename the column rather than explaining it.
+- A column you named that needs a sentence of explanation is badly named; rename it. A column carried from a source keeps the source's name (see Restating A Source in [source-verification.md](source-verification.md)).
 - Keep column names short.
 - Two tables may sit together when the second has its own introductory line. Without one they read as a single confusing block.
 - A bare code such as `S1` or `E2` is not an identifier. Use the name it stands for, so the reader does not have to open another document.

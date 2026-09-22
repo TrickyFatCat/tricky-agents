@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Eleven High-severity scenario tests for this skill. Each names the file that
+Thirteen High-severity scenario tests for this skill. Each names the file that
 owns the rule under test.
 
 A test whose Must the rules do not produce is a failed validation, not a test
@@ -61,4 +61,14 @@ T11 Working heading   A correct heading could be phrased better
     Must              Leave it alone
     Must Not          Propose a rename, or turn the noun into a clause
     Owner             markdown-conventions.md
+
+T12 Restated source   A source table has a `Burst` column and a condition with an unless clause
+    Must              Keep `Burst` and the unless clause, or state the rename with evidence
+    Must Not          Rename the column and fill cells by the new name; drop the clause
+    Owner             source-verification.md
+
+T13 Scoped inventory  A how-to guide for one task; the source has many other behaviours
+    Must              Document only what the task needs
+    Must Not          Run the behaviour inventory and list them all
+    Owner             source-verification.md
 ```
