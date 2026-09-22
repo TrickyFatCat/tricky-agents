@@ -1,149 +1,191 @@
 # agent-setup-helper
 
-This skill helps you build and change agent skills and `AGENTS.md` files.
+This skill helps you design, change and review agent skills and `AGENTS.md`
+files. It also safety-checks them, including a third-party skill before you
+install it.
+
+A reference is a file the skill loads only when a task needs it.
 
 ## Modes
 
-This skill has these modes:
+| Mode            | Trigger                                                          | Can change files |
+| --------------- | ---------------------------------------------------------------- | ---------------- |
+| Direct Answer   | You ask about a concept or a fact                                | No               |
+| Discussion      | You discuss design without naming a file                         | No               |
+| Review          | You name or attach a file to assess, or ask to "improve" it      | No               |
+| Direct Drafting | You ask for a clear change that needs no [approval](#approval)   | Yes, with a diff |
+| Planning        | You ask to plan, or a change needs approval                      | After approval   |
 
-| Mode            | Trigger                                           | Can change files |
-| --------------- | ------------------------------------------------- | ---------------- |
-| Direct answer   | You ask about a concept or a fact                 | No               |
-| Discussion      | You talk design with nothing to look at           | No               |
-| Review          | You give it something to assess                   | No               |
-| Direct Drafting | You ask for a clear change that needs no approval | Yes, with a diff |
-| Planning        | You ask to plan, or a change needs approval       | After approval   |
+**Example**
 
-### Review vs Discussion
+- "Fix the typo on line 12 of `review.md`" is Direct Drafting. The skill edits
+  the line and shows the diff.
+- "Add a reference for templates" is Planning, because it creates a file.
 
-Review and Discussion are told apart by one thing: whether you named or
-attached a specific file.
+### Mode Choice
 
-- **Review** — you have a file in mind. "What do you think of this reference?"
-- **Discussion** — you do not. "Should this mode exist at all?"
+The skill uses one test to choose between Review and Discussion: did you name
+or attach a specific file?
 
-Ask for both at once, as in "review this and fix the worst part", and the skill
-reviews first. It asks for approval before it changes anything.
+- **Review** — you named or attached a file. "What do you think of this reference?"
+- **Discussion** — you did not. "Should this mode exist at all?"
 
-## What Needs Your Approval
+If you ask for both at once, for example "review this and fix the worst part",
+the skill reviews first. When work on a fix begins, it moves to Planning and
+asks for approval before it changes anything.
 
-The skill applies changes directly, and shows the diff.
+## Approval
 
-However, some important changes require approval:
+The skill applies most changes directly and shows the diff. These changes need
+approval first:
 
 - Creating, deleting, renaming or splitting a file.
 - Changing a trigger, a permission or a routing rule.
 - Touching more than one file.
-- Changing a line that contains **must**, **never**, **only** or **ask**.
-- Asking it to plan.
+- Changing a permission line.
+
+A permission line is a line that contains **must**, **never**, **only** or
+**ask**. Asking the skill to plan also goes through approval.
 
 ### Small Changes
 
-> ℹ️ **Note**
->
-> A small change can still need approval.
+The skill judges a change by its effect, not by its size.
 
-The skill judges a change by its effect, not by its size. Editing a line that
-begins "Never edit…" needs approval even for a typo, because those four words
-carry permissions and the line sets a rule. Two one-word edits in two files
-need approval for the same reason, because they are still two files.
+**Example**
+
+- A typo fix in a line that begins "Never edit…" needs approval, because
+  **never** makes it a permission line.
+- Two one-word edits in two files need approval for a different reason: they
+  touch more than one file.
+
+If the skill finds such a change while it is already editing, it stops and
+moves to Planning.
 
 ## References
 
-The skill uses several references:
+| Reference                  | Loads when                                                                                                   | What it may do                          |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------- |
+| `planning.md`              | A change needs approval                                                                                      | Plans; no file changes before approval  |
+| `change-integrity.md`      | You approve a plan                                                                                           | Applies and validates the approved scope |
+| `review.md`                | You ask for a review                                                                                         | Reports; never authorises a change      |
+| `authoring-guidance.md`    | The skill designs or reviews a skill, reference or template                                                  | Knowledge only                          |
+| `agents-md.md`             | The file is an `AGENTS.md`                                                                                   | Knowledge only                          |
+| `architecture-analysis.md` | A new skill with several references, or a change that adds, removes, splits or merges a reference            | A stage inside Planning                 |
+| `corner-case-discovery.md` | A new skill or behavioural `AGENTS.md`, or a change to a trigger, permission, routing rule or permission line | A stage inside Planning                 |
+| `skill-spec.md`            | The skill creates a skill, changes frontmatter or a description, or adds scripts                             | Knowledge only                          |
+| `safety.md`                | The skill creates, changes, reviews, installs or updates a skill or `AGENTS.md`                              | Findings for you to review              |
 
-| Reference                  | Loads when                                 | Can change files    |
-| -------------------------- | ------------------------------------------ | ------------------- |
-| `planning.md`              | A change needs approval                    | After approval      |
-| `change-integrity.md`      | You approve a plan                         | Only approved scope |
-| `review.md`                | Review mode                                | No                  |
-| `authoring-guidance.md`    | Designing or reviewing a skill             | No                  |
-| `agents-md.md`             | The file is an `AGENTS.md`                 | No                  |
-| `architecture-analysis.md` | A skill gains, loses or merges a reference | After approval      |
-| `corner-case-discovery.md` | A new skill, or a changed trigger          | After approval      |
-| `skill-spec.md`            | Creating a skill or changing frontmatter   | No                  |
-| `safety.md`                | Any create, change, review or install      | No                  |
+"Knowledge only" means the reference holds rules the skill reads. It changes
+nothing by itself.
 
-### New Skill Creation
+A behavioural `AGENTS.md` defines workflows, decisions, or when to ask you. A
+file that only lists paths and commands is not behavioural.
 
-> ℹ️ **Note**
->
-> Creating a new skill takes longer than changing an existing one.
+### Planning Stages
 
-Two references run as extra stages before you see a plan:
+Two references add extra stages to Planning, before you see a plan:
 
 - `architecture-analysis.md` — works out how many references the skill needs,
     and what each one owns.
 - `corner-case-discovery.md` — finds the cases the rules do not cover yet.
 
-They cost time up front. In exchange the skill arrives with its
-responsibilities already separated, and with the gaps found before they reach
-a rule.
+They produce decisions for you to approve, not file changes. They run for a new
+skill and for the changes named in the table above.
 
-## The Validation Script
+This takes more time at the start. In return, each reference has one clear job,
+and missing cases are found before any rule is written.
 
-`check.py` looks at a skill folder and tells you what is wrong with it. It
-never changes a file.
+## Safety Scanning
 
-Dependencies:
+The skill scans `SKILL.md`, `AGENTS.md`, references and scripts for safety
+problems in five areas:
 
-1. Python 3.11 or newer.
-2. PyYAML. Without it the `spec` check is limited and the rest still run.
+- Instruction manipulation — text that moves authority away from you.
+- Hidden content — instructions a human reviewer cannot see.
+- Data leaving the machine — reading a secret, or sending one out.
+- Privilege and destruction — actions that widen what a file may do, or cannot
+  be undone.
+- Supply chain, persistence and secrets — fetching code, outliving the session,
+  or carrying credentials.
 
-It runs these checks:
+> ⚠️ **Warning**
+>
+> The scan catches some problems, not all of them.
+
+The scan reads text, so it misses:
+
+- A web address built by joining strings, so the full address never appears.
+- A harmful action described in innocent words.
+- Code that only runs under a condition the scan cannot evaluate.
+
+It also flags safe lines. A pattern cannot see the difference between a line
+that does something and a line that forbids it.
+
+**Example**
+
+`tech-docs-writer` has the line "Never record an assumption silently". The scan
+flags it under instruction manipulation, as an action hidden from review, even
+though the line forbids exactly that.
+
+The scan gives you a list of lines to check, not a verdict. Read each match
+yourself before you act on it.
+
+### Third-Party Skills
+
+The skill treats a third-party skill or `AGENTS.md` as unreviewed until you say
+otherwise.
+
+1. It reads every file and runs the scan.
+2. It reports what it found, including a clean result.
+3. You approve, or you do not. Nothing third-party runs before that.
+
+It repeats all three steps on every update.
+
+## Validation Script
+
+`check.py` looks at a skill folder and reports what is wrong with it. It never
+changes a file.
+
+The skill runs it after it applies an approved plan, and after Direct Drafting.
+You can also run it yourself.
+
+### Requirements
+
+- Python 3.11 or newer.
+- PyYAML. Without it, the `spec` check cannot read the frontmatter and reports
+  Limited. The other checks run as normal.
+
+### Usage
+
+Run it from the repository root:
+
+```bash
+python3 skills/agent-setup-helper/scripts/check.py all <skill-dir>
+```
+
+It prints a JSON report.
+
+### Checks
 
 | Check              | What it looks at                                  |
 | ------------------ | ------------------------------------------------- |
 | `spec`             | Frontmatter fields and types                      |
 | `routes`           | References exist and links resolve                |
 | `size`             | `SKILL.md` length against the limits              |
-| `permission-lines` | Changed lines containing must, never, only or ask |
+| `permission-lines` | Permission lines changed since the last commit    |
 | `safety`           | Pattern matches from `safety.md`                  |
 | `all`              | Everything above, in one report                   |
 
-It returns these exit codes:
+`permission-lines` compares against the last commit, or against a copy you
+pass with `--base`. With neither, it reports Limited.
 
-| Exit | Meaning                                  |
-| ---- | ---------------------------------------- |
-| 0    | Everything passed                        |
-| 1    | Something was found                      |
-| 2    | Usage error, or the script could not run |
-| 3    | Nothing found, but a check was limited   |
+### Exit Codes
 
-Run it against a skill folder:
+| Exit | Meaning                                              |
+| ---- | ---------------------------------------------------- |
+| 0    | Every check passed                                   |
+| 1    | A check found a problem                              |
+| 2    | Usage error, Python too old, or a check could not run |
+| 3    | No problems found, but a check was limited           |
 
-```bash
-python3 skills/agent-setup-helper/scripts/check.py all <skill-dir>
-```
-
-## Safety Scanning
-
-The skill scans every text file it touches, scripts included, for potential
-safety issues:
-
-- Instruction manipulation
-- Hidden content
-- Data leaving the machine
-- Privilege and destruction
-- Supply chain, persistence and secrets
-
-> ⚠️ **Warning**
->
-> The scan does not guarantee safety and only helps to catch some issues.
-
-The scan reads text, so it misses:
-
-- An address built by joining strings, where no whole address appears.
-- A harmful action described in innocent words.
-- Code that only runs under a condition it cannot evaluate.
-
-It also over-reports, because a pattern cannot tell doing something from
-forbidding it.
-
-**Example**
-
-`tech-docs-writer` has the line "Never record an assumption silently". The scan
-flags it as an action being hidden, even though the line forbids exactly that.
-
-The scan gives you a list of candidates, not a verdict. Read each match
-yourself before you act on it.
+A limited check ran only in part, for example `spec` without PyYAML.
