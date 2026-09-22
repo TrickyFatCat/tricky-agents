@@ -155,7 +155,7 @@ def check-max-level [headings: list<any>] {
         | str join "\n"
     )
 
-    refuse "heading too deep to demote" $"($listed)\n\nEvery heading is demoted one level, and markdown stops at six. Raise these headings, or split the section into its own file."
+    refuse "heading too deep to demote" $"($listed)\n\nEvery heading is demoted one level, and markdown stops at six. Use five hashes or fewer for these headings."
 }
 
 # Abort when any heading in one source resembles a heading in the other.
