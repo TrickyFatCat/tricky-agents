@@ -14,7 +14,7 @@ It does not handle:
 
 - Agent instruction files — `SKILL.md`, `AGENTS.md`, `CLAUDE.md`.
 - Application code.
-- Marketing and product copy.
+- Other types of documentation, such as marketing and product copy.
 
 **Example**
 
@@ -90,11 +90,12 @@ The type decides the document's shape. Ten are available:
 | Maintainer      | Contributes to the project             |
 | Personal        | Is you, months later                   |
 
-### What Each Type Needs
+### Additional Context
 
-Every document needs its reader. Six types ask for more than that:
+Every document needs its reader. Beyond that, each type requires different
+additional context:
 
-| Type           | Also needs                                          |
+| Type           | Additional Context                                  |
 | -------------- | --------------------------------------------------- |
 | README         | Project purpose, the visitor, their next action     |
 | Code Reference | Source of truth, language, public-surface boundary  |
@@ -103,17 +104,20 @@ Every document needs its reader. Six types ask for more than that:
 | How-to         | Reader's competence, the goal, the real environment |
 | Workflow       | Roles, trigger, end state, who owns the process     |
 
-The other four ask only for the reader and the subject.
+Explanation, troubleshooting, maintainer and personal documents ask only for
+the reader and the subject.
 
 > ℹ️ **Note**
 >
-> A file named `README.md` may really be a how-to guide. The name is evidence,
-> not the decision.
+> A file called `README.md` that walks you through one task is a how-to guide,
+> and the skill treats it as one.
 
 ## Confidence Labels
 
-You can tell how far to trust any claim in the document, because every claim
-carries a label.
+A claim the skill could not confirm is marked, so you can see which parts of a
+document to check yourself.
+
+The labels are:
 
 | Label      | Meaning                                                   |
 | ---------- | --------------------------------------------------------- |
@@ -135,7 +139,9 @@ as Unknown rather than dressed up as verified.
 An older README is not proof. It is evidence of what someone once wrote, not
 of what the code does now.
 
-Two cases limit what the skill can confirm.
+### When It Cannot Reach Fact
+
+Two cases stop the skill short.
 
 **No code intelligence tool**
 
@@ -149,9 +155,12 @@ a policy document, and with neither, every step is labelled an Assumption.
 
 ## Reviews
 
-A review gives you at most five findings. If you want more, just ask.
+A review stays in the conversation. Ask the skill to save it to a file if you
+need to keep it.
 
-Each finding carries a severity, written as a word:
+It gives you at most five findings. If you want more, just ask.
+
+Each finding carries a severity:
 
 | Mark      | Meaning                                                  |
 | --------- | -------------------------------------------------------- |
@@ -159,20 +168,19 @@ Each finding carries a severity, written as a word:
 | 🟡 Medium | Confuses, slows down, or leaves an important gap         |
 | 🟢 Low    | Polish, consistency, minor readability                   |
 
-Two marks close a finding. `✅ Accepted` means you fixed it or meant it that
-way, and `⛔ Declined` means you rejected it. A declined finding is not raised
-again in the same conversation.
+Two marks close a finding:
 
-Findings live in the conversation. Nothing is written to a file, so anything
-worth keeping has to be copied out.
+- `✅ Accepted` — you fixed it, or you meant it that way.
+- `⛔ Declined` — you rejected it, and it is not raised again in the same
+    conversation.
 
-### Reviewing Its Own Draft
+### Reviewing Its Own Work
 
-Ask it to review a document it wrote earlier in the same conversation and it
-says so, then checks every claim against the source again.
+If the document under review is one the skill wrote earlier in the same
+conversation, it says so and checks every claim against the source again.
 
-It does not trust its own memory of writing the document. A claim that was
-wrong when it was written reads exactly the same in memory as a correct one.
+Memory of writing the document is not a check. The skill could make a mistake
+then as easily as now, so it verifies a second time.
 
 ## Formatting
 
@@ -193,10 +201,11 @@ decides what it is allowed to claim:
 `dprint` locates its own configuration file, and the script does not
 reimplement that search — see the
 [dprint configuration docs](https://dprint.dev/config/). Only when `dprint`
-reports that it found nothing does the script supply the bundled fallback.
+reports that it found nothing does the script supply the bundled fallback,
+`skills/tech-docs-writer/assets/dprint.default.jsonc`.
 
-The script formats one file, the one being written. Not a directory, and not
-source material it is only reading.
+The script formats one file, the one being written. It never formats a whole
+directory, and it never formats files it is only reading for research.
 
 It reports the outcome through its exit code:
 
