@@ -269,7 +269,7 @@ Strong  The pipeline:
         3. Publishes the build to the store.
 ```
 
-Follow the list with the per-item explanation when each item needs one. The list is the index; the blocks below it carry the detail, and neither repeats the other.
+Follow the list with the per-item explanation when each item needs one. The list is the index; the blocks below it carry the detail.
 
 Keep prose for reasoning, cause, consequence and trade-off, where the connection between sentences is the content.
 
@@ -411,6 +411,10 @@ unlabelled example reads as one more assertion.
 An `Example` label has no end marker. Content that follows an example and is
 not part of it starts under a heading or a new label, or it reads as more of
 the example.
+
+An example is one concrete case of the claim above it: a named thing, a value,
+or a situation. A general statement under an `Example` label is a claim. Move
+it into the prose, or replace it with a case.
 
 Where several examples sit near each other, give each one a label that
 distinguishes it. A retry policy showing a failed call, a throttled call and a

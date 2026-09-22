@@ -169,14 +169,20 @@ Backward references   Search "the other", "those two", "the remaining"
 Table lead-ins        Read each lead-in alone; it names what the table lists
 Examples              Search "for example", "for instance", quoted cases and paragraphs
                       holding two cases; each is labelled, adjacent ones distinctly;
-                      the block after each example has its own heading or label
+                      the block after each example has its own heading or label; each
+                      labelled example names a concrete case, not a general statement
 Reasons               Search "because", "so" and "same reason"; point each reason at a
                       source line, or cut it
 Behaviour claims      List each statement of what the subject does; point each at a
                       source line, or label it as Source Verification requires
 Placement             For each callout and example, name the paragraph it serves; it
                       sits directly after that paragraph
+Section fit           Name the question each section answers; name the question each
+                      paragraph and table answers; move a block whose question belongs
+                      to another section
 Obvious statements    Read each sentence beside a table or callout; cut one if the other says it
+Index entries         For each list that names blocks below it, read each entry beside
+                      the first sentence of its block; the block does not repeat the entry
 Terms                 List each name used in a heading, table or scope list; search the
                       rest for other words for it
 Steps                 Search sentences joining three or more actions with commas; each
@@ -184,10 +190,16 @@ Steps                 Search sentences joining three or more actions with commas
 Plain language        Search "so", "because" and "which" in long sentences; split any
                       sentence carrying two ideas; list each idiom and undefined term
 Orphan sentences      Read each section's first sentence with the heading hidden
-Reader address        Every sentence tells the reader something, not a tool; it says
-                      what the reader gets or does, not how the subject classifies it
-Named actor           Every rule says who performs it
-Environment           No claim about one machine, no local absolute path
+Headings              Read each section heading this task wrote; one that starts with
+                      How, When, Why, What or Where, or reads as a sentence, becomes a
+                      short noun phrase. Step headings in how-tos and tutorials stay imperative
+Reader address        List each imperative sentence and name who it addresses; one aimed
+                      at a tool moves to that tool's rules. Search "is a", "counts as" and
+                      "is classed"; each says what the reader gets or does instead
+Named actor           Search rules in the passive ("is checked", "is run", "gets") and
+                      rules with no subject; name the actor in each
+Environment           Search "/home/", "/Users/", "C:\", "this machine" and "on my"; each
+                      becomes the setting that decides the outcome, or a placeholder
 ```
 
 Fix what the pass finds before presenting the document. A defect caught here is
