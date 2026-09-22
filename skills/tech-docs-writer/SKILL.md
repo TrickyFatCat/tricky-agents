@@ -153,18 +153,27 @@ After formatting, run the post-format checks in
 
 ## Before Delivering
 
-Run these checks over the finished document. Each is a rule from
-`references/markdown-conventions.md` that reads as obvious and still gets
-missed.
+Read the finished document as a reader who has not seen the source, and judge
+what is on the page rather than what was meant. Each check below is a search or
+a count, because a check phrased as a quality to confirm gets confirmed without
+being run.
+
+`references/review-criteria.md` states the same principle for facts: memory of
+drafting is not verification. Prose is no different.
 
 ```text
 Backward references   Search "the other", "those two", "the remaining"
-Table lead-ins        Every table has one sentence above it
+Table lead-ins        Read each lead-in alone; it names what the table lists
 Examples              Every example is labelled, adjacent ones distinctly
-Obvious statements    Nothing restates what a table or list already shows
-Orphan sentences      No sentence depends on the heading above it for meaning
+Obvious statements    Read each sentence beside a table; cut it if a cell says it
+Orphan sentences      Read each section's first sentence with the heading hidden
+Reader address        Every sentence tells the reader something, not a tool
+Named actor           Every rule says who performs it
 Environment           No claim about one machine, no local absolute path
 ```
+
+Fix what the pass finds before presenting the document. A defect caught here is
+not a finding to report.
 
 ## Gotchas
 

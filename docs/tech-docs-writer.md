@@ -33,6 +33,10 @@ The skill works in one of two modes:
 Write produces a new document, or edits one you already have. It gathers
 context and picks a document type before it drafts anything.
 
+Before it shows you the result, it reads the finished document again as a reader
+would and fixes what it finds. Checking its own draft is weaker than a cold
+read, so every check is a search or a count rather than a judgement.
+
 ### Review
 
 Review produces findings. It does not edit the reviewed file.

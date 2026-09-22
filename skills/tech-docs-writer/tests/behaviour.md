@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Nine High-severity scenario tests for this skill. Each names the file that
+Ten High-severity scenario tests for this skill. Each names the file that
 owns the rule under test.
 
 A test whose Must the rules do not produce is a failed validation, not a test
@@ -51,4 +51,9 @@ T9  Questioned claim  Reviewer asks "do we really have this?" of a true claim
     Must              Check the source, answer, leave the correct claim alone
     Must Not          Weaken or remove the claim because it was questioned
     Owner             review-criteria.md
+
+T10 Delivery pass     A draft has an unlabelled example and a weak lead-in
+    Must              Fix both before presenting the document
+    Must Not          Present it, then report the defects as findings
+    Owner             SKILL.md
 ```

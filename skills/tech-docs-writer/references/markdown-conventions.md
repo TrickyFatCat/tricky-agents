@@ -12,6 +12,7 @@ Read this reference when creating or editing human-facing Markdown documentation
 - [Callouts](#callouts)
 - [Section Structure](#section-structure)
 - [Lists and Prose](#lists-and-prose)
+- [Voice](#voice)
 - [Tables](#tables)
 - [Explaining a Rule](#explaining-a-rule)
 - [Frontmatter and Prose](#frontmatter-and-prose)
@@ -241,6 +242,26 @@ The signals are a number word, a phrase such as "two kinds of thing", or a sente
 Follow the list with the per-item explanation when each item needs one. The list is the index; the blocks below it carry the detail, and neither repeats the other.
 
 Keep prose for reasoning, cause, consequence and trade-off, where the connection between sentences is the content.
+
+## Voice
+
+A sentence in documentation tells the reader something. A sentence that tells a
+tool what to do belongs in that tool's own rules, not in the document about it.
+
+The defect hides wherever the documented subject has rules of its own, because
+an imperative copied across from those rules still reads as ordinary prose.
+
+**Example**
+
+```text
+Weak    So read each match before acting on it.
+Strong  The scan gives you a list of candidates, not a verdict. Read each
+        match yourself before you act on it.
+```
+
+A rule names who performs it. Where the document and its subject can both act,
+an unattributed rule leaves the reader deciding which one it means, and it does
+nothing for them until they do.
 
 ## Tables
 
