@@ -173,20 +173,21 @@ of what the code does now.
 > The skill will not run a destructive or state-changing command just to
 > improve a document.
 
-### When It Cannot Reach Fact
+### Fact Check Limits
 
-Two cases stop a claim from reaching Fact.
+Two cases make Fact harder to reach.
 
 **No Code Intelligence Tool**
 
 A code intelligence tool looks up definitions, symbols and call sites in code.
-Without one, the skill reads the source directly. If the source is ambiguous,
-the claim does not reach Fact.
+Without one, the skill reads the source directly. A clear source still gives
+Fact. An ambiguous one does not.
 
 **A Workflow Document**
 
 There is no implementation to read. The authority is a named process owner or
-a policy document, and with neither, every step is labelled an Assumption.
+a policy document. With either, a step can reach Fact. With neither, every step
+is labelled an Assumption.
 
 ## Formatting
 
