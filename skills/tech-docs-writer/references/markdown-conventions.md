@@ -79,18 +79,35 @@ Keep headings:
 
 A heading names what is inside the section. A reader who cannot tell from the heading what the section contains has to read the section to find out, which is the work the heading was there to save.
 
+A heading covers everything in its section, not the most memorable part of it. A reader looking for the rest of the section scans past a heading that named something narrower.
+
+**Example**
+
+```text
+Weak    Why A Missing Licence Fails The Build
+Strong  Build Rejection Reasons
+```
+
 Do not put a count in a heading. The count changes and the heading goes stale.
 
 A heading that joins two things with `or` asks the reader to choose one of them. Use `vs` when the section compares them instead.
 
-A heading names the result the reader came for, not the internal stage, component or state that produces it. Implementation vocabulary reads as precise to the writer and as jargon to everyone else.
+A section heading in a reference or explanatory section is a short noun phrase. A step heading in a how-to guide or a tutorial is an imperative verb phrase, because the reader is scanning for the action they are about to take. A document title is neither, because it names the whole document, and an explanation's title may be the question it answers.
+
+A clause has to be read as a sentence. A table of contents built from clauses gives the reader no column of nouns to skim, and its entries wrap.
 
 ```text
-Internal name           Reader's name
-Middleware Chain    →   How A Request Is Authorised
-Tick Group          →   When Your Script Runs
-Reconciliation Loop →   How Drift Gets Corrected
+Clause                        Noun
+How A Request Is Authorised → Request Authorisation
+When Your Script Runs       → Script Timing
+How Drift Gets Corrected    → Drift Correction
 ```
+
+Keep a term the reader meets in the thing they touch: a command name, a flag, a config key, an error message, an interface label, or the project's glossary. That is the word they will search for. Replace a term that appears only in source or in internal design notes, and replace it with another noun rather than with a description of the section.
+
+In a document that already exists, a heading changes only when it is wrong, not when a better one exists. A rename breaks inbound links and the reader's memory of where the section was.
+
+The question a section answers is a planning note, not its heading.
 
 Follow established local heading syntax before changing a document. Validate raw HTML heading behavior in the intended renderer and output format.
 

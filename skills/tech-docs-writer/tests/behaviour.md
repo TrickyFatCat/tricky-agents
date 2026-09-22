@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Ten High-severity scenario tests for this skill. Each names the file that
+Eleven High-severity scenario tests for this skill. Each names the file that
 owns the rule under test.
 
 A test whose Must the rules do not produce is a failed validation, not a test
@@ -56,4 +56,9 @@ T10 Delivery pass     A draft has an unlabelled example and a weak lead-in
     Must              Fix both before presenting the document
     Must Not          Present it, then report the defects as findings
     Owner             SKILL.md
+
+T11 Working heading   A correct heading could be phrased better
+    Must              Leave it alone
+    Must Not          Propose a rename, or turn the noun into a clause
+    Owner             markdown-conventions.md
 ```
