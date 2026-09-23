@@ -20,32 +20,35 @@ repository:
 nu scripts/install.nu
 ```
 
-The script creates links, not copies. A link points to a file in this
-repository. The tools always read the current version of that file. The
-script:
+The script creates symlinks to files in this repository. It never copies,
+replaces or deletes a file.
 
-- Links the rules file once per tool, under the name that tool expects.
-- Links each skill folder into the tool's skills folder.
-- Never replaces or deletes anything.
+- The rules file is linked once per tool, under the name that tool expects.
+- Each skill folder is linked into the tool's skills folder.
 
 > ℹ️ **Note**
 >
-> Linking the whole skills folder would hide the skills that other sources put
-> there.
+> Skills are linked one by one, so skills from other sources stay in the
+> tool's skills folder.
 
-An edit to a skill reaches the tools at once. An edit to a rule source reaches
-them only after the build in Rules Files.
+### Blocked Paths
 
-A path that is already in use is left alone and shown as `blocked`. Fix it by
-hand, then run the script again.
+The script prints a report with one row per link. A row marked `blocked` means
+something already exists at that path, and the script left it alone. The
+colour of the word tells you what is there. The `reason` column says it in
+words.
 
-- Yellow: a link that points somewhere else. Deleting it loses nothing.
-- Red: a real file or folder. It may hold the only copy of its content.
+| Colour | What is at the path        | What to do                      |
+| ------ | -------------------------- | ------------------------------- |
+| Yellow | A symlink to another place | Delete it. Nothing is lost.     |
+| Red    | A real file or folder      | Back it up first, then move it. |
+
+Run the script again after you clear the path.
 
 ### Supported Tools
 
-The script installs for these tools. The Tool column is the name `--tool`
-takes.
+The script installs for every tool below. It creates a tool's folder when it
+is missing, even for a tool you do not use.
 
 | Tool     | Rules file            | Skills              |
 | -------- | --------------------- | ------------------- |
@@ -53,12 +56,9 @@ takes.
 | `claude` | `~/.claude/CLAUDE.md` | `~/.claude/skills/` |
 | `codex`  | `~/.codex/AGENTS.md`  | `~/.codex/skills/`  |
 
-Without `--tool`, the script installs for every tool in the table. It creates
-a tool's folder when it is missing, even for a tool you do not use.
-
 ### Flags
 
-Both flags are optional.
+Optional flags:
 
 | Flag              | Effect                                                |
 | ----------------- | ----------------------------------------------------- |
@@ -86,21 +86,11 @@ Each top-level folder holds one kind of file.
 
 ## Rules Files
 
-The rules file every tool reads is `global/global-agents.md`. The build makes
-it from two sources.
+`global/global-agents.md` is linked as the global instructions for every
+supported tool, for example `~/.agents/AGENTS.md`. It is built from two files:
 
-| File                | Edited       | Holds                               |
-| ------------------- | ------------ | ----------------------------------- |
-| `machine-rules.md`  | By hand      | Defaults for any project            |
-| `personal-rules.md` | By hand      | The author and how to reply to them |
-| `global-agents.md`  | By the build | Both sources joined                 |
-
-`machine-rules.md` covers:
-
-- Decision policy.
-- Change discipline.
-- Safety.
-- Tools and workflows.
+1. `global/machine-rules.md`
+2. `global/personal-rules.md`
 
 > ⚠️ **Warning**
 >
@@ -111,6 +101,25 @@ Changing a rule takes three steps.
 1. Edit `machine-rules.md` or `personal-rules.md`.
 2. Run `nu scripts/build-global-agents.nu`.
 3. Commit the source and `global-agents.md` together.
+
+### Machine Rules
+
+`machine-rules.md` holds defaults for any project:
+
+- Decision policy.
+- Change discipline.
+- Safety.
+- Tools and workflows.
+
+### Personal Rules
+
+`personal-rules.md` holds how agents work with the author:
+
+- Who the author is and how they read.
+- Writing, structure and formatting.
+- Options, proposals and scope.
+- Errors, feedback and disagreement.
+- Short replies and agent status lines.
 
 ## Skill Documentation
 
