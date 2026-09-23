@@ -10,17 +10,21 @@
 #   nu scripts/worktree-merge.nu                          the worktree you are in
 #   nu scripts/worktree-merge.nu ../tricky-agents-combat
 #
-# All checks run before step 1. A refusal leaves everything as it was.
+# All checks run before step 1.
+# A refusal leaves everything as it was.
 #
-# The merge is fast-forward only. If main has new commits, the script refuses.
+# The merge is fast-forward only.
+# If main has new commits, the script refuses.
 # Rebase the branch onto origin/main, then run it again.
 #
-# Step 3 uses the primary checkout's worktree-cleanup.nu, so its safety checks
-# still run. The worktree's own copy is not used, because step 3 deletes it.
+# Step 3 runs the primary checkout's worktree-cleanup.nu.
+# Its safety checks still apply.
+# The worktree's own copy is not used, because step 3 deletes it.
 #
 # Exit codes: 0 done, 1 error, 2 refused, 3 main pushed but cleanup incomplete.
 
-# A refusal is not an error. The command is valid, but a safety rule stops it.
+# A refusal is not an error.
+# The command is valid, but a safety rule stops it.
 # So it prints plain text, not Nushell's error box.
 def refuse [msg: string, detail: string] {
     print -e $"(ansi red)Refused(ansi reset): ($msg)\n"
@@ -35,15 +39,15 @@ def fail [msg: string, detail: string] {
     }
 }
 
-# Without `complete`, a failed git call stops the whole script with exit 1. The
-# caller could not turn it into a refusal or a clear message. After the push,
-# stopping early would also skip the rest of the cleanup report.
+# Without `complete`, a failed git call stops the whole script with exit 1.
+# The caller could not turn it into a refusal or a clear message.
+# After the push, stopping early would also skip the rest of the cleanup report.
 def git-run [...args: string] {
     ^git ...$args | complete
 }
 
-# The text after a key in `git worktree list --porcelain` output, or "" when
-# the key is missing.
+# The text after a key in `git worktree list --porcelain` output.
+# Returns "" when the key is missing.
 def field [lines: list<string>, prefix: string] {
     let hit = $lines | where {|l| $l | str starts-with $prefix }
 
@@ -77,8 +81,8 @@ def worktrees [root: string] {
 }
 
 # All worktrees share one git folder, and it lives inside the primary checkout.
-# So the parent of that folder is the primary checkout. This also works when the
-# script runs from a worktree's copy.
+# So the parent of that folder is the primary checkout.
+# This also works when the script runs from a worktree's copy.
 def primary-checkout [root: string] {
     let common = git-run "-C" $root "rev-parse" "--git-common-dir"
 
@@ -94,7 +98,8 @@ def contains [repo: string, ancestor: string, descendant: string] {
     (git-run "-C" $repo "merge-base" "--is-ancestor" $ancestor $descendant).exit_code == 0
 }
 
-# Changed and untracked files, one per line. Empty means clean.
+# Changed and untracked files, one per line.
+# Empty means clean.
 def status-of [repo: string, ...extra: string] {
     let status = git-run "-C" $repo "status" "--porcelain" ...$extra
 
@@ -105,12 +110,11 @@ def status-of [repo: string, ...extra: string] {
     $status.stdout | str trim
 }
 
-# Refuse when the committed global-agents.md does not match a fresh build of
-# its sources.
+# Refuse when the committed global-agents.md does not match a fresh build.
 #
-# The tools link to that file, so the merge makes it live at once. The check
-# uses the worktree's own build script. A branch that changes the build is
-# checked with its own new rules.
+# The tools link to that file, so the merge makes it live at once.
+# The check uses the worktree's own build script.
+# A branch that changes the build is checked with its own new rules.
 def check-build [worktree: string] {
     let committed = $worktree | path join "global" "global-agents.md"
     let fresh = mktemp --tmpdir "global-agents.XXXXXX.md"
@@ -128,11 +132,12 @@ def check-build [worktree: string] {
     }
 }
 
-# Without --env, Nushell goes back to the starting folder when main ends. If
-# that folder was the removed worktree, the script fails after all the work is
-# done. --env keeps the `cd` to the primary checkout made before the cleanup.
+# Without --env, Nushell goes back to the starting folder when main ends.
+# If that folder was the removed worktree, the script fails there.
+# The failure comes after all the work is done.
+# --env keeps the `cd` to the primary checkout made before the cleanup.
 def --env main [
-    path?: string   # the worktree to merge. The default is the current folder.
+    path?: string   # the worktree to merge (default: the current folder)
 ] {
     # Found from the script's own location, not from the current folder.
     let root = $env.FILE_PWD | path join ".." | path expand
@@ -146,7 +151,8 @@ def --env main [
 
     let worktree = $top.stdout | str trim | path expand --no-symlink
 
-    # --- Checks. Nothing changes until all of them pass.
+    # --- Checks.
+    # Nothing changes until all of them pass.
 
     let hit = worktrees $primary | where path == $worktree
 
@@ -204,9 +210,10 @@ def --env main [
         refuse "main has moved on" $"($branch) does not contain the latest origin/main. In the worktree, run:\n\n  (ansi blue)git rebase origin/main(ansi reset)\n\nthen run this again."
     }
 
-    # The remote branch may hold commits pushed from another place. `git cherry`
-    # marks a commit with + when the local branch has no equal change. A commit
-    # that was only rebased has an equal change, so it does not block the merge.
+    # The remote branch may hold commits pushed from another place.
+    # `git cherry` marks a commit with + when the local branch has no equal change.
+    # A rebased commit has an equal change.
+    # So a branch that was pushed and then rebased can still merge.
     let remote_head = git-run "-C" $primary "rev-parse" "--verify" "--quiet" $"refs/remotes/origin/($branch)"
     let on_remote = $remote_head.exit_code == 0
 
@@ -219,10 +226,11 @@ def --env main [
         }
     }
 
-    # --- Actions. From here on, the script changes the repository.
+    # --- Actions.
+    # From here on, the script changes the repository.
 
-    # Local main may be behind origin/main. The checks above allow that, and the
-    # branch must land on top of the latest main.
+    # Local main may be behind origin/main, and the checks above allow that.
+    # The branch must land on top of the latest main.
     let synced = git-run "-C" $primary "merge" "--ff-only" "--quiet" "origin/main"
 
     if $synced.exit_code != 0 {
@@ -248,8 +256,9 @@ def --env main [
 
     mut incomplete = []
 
-    # When the script runs from inside the worktree, the cleanup deletes the
-    # folder it stands in. Nushell then refuses to start any more commands.
+    # The script may run from inside the worktree.
+    # The cleanup then deletes the folder the script stands in.
+    # After that, Nushell refuses to start any more commands.
     let started_in = $env.PWD
     cd $primary
 
@@ -261,9 +270,8 @@ def --env main [
         $incomplete = ($incomplete | append "the worktree or local branch")
     }
 
-    # The lease deletes the remote branch only if it still points at the commit
-    # checked above. If someone pushed to it since then, the delete fails and
-    # their work stays.
+    # With the lease, the delete runs only if the remote branch has not moved.
+    # If someone pushed to it after the check, the delete fails and their work stays.
     if $on_remote {
         let sha = $remote_head.stdout | str trim
         let deleted = git-run "-C" $primary "push" "--quiet" $"--force-with-lease=refs/heads/($branch):($sha)" "origin" $":refs/heads/($branch)"

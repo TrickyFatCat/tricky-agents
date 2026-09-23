@@ -4,17 +4,18 @@
 #
 #   nu scripts/worktree-create.nu combat-review
 #
-# The folder always goes next to the primary checkout, even when you run the
-# script from inside another worktree. A plain `git worktree add ../<name>`
-# puts it there only when you run it from the primary checkout.
+# The folder always goes next to the primary checkout.
+# This holds even when you run the script from inside another worktree.
+# A plain `git worktree add ../<name>` puts it there only from the primary checkout.
 #
-# The script first updates main from origin. The branch then starts from the
-# latest work, and the merge later needs no rebase. If the update fails, for
-# example offline, the branch starts from local main.
+# The script first updates main from origin.
+# The branch then starts from the latest work, and the merge later needs no rebase.
+# If the update fails, for example offline, the branch starts from local main.
 #
 # Exit codes: 0 done, 1 error, 2 refused.
 
-# A refusal is not an error. The command is valid, but a safety rule stops it.
+# A refusal is not an error.
+# The command is valid, but a safety rule stops it.
 # So it prints plain text, not Nushell's error box.
 def refuse [msg: string, detail: string] {
     print -e $"(ansi red)Refused(ansi reset): ($msg)\n"
@@ -29,15 +30,15 @@ def fail [msg: string, detail: string] {
     }
 }
 
-# Without `complete`, a failed git call stops the whole script with exit 1. The
-# caller could not turn it into a refusal, a warning, or a clear message.
+# Without `complete`, a failed git call stops the whole script with exit 1.
+# The caller could not turn it into a refusal, a warning, or a clear message.
 def git-run [...args: string] {
     ^git ...$args | complete
 }
 
 # All worktrees share one git folder, and it lives inside the primary checkout.
-# So the parent of that folder is the primary checkout. This also works when the
-# script runs from a worktree's copy.
+# So the parent of that folder is the primary checkout.
+# This also works when the script runs from a worktree's copy.
 def primary-checkout [root: string] {
     let common = git-run "-C" $root "rev-parse" "--git-common-dir"
 
@@ -48,7 +49,8 @@ def primary-checkout [root: string] {
     $root | path join ($common.stdout | str trim) | path expand --no-symlink | path dirname
 }
 
-# Update main from origin. This works only when the primary checkout is on main.
+# Update main from origin.
+# This works only when the primary checkout is on main.
 # A failure is only a warning, because a branch from an older main still works.
 # If main moves on before the merge, worktree-merge.nu asks for a rebase.
 def update-main [primary: string] {
@@ -68,7 +70,7 @@ def update-main [primary: string] {
 }
 
 def main [
-    branch: string   # name of the new branch. A / becomes - in the folder name.
+    branch: string   # the new branch name (a / becomes - in the folder name)
 ] {
     # Found from the script's own location, not from the current folder.
     let root = $env.FILE_PWD | path join ".." | path expand
