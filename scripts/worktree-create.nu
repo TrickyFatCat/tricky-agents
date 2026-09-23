@@ -1,20 +1,21 @@
 #!/usr/bin/env nu
 
-# Create a worktree beside the primary checkout, on a new branch from main.
+# Create a new branch from main, in a new worktree beside the primary checkout.
 #
 #   nu scripts/worktree-create.nu combat-review
 #
-# The folder is placed next to the primary checkout wherever the script is run
-# from. `git worktree add ../<name>` only does that from the primary checkout;
-# from inside another worktree, `../` nests the new one somewhere else.
+# The folder always goes next to the primary checkout, even when you run the
+# script from inside another worktree. A plain `git worktree add ../<name>`
+# puts it there only when you run it from the primary checkout.
 #
-# Main is updated from origin first, so the branch starts from current work and
-# merges later as a fast-forward. Offline, the branch starts from local main.
+# The script first updates main from origin. The branch then starts from the
+# latest work, and the merge later needs no rebase. If the update fails, for
+# example offline, the branch starts from local main.
 #
 # Exit codes: 0 done, 1 error, 2 refused.
 
-# A refusal is not an error. The command is well-formed and a safety rule is
-# declining it, so it gets plain output rather than Nushell's error box.
+# A refusal is not an error. The command is valid, but a safety rule stops it.
+# So it prints plain text, not Nushell's error box.
 def refuse [msg: string, detail: string] {
     print -e $"(ansi red)Refused(ansi reset): ($msg)\n"
     print -e $detail
@@ -28,16 +29,15 @@ def fail [msg: string, detail: string] {
     }
 }
 
-# Run git, handing back `complete`'s {exit_code, stdout, stderr}.
-#
-# A failing external command does not change the script's exit code, so every
-# result is checked by hand.
+# Without `complete`, a failed git call stops the whole script with exit 1. The
+# caller could not turn it into a refusal, a warning, or a clear message.
 def git-run [...args: string] {
     ^git ...$args | complete
 }
 
-# The shared git dir sits in the primary checkout, so its parent is that
-# checkout, even when this script runs from a worktree's copy.
+# All worktrees share one git folder, and it lives inside the primary checkout.
+# So the parent of that folder is the primary checkout. This also works when the
+# script runs from a worktree's copy.
 def primary-checkout [root: string] {
     let common = git-run "-C" $root "rev-parse" "--git-common-dir"
 
@@ -48,8 +48,9 @@ def primary-checkout [root: string] {
     $root | path join ($common.stdout | str trim) | path expand --no-symlink | path dirname
 }
 
-# Fast-forward main from origin when the primary checkout allows it. A failure
-# is a warning, not a stop: a branch from slightly old main still works.
+# Update main from origin. This works only when the primary checkout is on main.
+# A failure is only a warning, because a branch from an older main still works.
+# If main moves on before the merge, worktree-merge.nu asks for a rebase.
 def update-main [primary: string] {
     let current = git-run "-C" $primary "branch" "--show-current"
 
@@ -67,9 +68,9 @@ def update-main [primary: string] {
 }
 
 def main [
-    branch: string   # the new branch; a / in it becomes - in the folder name
+    branch: string   # name of the new branch. A / becomes - in the folder name.
 ] {
-    # From the script's own location, so any working directory works.
+    # Found from the script's own location, not from the current folder.
     let root = $env.FILE_PWD | path join ".." | path expand
     let primary = primary-checkout $root
 
@@ -92,7 +93,7 @@ def main [
     let folder = $"($primary | path basename)-($branch | str replace --all '/' '-')"
     let target = $primary | path dirname | path join $folder
 
-    # `path exists` follows links, so a dead symlink would look like free space.
+    # Not `path exists`: it follows symlinks, so a broken symlink looks free.
     if ($target | path type | default "" | is-not-empty) {
         refuse "target path already exists" $"  (ansi red)($target)(ansi reset)\n\nPick another branch name, or remove what is there."
     }
