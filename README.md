@@ -66,6 +66,9 @@ Optional flags:
 | `--tool <tool>`   | Install for one tool only. The default is every tool. |
 | `--skill <skill>` | Install one skill only, and skip the rules file.      |
 
+A new skill reaches the tools only after the script links it. `--skill` links
+just that one.
+
 **Example**
 
 ```nu
