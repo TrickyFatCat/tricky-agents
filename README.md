@@ -81,7 +81,7 @@ Each top-level folder holds one kind of file.
 | ---------- | ---------------------------------------------------- |
 | `global/`  | The rule sources and the rules file built from them  |
 | `skills/`  | Global skills, one folder each                       |
-| `scripts/` | Build, install, and worktree cleanup                 |
+| `scripts/` | Build, install, and worktree scripts                 |
 | `chats/`   | Chat personalisation for ChatGPT mobile and Grok web |
 | `docs/`    | Documentation about skills                           |
 

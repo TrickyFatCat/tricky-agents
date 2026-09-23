@@ -5,8 +5,10 @@
 #   nu scripts/worktree-cleanup.nu ../tricky-agents-combat
 #   nu scripts/worktree-cleanup.nu ../tricky-agents-combat --abandon
 #
-# Creating a worktree needs no script: `git worktree add -b <branch> <path>`.
-# Removing one does, because two things must agree — the worktree is gone and
+# worktree-merge.nu runs this after its merge. Run it by hand to drop a branch
+# with --abandon, or after a merge made some other way.
+#
+# Removal needs care because two things must agree — the worktree is gone and
 # the branch is gone — and getting the second one wrong loses commits.
 #
 # The branch is deleted with a compare-and-delete against the head the worktree

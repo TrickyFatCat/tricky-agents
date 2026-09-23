@@ -38,8 +38,8 @@ repository before the task ends.
 Every worktree has its own `tmp/`, and the two paths read identically in a
 prompt. Say which checkout you mean before deleting one.
 
-A worktree holding files in `tmp/` is not clean, so `worktree-cleanup.nu`
-refuses it. Empty it before cleaning up.
+A worktree holding files in `tmp/` is not clean, so `worktree-merge.nu` and
+`worktree-cleanup.nu` refuse it. Empty it before merging.
 
 ## Merge Contract
 
@@ -99,14 +99,15 @@ happens in it.
 
 **Work happens in a worktree**
 
-Beside the primary checkout, never inside it.
+Beside the primary checkout, never inside it. The script puts it there from any
+directory, on a new branch from an updated `main`.
 
 ```nu
-git worktree add -b <branch> ../tricky-agents-<branch>
+nu scripts/worktree-create.nu <branch>
 ```
 
-Run that from the primary checkout. From anywhere else `../` resolves somewhere
-else and nests the worktree quietly, so pass the absolute path instead.
+The folder is `tricky-agents-<branch>`, with any `/` in the branch turned into
+`-`. The script prints the path.
 
 A worktree has its own `global/global-agents.md`, so building inside it leaves
 the live file alone. That isolation is the point.
@@ -116,15 +117,40 @@ switches to it before making any change. After the first change it must not
 relocate, because moving then strands the work: it stops and says where it is.
 You may waive the location for that session.
 
-**After the merge**
+**Merging**
 
-Update the primary checkout and the live file is current. No rebuild is needed
-there, because the built file arrives with the merge.
+An agent runs this only when Artyom asks for the merge. Pushing `main` and
+deleting a remote branch are not undone by the next command.
 
-**Cleaning up**
+```nu
+nu scripts/worktree-merge.nu
+```
 
-Update the primary checkout first. The merged check reads local `main`, so a
-branch merged only on the remote still counts as unmerged.
+Run it from inside the worktree, or pass the worktree's path. It:
+
+1. Fast-forwards `main` in the primary checkout to the branch.
+2. Pushes `main`.
+3. Removes the worktree and the local branch with `worktree-cleanup.nu`.
+4. Deletes the branch on origin.
+
+It refuses before changing anything when:
+
+- the worktree holds uncommitted, untracked or ignored files;
+- the primary checkout is not on `main`, or is not clean;
+- `global-agents.md` differs from a fresh build of its sources;
+- `main` has moved on, so the branch needs a rebase onto `origin/main`;
+- local `main` holds commits origin does not;
+- `origin/<branch>` holds commits the branch does not.
+
+The live file is current as soon as the merge lands. No rebuild is needed,
+because the built file arrives with the merge.
+
+**Cleaning up without merging**
+
+`worktree-merge.nu` runs this itself. Run it by hand to drop a branch with
+`--abandon`, or after a merge made some other way. Update the primary checkout
+first. The merged check reads local `main`, so a branch merged only on the
+remote still counts as unmerged.
 
 ```nu
 nu scripts/worktree-cleanup.nu <worktree-path>
@@ -216,7 +242,11 @@ is not a mistake.
 | `build-global-agents.nu` | 0, 1, 2 |
 | `install.nu` | 0, 1, 2, 3 |
 | `worktree-cleanup.nu` | 0, 1, 2, 3 |
+| `worktree-create.nu` | 0, 1, 2 |
+| `worktree-merge.nu` | 0, 1, 2, 3 |
 
 `install.nu` exits 3 when any row in its report is blocked.
 `worktree-cleanup.nu` exits 3 when the worktree was removed but the branch was
 kept.
+`worktree-merge.nu` exits 3 when `main` was pushed but the worktree, the local
+branch or the remote branch is still there.
