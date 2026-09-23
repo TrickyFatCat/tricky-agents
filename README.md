@@ -31,19 +31,20 @@ replaces or deletes a file.
 > Skills are linked one by one, so skills from other sources stay in the
 > tool's skills folder.
 
-### Blocked Paths
+### Report
 
-The script prints a report with one row per link. A row marked `blocked` means
-something already exists at that path, and the script left it alone. The
-colour of the word tells you what is there. The `reason` column says it in
-words.
+The script prints a report with one row per link. The `action` column shows
+the status of each link.
 
-| Colour | What is at the path        | What to do                      |
-| ------ | -------------------------- | ------------------------------- |
-| Yellow | A symlink to another place | Delete it. Nothing is lost.     |
-| Red    | A real file or folder      | Back it up first, then move it. |
+| Status    | Meaning                                                  |
+| --------- | -------------------------------------------------------- |
+| `created` | The script made the link.                                |
+| `ok`      | The link was already there. Nothing changed.             |
+| `blocked` | Something else is at the path. The script left it alone. |
 
-Run the script again after you clear the path.
+For a `blocked` row, the `reason` column says what is at the path. It is
+either a symlink to another place or a real file or folder. Clear the path,
+then run the script again.
 
 ### Supported Tools
 
