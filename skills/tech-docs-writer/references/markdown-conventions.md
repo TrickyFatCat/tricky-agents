@@ -15,6 +15,7 @@ Read this reference when creating or editing human-facing Markdown documentation
 - [Voice](#voice)
 - [Tables](#tables)
 - [Explaining a Rule](#explaining-a-rule)
+- [States And Results](#states-and-results)
 - [Frontmatter and Prose](#frontmatter-and-prose)
 - [Document Location](#document-location)
 - [Section Introductions](#section-introductions)
@@ -219,6 +220,10 @@ Naming where a tool looks is general. Asserting what one machine resolved is not
 
 Place information where readers need it:
 
+- The reader's steps and their warnings before descriptions and reference
+  detail, in the whole document and inside each section. The opening that
+  says what the document covers, and the requirements for a step, come
+  before it.
 - Defaults before optional setup paths.
 - Safety warnings beside risky commands.
 - Option explanations beside relevant syntax or examples.
@@ -316,7 +321,13 @@ Write for a reader whose first language may not be English.
 
 - One idea per sentence. A rule and its reason are two sentences.
 - No idioms. "Stops short" becomes "does not reach".
-- Jargon is a term. Define it in one line where it first appears, as above.
+- Use the exact term the reader uses in their own work, with no definition.
+  Do not swap it for a vaguer word.
+- Define a term new to this reader in one line, where it first appears.
+- A standard term of the platform or field the document covers needs no
+  definition. "symlink" in a README for a Linux tool is one.
+- When it is unclear whether this reader uses a less common term, keep the
+  exact term and define it in one line where it first appears.
 
 A native reader loses nothing from plain wording. A reader working in a second
 language has to translate an idiom before they can use the sentence.
@@ -359,6 +370,18 @@ then has to work out which, and the sentence has added nothing.
 Look for the reason in the source before writing one. A rule that exists for a
 stated purpose usually says so somewhere, and a reason invented to fill the
 gap is a claim the document cannot support.
+
+## States And Results
+
+When the subject shows the reader a status, a result or an indicator,
+document the full set the reader can meet. A very large set, such as a list
+of error codes, belongs in a reference. Link to it.
+
+- Name each one by what the reader sees: the printed word or the label.
+- Say what each one means.
+- Do not describe one by its display alone, such as a colour. The reader
+  may not see the colour, and the display can change.
+- Add an action only when the meaning does not tell the reader what to do.
 
 ## Frontmatter and Prose
 

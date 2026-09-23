@@ -94,13 +94,26 @@ For a README or a reference, list what the source does that the reader meets,
 must approve, or is changed by. Each item is either documented or cut for a
 reason the writer can name.
 
+Another document covering the item for a different reader is such a reason.
+Before cutting the item, open that document and confirm it covers the item. A
+document the writer has not checked is an invented source, and cutting on its
+strength leaves a gap in both documents.
+
+Leave the item out, or link to that document when this reader needs to know
+the behaviour exists.
+
 Instructions and how-to guides leave behaviour out on purpose, to keep the
 reader on one path. Do not run this check on them.
 
-**Example**
+**Missing Behaviour**
 
 A backup tool's README covers backup and restore. It never says that the tool
 deletes backups older than 30 days.
+
+**Covered Elsewhere**
+
+A game's player manual does not explain the save-file format. The modding
+guide explains it to modders, so the manual leaves it out.
 
 ## Subject Checklists
 

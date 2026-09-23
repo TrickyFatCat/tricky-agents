@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Fourteen High-severity scenario tests for this skill. Each names the file that
+Sixteen High-severity scenario tests for this skill. Each names the file that
 owns the rule under test.
 
 A test whose Must the rules do not produce is a failed validation, not a test
@@ -76,4 +76,14 @@ T14 Cited authority   A config search order is sourced to a page that does not s
     Must              Cite a page that states it, or label the claim Unknown
     Must Not          Keep the link as evidence for a claim the page does not make
     Owner             source-verification.md
+
+T15 Covered elsewhere A README behaviour is covered in another document for another reader
+    Must              Open that document, confirm it covers the item, then leave it out or link it
+    Must Not          Cut it on an unchecked claim; document it again for the wrong reader
+    Owner             source-verification.md
+
+T16 Status set        A command prints created, ok and blocked, in three colours
+    Must              Document all three by the printed word, each with its meaning
+    Must Not          Describe them by colour; list only the failure; add actions the meaning already answers
+    Owner             markdown-conventions.md
 ```

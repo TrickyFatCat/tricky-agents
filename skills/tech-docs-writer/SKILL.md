@@ -175,11 +175,22 @@ Reasons               Search "because", "so" and "same reason"; point each reaso
                       source line, or cut it
 Behaviour claims      List each statement of what the subject does; point each at a
                       source line, or label it as Source Verification requires
+Reader value          For each statement of what the subject does, name what the
+                      reader would do wrong without it; cut it when the answer is
+                      nothing, or when it follows from a fact the page already
+                      states; a statement that gives the reason for a rule the
+                      reader follows stays
+States                For each status, result or indicator the subject shows, list
+                      the full set the reader can meet from the source; each is
+                      named as the reader sees it and says what it means
 Placement             For each callout and example, name the paragraph it serves; it
                       sits directly after that paragraph
 Section fit           Name the question each section answers; name the question each
                       paragraph and table answers; move a block whose question belongs
                       to another section
+Order                 Name the first thing the reader does in the document and in
+                      each section; it comes before descriptions and reference
+                      detail, after the opening and the step's requirements
 Obvious statements    Read each sentence beside a table or callout; cut one if the other says it
 Index entries         For each list that names blocks below it, read each entry beside
                       the first sentence of its block; the block does not repeat the entry
@@ -188,7 +199,11 @@ Terms                 List each name used in a heading, table or scope list; sea
 Steps                 Search sentences joining three or more actions with commas; each
                       is a numbered list
 Plain language        Search "so", "because" and "which" in long sentences; split any
-                      sentence carrying two ideas; list each idiom and undefined term
+                      sentence carrying two ideas; list each idiom, and each term new
+                      to this reader that has no definition
+Definitions           List each definition the page gives; cut one for a term this
+                      reader uses or a standard term of the field; each defined
+                      word is the exact term, not a vaguer word for it
 Orphan sentences      Read each section's first sentence with the heading hidden
 Headings              Read each section heading this task wrote; one that starts with
                       How, When, Why, What or Where, or reads as a sentence, becomes a
