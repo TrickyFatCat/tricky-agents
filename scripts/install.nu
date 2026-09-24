@@ -1,48 +1,32 @@
 #!/usr/bin/env nu
 
-# Install this repository's global rules and skills for every agent tool.
+# Installs this repository's global rules and skills for every agent tool.
 #
-#   nu scripts/install.nu                 every tool, rules and all skills
-#   nu scripts/install.nu --tool claude   one tool
-#   nu scripts/install.nu --skill combat  one skill, no rules file
+# Links instead of copying, so an edit here reaches the tools with no second step.
 #
-# Nothing is copied. Each install is a symlink into this repository, so editing
-# a file here changes what the tools read, with no second step.
-#
-# Skills are linked one folder at a time. A tool's skills directory usually
-# holds folders from elsewhere, and linking the directory itself would hide
-# them.
-#
-# Nothing is replaced or deleted. A path already in use is reported and
-# skipped; repairing it is left to you.
-#
-# Supporting another tool is one new row in `tool-targets` below.
+# Never replaces or deletes anything.
+# Reports and skips a path already in use, and leaves the repair to you.
 
-# Print a refusal and exit 2.
-#
-# A refusal is not an error. Nothing is malformed; the script is declining on a
-# safety rule. Plain output rather than Nushell's error box, so the two read
-# differently.
+# Prints a refusal to stderr and exits with code 2.
+# A refusal means a safety rule declined a valid request, and nothing is malformed.
 def refuse [msg: string, detail: string] {
+    # Prints plain text, not an error box, so a refusal does not read as an error.
     print -e $"(ansi red)Refused(ansi reset): ($msg)\n"
     print -e $detail
     exit 2
 }
 
-# Refuse anywhere but the primary checkout.
+# Exits with code 2 unless root is the primary checkout.
+# Returns without a check when root is not a git checkout.
 #
-# Links point at the checkout this script runs from. Made inside a worktree, a
-# new skill link would target a directory that worktree-cleanup.nu later
-# deletes, leaving the tool with a dead link.
-#
-# The two git dirs are the same path in the primary checkout; in a worktree the
-# first sits under the second.
+# Links point at the checkout this script runs from.
+# A link made in a worktree dies when worktree-cleanup.nu deletes that worktree.
 def check-primary-checkout [root: string] {
     let dir = ^git -C $root rev-parse --git-dir | complete
     let common = ^git -C $root rev-parse --git-common-dir | complete
 
     if $dir.exit_code != 0 or $common.exit_code != 0 {
-        return   # not a git checkout, so there is no worktree to confuse it with
+        return   # Not a git checkout, so it cannot be a worktree.
     }
 
     let here = $root | path join ($dir.stdout | str trim) | path expand --no-symlink
@@ -55,27 +39,26 @@ def check-primary-checkout [root: string] {
     refuse "not the primary checkout" $"  (ansi red)($root)(ansi reset)  is a worktree\n\nA link made here dies when the worktree is removed. Run install from the primary checkout:\n\n  (ansi green)($shared | path dirname)(ansi reset)"
 }
 
-# ~/... for anything under the home directory, unchanged otherwise.
+# Returns the path as ~/... when it is under the home directory, and unchanged otherwise.
 def tilde [path: string] {
     try {
         $"~/($path | path relative-to $nu.home-dir)"
     } catch { $path }
 }
 
-# "file", "dir", "symlink", or "" when nothing is there. A symlink is reported
-# as a symlink, never followed.
-#
-# The `default` is not cosmetic: `path type` declares a string output but yields
-# nothing for a missing path, and `let` refuses that mismatch.
+# "file", "dir", "symlink", or "" when nothing is there.
+# Never follows a symlink.
 def path-kind [path: string] {
+    # Keep the `default`, because without it `let` fails on a missing path.
     $path | path type | default ""
 }
 
-# Every tool this script installs for.
+# Returns {tool, rules, skills}, with rules and skills as full paths.
 #
-# To support another tool, add a row: the name you will pass to --tool, its
-# config directory under home, and the name its rules file must take. Nothing
-# else in the script needs to change.
+# To support another tool, add a row here and change nothing else.
+# `tool` is the name passed to --tool.
+# `dir` is the tool's config directory under home.
+# `rules_file` is the file name the tool reads its rules from.
 def tool-targets [] {
     [
         [tool       dir         rules_file];
@@ -90,29 +73,25 @@ def tool-targets [] {
     }}
 }
 
-# The path a symlink points at, read from the parent directory's listing.
-#
-# Listing the link itself would follow it: for a link to a directory, `ls`
-# returns the contents. The parent listing also still reports a dead link.
+# Returns the path a symlink stores, without following it.
 def link-target [link: string] {
+    # Lists the parent, so a link to a directory or a dead link still gives its own row.
     ls --long ($link | path dirname)
     | where name == $link
     | get 0.target
 }
 
-# What is at a target path, as {state, kind, target}.
+# Returns what is at link, as {state, kind, target}.
 #
 #   missing    nothing there                       create it
 #   linked     symlink already pointing at source  leave it, already done
 #   foreign    symlink pointing somewhere else     leave it, blocked
 #   occupied   a real file or directory            leave it, blocked
 #
-# The caller gets the kind and the link target too, so it never has to look the
-# same path up twice and risk describing a row it did not classify.
-#
-# `path exists` is no use here: it follows links, so a dead symlink reports
-# false and would look like free space.
+# Returns kind and target too, so the caller never reads the path twice.
+# A second read could report a different state than the one classified.
 def classify [link: string, source: string] {
+    # Uses path-kind, not `path exists`, so a dead symlink is not taken for free space.
     let kind = path-kind $link
 
     if ($kind | is-empty) {
@@ -132,10 +111,9 @@ def classify [link: string, source: string] {
     }
 }
 
-# The repository's skills, as {name, source}.
-#
-# A folder under skills/ counts only when it holds a SKILL.md, so notes and
-# half-finished directories are never installed.
+# Returns the repository's skills as {name, source}, sorted by name.
+# Returns an empty list when skills/ is missing.
+# Skips a folder without a SKILL.md, so notes and unfinished folders are never installed.
 def repo-skills [root: string] {
     let dir = $root | path join "skills"
 
@@ -150,11 +128,11 @@ def repo-skills [root: string] {
     | sort-by name
 }
 
-# The word and colour each state is reported with.
+# Returns the action word and colour for a state.
 #
-# Both blocked states say "blocked" but differ in colour, because they differ in
-# risk. A foreign symlink is yellow: deleting it loses nothing. A real file is
-# red: it may hold the only copy of what is in it.
+# Both blocked states say "blocked", and the colour shows the risk.
+# Yellow marks a foreign symlink, which loses nothing when deleted.
+# Red marks a real file or directory, which may hold the only copy of its content.
 #
 # Nushell drops these colours when the output is piped, so redirected text stays
 # clean.
@@ -167,7 +145,7 @@ def state-style [state: string] {
     }
 }
 
-# Abort, listing the values that would have worked.
+# Aborts with an error that lists the known values, then the hint.
 def unknown [what: string, given: string, known: list<string>, hint: string] {
     let listed = if ($known | is-empty) {
         $"  (ansi red)none found(ansi reset)"
@@ -181,8 +159,8 @@ def unknown [what: string, given: string, known: list<string>, hint: string] {
     }
 }
 
-# Warn when a hand-edited source is newer than the generated file the links
-# point at. Never fails the run: the links work, they just serve old text.
+# Prints a warning when machine-rules.md or personal-rules.md is newer than out.
+# Never fails the run, because stale links still work and only serve old text.
 def warn-if-stale [root: string, out: string] {
     if (path-kind $out | is-empty) {
         return
@@ -208,7 +186,8 @@ def warn-if-stale [root: string, out: string] {
     print $"Rebuild with (ansi blue)nu scripts/build-global-agents.nu(ansi reset), or the links serve stale text.\n"
 }
 
-# Everything, or the one row named. An unrecognised name aborts.
+# Returns every row when wanted is empty, or else the one row named.
+# Aborts on an unknown name.
 def pick-tools [all: list<any>, wanted: string] {
     if ($wanted | is-empty) {
         return $all
@@ -223,7 +202,8 @@ def pick-tools [all: list<any>, wanted: string] {
     $hit
 }
 
-# Everything, or the one skill named. An unrecognised name aborts.
+# Returns every skill when wanted is empty, or else the one skill named.
+# Aborts on an unknown name.
 def pick-skills [all: list<any>, wanted: string] {
     if ($wanted | is-empty) {
         return $all
@@ -238,7 +218,7 @@ def pick-skills [all: list<any>, wanted: string] {
     $hit
 }
 
-# One row per link to make: for each tool, the rules file then each skill.
+# Returns one row per link, with each tool's rules file first and then its skills.
 def build-work [
     tools: list<any>
     skills: list<any>
@@ -256,6 +236,7 @@ def build-work [
             }]
         } else { [] }
 
+        # Links each skill folder, not the skills directory, so skills from elsewhere stay visible.
         let skill_entries = $skills | each {|s| {
             tool: $t.tool
             item: $"skills/($s.name)"
@@ -268,7 +249,8 @@ def build-work [
     | flatten
 }
 
-# Make every missing link, and return one report row per entry.
+# Creates each missing link and its parent directories.
+# Returns one report row per entry.
 def install-all [work: list<any>] {
     $work | each {|e|
         let found = classify $e.link $e.source
@@ -282,7 +264,7 @@ def install-all [work: list<any>] {
 
         if $found.state == "missing" {
             mkdir ($e.link | path dirname)
-            ^ln -s $e.source $e.link   # Nushell has no symlink builtin.
+            ^ln -s $e.source $e.link
         }
 
         let style = state-style $found.state
@@ -297,10 +279,10 @@ def install-all [work: list<any>] {
 }
 
 def main [
-    --tool: string    # install for one tool only; default is every row
-    --skill: string   # install one skill only; skips the rules file
+    --tool: string    # install for this tool only, not every tool
+    --skill: string   # install this skill only, without the rules file
 ] {
-    # From the script's own location, so any working directory works.
+    # Resolves root from the script's location, so the script runs from any directory.
     let root = $env.FILE_PWD | path join ".." | path expand
     check-primary-checkout $root
 
@@ -331,8 +313,7 @@ def main [
 
     let report = install-all $work
 
-    # A --skill run repeats one name down the whole item column, which says
-    # nothing. The name goes in a heading instead, and the column goes.
+    # Prints the skill name as a heading instead of an item column that repeats it on every row.
     if ($skill | is-empty) {
         print $report
     } else {
@@ -340,7 +321,7 @@ def main [
         print ($report | reject item)
     }
 
-    # A blocked row is not a failure, but the run did less than it was asked to.
+    # Exits 3 when any row is blocked, because the run did less than asked but did not fail.
     if ($report | any {|r| ($r.action | ansi strip) == "blocked" }) {
         exit 3
     }
