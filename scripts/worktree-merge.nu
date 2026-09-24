@@ -1,37 +1,19 @@
 #!/usr/bin/env nu
 
-# Merge a finished worktree into main, then clean up:
-#
-#   1. Fast-forward main to the branch.
-#   2. Push main.
-#   3. Remove the worktree and the local branch.
-#   4. Delete the branch on origin.
-#
-#   nu scripts/worktree-merge.nu                          the worktree you are in
-#   nu scripts/worktree-merge.nu ../tricky-agents-combat
-#
-# All checks run before step 1.
-# A refusal leaves everything as it was.
-#
-# The merge is fast-forward only.
-# If main has new commits, the script refuses.
-# Rebase the branch onto origin/main, then run it again.
-#
-# Step 3 runs the primary checkout's worktree-cleanup.nu.
-# Its safety checks still apply.
-# The worktree's own copy is not used, because step 3 deletes it.
-#
-# Exit codes: 0 done, 1 error, 2 refused, 3 main pushed but cleanup incomplete.
+# Merges a finished worktree into main, then cleans up.
 
+# Prints a refusal to stderr and exits with code 2.
+#
 # A refusal is not an error.
 # The command is valid, but a safety rule stops it.
-# So it prints plain text, not Nushell's error box.
 def refuse [msg: string, detail: string] {
+    # Prints plain text, not an error box, so a refusal does not read as an error.
     print -e $"(ansi red)Refused(ansi reset): ($msg)\n"
     print -e $detail
     exit 2
 }
 
+# Stops the script with an error box and exit code 1.
 def fail [msg: string, detail: string] {
     error make --unspanned {
         msg: $msg
@@ -39,15 +21,16 @@ def fail [msg: string, detail: string] {
     }
 }
 
-# Without `complete`, a failed git call stops the whole script with exit 1.
-# The caller could not turn it into a refusal or a clear message.
-# After the push, stopping early would also skip the rest of the cleanup report.
+# Runs git and returns {stdout, stderr, exit_code}, without stopping on a failure.
+# Callers decide whether a failure is a refusal or an error.
+# After the push, a failed git call must not skip the rest of the cleanup report.
 def git-run [...args: string] {
     ^git ...$args | complete
 }
 
-# The text after a key in `git worktree list --porcelain` output.
-# Returns "" when the key is missing.
+# Returns the text after prefix on the first line that starts with it.
+# Returns "" when no line starts with prefix.
+# lines is one worktree's block of `git worktree list --porcelain` output.
 def field [lines: list<string>, prefix: string] {
     let hit = $lines | where {|l| $l | str starts-with $prefix }
 
@@ -58,7 +41,8 @@ def field [lines: list<string>, prefix: string] {
     }
 }
 
-# One record per worktree: {path, branch, detached}.
+# Returns one record per worktree as {path, branch, detached}, the primary checkout included.
+# branch is "" for a detached worktree.
 def worktrees [root: string] {
     let listed = git-run "-C" $root "worktree" "list" "--porcelain"
 
@@ -80,9 +64,8 @@ def worktrees [root: string] {
     }
 }
 
-# All worktrees share one git folder, and it lives inside the primary checkout.
-# So the parent of that folder is the primary checkout.
-# This also works when the script runs from a worktree's copy.
+# Returns the primary checkout's path, even when root is another worktree.
+# Fails when root is not inside a git repository.
 def primary-checkout [root: string] {
     let common = git-run "-C" $root "rev-parse" "--git-common-dir"
 
@@ -90,16 +73,18 @@ def primary-checkout [root: string] {
         fail "not a git repository" ($common.stderr | str trim)
     }
 
+    # Every worktree shares one git folder, which sits inside the primary checkout.
     $root | path join ($common.stdout | str trim) | path expand --no-symlink | path dirname
 }
 
-# True when every commit in `ancestor` is already in `descendant`.
+# Returns true when every commit in ancestor is already in descendant.
+# Also returns false when git fails, for example on an unknown ref.
 def contains [repo: string, ancestor: string, descendant: string] {
     (git-run "-C" $repo "merge-base" "--is-ancestor" $ancestor $descendant).exit_code == 0
 }
 
-# Changed and untracked files, one per line.
-# Empty means clean.
+# Returns changed and untracked files, one per line, or "" when the checkout is clean.
+# extra goes to git status as it is, such as --ignored.
 def status-of [repo: string, ...extra: string] {
     let status = git-run "-C" $repo "status" "--porcelain" ...$extra
 
@@ -110,7 +95,8 @@ def status-of [repo: string, ...extra: string] {
     $status.stdout | str trim
 }
 
-# Refuse when the committed global-agents.md does not match a fresh build.
+# Refuses when the committed global-agents.md does not match a fresh build.
+# Also refuses when the build itself refuses or fails.
 #
 # The tools link to that file, so the merge makes it live at once.
 # The check uses the worktree's own build script.
@@ -132,14 +118,40 @@ def check-build [worktree: string] {
     }
 }
 
-# Without --env, Nushell goes back to the starting folder when main ends.
-# If that folder was the removed worktree, the script fails there.
-# The failure comes after all the work is done.
-# --env keeps the `cd` to the primary checkout made before the cleanup.
+# Merges a finished worktree into main, then cleans up.
+#
+#   1. Fast-forward main to the branch.
+#   2. Push main.
+#   3. Remove the worktree and the local branch.
+#   4. Delete the branch on origin.
+#
+#   nu scripts/worktree-merge.nu                          the worktree you are in
+#   nu scripts/worktree-merge.nu ../tricky-agents-combat
+#
+# All checks run before step 1.
+# A refusal leaves everything as it was.
+#
+# The merge is fast-forward only.
+# If main has new commits, the script refuses.
+# Rebase the branch onto origin/main, then run it again.
+#
+# Also refuses when:
+#
+#   - the worktree holds uncommitted, untracked or ignored files;
+#   - the primary checkout is not on main, or is not clean;
+#   - global-agents.md differs from a fresh build of its sources;
+#   - local main holds commits that origin does not;
+#   - origin/<branch> holds commits that the branch does not.
+#
+# Step 3 runs the primary checkout's worktree-cleanup.nu.
+# Its safety checks still apply.
+# The worktree's own copy is not used, because step 3 deletes it.
+#
+# Exit codes: 0 done, 1 error, 2 refused, 3 main pushed but cleanup incomplete.
 def --env main [
-    path?: string   # the worktree to merge (default: the current folder)
+    path?: string   # any folder inside the worktree to merge (default: the current folder)
 ] {
-    # Found from the script's own location, not from the current folder.
+    # Resolves the repository from the script's location, not from the working directory.
     let root = $env.FILE_PWD | path join ".." | path expand
     let primary = primary-checkout $root
 
@@ -211,9 +223,7 @@ def --env main [
     }
 
     # The remote branch may hold commits pushed from another place.
-    # `git cherry` marks a commit with + when the local branch has no equal change.
-    # A rebased commit has an equal change.
-    # So a branch that was pushed and then rebased can still merge.
+    # Compares changes, not commits, so a branch that was pushed and then rebased can still merge.
     let remote_head = git-run "-C" $primary "rev-parse" "--verify" "--quiet" $"refs/remotes/origin/($branch)"
     let on_remote = $remote_head.exit_code == 0
 
@@ -258,7 +268,8 @@ def --env main [
 
     # The script may run from inside the worktree.
     # The cleanup then deletes the folder the script stands in.
-    # After that, Nushell refuses to start any more commands.
+    # Moves to the primary checkout first, so the later commands still run.
+    # Keep --env on main, so main does not return to the deleted folder when it ends.
     let started_in = $env.PWD
     cd $primary
 
