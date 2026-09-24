@@ -46,7 +46,7 @@ def tilde [path: string] {
     } catch { $path }
 }
 
-# "file", "dir", "symlink", or "" when nothing is there.
+# Returns "file", "dir", "symlink" or another `path type` value, or "" when nothing is there.
 # Never follows a symlink.
 def path-kind [path: string] {
     # Keep the `default`, because without it `let` fails on a missing path.
@@ -133,9 +133,6 @@ def repo-skills [root: string] {
 # Both blocked states say "blocked", and the colour shows the risk.
 # Yellow marks a foreign symlink, which loses nothing when deleted.
 # Red marks a real file or directory, which may hold the only copy of its content.
-#
-# Nushell drops these colours when the output is piped, so redirected text stays
-# clean.
 def state-style [state: string] {
     match $state {
         "missing" => {action: "created", colour: "green"}
