@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Twenty-three scenario tests for the code-comments skill.
+Twenty-four scenario tests for the code-comments skill.
 
 Read them against the built rules whenever this skill changes. They are read, not executed, except three.
 
@@ -170,6 +170,7 @@ Break the rule.
 - The hit-flash sentence in the `take_damage` comment is kept word for word and reported as a contradiction.
 - The `## @param amount` line is gone, because GDScript has no `@param` tag to require it.
 - The commented-out line `#var _debug_draw := true` is kept and reported.
+- The file header, if any, holds only facts about the whole file.
 - Code outside comments is unchanged.
 - The last function, `_die()`, is returned unchanged.
 
@@ -455,3 +456,23 @@ Leave the deletions out of the report.
 **Owner**
 
 `SKILL.md`, The Sort, step 5, and Protected Comments.
+
+## T24. A Moved Fact Is Tested Again
+
+**Trigger**
+
+"Improve the comments in `EnemyCharacter.h`." The doc comment on `Explode()` holds three sentences: "Damages every enemy within BlastRadius.", "Loops over the overlap results and casts each one to AEnemy." and "Uses squared distance to avoid a square root per enemy."
+
+**Must**
+
+- The doc comment keeps only "Damages every enemy within BlastRadius."
+- The squared-distance reason moves to the `DistSquared` line in the body.
+- The loop sentence is deleted.
+
+**Must Not**
+
+The loop sentence reappears as a comment in the body.
+
+**Owner**
+
+`SKILL.md`, Kinds.

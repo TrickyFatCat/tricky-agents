@@ -79,6 +79,7 @@ State a guarantee only when the code shows it.
 Never invent thread safety, ownership, lifetime or performance claims.
 
 When an interface comment holds an implementation fact, move the fact into the body, next to the code it explains.
+Then run the delete test on it there.
 
 ### Editor Tooltips
 
@@ -91,6 +92,7 @@ It says what the value does, its units and its range.
 ### File Headers
 
 A file header is an interface comment for the whole file.
+A file header holds only facts about the whole file.
 For the delete test, read the file name and its public declarations, not the bodies.
 A new header goes after the shebang, the encoding line and any licence notice.
 Leave usage and arguments to the tool's help comments when the tool prints them.
