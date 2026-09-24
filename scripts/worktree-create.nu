@@ -1,28 +1,19 @@
 #!/usr/bin/env nu
 
-# Create a new branch from main, in a new worktree beside the primary checkout.
-#
-#   nu scripts/worktree-create.nu combat-review
-#
-# The folder always goes next to the primary checkout.
-# This holds even when you run the script from inside another worktree.
-# A plain `git worktree add ../<name>` puts it there only from the primary checkout.
-#
-# The script first updates main from origin.
-# The branch then starts from the latest work, and the merge later needs no rebase.
-# If the update fails, for example offline, the branch starts from local main.
-#
-# Exit codes: 0 done, 1 error, 2 refused.
+# Creates a new branch from main, in a new worktree beside the primary checkout.
 
+# Prints a refusal to stderr and exits with code 2.
+#
 # A refusal is not an error.
 # The command is valid, but a safety rule stops it.
-# So it prints plain text, not Nushell's error box.
 def refuse [msg: string, detail: string] {
+    # Prints plain text, not an error box, so a refusal does not read as an error.
     print -e $"(ansi red)Refused(ansi reset): ($msg)\n"
     print -e $detail
     exit 2
 }
 
+# Stops the script with an error box and exit code 1.
 def fail [msg: string, detail: string] {
     error make --unspanned {
         msg: $msg
@@ -30,15 +21,14 @@ def fail [msg: string, detail: string] {
     }
 }
 
-# Without `complete`, a failed git call stops the whole script with exit 1.
-# The caller could not turn it into a refusal, a warning, or a clear message.
+# Runs git and returns {stdout, stderr, exit_code}, without stopping on a failure.
+# Callers decide whether a failure is a refusal, a warning or an error.
 def git-run [...args: string] {
     ^git ...$args | complete
 }
 
-# All worktrees share one git folder, and it lives inside the primary checkout.
-# So the parent of that folder is the primary checkout.
-# This also works when the script runs from a worktree's copy.
+# Returns the primary checkout's path, even when root is another worktree.
+# Fails when root is not inside a git repository.
 def primary-checkout [root: string] {
     let common = git-run "-C" $root "rev-parse" "--git-common-dir"
 
@@ -46,11 +36,12 @@ def primary-checkout [root: string] {
         fail "not a git repository" ($common.stderr | str trim)
     }
 
+    # Every worktree shares one git folder, which sits inside the primary checkout.
     $root | path join ($common.stdout | str trim) | path expand --no-symlink | path dirname
 }
 
-# Update main from origin.
-# This works only when the primary checkout is on main.
+# Updates main from origin.
+# Skips the update with a warning when the primary checkout is not on main.
 # A failure is only a warning, because a branch from an older main still works.
 # If main moves on before the merge, worktree-merge.nu asks for a rebase.
 def update-main [primary: string] {
@@ -69,10 +60,27 @@ def update-main [primary: string] {
     }
 }
 
+# Creates a new branch from main, in a new worktree beside the primary checkout.
+#
+#   nu scripts/worktree-create.nu combat-review
+#
+# The folder always goes next to the primary checkout.
+# This holds even when you run the script from inside another worktree.
+# A plain `git worktree add ../<name>` puts it there only from the primary checkout.
+# The folder name is the primary checkout's name, a dash, and the branch name.
+#
+# The script first updates main from origin.
+# The branch then starts from the latest work, and the merge later needs no rebase.
+# If the update fails, for example offline, the branch starts from local main.
+# The same happens when the primary checkout is not on main.
+#
+# Refuses when the branch is main, when the branch already exists, or when the folder path is in use.
+#
+# Exit codes: 0 done, 1 error, 2 refused.
 def main [
     branch: string   # the new branch name (a / becomes - in the folder name)
 ] {
-    # Found from the script's own location, not from the current folder.
+    # Resolves the repository from the script's location, not from the working directory.
     let root = $env.FILE_PWD | path join ".." | path expand
     let primary = primary-checkout $root
 
@@ -95,7 +103,7 @@ def main [
     let folder = $"($primary | path basename)-($branch | str replace --all '/' '-')"
     let target = $primary | path dirname | path join $folder
 
-    # Not `path exists`: it follows symlinks, so a broken symlink looks free.
+    # Checks path type, not path exists, so a broken symlink counts as in use.
     if ($target | path type | default "" | is-not-empty) {
         refuse "target path already exists" $"  (ansi red)($target)(ansi reset)\n\nPick another branch name, or remove what is there."
     }
