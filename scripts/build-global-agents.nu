@@ -1,44 +1,32 @@
 #!/usr/bin/env nu
 
-# Merge the hand-edited rule sources into one generated agent file.
-#
-#   nu scripts/build-global-agents.nu                    rebuild the output
-#   nu scripts/build-global-agents.nu --similarity 0.8   loosen the clash check
-#
-#   global/machine-rules.md    hand-edited
-#   global/personal-rules.md   hand-edited
-#   global/global-agents.md    generated, overwritten every run
-#
-# Every heading drops one level, so the output carries no level-one heading and
-# the two sources sit under the banner as peers.
-#
-# The build refuses before writing, so a failed run leaves the previous output
-# intact. It stops on a heading too deep to demote, and on a heading in one
-# source that reads like one in the other.
+# Merges the two rule sources into one generated agent file.
 
-# Print a refusal and exit 2.
+# Prints a refusal to stderr and exits with code 2.
 #
-# A refusal is not an error. The sources are readable and the flags are valid;
-# the build is declining because it cannot produce a correct file. Plain output
-# rather than Nushell's error box, so the two read differently.
+# A refusal is not an error.
+# The sources are readable and the flags are valid.
+# The build declines because it cannot produce a correct file.
 def refuse [msg: string, detail: string] {
+    # Prints plain text, not an error box, so a refusal does not read as an error.
     print -e $"(ansi red)Refused(ansi reset): ($msg)\n"
     print -e $detail
     exit 2
 }
 
-# Relative to the root when the path sits under it, absolute otherwise.
+# Returns the path relative to root when it sits under root, and unchanged otherwise.
 def relative-or-absolute [path: string, root: string] {
     try {
         $path | path relative-to $root
     } catch { $path }
 }
 
-# Every line as {line, text, fenced}. The ``` markers count as fenced too, so a
-# fence line is never read as content.
+# Returns every line as {line, text, fenced}, with line counted from 1.
+# The ``` lines count as fenced too, so a fence line is never read as content.
+# Only ``` opens or closes a fence, so a ~~~ fence is read as content.
 #
-# Shared by the demoter and the collector. Two copies of this state machine
-# would drift apart.
+# demote-headings and collect-headings both call this.
+# Two copies of the fence tracking would drift apart.
 def tag-fences [text: string] {
     mut fenced = false
     mut out = []
@@ -60,8 +48,9 @@ def tag-fences [text: string] {
     $out
 }
 
-# Drop every heading one level. Hashes must be followed by whitespace, so a line
-# like `#hashtag` is left alone.
+# Drops every heading outside a fence one level.
+# Counts a line as a heading only when whitespace follows the hashes, so `#hashtag` is left alone.
+# Gives a level-six heading seven hashes, so callers run check-max-level first.
 def demote-headings [text: string] {
     tag-fences $text
     | each {|l|
@@ -74,8 +63,9 @@ def demote-headings [text: string] {
     | str join "\n"
 }
 
-# The form the clash check compares, never written to the output. Two headings
-# that differ only in case, emphasis or trailing punctuation are the same name.
+# Returns the form the clash check compares.
+# The output never contains this form.
+# Two headings that differ only in case, spacing, emphasis, code marks, closing hashes or trailing punctuation count as the same name.
 def normalise-heading [text: string] {
     $text
     | str replace --all --regex '\s+#+\s*$' ''
@@ -86,7 +76,9 @@ def normalise-heading [text: string] {
     | str trim
 }
 
-# Every heading as {file, line, level, raw, text}. Line numbers are one-based.
+# Returns every heading outside a fence as {file, line, level, raw, text}, with line counted from 1.
+# file is the label, which refusals show as the heading's location.
+# raw is the line as written, and text is the normalised name.
 def collect-headings [text: string, label: string] {
     tag-fences $text
     | where fenced == false
@@ -104,19 +96,18 @@ def collect-headings [text: string, label: string] {
     }
 }
 
-# How alike two normalised headings are, 0.0 to 1.0.
+# Returns how alike two normalised headings are, from 0.0 to 1.0.
 #
-# Whichever of two signals scores higher. Word subset catches a heading that is
-# another one plus extra words, where edit distance is dragged down by the
-# length gap. Edit distance catches a single reworded heading.
-#
-# Subset scores a flat 1.0, so a short heading contained in a longer one always
-# clashes: `Safety` and `Safety Rules` count as the same name.
+# Returns 1.0 when every word of one heading appears in the other.
+# So `Safety` and `Safety Rules` score 1.0 and count as the same name.
 def heading-similarity [a: string, b: string] {
     if $a == $b {
         return 1.0
     }
 
+    # The word check catches a heading that is another one plus extra words.
+    # Edit distance misses that case, because the length gap lowers its score.
+    # Edit distance catches a single reworded heading.
     let words_a = $a | split row " "
     let words_b = $b | split row " "
 
@@ -140,8 +131,8 @@ def heading-similarity [a: string, b: string] {
     1.0 - (($a | str distance $b) / $longest)
 }
 
-# Abort on a level-6 heading. Demoting it would emit seven hashes, which markdown
-# does not recognise, and the section would silently become body text.
+# Refuses on a level-six heading.
+# Demoting it gives seven hashes, which turn the section into body text with no warning.
 def check-max-level [headings: list<any>] {
     let deep = $headings | where level >= 6
 
@@ -158,7 +149,8 @@ def check-max-level [headings: list<any>] {
     refuse "heading too deep to demote" $"($listed)\n\nEvery heading is demoted one level, and markdown stops at six. Use five hashes or fewer for these headings."
 }
 
-# Abort when any heading in one source resembles a heading in the other.
+# Refuses when a heading in one source scores at least threshold against a heading in the other.
+# Skips headings with no text.
 def check-heading-clashes [machine: list<any>, personal: list<any>, threshold: float] {
     let named_personal = $personal | where text != ""
 
@@ -178,7 +170,6 @@ def check-heading-clashes [machine: list<any>, personal: list<any>, threshold: f
         return
     }
 
-    # Pad both locations to the same width so each pair lines up as a pair.
     let width = (
         $clashes
         | each {|c| [
@@ -204,13 +195,29 @@ def check-heading-clashes [machine: list<any>, personal: list<any>, threshold: f
     refuse "similar headings across sources" $"($clashes | length) heading pair\(s\) look similar:\n\n($detail)\n\nRename one side of each pair, or raise (ansi blue)--similarity(ansi reset) \(currently ($threshold)\)."
 }
 
+# Merges the two rule sources into one generated agent file.
+#
+#   nu scripts/build-global-agents.nu                    rebuild the output
+#   nu scripts/build-global-agents.nu --similarity 0.8   loosen the clash check
+#
+# Paths are relative to the repository root, not the working directory.
+#
+# Drops every heading one level.
+# The output then has no level-one heading, so the two sources sit under the banner as peers.
+#
+# Refuses on a level-six heading, because it cannot drop a level.
+# Refuses when a heading in one source scores at least --similarity against one in the other.
+# A heading contained in a longer one scores 1.0, so `Safety` and `Safety Rules` always clash.
+# Both checks run before the write, so a refusal leaves the previous output as it was.
+#
+# Exit codes: 0 done, 1 error, 2 refused.
 def main [
-    --machine: string = "global/machine-rules.md"   # source read first
-    --personal: string = "global/personal-rules.md" # source read second
-    --out: string = "global/global-agents.md"       # generated file
-    --similarity: float = 0.55                      # stop when a heading pair scores at least this, 0.0 to 1.0
+    --machine: string = "global/machine-rules.md"   # first source, placed first in the output
+    --personal: string = "global/personal-rules.md" # second source, placed after the first
+    --out: string = "global/global-agents.md"       # generated file, overwritten on every run
+    --similarity: float = 0.55                      # refuse when a heading pair scores at least this, 0.0 to 1.0
 ] {
-    # From the script's own location, so any working directory works.
+    # Resolves paths from the script's location, so any working directory works.
     let root = $env.FILE_PWD | path join ".." | path expand
 
     let machine_path = $root | path join $machine
@@ -245,7 +252,7 @@ def main [
     let machine_headings = collect-headings $machine_text $machine_label
     let personal_headings = collect-headings $personal_text $personal_label
 
-    # Both run before any write, so a refusal leaves the previous output intact.
+    # Keep both checks before the write, so a refusal leaves the previous output intact.
     check-max-level ($machine_headings | append $personal_headings)
     check-heading-clashes $machine_headings $personal_headings $similarity
 
@@ -259,7 +266,7 @@ def main [
         (demote-headings $personal_text)
     ] | str join "\n\n"
 
-    # Captured before the write, because `save --force` reports nothing.
+    # Must stay above the save, because the save creates the file.
     let existed = $out_path | path exists
 
     $"($banner)\n\n($merged)\n" | save --force $out_path
