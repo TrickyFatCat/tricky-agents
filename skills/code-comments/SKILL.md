@@ -64,6 +64,7 @@ A comment can claim something about code outside its own lines, such as "change 
 Check each such claim against that code before you keep or write it.
 When that code is out of reach, report the claim as not checked.
 Reading other code to check a claim does not bring its comments into scope.
+Do not change those comments or mention them in the report.
 
 ## Kinds
 
