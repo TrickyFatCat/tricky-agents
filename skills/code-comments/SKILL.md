@@ -58,6 +58,13 @@ Read the code and its names.
 For an interface comment, read only the declaration: its name, parameters and types.
 If a reader who knows the language could write the comment from that, delete it.
 
+### Claims About Other Code
+
+A comment can claim something about code outside its own lines, such as "change nothing else", "the only caller" or "never null".
+Check each such claim against that code before you keep or write it.
+When that code is out of reach, report the claim as not checked.
+Reading other code to check a claim does not bring its comments into scope.
+
 ## Kinds
 
 An interface comment tells a caller how to use the code.

@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Twenty-four scenario tests for the code-comments skill.
+Twenty-five scenario tests for the code-comments skill.
 
 Read them against the built rules whenever this skill changes. They are read, not executed, except three.
 
@@ -476,3 +476,26 @@ The loop sentence reappears as a comment in the body.
 **Owner**
 
 `SKILL.md`, Kinds.
+
+## T25. Claims About Other Code Are Checked, Not Widened
+
+**Trigger**
+
+"Improve the comments in `EnemySpawner.h`." The header holds `// Only called from BeginPlay.` above `void ResetWave();`. `EnemySpawner.cpp` calls `ResetWave` from `BeginPlay` and from `Tick`. It also holds `// Increment the wave counter.` above `++WaveIndex;`.
+
+- In the first run, `ResetWave` has no `UFUNCTION` specifier.
+- In the second run, `ResetWave` is marked `UFUNCTION(BlueprintCallable)`.
+
+**Must**
+
+- In the first run, keep the claim word for word and report it as a mismatch.
+- In the second run, report the claim as not checked, because a Blueprint may call the function.
+
+**Must Not**
+
+- Delete or reword the claim.
+- Change or report the comment in `EnemySpawner.cpp`.
+
+**Owner**
+
+`SKILL.md`, A Good Comment, Claims About Other Code.
