@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Ten scenario tests for the code-comments skill.
+Twenty-three scenario tests for the code-comments skill.
 
 Read them against the built rules whenever this skill changes. They are read, not executed, except three.
 
@@ -43,7 +43,7 @@ Return only the function, or replace code with a placeholder such as `// ... res
 
 **Owner**
 
-`SKILL.md`, Operations and output, Output.
+`SKILL.md`, Output.
 
 ## T3. No Questions Before an Inline Rewrite
 
@@ -53,35 +53,36 @@ Return only the function, or replace code with a placeholder such as `// ... res
 
 **Must**
 
-Rewrite the comment. After the work, state in one line that no project commenting rules were found and the skill's defaults were used.
+Rewrite the comment. After the work, state in one line that no project comment rules were found and the skill's rules were used.
 
 **Must Not**
 
-Ask about project rules, or whether the code is internal or shareable, before the work.
+Ask about project rules, or whether the code is shared, before the work.
 
 **Owner**
 
-`SKILL.md`, Before commenting.
+`SKILL.md`, Before Commenting.
 
-## T4. Unknown Shareability Goes to the Fallback
+## T4. An Interface Comment Is Tested on the Declaration
 
 **Trigger**
 
-"Document the functions in this file." The user has not said whether the code is internal or shareable.
+"Improve the comments in `AccountCache.h`." The header holds `// Returns the matching account, or null when no account exists.` above `Account* FindAccount(AccountId Id);`. The body in the `.cpp` file returns `nullptr` when no account exists.
 
 **Must**
 
-Write the documentation with the fallback. State that shareability is unknown, and flag the declarations whose documentation depends on it.
+Keep the null result in the comment, because the declaration does not show it.
 
 **Must Not**
 
-Ask whether the code is internal or shareable, choose one, or invent a guarantee such as thread safety or ownership.
+- Delete the comment because the body shows the null result.
+- Add a thread safety, ownership or lifetime claim that the code does not show.
 
 **Owner**
 
-`SKILL.md`, Before commenting.
+`SKILL.md`, A Good Comment and Kinds.
 
-## T5. Commented-Out Code Is Kept
+## T5. Commented-Out Code Is Kept and Reported
 
 **Trigger**
 
@@ -89,7 +90,7 @@ Ask whether the code is internal or shareable, choose one, or invent a guarantee
 
 **Must**
 
-Keep the commented-out line and list it as retained.
+Keep the commented-out line and list it under "Needs Your Decision".
 
 **Must Not**
 
@@ -97,17 +98,17 @@ Delete it as unnecessary.
 
 **Owner**
 
-`SKILL.md`, Operations and output, Remove.
+`SKILL.md`, The Sort, step 2.
 
-## T6. Editor-Facing Comments Are Written for Designers
+## T6. Editor Tooltips Are Written for Designers
 
 **Trigger**
 
-Comment a value whose comment the engine shows in the editor.
+"Comment the exported values in this script." The file is a Godot 4 script with `@export` variables.
 
 **Must**
 
-Use designer wording, one claim per line, and the engine's parameter tag where one exists.
+Each `##` comment says what the value does, its units and its range, with one sentence per line.
 
 **Must Not**
 
@@ -115,9 +116,9 @@ Include implementation detail.
 
 **Owner**
 
-`SKILL.md`, Editor-facing comments.
+`SKILL.md`, Kinds, Editor Tooltips.
 
-## T7. A Conflict With a Mandatory Rule Is Asked Once
+## T7. A Conflict With a Required Rule Is Asked Once
 
 **Trigger**
 
@@ -125,7 +126,7 @@ Include implementation detail.
 
 **Must**
 
-Name the rule, its source, and the consequence. Ask once whether to proceed. After a yes, add the one-line comment.
+Name the rule, its source, and the cost of breaking it. Ask once whether to proceed. After a yes, add the one-line comment.
 
 **Must Not**
 
@@ -133,13 +134,13 @@ Refuse, or ask for evidence that the rule does not apply.
 
 **Owner**
 
-`SKILL.md`, Before commenting, step 3.
+`SKILL.md`, Before Commenting, step 3.
 
 ## T8. A Delegated Answer Keeps the Rule
 
 **Trigger**
 
-The agent asks whether to break a mandatory rule. The user replies "Whatever."
+The agent asks whether to break a required rule. The user replies "Whatever."
 
 **Must**
 
@@ -151,7 +152,7 @@ Break the rule.
 
 **Owner**
 
-`SKILL.md`, Before commenting, step 3.
+`SKILL.md`, Before Commenting, step 3.
 
 ## T9. A Verbose File Comes Back Plain
 
@@ -163,21 +164,23 @@ Break the rule.
 
 - Each comment line holds one sentence.
 - No clause is joined by a colon, a semicolon, or a dash.
-- No comment repeats the line below it.
-- The reason for the floor check before an attack, root motion, keeps a comment.
-- The commented-out line `#var _debug_draw := true` is kept.
+- Each why sits in one sentence with its what.
+- No sentence fails the delete test, except a sentence kept because it contradicts the code.
+- The root-motion reason for the floor check before an attack is kept.
+- The hit-flash sentence in the `take_damage` comment is kept word for word and reported as a contradiction.
+- The `## @param amount` line is gone, because GDScript has no `@param` tag to require it.
+- The commented-out line `#var _debug_draw := true` is kept and reported.
 - Code outside comments is unchanged.
 - The last function, `_die()`, is returned unchanged.
-- No comment uses "because" or "so" more than once.
 
 **Must Not**
 
 - A sentence wraps onto a second line.
-- A comment describes obvious code.
+- A comment repeats the code or explains GDScript itself.
 
 **Owner**
 
-`SKILL.md`, Write the comment.
+`SKILL.md`, The Sort and Writing Rules.
 
 ## T10. New Comments Come Out Plain
 
@@ -189,16 +192,266 @@ Break the rule.
 
 - Each comment line holds one sentence.
 - No clause is joined by a colon, a semicolon, or a dash.
-- No comment repeats the line below it.
+- Each why sits in one sentence with its what.
+- No sentence fails the delete test.
 - The reason the parent of the shared git folder is the primary checkout gets a comment.
 - Code outside comments is unchanged.
-- No comment uses "because" or "so" more than once.
 
 **Must Not**
 
 - A sentence wraps onto a second line.
-- A comment describes obvious code.
+- A comment explains how Nushell or git behave.
 
 **Owner**
 
-`SKILL.md`, Write the comment.
+`SKILL.md`, A Good Comment and Writing Rules.
+
+## T11. An Obvious Comment Is Deleted, Not Reworded
+
+**Trigger**
+
+"Improve the comments." The file holds `# Decrease the cooldown timer by the elapsed time.` above `_cooldown_left = max(_cooldown_left - delta, 0.0)`.
+
+**Must**
+
+Delete the comment.
+
+**Must Not**
+
+Reword it, for example to "Counts the cooldown down each frame."
+
+**Owner**
+
+`SKILL.md`, The Sort, step 5.
+
+## T12. A Contradiction Is Kept and Reported
+
+**Trigger**
+
+"Improve the comments." A doc comment holds two sentences that repeat the code and one that says the function plays a hit flash. The function sets `_flash_timer`, and nothing reads it.
+
+**Must**
+
+- Keep the hit-flash sentence word for word and report the mismatch.
+- Still delete the sentences that repeat the code.
+
+**Must Not**
+
+- Delete or rewrite the hit-flash sentence.
+- Leave the whole comment unchanged because one sentence contradicts the code.
+
+**Owner**
+
+`SKILL.md`, The Sort, step 4.
+
+## T13. A Bad Name Is Reported, Not Renamed
+
+**Trigger**
+
+"Improve the comments." The file holds `float t;  // Time since the enemy was last hit, in seconds.`
+
+**Must**
+
+Keep the comment and report that `t` needs it.
+
+**Must Not**
+
+- Rename `t`.
+- Delete the comment.
+
+**Owner**
+
+`SKILL.md`, The Sort, step 3.
+
+## T14. A Split Keeps What and Why Together
+
+**Trigger**
+
+"Improve the comments." The file holds `# A foreign symlink is yellow: deleting it loses nothing.` above `"foreign" => {action: "blocked", colour: "yellow"}`.
+
+**Must**
+
+Write one sentence with the what first and the why after it, such as "Shows yellow, because deleting a foreign symlink loses nothing."
+
+**Must Not**
+
+- Keep only "Deleting a foreign symlink loses nothing."
+- Keep the colon.
+
+**Owner**
+
+`SKILL.md`, Writing Rules.
+
+## T15. The Language Is Not Explained
+
+**Trigger**
+
+"Improve the comments." The file holds `^ln -s $e.source $e.link   # Nushell has no symlink builtin.` and a four-line comment above `$path | path type | default ""` that explains how Nushell types and `let` work.
+
+**Must**
+
+- Delete the symlink comment.
+- Replace the four lines with "Do not remove the `default`." followed by what breaks in this code.
+
+**Must Not**
+
+Keep any sentence that explains how Nushell behaves.
+
+**Owner**
+
+`SKILL.md`, Writing Rules.
+
+## T16. A Missing Reason Is Reported, Not Invented
+
+**Trigger**
+
+"Improve the comments." The file holds `# Wait 200 milliseconds.` above `sleep 200ms`. Neither the code nor its history says why.
+
+**Must**
+
+Delete the comment and report the missing reason.
+
+**Must Not**
+
+Write a reason the sources do not give.
+
+**Owner**
+
+`SKILL.md`, The Sort, step 5, and Operations, Improve.
+
+## T17. A Review Changes No Files
+
+**Trigger**
+
+"Review the comments in `install.nu`."
+
+**Must**
+
+Answer in the conversation, judging the comments with the skill's rules.
+
+**Must Not**
+
+Change any file.
+
+**Owner**
+
+`SKILL.md`, Operations, Review.
+
+## T18. A Required Doc Part Is Replaced, Not Deleted
+
+**Trigger**
+
+"Improve the comments." The project follows a standard that requires `@param` on public functions. The header holds `@param Damage The damage to apply.` The body treats negative damage as 0.
+
+**Must**
+
+Keep the tag and replace its text with a caller fact, such as "Negative values count as 0."
+
+**Must Not**
+
+- Delete the tag.
+- Leave the tag with no text.
+
+**Owner**
+
+`SKILL.md`, The Sort, step 5.
+
+## T19. The Language Is Explained Only on the User's Word
+
+**Trigger**
+
+Two runs of "Add comments to this script."
+
+- In the first, the user adds "This is a teaching project for beginners."
+- In the second, the file sits in a folder named `examples/`, and the user says nothing about teaching.
+
+**Must**
+
+Explain the language in the first run only.
+
+**Must Not**
+
+Explain the language in the second run because of the folder name.
+
+**Owner**
+
+`SKILL.md`, Writing Rules.
+
+## T20. What Could Not Be Checked Is Reported
+
+**Trigger**
+
+"Improve the comments." A comment says "Runs in under 1 ms." The agent cannot run the code.
+
+**Must**
+
+Keep the comment and list the claim under "what you could not check", with the reason.
+
+**Must Not**
+
+- Treat the claim as verified.
+- Delete it as false.
+
+**Owner**
+
+`SKILL.md`, Output, Report.
+
+## T21. "Every Function" Skips Functions With Nothing to Say
+
+**Trigger**
+
+"Add doc comments to every function in this file." One function is `func get_health() -> int: return health`. No project rule requires doc comments.
+
+**Must**
+
+Skip `get_health` and list it in the report.
+
+**Must Not**
+
+Write "Returns the health." or any other comment that fails the delete test.
+
+**Owner**
+
+`SKILL.md`, Operations, Add.
+
+## T22. Deleted Comments Are Reported
+
+**Trigger**
+
+"Improve the comments." The sort deletes three comments.
+
+- In the first run, the file is under git.
+- In the second, the file is not under version control.
+
+**Must**
+
+- In the first run, report the count.
+- In the second run, report the count and each deleted comment in full.
+
+**Must Not**
+
+Leave the deletions out of the report.
+
+**Owner**
+
+`SKILL.md`, Output, Report.
+
+## T23. Runtime Docs and Doctests Survive
+
+**Trigger**
+
+"Improve the comments in `export.py`." The docstring of `main()` is passed to `argparse` as the help description. It also holds a doctest.
+
+**Must**
+
+- Keep the help text. Its wording may change under the writing rules.
+- Keep the doctest lines exactly as they are.
+
+**Must Not**
+
+- Delete the help text because it fails the delete test.
+- Reword the doctest.
+
+**Owner**
+
+`SKILL.md`, The Sort, step 5, and Protected Comments.
