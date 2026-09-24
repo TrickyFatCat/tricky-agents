@@ -1,34 +1,19 @@
 #!/usr/bin/env nu
 
-# Remove a finished worktree and the branch it had checked out.
-#
-#   nu scripts/worktree-cleanup.nu ../tricky-agents-combat
-#   nu scripts/worktree-cleanup.nu ../tricky-agents-combat --abandon
-#
-# worktree-merge.nu runs this after its merge.
-# Run it by hand to drop a branch with --abandon, or after a merge made some other way.
-#
-# Two things must agree: the worktree is gone, and the branch is gone.
-# A mistake with the branch loses commits.
-#
-# The branch is deleted only if it still points at the commit the worktree had.
-# A commit added after the merged check makes the delete fail, so the work is kept.
-#
-# A lock does not cause a refusal.
-# A lock protects work in progress.
-# A clean, merged worktree has none, so the script clears the lock.
-#
-# Exit codes: 0 done, 1 error, 2 refused, 3 worktree gone but branch kept.
+# Removes a finished worktree and the branch it had checked out.
 
+# Prints a refusal to stderr and exits with code 2.
+#
 # A refusal is not an error.
 # The command is valid, but a safety rule stops it.
-# So it prints plain text, not Nushell's error box.
 def refuse [msg: string, detail: string] {
+    # Prints plain text, not an error box, so a refusal does not read as an error.
     print -e $"(ansi red)Refused(ansi reset): ($msg)\n"
     print -e $detail
     exit 2
 }
 
+# Stops the script with an error box and exit code 1.
 def fail [msg: string, detail: string] {
     error make --unspanned {
         msg: $msg
@@ -36,15 +21,15 @@ def fail [msg: string, detail: string] {
     }
 }
 
-# Without `complete`, a failed git call stops the whole script with exit 1.
-# The caller could not turn it into a refusal or a clear message.
-# It could also not report a partial result with exit 3.
+# Runs git and returns {stdout, stderr, exit_code}, without stopping on a failure.
+# Callers decide whether a failure is a refusal, an error or a partial result.
 def git-run [...args: string] {
     ^git ...$args | complete
 }
 
-# The text after a key in `git worktree list --porcelain` output.
-# Returns "" when the key is missing.
+# Returns the text after prefix on the first line that starts with it.
+# Returns "" when no line starts with prefix.
+# lines is one worktree's block of `git worktree list --porcelain` output.
 def field [lines: list<string>, prefix: string] {
     let hit = $lines | where {|l| $l | str starts-with $prefix }
 
@@ -55,11 +40,9 @@ def field [lines: list<string>, prefix: string] {
     }
 }
 
-# One record per worktree: {path, head, branch, detached, locked, reason}.
-#
-# `locked` appears alone or with a reason after it.
-# Git refuses to remove a locked worktree, so the script clears the lock first.
-# The output then names the reason.
+# Returns one record per worktree as {path, head, branch, detached, locked, reason}, the primary checkout included.
+# branch is "" for a detached worktree.
+# reason is "" when the worktree has no lock, or a lock with no reason.
 def worktrees [root: string] {
     let listed = git-run "-C" $root "worktree" "list" "--porcelain"
 
@@ -84,8 +67,8 @@ def worktrees [root: string] {
     }
 }
 
-# In the primary checkout, the git folder and the shared git folder are the same path.
-# In a worktree, the first sits inside the second.
+# Returns true when checkout is the primary checkout, and false for another worktree.
+# Also returns false when git fails.
 def is-primary [checkout: string] {
     let dir = git-run "-C" $checkout "rev-parse" "--git-dir"
     let common = git-run "-C" $checkout "rev-parse" "--git-common-dir"
@@ -97,15 +80,15 @@ def is-primary [checkout: string] {
     let here = $checkout | path join ($dir.stdout | str trim) | path expand --no-symlink
     let shared = $checkout | path join ($common.stdout | str trim) | path expand --no-symlink
 
+    # Only in the primary checkout is the git folder the same as the shared one.
     $here == $shared
 }
 
-# The primary checkout, wherever this script runs from.
+# Returns the primary checkout's path, even when root is another worktree.
+# Returns root unchanged when git fails.
 #
-# All worktrees share one git folder, and it lives inside the primary checkout.
-# So the parent of that folder is the primary checkout.
-# A hint that says "pull" must name the checkout that holds main.
-# The worktree that holds this copy of the script is the wrong place.
+# The pull hint must name this path, not root.
+# root may be a worktree, and only the primary checkout holds main.
 def primary-checkout [root: string] {
     let common = git-run "-C" $root "rev-parse" "--git-common-dir"
 
@@ -113,19 +96,48 @@ def primary-checkout [root: string] {
         return $root
     }
 
+    # Every worktree shares one git folder, which sits inside the primary checkout.
     $root | path join ($common.stdout | str trim) | path expand --no-symlink | path dirname
 }
 
+# Removes a finished worktree and the branch it had checked out.
+#
+#   nu scripts/worktree-cleanup.nu ../tricky-agents-combat
+#   nu scripts/worktree-cleanup.nu ../tricky-agents-combat --abandon
+#
+# worktree-merge.nu runs this after its merge.
+# Run it by hand to drop a branch with --abandon, or after a merge made some other way.
+#
+# Refuses when:
+#
+#   - the path resolves through a symlink;
+#   - the path is the primary checkout;
+#   - the worktree is on main or has a detached HEAD;
+#   - the worktree holds uncommitted, untracked or ignored files;
+#   - local main has not merged the branch, unless --abandon is passed.
+#
+# A branch merged only on origin/main still counts as unmerged.
+# Update the primary checkout first in that case.
+#
+# A mistake with the branch loses commits.
+# The branch is deleted only if it still points at the commit the worktree had.
+# A commit added after the merged check makes the delete fail, so the work is kept.
+#
+# A lock does not cause a refusal.
+# A lock protects work in progress.
+# A clean, merged worktree has no work in progress, so the script clears the lock.
+#
+# Exit codes: 0 done, 1 error, 2 refused, 3 worktree gone but branch kept.
 def main [
-    path: string    # the worktree directory to remove
+    path: string    # the worktree directory to remove, not a path through a symlink
     --abandon       # remove the branch even though main has not merged it
 ] {
-    # Found from the script's own location, not from the current folder.
+    # Resolves the repository from the script's location, not from the working directory.
     let root = $env.FILE_PWD | path join ".." | path expand
 
-    # This check comes first, because every later check reads this path.
+    # Keep this check first, because every later check reads this path.
     # A symlinked path can lead to a different folder.
-    # Then the checks and `git worktree remove` could act on different folders.
+    # The checks and `git worktree remove` could then act on different folders.
     let literal = $path | path expand --no-symlink
 
     if $literal != ($path | path expand) {
@@ -180,10 +192,10 @@ def main [
         let names = $merged.stdout | lines | each {|l| $l | str trim }
 
         if $wt.branch not-in $names {
-            # Local main decides.
+            # Local main decides whether the branch is merged.
             # origin/main is only a copy from the last fetch.
             # It can explain the refusal, but it never lifts it.
-            # Without this, someone who did merge would get the advice to merge.
+            # Without this check, someone who merged on origin would get the advice to merge.
             let remote = git-run "-C" $root "branch" "--merged" "origin/main" "--format" "%(refname:short)"
             let on_remote = $remote.exit_code == 0 and ($wt.branch in ($remote.stdout | lines | each {|l| $l | str trim }))
 
@@ -195,7 +207,8 @@ def main [
         }
     }
 
-    # This runs after the clean and merged checks, never before them.
+    # Clears the lock, because git refuses to remove a locked worktree.
+    # Keep this after the clean and merged checks, never before them.
     # The lock is cleared only for a worktree the script is about to remove.
     # A refusal above leaves the lock in place for whoever set it.
     if $wt.locked {
