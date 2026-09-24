@@ -1,11 +1,6 @@
 #!/usr/bin/env nu
 
 # Installs this repository's global rules and skills for every agent tool.
-#
-# Links instead of copying, so an edit here reaches the tools with no second step.
-#
-# Never replaces or deletes anything.
-# Reports and skips a path already in use, and leaves the repair to you.
 
 # Prints a refusal to stderr and exits with code 2.
 # A refusal means a safety rule declined a valid request, and nothing is malformed.
@@ -275,6 +270,21 @@ def install-all [work: list<any>] {
     }
 }
 
+# Installs this repository's global rules and skills for every agent tool.
+#
+#   nu scripts/install.nu                          every tool, rules and skills
+#   nu scripts/install.nu --tool claude            one tool, rules and skills
+#   nu scripts/install.nu --skill code-comments    one skill, without the rules file
+#
+# Links instead of copying, so an edit here reaches the tools with no second step.
+#
+# Never replaces or deletes anything.
+# Reports and skips a path already in use, and leaves the repair to you.
+#
+# Refuses to run from a worktree, because a link made there dies when the worktree is removed.
+# Warns when a rules source is newer than global-agents.md.
+#
+# Exit codes: 0 done, 1 error, 2 refused, 3 some links blocked.
 def main [
     --tool: string    # install for this tool only, not every tool
     --skill: string   # install this skill only, without the rules file
