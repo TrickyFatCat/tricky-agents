@@ -33,18 +33,59 @@ The skill works in one of two modes:
 Write produces a new document, or edits one you already have. It gathers
 context and picks a document type before it drafts anything.
 
-Before it shows you the result, the skill:
+The skill aims for a document that gives its reader what they need to act or
+decide, and nothing else. Before it shows you the result, it:
 
-1. Reads the finished document as a reader would.
-2. Runs a set of checks. Each check is a search or a count.
-3. Fixes what it finds.
+1. Checks every sentence it wrote. It cuts a sentence that gives the reader
+    nothing to do, see, use or understand.
+2. Rewrites a sentence written from inside the subject, such as how a tool
+    sorts its own steps. The new sentence says what the reader does, sees or
+    gets. Every fact stays.
+3. Gives the document to a cold reader: a second agent that has not seen the
+    code or notes the document was written from. The cold reader lists what it
+    could not understand.
+4. Runs a set of checks. Each check is a search or a count, such as a search
+    for "the other" where the text points back at items it does not name.
+5. Fixes what steps 1 to 4 found.
+
+Step 1 cuts a sentence only when the skill is sure you do not need it. When it
+is not sure, it keeps the sentence. Extra text is easy to spot and cut. A
+missing fact is not.
 
 A check such as "is this clear?" is easy to pass without really checking. A
 search or a count has to be done.
 
+> ℹ️ **Note**
+>
+> The cold reader runs only where the agent can start another agent, as Claude
+> Code can. Elsewhere the Not Checked block says "not checked by a cold reader".
+
+When you ask it to change one section of your document, it changes only that
+section. It reports problems in the rest of the document and does not fix them.
+
+#### Reply
+
+After the document, the reply can add these blocks. A block with nothing in it
+is left out.
+
+| Block            | What it holds                                           |
+| ---------------- | ------------------------------------------------------- |
+| Cuts             | Each fact the skill removed, by section, with a reason  |
+| Cold Reader      | Each question from the cold reader, fixed or still open |
+| Outside The Task | Problems in parts you did not ask it to change          |
+| Not Checked      | Checks that did not run, and claims it could not verify |
+
+An open question is a gap the skill could not fill from the source. The reply
+says why. You can fill the gap yourself.
+
+To restore a cut fact, quote its line from the Cuts block and ask for it back.
+
 ### Review
 
 Review produces findings. It does not edit the reviewed file.
+
+A review also runs the cold reader. A question that points to a missing fact or
+an unclear sentence becomes a finding.
 
 > ℹ️ **Note**
 >
