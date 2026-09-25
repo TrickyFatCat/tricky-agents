@@ -82,11 +82,13 @@ def main [
 # - https://dprint.dev/config/
 # - https://dprint.dev/plugins/markdown/
 #
-# Checked 2026-09-25 in `dprint fmt --help`, dprint 0.57.4.
+# Checked 2026-09-25 in dprint 0.57.4.
 #
-# - --no-gitignore
+# - `dprint fmt --help` - --no-gitignore
+# - `dprint --help` - config file names, and the search from the current directory upward
+# - `dprint --help` - the global config in DPRINT_CONFIG_DIR
 #
 # Unverified
 #
-# The CLI and Config pages do not state how dprint finds its configuration file.
-# So the script lets dprint find it instead of searching itself.
+# The help does not state when dprint uses the global config instead of a local one.
+# So the script lets dprint find the config instead of searching itself.
