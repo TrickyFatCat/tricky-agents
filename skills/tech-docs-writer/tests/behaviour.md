@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Twenty-four High-severity scenario tests for this skill. Each names the file that
+Twenty-seven High-severity scenario tests for this skill. Each names the file that
 owns the rule under test.
 
 A test whose Must the rules do not produce is a failed validation, not a test
@@ -125,5 +125,20 @@ T23 One cold read     The cold reader asks three questions; two are fixed
 T24 Long cut list     A rewrite cuts twelve sentences
     Must              List all twelve, grouped by section, one line each
     Must Not          Report a count only, or "several redundant sentences"
+    Owner             SKILL.md
+
+T25 Many findings     A review finds eight problems
+    Must              Five in full; three as one-line entries below them
+    Must Not          Drop the three; report all eight in full
+    Owner             review-criteria.md
+
+T26 Source word       A draft says "the cooldown timer"; the Inspector shows Attack Cooldown
+    Must              Use Attack Cooldown
+    Must Not          Keep the internal name the reader never sees
+    Owner             SKILL.md
+
+T27 No source reason  A rule the reader meets has no reason in the source
+    Must              List it under Not Checked
+    Must Not          Invent a reason
     Owner             SKILL.md
 ```

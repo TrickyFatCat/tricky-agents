@@ -322,7 +322,11 @@ Examples              Search "for example", "for instance", quoted cases and par
                       the block after each example has its own heading or label; each
                       labelled example names a concrete case, not a general statement
 Reasons               Search "because", "so" and "same reason"; point each reason at a
-                      source line, or cut it
+                      source line, or cut it. Then search "only", "never", "always",
+                      "refuses", "does not" and "also"; for each rule or automatic
+                      action the reader meets, give its reason from the source in one
+                      sentence nearby. When the source has none, list it under Not
+                      Checked
 Behaviour claims      List each statement of what the subject does; point each at a
                       source line, or label it as Source Verification requires
 States                For each status, result or indicator the subject shows, list
@@ -338,6 +342,10 @@ Order                 Name the first thing the reader does in the document and i
                       detail, after the opening and the step's requirements
 Terms                 List each name used in a heading, table or scope list; search the
                       rest for other words for it
+Source words          List each noun the page takes from the source for a part, stage,
+                      check or category. Keep one the reader types or sees: a command,
+                      flag, setting, label or printed word. Replace the rest with the
+                      word this reader uses in their own work
 Steps                 Search sentences joining three or more actions with commas; each
                       is a numbered list
 Plain language        Count sentences over 25 words; split each. Search "so", "because"

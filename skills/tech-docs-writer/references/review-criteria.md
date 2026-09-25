@@ -123,7 +123,10 @@ Do not repeat the same rationale under two labels.
 
 ## Reporting
 
-- Report at most five findings by default. Expand only when asked.
+- Report the five most severe findings in full.
+- List every other finding below them, one line each: severity word, the
+    passage, the problem. Leave the list out when there are none. Expand one
+    when asked.
 - Review in document order when that helps the user apply findings.
 - Group by file for a multi-file review, in a stable order.
 - Prioritise plausible reader failures over exhaustive criticism.

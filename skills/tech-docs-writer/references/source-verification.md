@@ -35,6 +35,10 @@ list of states or triggers, keeps the source's field names and every clause of
 each condition. A renamed field or a shortened condition is a new claim, and
 needs its own evidence.
 
+A field keeps its source name when the reader sees that field. An internal
+field the reader never sees may take the reader's word, as the `Source words`
+check in `SKILL.md` requires. Check each of its cells against the source.
+
 Check clause by clause. A paraphrase that reads correctly can still have
 dropped the exception.
 
