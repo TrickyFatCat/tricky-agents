@@ -154,7 +154,7 @@ Follow established project callout conventions first, including the `TIP` or `IM
 
 Use a callout for three kinds of text, and ordinary prose for everything else:
 
-- **Note** — a guarantee that protects the reader's work: something the subject never does to their files, data or system.
+- **Note** — a guarantee that protects the reader's work, such as something the subject never does to their files, data or system. Also a condition the reader must meet before they start.
 - **Warning** — a limit that could make the reader trust a result too much, or an action that can lose work.
 - **Danger** — an action that causes permanent loss or severe harm.
 

@@ -343,7 +343,12 @@ States                For each status, result or indicator the subject shows, li
                       named as the reader sees it and says what it means
 Placement             For each callout, example, and paragraph that qualifies a table or
                       list, name the block it serves; it sits directly after that
-                      block. A definition of one table item goes in that item's cell
+                      block. A definition of one table item goes in that item's cell.
+                      A condition the reader must meet before using any row goes
+                      before the table or list, in the lead-in or the callout its
+                      kind needs. Other blocks that qualify it form one run directly
+                      after it, with nothing else between them: a Danger first, then
+                      blocks about single rows in row order, then the rest
 Callouts              Search "never", "does not", "is not" and "cannot". Each guarantee
                       about the reader's work is a Note, each limit the reader relies
                       on is a Warning, and each action with permanent loss is a
