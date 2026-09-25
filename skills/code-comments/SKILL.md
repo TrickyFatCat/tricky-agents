@@ -63,6 +63,8 @@ If a reader who knows the language could write the comment from that, delete it.
 A comment can claim something about code outside its own lines, such as "change nothing else", "the only caller" or "never null".
 Check each such claim against that code before you keep or write it.
 When that code is out of reach, report the claim as not checked.
+When code in reach disproves the claim, report it as a mismatch, even when other code is out of reach.
+Report a claim as not checked only when nothing in reach disproves it.
 Reading other code to check a claim does not bring its comments into scope.
 Do not change those comments or mention them in the report.
 

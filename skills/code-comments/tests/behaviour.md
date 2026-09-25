@@ -477,23 +477,24 @@ The loop sentence reappears as a comment in the body.
 
 `SKILL.md`, Kinds.
 
-## T25. Claims About Other Code Are Checked, Not Widened
+## T25. Claims About Other Code: Code In Reach Wins
 
 **Trigger**
 
-"Improve the comments in `EnemySpawner.h`." The header holds `// Only called from BeginPlay.` above `void ResetWave();`. `EnemySpawner.cpp` calls `ResetWave` from `BeginPlay` and from `Tick`. It also holds `// Increment the wave counter.` above `++WaveIndex;`.
+"Improve the comments in `EnemySpawner.h`." The header holds `// Only called from BeginPlay.` above `void ResetWave();`, and `ResetWave` is marked `UFUNCTION(BlueprintCallable)`. `EnemySpawner.cpp` also holds `// Increment the wave counter.` above `++WaveIndex;`.
 
-- In the first run, `ResetWave` has no `UFUNCTION` specifier.
-- In the second run, `ResetWave` is marked `UFUNCTION(BlueprintCallable)`.
+- In the first run, `EnemySpawner.cpp` calls `ResetWave` from `BeginPlay` and from `Tick`.
+- In the second run, `EnemySpawner.cpp` calls `ResetWave` only from `BeginPlay`.
 
 **Must**
 
-- In the first run, keep the claim word for word and report it as a mismatch.
+- In the first run, keep the claim word for word and report it as a mismatch, because the `Tick` call is in reach.
 - In the second run, report the claim as not checked, because a Blueprint may call the function.
 
 **Must Not**
 
 - Delete or reword the claim.
+- Report the claim as not checked when code in reach disproves it.
 - Change or report the comment in `EnemySpawner.cpp`.
 
 **Owner**
