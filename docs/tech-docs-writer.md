@@ -1,10 +1,10 @@
 # tech-docs-writer
 
-This skill lets an agent write and review documents that people read.
+This skill lets an agent write and review documents.
 
 It covers:
 
-- READMEs.
+- README files.
 - Code and CLI references.
 - Tutorials and how-to guides.
 - Workflow documents.
@@ -17,21 +17,17 @@ It does not cover:
 - Application code.
 - Marketing and product copy.
 
-Who reads the file decides the scope, not what the file is about.
+## Start
+
+Ask your agent to write or review a document. Name the file, or the subject if
+the document does not exist yet.
 
 **Example**
 
-A skills repository has a `README.md` and a `SKILL.md` in the same folder. The
-skill writes the `README.md`, because people read it. The `SKILL.md` goes to
-`agent-setup-helper`, because agents read it.
-
-## Start
-
-The skill must be installed first. The [README](../README.md#install) shows how.
-
-Ask your agent to write or review a document. Name the file, or the subject if
-the document does not exist yet. The agent loads the skill from a request for
-documentation work. You can also name the skill in your request.
+```text
+Existing file  "Review docs/enemy-spawner.md."
+New document   "Write a how-to for adding a new enemy type."
+```
 
 The skill does one of two jobs:
 
@@ -48,27 +44,18 @@ skill picks one main type from what the reader needs first.
 
 The skill knows these types:
 
-| Type            | For a reader who                                          |
-| --------------- | --------------------------------------------------------- |
-| README          | Is new to the repository                                  |
-| Code Reference  | Looks up a function, class or other code symbol           |
-| CLI Reference   | Looks up a command                                        |
-| Instructions    | Learns by completing a guided task                        |
-| How-to          | Knows the tool and has one goal                           |
-| Workflow        | Follows a repeated process shared by several roles        |
-| Explanation     | Wants to understand a concept, a cause or a design choice |
-| Troubleshooting | Has a symptom and needs a safe fix                        |
-| Maintainer      | Changes or extends the project                            |
-| Personal        | Owns the note and returns to it later                     |
-
-Instructions is the skill's name for a tutorial.
-
-Instructions and How-to differ in the reader, not in difficulty. Instructions
-teach a learner on one safe path. A how-to serves a reader at work, in their
-real environment, with choices to make.
-
-The file name does not decide the type. A `README.md` that walks through one
-task is a how-to guide, and the skill writes it as one.
+| Type            | What the document does                                               |
+| --------------- | -------------------------------------------------------------------- |
+| README          | Tells a new visitor what the project is and what to do next          |
+| Code Reference  | Lists the public functions, classes and other symbols, in one shape  |
+| CLI Reference   | Lists each command, its options and what it does                     |
+| Instructions    | A tutorial: teaches through one guided task on a safe path           |
+| How-to          | Takes a reader who knows the tool to one goal, even in a `README.md` |
+| Workflow        | Sets out a repeated process, with the role that does each step       |
+| Explanation     | Explains a concept, a cause or a design choice                       |
+| Troubleshooting | Leads from a symptom to a safe fix                                   |
+| Maintainer      | Helps contributors find, change and check the project                |
+| Personal        | Keeps the owner's own reminders and shorthand                        |
 
 ## Questions
 
@@ -90,7 +77,8 @@ already say:
 | How-to         | What the reader can already do, the goal, their real environment   |
 | Workflow       | The roles, what starts it, how it ends, its owner, its intent      |
 
-The other types need only the type and the reader.
+The skill asks one question at a time, and only about something that changes
+the document. It never asks again for what you already said.
 
 For a workflow:
 
@@ -102,9 +90,6 @@ The skill also asks where the document will be shown, but only when it will use
 tables, callouts or similar syntax. Not every Markdown viewer shows them. It
 asks what the document must cover only when your request is open-ended, such
 as "document this project".
-
-The skill asks one question at a time, and only about something that changes
-the document. It never asks again for what you already said.
 
 It prefers a guess you can confirm over an open question, because a guess is
 easier to answer.
@@ -332,25 +317,24 @@ For a claim about code, the skill uses the best check the agent has:
 
 | Check                                 | Best label                                     |
 | ------------------------------------- | ---------------------------------------------- |
-| A language server tool                | Fact                                           |
+| A language server (LSP) tool          | Fact                                           |
 | The tool's own help, such as `--help` | Fact                                           |
 | Reading the source files              | Fact if the source is clear, Assumption if not |
 | None of these                         | Unknown, or the skill asks you                 |
 
-A language server is a tool that finds where functions and classes are defined
-and used. The skill uses one when the agent has one. It does not ask you to
+The skill uses an LSP tool when the agent has one. It does not ask you to
 install one during a task.
 
 An older document is not proof. It shows what someone once wrote, not what the
 code does now.
 
-The skill does not run a command that deletes or changes something only to
-improve a document. It prefers reading the code, help output, dry runs and
+To check a claim, the skill prefers reading the code, help output, dry runs and
 validation modes.
 
-A workflow has no code to read. A step in a workflow document is Fact only when
-a named process owner, or a policy or decision document, confirms it. With
-neither, every step is an Assumption, and the document says so.
+> ℹ️ **Note**
+>
+> The skill does not run a command that deletes or changes something only to
+> improve a document.
 
 ## Formatting
 
@@ -372,9 +356,13 @@ It formats only the document it writes. It never formats a folder, or a file it
 reads for research. The bundled script refuses anything but one file, so dprint
 cannot change a file the skill only reads.
 
-Formatting is not a check. After formatting, the skill confirms that headings,
-links, tables, callouts and code fence languages are still right. When no
-formatter ran, this is the only check.
+> ⚠️ **Warning**
+>
+> Formatting is not a check.
+
+After formatting, the skill confirms that headings, links, tables, callouts and
+code fence languages are still right. When no formatter ran, this is the only
+check.
 
 ### Format Script
 
@@ -384,7 +372,7 @@ yourself.
 It needs:
 
 - [Nushell](https://www.nushell.sh).
-- [dprint](https://dprint.dev), on `PATH`.
+- [dprint](https://dprint.dev).
 
 Without Nushell the script cannot start, so no exit code covers that case.
 
