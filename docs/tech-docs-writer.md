@@ -102,8 +102,9 @@ finding.
 
 > ℹ️ **Note**
 >
-> A review stays in the conversation and has at most five findings, unless you
-> ask for more.
+> A review stays in the conversation. The five most severe findings come in
+> full, and every other finding follows in one line. Ask for any line to get it
+> in full.
 
 Review mode does not apply changes. Use Write mode to do that. You can ask it to
 apply specific findings.
