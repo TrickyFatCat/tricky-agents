@@ -239,12 +239,18 @@ Syntax, arguments, options, output, side effects, errors, and one focused exampl
 
 Treat a README as an entry point, not a mandatory fixed template.
 
-Include only what helps the intended visitor choose the next action, such as:
+Include only what helps the intended visitor choose the next action. Order it
+from the broadest to the most specific, so a visitor who has decided can stop
+reading:
 
-- what the project is;
-- the shortest useful example;
-- requirements that affect first use;
-- links to focused setup, usage, reference, or contributor documentation.
+1. What the project is, in one or two sentences.
+2. The shortest useful example.
+3. Requirements that affect first use, and install.
+4. Common usage.
+5. Links to focused setup, usage, reference, or contributor documentation.
+6. Background and credits, when there are any.
+
+Leave out a step that does not apply.
 
 Do not duplicate detailed documentation merely to make the README
 self-contained.
@@ -372,24 +378,8 @@ field to make entries look identical.
 - Link related modes instead of duplicating large sections.
 - Remove sections added only because an example outline showed them.
 
-### The Question Each Section Answers
-
-Before drafting, write down the question each planned section answers. The
-question comes from the reader, in their words, not from the subject.
-
-```text
-Section                     Question it answers
-Modes                       Which mode am I in?
-What Needs Your Approval    Why did it stop?
-The Validation Script       What does that exit code mean?
-```
-
-A section with no question does not belong. A fact that fits no section means
-the structure is missing one, not that the fact is worthless — decide where it
-belongs before considering whether to cut it.
-
-After drafting, verify that each major section still answers its question and
-supports the selected reader need.
+The question each section answers is decided before drafting. Structure in
+`SKILL.md` owns that rule.
 
 ## Sources
 

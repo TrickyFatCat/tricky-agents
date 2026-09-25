@@ -16,15 +16,20 @@ inside it.
 2. Map each section's responsibility and the reader's path. Ask what question
     each section answers. A section that answers none is a finding, and so is
     a passage that belongs to no section.
-3. Check progression, duplication, misplaced detail, mixed purposes and
+3. Run the cold reader once, as `SKILL.md` describes. Check each of its
+    questions against the source. A gap is a finding for a missing fact. A
+    misreading is a finding for an unclear sentence. When no subagent tool is
+    available, say "not checked by a cold reader".
+4. Check progression, duplication, misplaced detail, mixed purposes and
     navigation.
-4. Assess terminology, density, abstraction and tone where they affect reader
+5. Assess terminology, density, abstraction and tone where they affect reader
     success.
-5. Check the document against the writing conventions, which are loaded for
-    review as well as for writing. A counted sentence, a section opening on a
-    code block, and a flag explained only in a comment are defects a reader
-    feels and rarely names.
-6. Convert only material reader impact into findings.
+6. Check each sentence with the job test and the view test in `SKILL.md`,
+    then against the writing conventions, which are loaded for review as well
+    as for writing. A failed test is a finding, not an edit. A counted
+    sentence, a section opening on a code block, and a flag explained only in
+    a comment are defects a reader feels and rarely names.
+7. Convert only material reader impact into findings.
 
 Run the whole-document pass before local prose critique. Structure changes how
 individual passages read.

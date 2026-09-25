@@ -73,12 +73,6 @@ An ambiguous source read is an inference, so it is an Assumption. A lower rung
 changes the label, not the claim. Rung 4 output must reach the
 reader labelled Unknown; it must never be written as though it were verified.
 
-## Capability Detection
-
-Look in the tool list for tools whose names carry `lsp`, `definition`,
-`references`, `hover` or `symbols`. Use them when present. Do not name a
-specific server; the available bridges change.
-
 ## Safety
 
 Prefer static inspection, generated help, validation modes, dry runs and

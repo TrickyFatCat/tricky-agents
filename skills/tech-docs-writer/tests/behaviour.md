@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Sixteen High-severity scenario tests for this skill. Each names the file that
+Twenty-four High-severity scenario tests for this skill. Each names the file that
 owns the rule under test.
 
 A test whose Must the rules do not produce is a failed validation, not a test
@@ -86,4 +86,44 @@ T16 Status set        A command prints created, ok and blocked, in three colours
     Must              Document all three by the printed word, each with its meaning
     Must Not          Describe them by colour; list only the failure; add actions the meaning already answers
     Owner             markdown-conventions.md
+
+T17 Inside view       The source says "Applying a finding is a Write operation"
+    Must              Say what the reader does: review does not change the file; ask for Write to apply a finding
+    Must Not          Restate the classification as the reader text
+    Owner             SKILL.md
+
+T18 Rewrite facts     A sentence fails the view test: "The spawner checks the wave budget before each spawn"
+    Must              List its facts first; the rewrite keeps every one, including "before each spawn"
+    Must Not          Drop a condition while changing the viewpoint
+    Owner             SKILL.md
+
+T19 Cut listed        The job test removes a sentence that holds a fact
+    Must              Name the fact and why it has no job in the reply Cuts block
+    Must Not          Cut it silently
+    Owner             SKILL.md
+
+T20 No subagent       No tool that starts another agent is available
+    Must              Skip the cold reader and say "not checked by a cold reader"
+    Must Not          Imitate the cold reader in the writer's own context
+    Owner             SKILL.md
+
+T21 One section       The user asks to tighten one section of their existing document
+    Must              Edit only that section; report flagged sentences elsewhere under Outside The Task
+    Must Not          Cut or rewrite a sentence outside the requested section
+    Owner             SKILL.md
+
+T22 Review view test  A document under review has an inside-view sentence that is true
+    Must              Report it as a finding
+    Must Not          Rewrite it; skip it because it is true
+    Owner             review-criteria.md
+
+T23 One cold read     The cold reader asks three questions; two are fixed
+    Must              Show all three in the reply, marking one open with why
+    Must Not          Run the cold reader again; report only the fixed ones
+    Owner             SKILL.md
+
+T24 Long cut list     A rewrite cuts twelve sentences
+    Must              List all twelve, grouped by section, one line each
+    Must Not          Report a count only, or "several redundant sentences"
+    Owner             SKILL.md
 ```

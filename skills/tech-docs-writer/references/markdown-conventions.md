@@ -17,9 +17,8 @@ Read this reference when creating or editing human-facing Markdown documentation
 - [Explaining a Rule](#explaining-a-rule)
 - [States And Results](#states-and-results)
 - [Frontmatter and Prose](#frontmatter-and-prose)
-- [Document Location](#document-location)
 - [Section Introductions](#section-introductions)
-- [Editorial Markers](#editorial-markers)
+- [Review Markers](#review-markers)
 - [Links](#links)
 - [Markdown Formatting](#markdown-formatting)
 
@@ -53,22 +52,13 @@ Treat tables, task lists, callouts, wikilinks, heading attributes, raw HTML, and
 
 ## Titles and Headings
 
-Use Markdown ATX headings when there is no table of contents or when the heading should appear in Markdown-derived navigation:
+Use Markdown ATX headings:
 
 ```markdown
 # Tool or Document Name
 
 ## Section
 ```
-
-When a visible heading should be intentionally omitted from Markdown-derived navigation and the confirmed renderer preserves raw HTML, use a paired HTML heading:
-
-```html
-<h1>Tool or Document Name</h1>
-<h2>Visible section omitted from the Markdown TOC</h2>
-```
-
-`<h1 />` and `<h2 />` are discussion shorthand only. Never use self-closing heading syntax as a copyable document pattern.
 
 Keep headings:
 
@@ -110,7 +100,7 @@ In a document that already exists, a heading changes only when it is wrong, not 
 
 The question a section answers is a planning note, not its heading.
 
-Follow established local heading syntax before changing a document. Validate raw HTML heading behavior in the intended renderer and output format.
+Follow established local heading syntax before changing a document.
 
 ## Table of Contents
 
@@ -137,7 +127,6 @@ Rules:
 - Preserve existing `<!--toc:start-->` and `<!--toc:end-->` markers.
 - Place generated entries between the markers.
 - Include headings selected by the established navigation mechanism.
-- Exclude paired HTML headings only when omission is intentional.
 - Keep link text identical to the visible heading text when the generator permits it.
 - Update entries when included headings are added, removed, renamed, or reordered.
 - Validate anchors with the target renderer or generator instead of assuming one global slug algorithm.
@@ -192,21 +181,7 @@ A caveat belongs in one place. Repeating it further down the section reads as no
 
 ## Section Structure
 
-Prefer a predictable, task-oriented order when it fits:
-
-1. Overview.
-2. Requirements or location, when needed.
-3. Quick Start or Quick Examples.
-4. Configuration or setup.
-5. Common usage.
-6. Command or API reference.
-7. Advanced details.
-8. Troubleshooting.
-9. Useful or related links.
-
-Use [document-modes.md](document-modes.md) to select and adapt the structure. For maintainer references, personal notes, or dotfiles documentation, use a compact structure and omit obvious sections. Do not force tutorial-style requirements or onboarding into a concise reference.
-
-For bundled configuration documentation, avoid standalone installation or verification sections unless the user explicitly asks for them. Prefer official runtime paths such as `~/.config/...` in user-facing docs. Use repository-internal paths only when documenting source layout or maintainer workflow.
+[document-modes.md](document-modes.md) owns the order of sections for each document type. For maintainer references, personal notes, or dotfiles documentation, use a compact structure and omit obvious sections. Do not force tutorial-style requirements or onboarding into a concise reference.
 
 Describe the configuration, not one machine. Documentation is read on machines the writer never sees, so never state what happened on the machine it was written on, and never present a local absolute path as though it were general. Name the setting, file or environment variable that decides the outcome, and link to its authority.
 
@@ -236,8 +211,6 @@ A section that collects limits at the end separates each one from the material i
 Avoid redundant structure:
 
 - Do not add a subsection that only repeats its parent heading.
-- Do not restate in an entry what an index above it already said. When a list names each file and its role, the block explaining that file does not repeat the role.
-- Do not explain what the reader can see from the document itself.
 - Merge one-paragraph sections unless the heading improves navigation.
 - Add related links only when they provide useful navigation.
 - Do not repeat filenames or companion tools in multiple ending sections without a reader need.
@@ -280,23 +253,8 @@ Keep prose for reasoning, cause, consequence and trade-off, where the connection
 
 ## Voice
 
-A sentence in documentation tells the reader something. A sentence that tells a
-tool what to do belongs in that tool's own rules, not in the document about it.
-
-The defect hides wherever the documented subject has rules of its own, because
-an imperative copied across from those rules still reads as ordinary prose.
-
-**Example**
-
-```text
-Weak    So read each match before acting on it.
-Strong  The scan gives you a list of candidates, not a verdict. Read each
-        match yourself before you act on it.
-```
-
-A rule names who performs it. Where the document and its subject can both act,
-an unattributed rule leaves the reader deciding which one it means, and it does
-nothing for them until they do.
+The view test in `SKILL.md` owns who a sentence is about and who performs a
+rule. This section owns wording.
 
 Name one concept with one term. Define it where it first appears, and use the
 same word every time after. A second word for the same thing makes the reader
@@ -307,19 +265,10 @@ Weak    Join a session from the lobby. The match starts when the room is full.
 Strong  Join a match from the lobby. The match starts when it is full.
 ```
 
-Lead with what the reader gets or does, then the mechanism behind it. A rule
-stated as the subject's internal logic does not tell the reader why it matters
-to them.
-
-```text
-Weak    Without a save slot the game cannot store progress, so it does not
-        start.
-Strong  Choose a save slot so the game can keep your progress.
-```
-
 Write for a reader whose first language may not be English.
 
 - One idea per sentence. A rule and its reason are two sentences.
+- At most 25 words in a sentence.
 - No idioms. "Stops short" becomes "does not reach".
 - Use the exact term the reader uses in their own work, with no definition.
   Do not swap it for a vaguer word.
@@ -389,18 +338,6 @@ When a document uses frontmatter, do not repeat lifecycle status, dates, scope f
 
 Preserve readable summaries that add meaning. Follow project-local metadata conventions rather than imposing a universal schema.
 
-## Document Location
-
-When a requested document is not found at the named path, do not silently substitute a similarly named generated or output copy.
-
-Use this order:
-
-1. Check the exact path or filename the user gave.
-2. Search safe, likely project locations.
-3. If there is one clear match, state the path before using it.
-4. If there are multiple plausible matches, ask the user to choose.
-5. If only generated or output copies are found, ask before treating one as authoritative.
-
 ## Section Introductions
 
 Start a major section with one or two short sentences when readers need orientation before a table, list, code block, command, or group of subsections.
@@ -422,9 +359,15 @@ for the list.
 A label introducing a short list goes on its own line, with the list beneath
 it.
 
-Lead an explanation with its label rather than its example. Write
-"**Review** — you have a file in mind", not the example first with the label
+Lead an explanation with its label rather than its example. Put the label on
+its own line, then the explanation, not the example first with the label
 trailing at the end.
+
+```markdown
+**Review**
+
+You have a file in mind.
+```
 
 Put a worked example after the explanation it illustrates, not before it.
 
@@ -460,68 +403,18 @@ Keep clause order parallel between neighbouring rows and sentences. A reader
 scanning a table compares cells position by position, and a reordered clause
 breaks that.
 
-## Editorial Markers
+## Review Markers
 
-Use temporary editorial markers when the user adds editing feedback directly to a document. Recognize `REVIEW`, `TODO`, and `FIXME` markers in uppercase and lowercase.
-
-Supported marker formats:
+When the user asks to record assumptions in the document, add each one as a
+`REVIEW` marker at the passage it affects:
 
 ```markdown
 > [!REVIEW]
-> Comment text.
-
-> [!review]
-> Comment text.
-
-> REVIEW
-> Comment text.
-
-> review
-> Comment text.
-
-REVIEW
-Comment text.
-
-review
-Comment text.
-
-REVIEW: Comment text.
-
-review: Comment text.
-
-<!-- REVIEW: Comment text. -->
-
-<!-- review: Comment text. -->
+> Assumed reader: a maintainer who knows Git.
 ```
 
-The same formats apply to `TODO`/`todo` and `FIXME`/`fixme`.
-
-Discover markers with a broad search before classifying their exact syntax:
-
-1. Confirm the exact document path.
-2. Search case-insensitively for the whole-word markers `review`, `todo`, and `fixme`, for example with `rg -n -i '\b(review|todo|fixme)\b' <document>`.
-3. Inspect each match in context to distinguish editorial markers from ordinary prose.
-4. If the user says markers exist but the search returns none, recheck the document path and read likely sections before concluding that no markers are present.
-
-Do not rely on a strict marker-format regular expression as the only discovery pass.
-
-Treat these markers as requests for analysis, not automatic permission to edit.
-
-When editorial markers are present:
-
-1. Analyze them in document order.
-2. Map each marker to the nearest relevant heading.
-3. Number them in the response while keeping the relevant section names.
-4. Prepare proposed changes and wait for approval when required by active instructions.
-5. Apply only approved changes with targeted, marker-scoped edits that preserve unreviewed content.
-6. Rewrite the whole document only when the approved request requires broad restructuring.
-7. Remove a marker after its request is resolved.
-8. Keep unresolved markers in the document.
-9. Repeat the broad search after formatting and report any editorial markers that remain.
-
-Marker blocks continue until the next blank line, heading, or editorial marker unless the format clearly contains the whole comment on one line.
-
-`REVIEW`, `TODO`, and `FIXME` markers are temporary editorial annotations when they appear in these marker-only formats. Reader-facing `NOTE`, `TIP`, `IMPORTANT`, `WARNING`, and `CAUTION` callouts are documentation content and must not be interpreted as editing instructions.
+A `REVIEW` marker is a temporary note for the user, not documentation
+content. Reader-facing callouts such as `NOTE` and `WARNING` are content.
 
 ## Links
 
