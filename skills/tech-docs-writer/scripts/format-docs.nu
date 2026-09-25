@@ -5,14 +5,14 @@ def run-dprint [
     file: string
     fallback: string
 ] {
-    let first = (^dprint $verb $file | complete)
+    let first = (^dprint $verb --no-gitignore $file | complete)
 
     # dprint publishes no exit code for a missing configuration, and 0.57.4
     # returns 11, which is not in its documented set. So the retry keys on the
     # message text instead.
     if ($first.exit_code != 0) and ($first.stderr | str contains "No config file found") {
         print -e $"No dprint configuration found. Retrying with the bundled fallback config: ($fallback)"
-        let second = (^dprint $verb --config $fallback $file | complete)
+        let second = (^dprint $verb --no-gitignore --config $fallback $file | complete)
         {result: $second, config: "fallback"}
     } else {
         {result: $first, config: "project"}
