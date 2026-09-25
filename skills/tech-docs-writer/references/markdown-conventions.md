@@ -150,7 +150,7 @@ Prefer native TOC configuration or heading filters before raw HTML omission when
 
 ## Callouts
 
-Follow established project callout conventions first, including emoji callouts and the `TIP` or `IMPORTANT` alert types.
+Follow established project callout conventions first, including the `TIP` or `IMPORTANT` alert types.
 
 Use a callout for three kinds of text, and ordinary prose for everything else:
 
@@ -158,13 +158,13 @@ Use a callout for three kinds of text, and ordinary prose for everything else:
 - **Warning** — a limit that could make the reader trust a result too much, or an action that can lose work.
 - **Danger** — an action that causes permanent loss or severe harm.
 
-When the project has no callout convention, use GitHub alerts. A project that already uses emoji callouts keeps them:
+When the project has no callout convention, use these GitHub alerts:
 
-| Kind    | Default         | In an emoji-callout project |
-| ------- | --------------- | --------------------------- |
-| Note    | `> [!NOTE]`     | `> ℹ️ **Note**`             |
-| Warning | `> [!WARNING]`  | `> ⚠️ **Warning**`          |
-| Danger  | `> [!CAUTION]`  | `> ⛔ **Danger**`           |
+| Kind    | Alert          |
+| ------- | -------------- |
+| Note    | `> [!NOTE]`    |
+| Warning | `> [!WARNING]` |
+| Danger  | `> [!CAUTION]` |
 
 The callout holds the rule in one sentence. Details follow as prose after it. Keep a callout next to the command, option, or workflow it affects.
 
