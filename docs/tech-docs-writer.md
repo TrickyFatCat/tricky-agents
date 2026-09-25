@@ -22,6 +22,13 @@ A Python library's `README.md` is in scope. The `CLAUDE.md` beside it in the
 same folder is out of scope, because agents read it, not people. It goes to
 `agent-setup-helper`.
 
+## Start
+
+This page is for anyone who uses the skill to write or review documentation.
+
+To start, ask your agent to write or review a document, and name the file or
+the subject.
+
 ## Modes
 
 The skill works in one of two modes:
@@ -121,13 +128,14 @@ Ask for "review this and fix the worst part", and the skill:
 
 Each finding carries a severity:
 
-| Mark      | Meaning                                                  |
-| --------- | -------------------------------------------------------- |
-| 🔴 High   | Blocks reader success, causes unsafe action, or misleads |
-| 🟡 Medium | Confuses, slows down, or leaves an important gap         |
-| 🟢 Low    | Polish, consistency, minor readability                   |
+| Mark      | Meaning                                                                                 |
+| --------- | --------------------------------------------------------------------------------------- |
+| 🔴 High   | Stops the reader from finishing what they came to do, causes unsafe action, or misleads |
+| 🟡 Medium | Confuses, slows down, or leaves an important gap                                        |
+| 🟢 Low    | Wording and formatting, consistency, minor readability                                  |
 
-When you answer a finding, it closes with one of two marks:
+Answer a finding in the conversation: fix it, keep it on purpose, or reject
+it. The skill then marks it with one of two marks:
 
 - `✅ Accepted` — you fixed it, or you chose to keep it.
 - `⛔ Declined` — you rejected it. It is not raised again in the same
@@ -168,27 +176,34 @@ The skill stops asking and chooses for you when:
 It then:
 
 1. Chooses a value for every open question.
-2. Lists those choices under `Assumptions`.
+2. Lists those choices in its report, under `Assumptions`.
 3. Says the result is yours to correct.
 4. Continues without waiting.
 5. Offers once to add the assumptions to the document as `REVIEW` markers.
+
+A `REVIEW` marker sits at the passage it affects:
+
+```markdown
+> [!REVIEW]
+> Assumed reader: a maintainer who knows Git.
+```
 
 ## Document Types
 
 The type decides the document's shape. Ten are available:
 
-| Type            | For a reader who                       |
-| --------------- | -------------------------------------- |
-| README          | Is new to the repository               |
-| Code Reference  | Looks up a function, class or similar  |
-| CLI Reference   | Looks up a command                     |
-| Instructions    | Learns by completing a guided task     |
-| How-to          | Knows the tool and has a goal          |
-| Workflow        | Follows a repeated multi-party process |
-| Explanation     | Wants to understand a design choice    |
-| Troubleshooting | Has a symptom and needs a fix          |
-| Maintainer      | Contributes to the project             |
-| Personal        | Is you, months later                   |
+| Type            | For a reader who                                             |
+| --------------- | ------------------------------------------------------------ |
+| README          | Is new to the repository                                     |
+| Code Reference  | Looks up a function, class or similar                        |
+| CLI Reference   | Looks up a command                                           |
+| Instructions    | Learns by completing a guided task                           |
+| How-to          | Knows the tool and has a goal                                |
+| Workflow        | Follows a repeated process shared by several people or roles |
+| Explanation     | Wants to understand a design choice                          |
+| Troubleshooting | Has a symptom and needs a fix                                |
+| Maintainer      | Contributes to the project                                   |
+| Personal        | Is you, months later                                         |
 
 > ℹ️ **Note**
 >
@@ -213,16 +228,25 @@ additional context:
 | Maintainer      | Nothing more                                                                         |
 | Personal        | Nothing more                                                                         |
 
+For a workflow:
+
+- The process authority is the person or document that decides how the
+    process should run.
+- A prescriptive document says how the process must run.
+- A descriptive document records how it runs now.
+
 ## Confidence Labels
 
 Every claim gets one of three labels, and the label says how well the skill
 could check it:
 
-| Label      | Meaning                                                   |
-| ---------- | --------------------------------------------------------- |
-| Fact       | Confirmed by an authority, a safe test, or generated help |
-| Assumption | Inferred from context, not confirmed                      |
-| Unknown    | Unavailable or unsafe to verify in this task              |
+| Label      | Meaning                                                               |
+| ---------- | --------------------------------------------------------------------- |
+| Fact       | Confirmed by an authority, a safe test, or the tool's own help output |
+| Assumption | Inferred from context, not confirmed                                  |
+| Unknown    | Unavailable or unsafe to verify in this task                          |
+
+Claims labelled Unknown are listed in the report's Not Checked block.
 
 To earn Fact, the skill goes to the source. It reads the code, or runs the
 tool's own help such as `--help`. A claim it cannot check that way never
@@ -246,7 +270,7 @@ Two cases make Fact harder to reach.
 
 A language server (LSP) finds where functions and classes are defined and
 used. Without one, the skill reads the source directly. A clear source still gives
-Fact. An ambiguous one does not.
+Fact. An ambiguous one gives Assumption.
 
 **A Workflow Document**
 
@@ -258,7 +282,7 @@ is labelled an Assumption.
 
 The skill formats what it writes with [dprint](https://dprint.dev), a code
 formatter, run through a bundled [Nushell](https://www.nushell.sh) script,
-`scripts/format-docs.nu`.
+`skills/tech-docs-writer/scripts/format-docs.nu`.
 
 Both tools are optional, and the skill checks for them first.
 
@@ -282,7 +306,7 @@ The skill formats only the document it is writing, never the files it reads
 for research. The script takes one file. It refuses a directory or a glob
 pattern, because `dprint` would format every file that matches.
 
-To check a document without changing it:
+To check a document without changing it, run this from the repository root:
 
 ```nu
 nu skills/tech-docs-writer/scripts/format-docs.nu --check <file>
