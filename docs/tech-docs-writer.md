@@ -406,8 +406,13 @@ The script takes one argument and one flag:
 The script formats the file even when Git ignores it, because you chose that
 file.
 
-dprint looks for its own config file. When dprint finds none, the script runs
-it again with the bundled fallback,
+dprint looks for its own config file, `dprint.json`, `dprint.jsonc`,
+`.dprint.json` or `.dprint.jsonc`. It searches the folder you run the script
+in, then each folder above it. It can also use a global config file. See
+`dprint --help` for where that file lives.
+
+When dprint finds no config, the script runs it again with the bundled
+fallback,
 `skills/tech-docs-writer/assets/dprint.default.jsonc`. It prints a message on
 stderr when it does this.
 
