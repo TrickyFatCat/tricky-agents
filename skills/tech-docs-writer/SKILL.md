@@ -32,6 +32,11 @@ Each sentence does one job for that reader:
 An example shows one of these jobs on a concrete case. It repeats a claim on
 purpose.
 
+Show, don't only tell. Where the reader must write or recognise something,
+such as a request, a command, a value or an output, show one instance of it.
+Leave out an instance that only repeats a claim the reader can already apply
+as written.
+
 A lead-in names what follows. It does not summarise it.
 
 An explanation stays on one question. Steps belong in a how-to guide, and
@@ -113,9 +118,16 @@ the report. Do not edit it.
 Name the sentence's job from the list in A Good Document.
 
 - A sentence with no job goes.
-- A sentence whose job another sentence or block already does has no job. A
-  sentence that repeats the sentence before it, the table beside it, or the
-  index entry above it, is one.
+- A sentence whose job nearby text already does has no job. That includes a
+  sentence that repeats nearby text, such as the sentence before it, the table
+  beside it or the index entry above it. It also includes a sentence that
+  spells out what a heading, lead-in, list, table or sentence already implies.
+- A rule the subject applies internally, such as how it decides, classifies
+  or verifies, stays only when knowing it changes what the reader does or
+  expects, and nothing else in the document already gives them that.
+  Otherwise cut it, and keep the result the reader sees. Run this before the
+  `Reasons` check and the Behaviour Inventory. A rule it cuts counts as cut
+  for a named reason.
 - When you are not sure the reader needs the fact, keep the sentence.
   Low-value text can be seen and cut later. A missing fact cannot be seen.
   Doubt keeps a fact, not a second copy of it.
@@ -123,6 +135,14 @@ Name the sentence's job from the list in A Good Document.
   wrong. Fix the structure, and keep the sentence.
 
 List every cut in the report, as Before Delivering describes.
+
+**Example**
+
+```text
+Cut     The launcher picks a download server by pinging each one.
+Keep    Your bracket depends on your last 20 matches, so one bad match
+        moves it only a little.
+```
 
 ### View Test
 
@@ -192,8 +212,10 @@ After every Write, a reader who has not seen the source reads the document.
 Skip it only for an edit that changes no meaning, such as a typo fix. The
 writer cannot run this check itself, because it has read the source.
 
-1. Start a subagent. Give it only the finished document and the named reader:
-   no source, no draft history and no skill rules.
+1. Start a subagent. Give it only the finished document, the named reader,
+   and that reader's starting point: what they already know and have done.
+   Give it no source, no draft history and no skill rules.
+   `references/context-gate.md` owns how the starting point is settled.
 2. Ask it to answer from the page alone:
    - What is this document for, and who is it for?
    - What do you do first?
@@ -204,9 +226,12 @@ writer cannot run this check itself, because it has read the source.
    - a gap: add the missing fact;
    - a misreading: rewrite the sentence;
    - the source cannot answer it: label the claim Unknown, as
-     `references/source-verification.md` requires.
+     `references/source-verification.md` requires;
+   - known from context: a line in the starting point answers it, or it asks
+     about a standard term of the field, as the `Definitions` check defines.
+     Change nothing. Nothing else counts, and doubt makes it a gap.
 5. Run the cold reader once per Write. Do not run it again after the fixes.
-   List each question in the report as fixed or open.
+   List each question in the report as fixed, open or known from context.
 
 When no subagent tool is available, skip the check and say "not checked by a
 cold reader" in the report. Never imitate the cold reader in your own context.
@@ -232,7 +257,7 @@ Four capabilities are detected, never required.
 ```text
 nu                  which nu           absent → skip the script, manual checks
 dprint              script checks it   absent → exit 3, manual checks
-code intelligence   tool list          absent → drop a verification rung
+language server     tool list          absent → drop a verification rung
 subagent            tool list          absent → skip the cold reader, say so
 ```
 
@@ -240,8 +265,8 @@ Check for `nu` before invoking the script, because the script cannot report
 its own interpreter missing. The script owns the `dprint` check. `$env.PATH` is
 `$env.Path` on Windows. `which` handles both.
 
-For code intelligence, look in the tool list for tools whose names carry
-`lsp`, `definition`, `references`, `hover` or `symbols`. Use them when
+For a language server (LSP), look in the tool list for tools whose names
+carry `lsp`, `definition`, `references`, `hover` or `symbols`. Use them when
 present. Do not name a specific server, because the available bridges change.
 Do not ask the user to install one during a task.
 
@@ -278,19 +303,32 @@ Each check is a search or a count, because a check phrased as a quality to
 confirm gets confirmed without being run.
 
 ```text
-Backward references   Search "the other", "those two", "the remaining"
+Backward references   Search "the other", "those two", "the remaining"; name the items,
+                      or cut the sentence when nearby text already implies what it says
 Table lead-ins        Count the tables; each has a lead-in. Read each lead-in
                       alone; it names what the table lists
+Table cells           Count the words in each description cell the page wrote; over 8,
+                      move the extra detail into prose after the table or into a new
+                      column. Never drop a fact. A cell that restates a source
+                      condition keeps every clause; split it into columns, never into
+                      prose
 Examples              Search "for example", "for instance", quoted cases and paragraphs
                       holding two cases; each is labelled, adjacent ones distinctly;
                       the block after each example has its own heading or label; each
-                      labelled example names a concrete case, not a general statement
+                      labelled example names a concrete case, not a general statement.
+                      For each example, name what the reader could not do without it;
+                      cut it if nothing. Each step where the reader writes or checks
+                      something freely shows one instance
+Internal rules        Search "decides", "counts as", "is treated as", "picks" and "only
+                      when"; for each rule the subject applies internally, ask whether
+                      knowing it changes what the reader does or expects. Cut it when
+                      it does not, as the Job Test requires. Run this before Reasons
 Reasons               Search "because", "so" and "same reason"; point each reason at a
                       source line, or cut it. Then search "only", "never", "always",
                       "refuses", "does not" and "also"; for each rule or automatic
-                      action the reader meets, give its reason from the source in one
-                      sentence nearby. When the source has none, list it under Not
-                      Checked
+                      action the reader meets and the Job Test keeps, give its reason
+                      from the source in one sentence nearby. When the source has
+                      none, list it under Not Checked
 Behaviour claims      List each statement of what the subject does; point each at a
                       source line, or label it as Source Verification requires. In
                       that source line, search "unless", "except", "only", "if" and
@@ -303,8 +341,13 @@ Broad words           Search "every", "all", "always", "never", "any" and "only"
 States                For each status, result or indicator the subject shows, list
                       the full set the reader can meet from the source; each is
                       named as the reader sees it and says what it means
-Placement             For each callout and example, name the paragraph it serves; it
-                      sits directly after that paragraph
+Placement             For each callout, example, and paragraph that qualifies a table or
+                      list, name the block it serves; it sits directly after that
+                      block. A definition of one table item goes in that item's cell
+Callouts              Search "never", "does not", "is not" and "cannot". Each guarantee
+                      about the reader's work is a Note, each limit the reader relies
+                      on is a Warning, and each action with permanent loss is a
+                      Danger, as markdown-conventions.md Callouts defines
 Section fit           Name the question each section answers; name the question each
                       paragraph and table answers; move a block whose question belongs
                       to another section
@@ -326,7 +369,10 @@ Plain language        Count sentences over 25 words; split each. Search "so", "b
                       no definition
 Definitions           List each definition the page gives; cut one for a term this
                       reader uses or a standard term of the field; each defined
-                      word is the exact term, not a vaguer word for it
+                      word is the exact term, not a vaguer word for it. A term is
+                      standard when the field uses it widely and one search explains
+                      it; give its common abbreviation in brackets on first use, such
+                      as "language server (LSP)", and no definition
 Orphan sentences      Read each section's first sentence with the heading hidden
 Headings              Read each section heading this task wrote; one that starts with
                       How, When, Why, What or Where, or reads as a sentence, becomes a
@@ -345,8 +391,9 @@ block that is empty.
 
 1. **Cuts** — every fact the job test removed, grouped by section, one line
    each: the fact, and why it has no job.
-2. **Cold Reader** — each question, marked fixed with what changed, or open
-   with why.
+2. **Cold Reader** — the starting point it was given, then each question,
+   marked fixed with what changed, open with why, or known from context with
+   the starting-point line or standard term that covers it.
 3. **Outside The Task** — test findings on sentences the task did not change.
 4. **Not Checked** — each check that did not run, such as the formatter or the
    cold reader, and each claim labelled Unknown.

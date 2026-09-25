@@ -150,30 +150,34 @@ Prefer native TOC configuration or heading filters before raw HTML omission when
 
 ## Callouts
 
-Follow established project callout conventions first. For GitHub or renderer-neutral Markdown, use GitHub-supported alerts when emphasis materially improves comprehension:
+Follow established project callout conventions first, including emoji callouts and the `TIP` or `IMPORTANT` alert types.
+
+Use a callout for three kinds of text, and ordinary prose for everything else:
+
+- **Note** — a guarantee that protects the reader's work: something the subject never does to their files, data or system.
+- **Warning** — a limit that could make the reader trust a result too much, or an action that can lose work.
+- **Danger** — an action that causes permanent loss or severe harm.
+
+When the project has no callout convention, use GitHub alerts. A project that already uses emoji callouts keeps them:
+
+| Kind    | Default         | In an emoji-callout project |
+| ------- | --------------- | --------------------------- |
+| Note    | `> [!NOTE]`     | `> ℹ️ **Note**`             |
+| Warning | `> [!WARNING]`  | `> ⚠️ **Warning**`          |
+| Danger  | `> [!CAUTION]`  | `> ⛔ **Danger**`           |
+
+The callout holds the rule in one sentence. Details follow as prose after it. Keep a callout next to the command, option, or workflow it affects.
+
+**Example**
 
 ```markdown
-> [!NOTE]
-> Useful information readers should know.
-
-> [!TIP]
-> A helpful way to work more effectively.
-
-> [!IMPORTANT]
-> Information required for success.
-
-> [!WARNING]
-> Information needed to avoid a likely problem.
-
 > [!CAUTION]
-> A risk or negative consequence readers should avoid.
+> `drop` deletes the table and all its rows, and they cannot be restored.
 ```
-
-Use ordinary prose when information does not need special emphasis. Prefer the most specific semantic type and keep warnings or cautions next to the command, option, or workflow they affect.
 
 Preserve intentional custom callouts. When their intent is unclear, ask whether they are renderer-specific and get approval before converting, removing, or replacing them. Validate callout syntax against the intended renderer.
 
-Reader-facing `NOTE`, `TIP`, `IMPORTANT`, `WARNING`, and `CAUTION` callouts are documentation content. Do not interpret them as editing instructions.
+Reader-facing callouts, in the default alerts or a project's own format, are documentation content. Do not interpret them as editing instructions.
 
 A warning about a safety feature states what that feature does not cover, in explicit and plain words. "A clean scan is evidence, not proof" is too compressed to work as a warning; "the scan does not guarantee safety and only helps to catch some issues" says the same thing and lands.
 
@@ -311,6 +315,7 @@ lists, so the reader knows what they are scanning before they start.
 
 - A column you named that needs a sentence of explanation is badly named; rename it. A column carried from a source keeps the source's name (see Restating A Source in [source-verification.md](source-verification.md)).
 - Keep column names short.
+- The description column answers what the reader decides with the table. For a list of kinds, such as types, modes or classes, that is usually what each one does.
 - Two tables may sit together when the second has its own introductory line. Without one they read as a single confusing block.
 - A bare code such as `S1` or `E2` is not an identifier. Use the name it stands for, so the reader does not have to open another document.
 - Keep cells short. Reasoning goes in the prose around the table.

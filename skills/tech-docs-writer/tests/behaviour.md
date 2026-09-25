@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Thirty-one High-severity scenario tests for this skill. Each names the file that
+Thirty-five High-severity scenario tests for this skill. Each names the file that
 owns the rule under test.
 
 A test whose Must the rules do not produce is a failed validation, not a test
@@ -161,4 +161,25 @@ T31 Second copy       Two neighbouring sentences state the same fact in other wo
     Must              Cut the second one; list it in Cuts with where the fact stays
     Must Not          Keep both because of doubt
     Owner             SKILL.md
+
+T32 Context claim     The cold reader asks about something the starting point does not name
+    Must              Add the fact, or mark the question open
+    Must Not          Mark it known from context
+    Owner             SKILL.md
+
+T33 Internal rule     The source says "picks the upload server by latency" and "skips files
+                      over 2 GB because the API rejects them"
+    Must              Cut the server rule; keep the 2 GB rule with its reason
+    Must Not          Restore the server rule to satisfy Reasons or the Behaviour Inventory
+    Owner             SKILL.md
+
+T35 Long condition    A restated source cell holds a 13-word condition with an unless clause
+    Must              Keep every clause in the cell, or split it into columns
+    Must Not          Move the unless clause into prose to meet the count
+    Owner             SKILL.md
+
+T36 Review context    A review of a Godot plugin page; the cold reader asks "What is a scene?"
+    Must              No finding; list it as known from context, a standard Godot term
+    Must Not          Report a finding for a missing definition
+    Owner             review-criteria.md
 ```

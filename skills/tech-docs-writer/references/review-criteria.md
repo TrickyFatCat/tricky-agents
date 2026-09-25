@@ -18,8 +18,11 @@ inside it.
     a passage that belongs to no section.
 3. Run the cold reader once, as `SKILL.md` describes. Check each of its
     questions against the source. A gap is a finding for a missing fact. A
-    misreading is a finding for an unclear sentence. When no subagent tool is
-    available, say "not checked by a cold reader".
+    misreading is a finding for an unclear sentence. A question known from
+    context, under the limits in `SKILL.md`, is not a finding. List it with
+    what covers it. When the reader is only implied, say that the starting
+    point is implied too. When no subagent tool is available, say "not
+    checked by a cold reader".
 4. Check progression, duplication, misplaced detail, mixed purposes and
     navigation.
 5. Assess terminology, density, abstraction and tone where they affect reader

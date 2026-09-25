@@ -65,9 +65,9 @@ constructor lives in.
 2. Per-symbol signature, parameter types, defaults, return type.
 3. One direct call site, where it clarifies the contract.
 
-Code intelligence tools give all three directly. See
-[source-verification.md](source-verification.md) for the ladder when they are
-absent.
+A language server (LSP) gives all three directly. See
+[source-verification.md](source-verification.md) for the ladder when none is
+available.
 
 ## Sources
 

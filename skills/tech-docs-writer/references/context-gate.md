@@ -38,6 +38,12 @@ Strong  "This reads like a how-to for someone who already has the tool
          installed. Correct?"
 ```
 
+The reader guess also names the reader's starting point: what they already
+know and have done. Derive it from the reader, the per-mode fields and where
+the document sits. When the request already names the reader, derive the
+starting point without asking. The cold reader in `SKILL.md` receives it, and
+the report shows it.
+
 ## When The User Defers
 
 This path runs when the user says "you decide", answers vaguely, or is not

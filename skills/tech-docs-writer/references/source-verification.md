@@ -67,7 +67,7 @@ Strong  Reloads on SIGHUP or when the file changes, unless --no-watch is set.
 ## The Verification Ladder
 
 ```text
-1  Code intelligence tool        signature, symbols, call sites   → Fact
+1  Language server (LSP)         signature, symbols, call sites   → Fact
 2  Generated help or introspection  --help, go doc, help()        → Fact
 3  Static source reading         Read and Grep                    → Fact if unambiguous, else Assumption
 4  Nothing available             ─                                → Unknown, or ask
@@ -90,7 +90,8 @@ document.
 
 For a README or a reference, list what the source does that the reader meets,
 must approve, or is changed by. Each item is either documented or cut for a
-reason the writer can name.
+reason the writer can name. An internal rule that the Job Test in `SKILL.md`
+cuts counts as cut for a named reason.
 
 Another document covering the item for a different reader is such a reason.
 Before cutting the item, open that document and confirm it covers the item. A

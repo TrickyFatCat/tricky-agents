@@ -177,9 +177,10 @@ Before you see the result, the skill:
 
 4. Gives the document to a cold reader.
 
-    A cold reader is a second agent. It sees only the document and one line
-    naming its intended reader, such as "a maintainer who knows Git". It asks
-    about what it could not understand, and changes nothing. The skill checks
+    A cold reader is a second agent. It sees only the document, one line
+    naming its intended reader, and what that reader already knows, such as
+    "a maintainer who knows Git". It asks about what it could not understand,
+    and changes nothing. The skill checks
     each question against the source. It fixes the document where the source
     has the answer.
 
@@ -213,12 +214,16 @@ block that is empty:
 | Block            | What it lists                                                            |
 | ---------------- | ------------------------------------------------------------------------ |
 | Cuts             | Each fact the skill removed, by section, with the reason                 |
-| Cold Reader      | Each question from the cold reader, as fixed with the change, or as open |
+| Cold Reader      | Each question from the cold reader, as fixed, open or known from context |
 | Outside The Task | Problems in sentences you did not ask it to change                       |
 | Not Checked      | Checks that did not run, and claims the skill could not verify           |
 
 A cold reader question stays open when the source does not answer it. The
 report says why it is open.
+
+A question is known from context when the reader already knows the answer,
+such as a standard term of their field. The page does not change for it, and
+the report says what covers it.
 
 ## Reviewing
 
