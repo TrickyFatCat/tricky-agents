@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Twenty-seven High-severity scenario tests for this skill. Each names the file that
+Twenty-eight High-severity scenario tests for this skill. Each names the file that
 owns the rule under test.
 
 A test whose Must the rules do not produce is a failed validation, not a test
@@ -98,7 +98,7 @@ T18 Rewrite facts     A sentence fails the view test: "The spawner checks the wa
     Owner             SKILL.md
 
 T19 Cut listed        The job test removes a sentence that holds a fact
-    Must              Name the fact and why it has no job in the reply Cuts block
+    Must              Name the fact and why it has no job in the report Cuts block
     Must Not          Cut it silently
     Owner             SKILL.md
 
@@ -118,7 +118,7 @@ T22 Review view test  A document under review has an inside-view sentence that i
     Owner             review-criteria.md
 
 T23 One cold read     The cold reader asks three questions; two are fixed
-    Must              Show all three in the reply, marking one open with why
+    Must              Show all three in the report, marking one open with why
     Must Not          Run the cold reader again; report only the fixed ones
     Owner             SKILL.md
 
@@ -141,4 +141,9 @@ T27 No source reason  A rule the reader meets has no reason in the source
     Must              List it under Not Checked
     Must Not          Invent a reason
     Owner             SKILL.md
+
+T28 Step shape        A step reads "Set Detection Range, which is the distance at which the enemy chases"
+    Must              "Set Detection Range." on its own line, the explanation as a paragraph below
+    Must Not          Keep the action and its explanation in one sentence
+    Owner             markdown-conventions.md
 ```

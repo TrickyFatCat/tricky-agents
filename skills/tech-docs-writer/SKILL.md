@@ -126,7 +126,7 @@ Run both tests on every sentence the task writes or changes.
 
 In an existing document, the tests edit only the sentences the task writes or
 changes. For every other sentence, report what the tests find as a finding in
-the reply. Do not edit it.
+the report. Do not edit it.
 
 ### Job Test
 
@@ -140,7 +140,7 @@ Name the sentence's job from the list in A Good Document.
 - A sentence with a job but no section to hold it means the structure is
   wrong. Fix the structure, and keep the sentence.
 
-List every cut in the reply, as Before Delivering describes.
+List every cut in the report, as Before Delivering describes.
 
 ### View Test
 
@@ -225,10 +225,10 @@ writer cannot run this check itself, because it has read the source.
    - the source cannot answer it: label the claim Unknown, as
      `references/source-verification.md` requires.
 5. Run the cold reader once per Write. Do not run it again after the fixes.
-   Report each question in the reply as fixed or open.
+   List each question in the report as fixed or open.
 
 When no subagent tool is available, skip the check and say "not checked by a
-cold reader" in the reply. Never imitate the cold reader in your own context.
+cold reader" in the report. Never imitate the cold reader in your own context.
 
 Review runs the cold reader too. `references/review-criteria.md` owns how.
 
@@ -347,7 +347,8 @@ Source words          List each noun the page takes from the source for a part, 
                       flag, setting, label or printed word. Replace the rest with the
                       word this reader uses in their own work
 Steps                 Search sentences joining three or more actions with commas; each
-                      is a numbered list
+                      is a numbered list. For each numbered item longer than one
+                      sentence, the first line is the action alone
 Plain language        Count sentences over 25 words; split each. Search "so", "because"
                       and "which" in long sentences; split any sentence carrying two
                       ideas; list each idiom, and each term new to this reader that has
@@ -366,10 +367,10 @@ Environment           Search "/home/", "/Users/", "C:\", "this machine" and "on 
 Fix what the pass finds before presenting the document. A defect fixed here is
 not a finding to report. Cuts are still listed.
 
-### Reply
+### Report
 
-After the result, the reply adds these blocks in this order. Leave out a block
-that is empty.
+After the result, the report adds these blocks in this order. Leave out a
+block that is empty.
 
 1. **Cuts** — every fact the job test removed, grouped by section, one line
    each: the fact, and why it has no job.

@@ -249,6 +249,20 @@ Strong  The pipeline:
 
 Follow the list with the per-item explanation when each item needs one. The list is the index; the blocks below it carry the detail.
 
+A step that needs an explanation starts with a short action line. The explanation follows as its own paragraph inside the item. A step that needs none stays one line.
+
+```text
+Weak    1. Set Detection Range, which is the distance in pixels at which the
+           enemy starts to chase the player.
+        2. Set Attack Cooldown.
+
+Strong  1. Set Detection Range.
+
+            The enemy chases a player closer than this distance, in pixels.
+
+        2. Set Attack Cooldown.
+```
+
 Keep prose for reasoning, cause, consequence and trade-off, where the connection between sentences is the content.
 
 ## Voice
