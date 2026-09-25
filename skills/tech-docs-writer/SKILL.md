@@ -12,12 +12,8 @@ description: >-
 
 # Tech Docs Writer
 
-A good document gives one named reader what they need to act or decide. This
-skill writes and reviews such documents: READMEs, code and CLI references,
-instructions, how-to guides and workflow documents.
-
-Every rule has exactly one owner file. Where writing and reviewing need the
-same rule, they load the same file.
+This skill writes and reviews human-facing documents: READMEs, code and CLI
+references, instructions, how-to guides and workflow documents.
 
 ## A Good Document
 
@@ -70,22 +66,13 @@ accepted finding does not authorise a rewrite of the document.
 For a mixed request such as "review this and fix the worst part", review
 first, present findings, and apply only the findings the user names.
 
-This skill is self-contained. It loads only the seven references below, it
-delivers a review in the conversation, and it has no audit mode and no saved
-review artefact.
+A review stays in the conversation, with no saved file.
 
 ## Context Gate
 
 Never draft while the document mode or the intended reader is unknown and
-unstated.
-
-Ask about what changes the document, one question at a time. When the user
-defers the choice, says "you decide", answers vaguely, or cannot answer,
-choose, state the choice explicitly, and continue. The user owns the final
-result.
-
-`references/context-gate.md` owns the required fields, the question order and
-the assumption block.
+unstated. `references/context-gate.md` owns the questions, the choice when the
+user defers, and the assumption block.
 
 ## Structure
 
@@ -101,24 +88,17 @@ Report      What does each status mean?
 Limits      When will this not work for me?
 ```
 
-The question is a planning note, not the section's heading.
-
 A section that answers no question does not belong. A fact that fits no
 section means the structure is wrong, not that the fact is worthless.
 
 Two sections that answer the same question merge into one. A reader who finds
 the first stops looking and never reaches the second.
 
-Explain a rule by its reason, not only by its mechanics. The reason is usually
-already written in the source.
-
 Do not explain the category the document belongs to. Someone reading a tool's
 documentation already knows what a tool is.
 
 A sentence you have had to explain twice is in the wrong place or the wrong
 shape. Fix the structure before rewording it again.
-
-After drafting, check that each section still answers its question.
 
 ## Reader Tests
 
@@ -175,8 +155,8 @@ The test catches three common shapes.
 
 **Internal Logic**
 
-A rule stated as the subject's internal logic does not tell the reader why it
-matters to them. Lead with what the reader gets or does, then the mechanism.
+Lead with what the reader gets or does, then the mechanism. Internal logic
+alone does not say why it matters to them.
 
 ```text
 Weak    Without a save slot the game cannot store progress, so it does not
@@ -186,10 +166,9 @@ Strong  Choose a save slot so the game can keep your progress.
 
 **Copied Instruction**
 
-A sentence that tells a tool what to do belongs in that tool's own rules, not
-in the document about it. The defect hides wherever the documented subject has
-rules of its own, because an imperative copied from those rules still reads as
-ordinary prose.
+A tool's instruction belongs in that tool's rules, not in the document about
+it. It hides where the subject has rules of its own, because a copied
+imperative reads as ordinary prose.
 
 ```text
 Weak    So read each match before acting on it.
@@ -199,8 +178,8 @@ Strong  The scan gives you a list of candidates, not a verdict. Read each
 
 **Missing Actor**
 
-A rule names who performs it. Where the document and its subject can both act,
-a rule with no actor leaves the reader deciding which one it means.
+Name who performs each rule. Where the document and its subject can both act,
+the reader cannot tell which one a rule means.
 
 ```text
 Weak    The config is validated before the build.
@@ -234,20 +213,6 @@ cold reader" in the report. Never imitate the cold reader in your own context.
 
 Review runs the cold reader too. `references/review-criteria.md` owns how.
 
-## Mode Summary
-
-| Reader need                             | Mode           |
-| --------------------------------------- | -------------- |
-| Orient a repository visitor             | README         |
-| Look up a source-level symbol           | Code Reference |
-| Look up a command                       | CLI Reference  |
-| Learn by completing a guided experience | Instructions   |
-| Complete a known goal                   | How-to         |
-| Follow a repeated multi-party process   | Workflow       |
-
-Secondary modes — explanation, troubleshooting, maintainer, personal — are
-available and defined in `references/document-modes.md`.
-
 ## Routing
 
 | Reference                            | Load when                                             |
@@ -272,7 +237,8 @@ subagent            tool list          absent → skip the cold reader, say so
 ```
 
 Check for `nu` before invoking the script, because the script cannot report
-its own interpreter missing. The script owns the `dprint` check.
+its own interpreter missing. The script owns the `dprint` check. `$env.PATH` is
+`$env.Path` on Windows. `which` handles both.
 
 For code intelligence, look in the tool list for tools whose names carry
 `lsp`, `definition`, `references`, `hover` or `symbols`. Use them when
@@ -291,11 +257,10 @@ with its own context, such as `Agent` or `Task`.
 4  nu or dprint absent                                → manual checks, NOT formatted, disclosed
 ```
 
-Rungs 2 and 3 run `nu scripts/format-docs.nu <file>`. It exits 0 when the file
-is formatted, 20 when `--check` finds unformatted content, 3 when dprint is
-absent, 2 when the argument is not a single file, and 1 on a dprint error. Its
-stdout record reports whether the project or the bundled fallback config was
-used.
+Rungs 2 and 3 run `nu scripts/format-docs.nu <file>`. Only exit 0 means
+formatted. Exit 3 means dprint is absent, so rung 4 applies. The script's
+`--help` lists every code. Its stdout record says whether the project or the
+fallback config was used.
 
 Never report a document as formatted when it was not. Never install a
 formatter as part of a documentation task.
@@ -311,9 +276,6 @@ After formatting, run the post-format checks in
 Run the reader tests and the cold reader first. Then run each check below.
 Each check is a search or a count, because a check phrased as a quality to
 confirm gets confirmed without being run.
-
-`references/review-criteria.md` states the same principle for facts: memory of
-drafting is not verification. Prose is no different.
 
 ```text
 Backward references   Search "the other", "those two", "the remaining"
@@ -388,13 +350,3 @@ block that is empty.
 3. **Outside The Task** — test findings on sentences the task did not change.
 4. **Not Checked** — each check that did not run, such as the formatter or the
    cold reader, and each claim labelled Unknown.
-
-## Gotchas
-
-- `nu` and `dprint` are both optional. Check, do not assume.
-- `$env.PATH` is `$env.Path` on Windows. `which` handles both.
-- A file named `README.md` may primarily be a how-to guide. Use the name as
-    evidence, not as the decision.
-- `NOTE`, `TIP`, `IMPORTANT`, `WARNING` and `CAUTION` callouts are
-    documentation content, not instructions to the agent.
-- A workflow document usually has no implementation to verify against.

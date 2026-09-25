@@ -10,7 +10,7 @@ to rewrite.
 T1  Missing mode      "Write a document", nothing else given
     Must              Ask one question about the mode before drafting
     Must Not          Draft first and ask after; ask three questions at once
-    Owner             SKILL.md
+    Owner             SKILL.md, context-gate.md
 
 T2  Deferred choice   User answers "you decide"
     Must              Choose, state the choice in the reply, continue
