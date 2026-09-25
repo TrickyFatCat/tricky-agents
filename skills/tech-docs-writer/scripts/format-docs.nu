@@ -5,24 +5,22 @@ def run-dprint [
     file: string
     fallback: string
 ] {
-    let first = (^dprint $verb $file | complete)
+    # Formats the named file even when git ignores it, because the caller chose that file.
+    let first = (^dprint $verb --no-gitignore $file | complete)
 
-    # dprint publishes no exit code for a missing configuration, and 0.57.4
-    # returns 11, which is not in its documented set. So the retry keys on the
-    # message text instead.
+    # Matches the message text, because dprint documents no exit code for a missing config.
     if ($first.exit_code != 0) and ($first.stderr | str contains "No config file found") {
         print -e $"No dprint configuration found. Retrying with the bundled fallback config: ($fallback)"
-        let second = (^dprint $verb --config $fallback $file | complete)
+        let second = (^dprint $verb --no-gitignore --config $fallback $file | complete)
         {result: $second, config: "fallback"}
     } else {
         {result: $first, config: "project"}
     }
 }
 
-# Format one Markdown document with dprint.
+# Formats one Markdown document with dprint.
 #
-# Reports what happened and decides nothing. The caller reads the exit code and
-# the stdout record to choose its next step.
+# Prints a JSON record to stdout with the fields formatted, config and file.
 #
 #   0   formatted, or already formatted
 #   20  --check found unformatted content
@@ -30,25 +28,22 @@ def run-dprint [
 #   2   the argument is not a single file, so nothing ran
 #   1   dprint reported an error
 def main [
-    file: string    # One document. A directory or glob is refused.
-    --check         # Report the formatting state without changing the file
+    file: string    # One document, never a directory or a glob
+    --check         # Reports the formatting state without changing the file
 ] {
-    # dprint expands a directory or glob into every file it matches, which would
-    # reformat source material the caller was only reading.
+    # Refuses anything but one file, so dprint cannot format files the caller only reads.
     if ($file | path type) != "file" {
         print -e $"Refused: ($file) is not a single file. This script formats one document only."
         exit 2
     }
 
-    # A script cannot report its own interpreter missing, so the caller checks
-    # for nu before running this, and this checks for dprint.
+    # Checks only for dprint, because the caller checks for nu before running this script.
     if (which dprint | is-empty) {
         print -e "dprint is not on PATH. Run the manual checks and report the document as not formatted."
         exit 3
     }
 
-    # Resolved from the script's own location, because the working directory of
-    # whoever called it is arbitrary.
+    # Finds the fallback from the script's own location, because the caller may run it from any folder.
     let fallback = ($env.FILE_PWD | path dirname | path join "assets" "dprint.default.jsonc")
 
     let verb = if $check { "check" } else { "fmt" }
@@ -71,8 +66,7 @@ def main [
         exit 0
     }
 
-    # 20 survives as itself so the caller can tell unformatted content from a
-    # real failure. Every other code collapses to 1.
+    # Keeps 20 so the caller can tell unformatted content from a real failure.
     if $code == 20 {
         exit 20
     }
@@ -88,8 +82,11 @@ def main [
 # - https://dprint.dev/config/
 # - https://dprint.dev/plugins/markdown/
 #
+# Checked 2026-09-25 in `dprint fmt --help`, dprint 0.57.4.
+#
+# - --no-gitignore
+#
 # Unverified
 #
-# dprint's configuration filename resolution order is not stated on the CLI or
-# Config pages. The script therefore delegates discovery to dprint rather than
-# reimplementing it.
+# The CLI and Config pages do not state how dprint finds its configuration file.
+# So the script lets dprint find it instead of searching itself.
