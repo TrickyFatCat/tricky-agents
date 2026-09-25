@@ -44,18 +44,18 @@ skill picks one main type from what the reader needs first.
 
 The skill knows these types:
 
-| Type            | What the document does                                               |
-| --------------- | -------------------------------------------------------------------- |
-| README          | Tells a new visitor what the project is and what to do next          |
-| Code Reference  | Lists the public functions, classes and other symbols, in one shape  |
-| CLI Reference   | Lists each command, its options and what it does                     |
-| Instructions    | A tutorial: teaches through one guided task on a safe path           |
-| How-to          | Takes a reader who knows the tool to one goal, even in a `README.md` |
-| Workflow        | Sets out a repeated process, with the role that does each step       |
-| Explanation     | Explains a concept, a cause or a design choice                       |
-| Troubleshooting | Leads from a symptom to a safe fix                                   |
-| Maintainer      | Helps contributors find, change and check the project                |
-| Personal        | Keeps the owner's own reminders and shorthand                        |
+| Type            | Purpose                                      |
+| --------------- | -------------------------------------------- |
+| README          | Shows a reader the project and the next step |
+| Code Reference  | Lists public functions, classes and symbols  |
+| CLI Reference   | Lists commands, options and effects          |
+| Instructions    | Tutorial: one guided task on a safe path     |
+| How-to          | Leads to one goal, even in a `README.md`     |
+| Workflow        | Lists the steps of a process, by role        |
+| Explanation     | Explains a concept, cause or design choice   |
+| Troubleshooting | Leads from a symptom to a safe fix           |
+| Maintainer      | Helps contributors change the project        |
+| Personal        | Keeps the owner's own notes                  |
 
 ## Questions
 
