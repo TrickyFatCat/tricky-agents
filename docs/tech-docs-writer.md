@@ -18,8 +18,9 @@ It does not handle:
 
 **Example**
 
-A Python library's `README.md` is in scope. The `CLAUDE.md` sitting beside it
-in the same folder is not, and goes to `agent-setup-helper`.
+A Python library's `README.md` is in scope. The `CLAUDE.md` beside it in the
+same folder is out of scope, because agents read it, not people. It goes to
+`agent-setup-helper`.
 
 ## Modes
 
@@ -36,16 +37,26 @@ context and picks a document type before it drafts anything.
 The skill aims for a document that gives its reader what they need to act or
 decide, and nothing else. Before it shows you the result, it:
 
-1. Checks every sentence it wrote. It cuts a sentence that gives the reader
-    nothing to do, see, use or understand.
-2. Rewrites a sentence written from inside the subject, such as how a tool
-    sorts its own steps. The new sentence says what the reader does, sees or
-    gets. Every fact stays.
-3. Gives the document to a cold reader: a second agent that has not seen the
-    code or notes the document was written from. The cold reader lists what it
-    could not understand.
-4. Runs a set of checks. Each check is a search or a count, such as a search
-    for "the other" where the text points back at items it does not name.
+1. Checks every sentence it wrote.
+
+    It cuts a sentence that gives the reader nothing to do, see, use or
+    understand.
+
+2. Rewrites sentences written from inside the subject.
+
+    A sentence about how a tool sorts its own steps becomes one about what the
+    reader does, sees or gets. Every fact stays.
+
+3. Runs a cold reader.
+
+    A second agent that has not seen the code or notes behind the document
+    reads it. It lists what it could not understand.
+
+4. Runs searches and counts.
+
+    For example, it searches for "the other" where the text points back at
+    items it does not name.
+
 5. Fixes what steps 1 to 4 found.
 
 Step 1 cuts a sentence only when the skill is sure you do not need it. When it
@@ -58,34 +69,36 @@ search or a count has to be done.
 > ℹ️ **Note**
 >
 > The cold reader runs only where the agent can start another agent, as Claude
-> Code can. Elsewhere the Not Checked block says "not checked by a cold reader".
+> Code can. Otherwise the skill reports "not checked by a cold reader".
 
 When you ask it to change one section of your document, it changes only that
 section. It reports problems in the rest of the document and does not fix them.
 
-#### Reply
+#### Report
 
-After the document, the reply can add these blocks. A block with nothing in it
-is left out.
+The skill writes a report when it finishes a document. It may contain:
 
-| Block            | What it holds                                           |
+| Block            | Contents                                                |
 | ---------------- | ------------------------------------------------------- |
 | Cuts             | Each fact the skill removed, by section, with a reason  |
 | Cold Reader      | Each question from the cold reader, fixed or still open |
 | Outside The Task | Problems in parts you did not ask it to change          |
 | Not Checked      | Checks that did not run, and claims it could not verify |
 
-An open question is a gap the skill could not fill from the source. The reply
+An open question is a gap the skill could not fill from the source. The report
 says why. You can fill the gap yourself.
 
 To restore a cut fact, quote its line from the Cuts block and ask for it back.
 
 ### Review
 
-Review produces findings. It does not edit the reviewed file.
+Review creates a report with a list of findings about a given document. It does
+not edit the reviewed file.
 
-A review also runs the cold reader. A question that points to a missing fact or
-an unclear sentence becomes a finding.
+The skill reads the source before it reviews, so it cannot see what a reader
+without the source would miss. A review therefore also runs the cold reader. A
+question that points to a missing fact or an unclear sentence becomes a
+finding.
 
 > ℹ️ **Note**
 >
@@ -166,7 +179,7 @@ The type decides the document's shape. Ten are available:
 | Type            | For a reader who                       |
 | --------------- | -------------------------------------- |
 | README          | Is new to the repository               |
-| Code Reference  | Looks up a source-level symbol         |
+| Code Reference  | Looks up a function, class or similar  |
 | CLI Reference   | Looks up a command                     |
 | Instructions    | Learns by completing a guided task     |
 | How-to          | Knows the tool and has a goal          |
@@ -186,21 +199,18 @@ The type decides the document's shape. Ten are available:
 Every document needs its reader. Beyond that, each type requires different
 additional context:
 
-| Type            | Additional Context                                                        |
-| --------------- | ------------------------------------------------------------------------- |
-| README          | Project purpose, the visitor, their next action                           |
-| Code Reference  | Source of truth, language, which symbols are public                       |
-| CLI Reference   | The command, its help output, which commands to cover                     |
-| Instructions    | Starting state, the outcome, a safe environment                           |
-| How-to          | Reader's competence, the goal, the real environment                       |
-| Workflow        | Roles, trigger, end state, process authority, prescriptive or descriptive |
-| Explanation     | Nothing more                                                              |
-| Troubleshooting | Nothing more                                                              |
-| Maintainer      | Nothing more                                                              |
-| Personal        | Nothing more                                                              |
-
-A symbol is a named thing in code, such as a function or a class. The source of
-truth is what the reference is checked against.
+| Type            | Additional Context                                                                   |
+| --------------- | ------------------------------------------------------------------------------------ |
+| README          | Project purpose, the visitor, their next action                                      |
+| Code Reference  | The code to check against, language, which functions, classes and similar are public |
+| CLI Reference   | The command, its help output, which commands to cover                                |
+| Instructions    | Starting state, the outcome, a safe environment                                      |
+| How-to          | Reader's competence, the goal, the real environment                                  |
+| Workflow        | Roles, trigger, end state, process authority, prescriptive or descriptive            |
+| Explanation     | Nothing more                                                                         |
+| Troubleshooting | Nothing more                                                                         |
+| Maintainer      | Nothing more                                                                         |
+| Personal        | Nothing more                                                                         |
 
 ## Confidence Labels
 
@@ -231,10 +241,10 @@ of what the code does now.
 
 Two cases make Fact harder to reach.
 
-**No Code Intelligence Tool**
+**No Language Server**
 
-A code intelligence tool looks up definitions, symbols and call sites in code.
-Without one, the skill reads the source directly. A clear source still gives
+A language server (LSP) finds where functions and classes are defined and
+used. Without one, the skill reads the source directly. A clear source still gives
 Fact. An ambiguous one does not.
 
 **A Workflow Document**
