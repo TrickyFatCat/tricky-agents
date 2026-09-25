@@ -133,10 +133,12 @@ the report. Do not edit it.
 Name the sentence's job from the list in A Good Document.
 
 - A sentence with no job goes.
-- A sentence whose job another block already does has no job. A sentence that
-  repeats the table beside it, or the index entry above it, is one.
+- A sentence whose job another sentence or block already does has no job. A
+  sentence that repeats the sentence before it, the table beside it, or the
+  index entry above it, is one.
 - When you are not sure the reader needs the fact, keep the sentence.
   Low-value text can be seen and cut later. A missing fact cannot be seen.
+  Doubt keeps a fact, not a second copy of it.
 - A sentence with a job but no section to hold it means the structure is
   wrong. Fix the structure, and keep the sentence.
 
@@ -328,7 +330,14 @@ Reasons               Search "because", "so" and "same reason"; point each reaso
                       sentence nearby. When the source has none, list it under Not
                       Checked
 Behaviour claims      List each statement of what the subject does; point each at a
-                      source line, or label it as Source Verification requires
+                      source line, or label it as Source Verification requires. In
+                      that source line, search "unless", "except", "only", "if" and
+                      "when"; the claim keeps each condition it finds. A clause that
+                      limits which cases the rule covers is a condition too, with or
+                      without those words
+Broad words           Search "every", "all", "always", "never", "any" and "only"; for
+                      each, search the source for cases that break it; name them, or
+                      narrow the word
 States                For each status, result or indicator the subject shows, list
                       the full set the reader can meet from the source; each is
                       named as the reader sees it and says what it means

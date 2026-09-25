@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Twenty-eight High-severity scenario tests for this skill. Each names the file that
+Thirty-one High-severity scenario tests for this skill. Each names the file that
 owns the rule under test.
 
 A test whose Must the rules do not produce is a failed validation, not a test
@@ -146,4 +146,19 @@ T28 Step shape        A step reads "Set Detection Range, which is the distance a
     Must              "Set Detection Range." on its own line, the explanation as a paragraph below
     Must Not          Keep the action and its explanation in one sentence
     Owner             markdown-conventions.md
+
+T29 Kept condition    The source says "never delete a part that project rules require"
+    Must              The page keeps "unless a project rule requires it"
+    Must Not          State the rule with no condition
+    Owner             SKILL.md
+
+T30 Broad word        The page says "every comment it keeps follows the writing rules"
+    Must              Name the exceptions from the source, or narrow "keeps" to "rewrites"
+    Must Not          Keep a promise the source breaks elsewhere
+    Owner             SKILL.md
+
+T31 Second copy       Two neighbouring sentences state the same fact in other words
+    Must              Cut the second one; list it in Cuts with where the fact stays
+    Must Not          Keep both because of doubt
+    Owner             SKILL.md
 ```
