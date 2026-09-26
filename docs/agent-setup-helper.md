@@ -149,9 +149,10 @@ the decision you are on. Each row shows:
 A replaced decision stays in the register, so you can see why the current
 rule looks the way it does.
 
-The skill always shows the register in the conversation. It saves a copy where
-you ask. Otherwise, when the agent can write files, it saves a temporary copy
-outside the skill folder.
+The skill always shows the register in the conversation. When the agent can
+write files, it also saves a copy outside the skill folder. There the copy
+needs no approval, and future agents never load it. You can ask for a
+different place.
 
 **Decision Log**
 
@@ -256,8 +257,8 @@ for:
 **Corner-Case Discovery**
 
 Corner-case discovery finds what a person could say or do next that the rules
-do not handle. It shows you one concrete case at a time, so each new rule is tested against the rules
-before it. It runs for:
+do not handle. It shows you one concrete case at a time, so each new rule is
+tested against the rules before it. It runs for:
 
 - a new skill or behavioural `AGENTS.md`;
 - a change to a trigger, a permission or a routing rule;
@@ -289,7 +290,8 @@ It never opens a second plan. A short question that needs no planning gets a
 short answer, and the skill returns to the same step.
 
 During planning, the skill discards a plan only when you tell it to discard,
-cancel or abandon it. A change of topic, silence or disagreement does not discard it.
+cancel or abandon it. A change of topic, silence or disagreement does not
+discard it.
 
 ### Approval Brief
 
@@ -343,9 +345,12 @@ The skill turns each `check.py` [status](#output) into part of the result:
 Read the Limitations line of the report. The skill's rules do not settle when
 an errored check makes the result Failed instead.
 
+> ℹ️ **Note**
+>
+> The skill never undoes a change silently.
+
 Failed does not end the work, and it does not undo the change by itself. The
-skill never undoes a change silently. It fixes a file that does not match the
-plan when the fix is mechanical. It restores a file only when it can put back
+skill fixes a file that does not match the plan when the fix is mechanical. It restores a file only when it can put back
 exactly what was there before. Any other recovery goes through Planning.
 
 **Coverage**
@@ -463,7 +468,11 @@ otherwise.
 
 1. The skill reads every file and runs the scan.
 2. It reports what it found, including a clean result.
-3. You approve, or you do not. Nothing third-party runs before approval.
+3. You approve, or you do not.
+
+> ℹ️ **Note**
+>
+> Nothing third-party runs before your approval.
 
 The skill repeats all three steps on every update. A safe version tells you
 nothing about the next one.
@@ -495,29 +504,17 @@ one a quick reading misses.
 > ℹ️ **Note**
 >
 > `check.py` never writes a file.
-> The skill runs it after it applies an approved plan, and after Direct
-> Drafting. You can run it yourself.
+
+The skill runs it after it applies an approved plan, and after Direct
+Drafting. You can run it yourself.
 
 ### Requirements
 
-- Python 3.11 or newer.
-- PyYAML, optional. Without it, the `spec` check reports `limited` and the
-    other checks run as normal.
+`check.py` needs Python 3.11 or newer.
 
-To install PyYAML at the pinned version and hashes, run this from
-`skills/agent-setup-helper` in this repository:
-
-```bash
-pip install --require-hashes --only-binary=:all: -r scripts/requirements.txt
-```
-
-The pinned wheels cover CPython 3.11 to 3.14 on Linux x86_64 and Windows
-x86_64.
-
-On a Python marked as externally managed, pip refuses to install outside a
-virtual environment. Create one outside the skill folder, install into it, and
-run `check.py` with that environment's `python`. Inside the skill folder, the
-scan would read every file in it.
+> ℹ️ **Note**
+>
+> PyYAML is optional, and without it only the `spec` check reports `limited`.
 
 ### Usage
 
