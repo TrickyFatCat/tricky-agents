@@ -989,14 +989,14 @@ def git_show(top, relative):
                 "HEAD:" + relative,
             ],
             capture_output=True,
-            text=True,
             timeout=20,
         )
     except (OSError, subprocess.SubprocessError):
         return None
     if done.returncode != 0:
         return None
-    return normalise(done.stdout)
+    # Decodes like read_text, so both sides of the comparison read the same text.
+    return normalise(done.stdout.decode("utf-8", "replace"))
 
 
 def check_permission_lines(skill, base, files):
