@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Mechanical checks for an agent Skill folder.
+"""Runs mechanical checks on an agent Skill folder.
 
-Reports. Never decides, never writes, never reaches the network.
+Prints one JSON report on stdout and diagnostics on stderr.
+Does not decide whether a finding is a problem, so a reader judges each one.
+Writes no files and makes no network calls.
 """
 
-# Bytecode writing is disabled before anything else is imported, so no
-# __pycache__ directory is ever created by this run.
+# Stops bytecode writing before the other imports, so no __pycache__ folder appears.
 import sys
 
 sys.dont_write_bytecode = True
@@ -26,6 +27,8 @@ import re
 import subprocess
 from pathlib import Path
 
+# PyYAML is optional.
+# Without it, the spec check reports limited and every other check still runs.
 try:
     import yaml
 except ImportError:
@@ -36,8 +39,12 @@ except ImportError:
 #
 # Source: https://agentskills.io/specification
 #         https://agentskills.io/skill-creation/best-practices
-# These limits are duplicated in references/skill-spec.md for the agent to
-# read. Both copies carry this date, and a mismatch is a finding.
+# references/skill-spec.md repeats these limits for the agent to read.
+# SPEC_DATE is the date these limits were fetched.
+# references/skill-spec.md carries its own fetch date.
+# The agent compares the two dates and reports a mismatch as a finding.
+#
+# WARNING: Change limits here and in skill-spec.md together, so both use one rule set.
 
 SPEC_URL = "https://agentskills.io/specification"
 SPEC_DATE = "2026-09-20"
@@ -48,49 +55,79 @@ MAX_NAME_CHARS = 64
 MAX_DESCRIPTION_CHARS = 1024
 MAX_COMPATIBILITY_CHARS = 500
 
+# The next four values are this script's own choices, not published limits.
+
+# A size of at least (1 - this fraction) of its limit counts as near the limit.
 NEAR_LIMIT_FRACTION = 0.10
+# WARNING: HELP_EPILOG says 4, so change both together.
 CHARS_PER_TOKEN = 4
 
+# Caps the findings each check shows, so a harness does not cut off the report.
 MAX_FINDINGS = 50
+# The safety check skips a larger file and reports itself as limited.
+# WARNING: check_safety() says 1 MB in its reason, so change both together.
 MAX_SCAN_BYTES = 1024 * 1024
 
 NAME_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+# A line with one of these words usually grants or limits what the agent may do.
+# permission-lines reports such a line when it is added, changed or removed.
+# WARNING: HELP_EPILOG lists these words, so change both together.
 TRIGGER_WORDS = ("must", "never", "only", "ask")
 TRIGGER_PATTERN = re.compile(
     r"\b(?:%s)\b" % "|".join(TRIGGER_WORDS), re.IGNORECASE
 )
 
+# A code span that starts with one of these folders is checked as a file path.
 KNOWN_FOLDERS = ("references/", "scripts/", "assets/", "tests/")
+# The pattern groups of references/safety.md.
+# A group with no valid pattern makes the safety check report an error.
+# WARNING: Change this with safety.md and _add_record(), because all name the groups.
 PATTERN_GROUPS = ("S1", "S2", "S3", "S4", "S5")
 
+# File types that the safety check scans.
+# The empty suffix matches files with no extension.
 TEXT_SUFFIXES = {
     ".md", ".py", ".sh", ".nu", ".js", ".ts", ".rb", ".ps1",
     ".txt", ".toml", ".yaml", ".yml", ".json", ".cfg", ".ini", "",
 }
 
+# Values allowed in the flags field of a safety pattern record.
 FLAG_NAMES = {
     "ignorecase": re.IGNORECASE,
     "dotall": re.DOTALL,
     "multiline": re.MULTILINE,
 }
 
+# WARNING: Keep "all" last, because run() runs every item before it.
 SUBCOMMANDS = ("spec", "routes", "size", "permission-lines", "safety", "all")
 
 
 class UsageError(Exception):
-    """Raised for a bad invocation. Reported on stderr, exit 2."""
+    """Raised for a bad invocation.
+
+    main() prints the message on stderr and exits with code 2.
+    """
 
 
 # --- Small helpers -----------------------------------------------------------
 
 
 def normalise(text):
-    """Normalise line endings before anything is matched against them."""
+    """Converts \\r\\n and \\r line endings to \\n.
+
+    Every check splits on \\n, so line numbers stay correct for any line ending.
+    """
     return text.replace("\r\n", "\n").replace("\r", "\n")
 
 
 def read_text(path):
-    """Read a file as UTF-8. Returns None when it is not decodable text."""
+    """Reads a file as UTF-8 text with normalised line endings.
+
+    Returns None when it is not decodable text.
+    Returns None when the file cannot be read.
+    Returns None when the file contains a null byte, which marks it as binary.
+    Replaces bytes that are not valid UTF-8 instead of failing.
+    """
     try:
         data = path.read_bytes()
     except OSError:
@@ -101,7 +138,11 @@ def read_text(path):
 
 
 def rel(path, root):
-    """Path relative to the skill root, always with forward slashes."""
+    """Returns path relative to root, with forward slashes, for a finding.
+
+    Returns path unchanged, with forward slashes, when it lies outside root.
+    root must already be resolved, because path is resolved before the comparison.
+    """
     try:
         return path.resolve().relative_to(root).as_posix()
     except ValueError:
@@ -109,6 +150,12 @@ def rel(path, root):
 
 
 def is_inside(path, root):
+    """Returns True when path lies inside root after symlinks are resolved.
+
+    A path equal to root counts as inside.
+    A symlink inside root that points outside it counts as outside.
+    root must already be resolved.
+    """
     try:
         path.resolve().relative_to(root)
         return True
@@ -117,6 +164,20 @@ def is_inside(path, root):
 
 
 def result(check, status, findings=None, reason=None, extra=None):
+    """Builds the report entry for one check.
+
+    status is one of four values.
+
+    - "pass": no findings.
+    - "findings": at least one finding.
+    - "limited": the check ran only in part, and reason says why.
+    - "error": the check could not run, and reason says why.
+
+    Shows at most MAX_FINDINGS findings.
+    total counts every finding.
+    truncated is True when some findings were left out.
+    extra adds check-specific fields to the entry.
+    """
     findings = findings or []
     total = len(findings)
     shown = findings[:MAX_FINDINGS]
@@ -134,15 +195,24 @@ def result(check, status, findings=None, reason=None, extra=None):
 
 
 def finding(fid, file, line, message, **extra):
+    """Builds one finding.
+
+    fid names the kind of problem, such as "spec-name-missing" or "S1-08".
+    file is relative to the skill folder, or a full path for a file outside it.
+    line starts at 1.
+    extra adds fields to the finding, such as value and limit.
+    """
     item = {"id": fid, "file": file, "line": line, "message": message}
     item.update(extra)
     return item
 
 
 def strip_fenced_blocks(text):
-    """Blank out fenced code blocks, keeping line numbering intact.
+    """Blanks fenced code blocks line by line, so line numbers still match.
 
-    A path inside a fenced example is illustration, not a reference.
+    A path inside a fenced example is an illustration, so the route checks ignore it.
+    Recognises only ``` fences.
+    A fence that is never closed blanks the text up to its end.
     """
     out = []
     fenced = False
@@ -160,6 +230,10 @@ def markdown_files(root):
 
 
 def scannable_files(root):
+    """Returns the files at any depth under root with a suffix in TEXT_SUFFIXES.
+
+    Sorts the list, so the report lists files in the same order on every run.
+    """
     found = []
     for p in sorted(root.rglob("*")):
         if not p.is_file():
@@ -173,7 +247,12 @@ def scannable_files(root):
 
 
 def split_frontmatter(text):
-    """Return (yaml_text, body_start_line) or (None, 0)."""
+    """Splits the YAML frontmatter from the top of a SKILL.md.
+
+    Returns (yaml_text, body_start).
+    body_start is the 0-based index of the first line after the closing ---.
+    Returns (None, 0) when the text does not open with --- or never closes the block.
+    """
     lines = text.split("\n")
     if not lines or lines[0].strip() != "---":
         return None, 0
@@ -187,6 +266,10 @@ def split_frontmatter(text):
 
 
 def check_spec(skill):
+    """Checks the SKILL.md frontmatter fields against the specification.
+
+    Stops at a broken frontmatter block, because no field can be read past it.
+    """
     name = "spec"
     skill_md = skill / "SKILL.md"
     text = read_text(skill_md)
@@ -415,12 +498,17 @@ def _check_optional(data):
 
 
 def check_size(skill):
+    """Measures SKILL.md and reports a size over or near its limit.
+
+    The token count is an estimate, because no tokenizer is used.
+    """
     name = "size"
     skill_md = skill / "SKILL.md"
     text = read_text(skill_md)
     if text is None:
         return result(name, "error", reason="SKILL.md could not be read")
 
+    # Counts the newlines plus one, so a file ending in a newline gets one extra line.
     lines = len(text.split("\n"))
     characters = len(text)
     tokens = characters // CHARS_PER_TOKEN
@@ -446,6 +534,13 @@ def check_size(skill):
 
 
 def _size_finding(label, value, limit, fid):
+    """Returns one finding when value is over limit or near it.
+
+    Returns an empty list otherwise.
+    Near means at least (1 - NEAR_LIMIT_FRACTION) of limit.
+    label is the unit named in the message, such as "lines".
+    The finding id is fid with "-over" or "-near" added.
+    """
     if value > limit:
         return [
             finding(
@@ -473,11 +568,21 @@ def _size_finding(label, value, limit, fid):
 
 # --- routes ------------------------------------------------------------------
 
+# Captures the target of a Markdown link, such as path in [text](path).
+# A link title, as in [text](path "title"), stays part of the target.
 LINK_PATTERN = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
+# Captures the text of a code span on one line, such as path in `path`.
 CODE_SPAN_PATTERN = re.compile(r"`([^`\n]+)`")
 
 
 def check_routes(skill):
+    """Checks that SKILL.md routes to every reference and that links resolve.
+
+    Reports a references/*.md file that SKILL.md never names.
+    Reports a reference that SKILL.md names but that does not exist.
+    Looks for unnamed references only directly inside references/.
+    Also checks links and path code spans in every Markdown file of the skill.
+    """
     name = "routes"
     skill_md = skill / "SKILL.md"
     text = read_text(skill_md)
@@ -518,7 +623,12 @@ def check_routes(skill):
 
 
 def _named_references(text):
-    """Reference paths named in SKILL.md, mapped to their first line."""
+    """Returns the references/*.md paths that SKILL.md names.
+
+    Maps each path to the line where it first appears.
+    A path counts when it is a whole code span or a link target.
+    Paths inside fenced code blocks do not count.
+    """
     stripped = strip_fenced_blocks(text)
     named = {}
     for number, line in enumerate(stripped.split("\n"), start=1):
@@ -534,6 +644,10 @@ def _named_references(text):
 
 
 def _check_links(skill):
+    """Checks the links and path code spans in every Markdown file of the skill.
+
+    A code span counts as a path only when it starts with a folder in KNOWN_FOLDERS.
+    """
     found = []
     for path in markdown_files(skill):
         text = read_text(path)
@@ -552,6 +666,8 @@ def _check_links(skill):
                 candidate = span.strip()
                 if not candidate.startswith(KNOWN_FOLDERS):
                     continue
+                # Resolves from the skill root, because skill paths start there.
+                # "x" need not exist, because _resolve_target uses only its folder.
                 found.extend(
                     _resolve_target(
                         candidate, skill / "x", skill, where, number,
@@ -562,6 +678,17 @@ def _check_links(skill):
 
 
 def _resolve_target(target, source, skill, where, number, fid):
+    """Returns a finding when a target is outside the skill or does not exist.
+
+    Returns an empty list otherwise.
+    target is resolved from the folder of source.
+    where and number give the file and line that the finding points to.
+    Ignores an http, https, ftp or mailto target, and any target with ://.
+    Ignores a link to a heading in the same file.
+    Drops any #heading or ?query part before resolving.
+    Does not check that the heading exists.
+    The finding id is fid with "-outside" or "-missing" added.
+    """
     target = target.strip()
     if not target or target.startswith("#"):
         return []
@@ -600,13 +727,20 @@ def _resolve_target(target, source, skill, where, number, fid):
 
 # --- safety ------------------------------------------------------------------
 
+# Opens a pattern block in a pattern file, such as references/safety.md.
+# The block ends at the next line that starts with ```.
 BLOCK_START = "```safety-patterns"
 
 
 def parse_patterns(text):
-    """Parse safety-patterns blocks.
+    """Reads every safety-patterns block in text.
 
-    Returns (patterns, problems). A malformed record is reported and skipped.
+    Records inside a block are separated by blank lines.
+    Returns (patterns, problems).
+    Each pattern is a dict with id, group, a compiled regex, and finds.
+    Each problem is a tuple of pattern id, line and message.
+    A malformed record is reported as a problem and skipped.
+    Line numbers start at 1.
     """
     patterns = []
     problems = []
@@ -618,6 +752,7 @@ def parse_patterns(text):
             continue
         index += 1
         record = []
+        # start holds the 1-based line number where the current record begins.
         start = index + 1
         while index < len(lines) and not lines[index].strip().startswith("```"):
             if lines[index].strip() == "":
@@ -637,8 +772,15 @@ def parse_patterns(text):
 
 
 def _add_record(record, line_number, patterns, problems):
+    """Parses one record and adds it to patterns, or adds one problem.
+
+    line_number is the 1-based line where the record starts.
+    Stops at the first problem, so a record adds one problem at most.
+    """
     fields = {}
     for raw in record:
+        # Splits at the first ": ", so a regular expression may contain colons.
+        # The value is not stripped, so trailing spaces become part of it.
         key, sep, value = raw.partition(": ")
         if not sep:
             problems.append(
@@ -692,6 +834,16 @@ def _add_record(record, line_number, patterns, problems):
 
 
 def check_safety(skill, patterns_path):
+    """Scans each text file of the skill for the patterns in patterns_path.
+
+    Matches one line at a time.
+    Reports an error when patterns_path cannot be read.
+    Reports an error when a group in PATTERN_GROUPS has no valid pattern.
+    Reports limited when a pattern record was skipped.
+    Reports limited when a file was over MAX_SCAN_BYTES or its size could not be read.
+    The entry also holds pattern_file and pattern_counts.
+    It holds skipped_files when a file was skipped for its size.
+    """
     name = "safety"
     text = read_text(patterns_path)
     if text is None:
@@ -733,6 +885,8 @@ def check_safety(skill, patterns_path):
             )
         )
 
+    # Skips the pattern file in use, because its patterns would match themselves.
+    # Other pattern files in the skill are still scanned and may match.
     excluded = patterns_path.resolve()
     skipped = []
     for path in scannable_files(skill):
@@ -746,6 +900,7 @@ def check_safety(skill, patterns_path):
             skipped.append(rel(path, skill))
             continue
         content = read_text(path)
+        # A binary or unreadable file is skipped without making the check limited.
         if content is None:
             continue
         where = rel(path, skill)
@@ -758,6 +913,7 @@ def check_safety(skill, patterns_path):
                         )
                     )
 
+    # limited replaces findings as the status, but the findings stay in the report.
     status = "findings" if found else "pass"
     reason = None
     if problems:
@@ -776,6 +932,11 @@ def check_safety(skill, patterns_path):
 
 
 def trigger_lines(text):
+    """Maps each line with a word from TRIGGER_WORDS to its 1-based line number.
+
+    Keys are the stripped line text, so a moved or re-indented line still matches.
+    When the same text appears twice, the later line number is kept.
+    """
     out = {}
     for number, line in enumerate(text.split("\n"), start=1):
         if TRIGGER_PATTERN.search(line):
@@ -784,6 +945,12 @@ def trigger_lines(text):
 
 
 def git_toplevel(skill):
+    """Returns the root of the git repository that holds skill.
+
+    Returns None when skill is not in a repository or git fails.
+    A git call that runs longer than 20 seconds counts as failed.
+    """
+    # WARNING: Keep --no-optional-locks on every git call, so the run stays read-only.
     try:
         done = subprocess.run(
             [
@@ -806,6 +973,11 @@ def git_toplevel(skill):
 
 
 def git_show(top, relative):
+    """Returns the text of a file at the last commit, HEAD.
+
+    relative is a path from the repository root top, with forward slashes.
+    Returns None when git fails or the file is not in that commit.
+    """
     try:
         done = subprocess.run(
             [
@@ -828,6 +1000,15 @@ def git_show(top, relative):
 
 
 def check_permission_lines(skill, base, files):
+    """Reports lines with a trigger word that differ from a baseline.
+
+    The baseline is the folder base when it is given.
+    Otherwise it is the last git commit, so uncommitted edits are reported too.
+    files limits the check to those files.
+    An empty files list means every .md, .py, .sh and .nu file in the skill.
+    Without any baseline, lists every trigger-word line and reports limited.
+    A file with no baseline copy makes the check limited.
+    """
     name = "permission-lines"
     targets = files if files else _default_targets(skill)
 
@@ -864,6 +1045,7 @@ def check_permission_lines(skill, base, files):
             continue
         before = trigger_lines(previous)
         now = trigger_lines(text)
+        # Compares text only, so a duplicate of a baseline line is not reported.
         for line, number in now.items():
             if line not in before:
                 found.append(
@@ -874,8 +1056,9 @@ def check_permission_lines(skill, base, files):
                         "Trigger-word line added or changed: %s" % _clip(line),
                     )
                 )
-        # A deleted obligation is the dangerous direction: the new wording may
-        # contain no trigger word at all, so only the baseline still shows it.
+        # A removed obligation is the more dangerous change.
+        # Its new wording may lack a trigger word, so only the baseline still shows it.
+        # The line number here points into the baseline file, not the current one.
         for line, number in before.items():
             if line not in now:
                 found.append(
@@ -897,6 +1080,7 @@ def check_permission_lines(skill, base, files):
 
 
 def _default_targets(skill):
+    """Returns the .md, .py, .sh and .nu files at any depth in the skill."""
     targets = []
     for path in scannable_files(skill):
         if path.suffix.lower() in (".md", ".py", ".sh", ".nu"):
@@ -905,6 +1089,11 @@ def _default_targets(skill):
 
 
 def _baseline_text(path, skill, base, top):
+    """Returns the baseline text of path, or None when the baseline has no copy.
+
+    With base, reads the file at the same path relative to base.
+    Otherwise reads it from the last commit of the repository at top.
+    """
     if base is not None:
         candidate = base / rel(path, skill)
         if candidate.is_file():
@@ -924,6 +1113,10 @@ def _clip(line, width=90):
 
 # --- Driver ------------------------------------------------------------------
 
+# Keep this text short, because the agent reads --help to learn the interface.
+# WARNING: Change this text and its copies together, so they stay the same.
+# docs/agent-setup-helper.md repeats the subcommands and exit codes.
+# references/change-integrity.md repeats the exit codes.
 HELP_EPILOG = """\
 subcommands:
   spec              frontmatter fields and types
@@ -973,10 +1166,25 @@ def build_parser():
 
 
 def default_patterns_path():
+    """Returns references/safety.md of the skill that holds this script.
+
+    The skill being checked does not change this path.
+    """
     return Path(__file__).resolve().parent.parent / "references" / "safety.md"
 
 
 def resolve_arguments(args):
+    """Checks the command-line arguments and turns them into resolved paths.
+
+    Returns (skill, patterns, base, files).
+    base is None when --base is not given.
+    files is empty when --files is not given.
+    A relative --files path starts at the skill folder.
+    Other relative paths start at the working directory.
+    Raises UsageError when a path or SKILL.md is missing.
+    Raises UsageError when --patterns or --base is inside the skill folder.
+    Raises UsageError when a --files path is outside the skill folder.
+    """
     skill = Path(args.skill_dir).resolve()
     if not skill.is_dir():
         raise UsageError("Not a directory: %s" % args.skill_dir)
@@ -988,6 +1196,7 @@ def resolve_arguments(args):
         patterns = Path(args.patterns).resolve()
         if not patterns.is_file():
             raise UsageError("Pattern file not found: %s" % args.patterns)
+        # Allows the default file inside the skill, so this skill can check itself.
         if is_inside(patterns, skill) and patterns != default_patterns:
             raise UsageError(
                 "Refusing a pattern file inside the skill being checked: %s\n"
@@ -1024,6 +1233,7 @@ def resolve_arguments(args):
 
 
 def run(subcommand, skill, patterns, base, files):
+    """Runs one check, or every check for "all", in SUBCOMMANDS order."""
     wanted = SUBCOMMANDS[:-1] if subcommand == "all" else (subcommand,)
     results = []
     for item in wanted:
@@ -1041,8 +1251,14 @@ def run(subcommand, skill, patterns, base, files):
 
 
 def exit_code(results):
+    """Returns the exit code for the whole report.
+
+    The codes are listed in HELP_EPILOG.
+    An error wins over findings, and findings win over limited.
+    """
     if any(item["status"] == "error" for item in results):
         return 2
+    # Reads the findings list too, because a limited check can still list findings.
     if any(item["findings"] for item in results):
         return 1
     if any(item["status"] == "findings" for item in results):
