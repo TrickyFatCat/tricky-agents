@@ -49,7 +49,11 @@ Add a comment when:
 
 - a reader might simplify, move or delete the code by mistake;
 - you would have to explain the code in a code review;
-- a caller could pass a value the code rejects or treats specially, or needs a unit to use a value correctly.
+- a caller could pass a value the code rejects or treats specially, or needs a unit to use a value correctly;
+- a value or text has a copy that must change with it, in code or in a file that a program or an agent reads.
+
+A comment for a copy is a `WARNING` that names each copy.
+A copy in documentation written for people does not count.
 
 ### Delete Test
 
@@ -65,6 +69,16 @@ Check each such claim against that code before you keep or write it.
 When that code is out of reach, report the claim as not checked.
 When code in reach disproves the claim, report it as a mismatch, even when other code is out of reach.
 Report a claim as not checked only when nothing in reach disproves it.
+
+A claim that lists callers, copies or cases is incomplete when code in reach shows one it leaves out.
+When the completed list fits on one line, complete it from the code and report the change.
+Otherwise name the groups the code defines, such as a base class, a folder or a tag.
+Add examples with "such as", and report the change.
+When the code defines no groups, report the list as incomplete.
+When the claim uses "only", "never", "all" or a similar word, keep it unchanged and report it as a mismatch instead.
+A list given as examples, with "such as", "for example" or a similar phrase, claims no complete set.
+Leave it as it is.
+
 Reading other code to check a claim does not bring its comments into scope.
 Do not change those comments or mention them in the report.
 
@@ -145,8 +159,14 @@ For the whole comment:
 
 Then for each sentence of any other comment:
 
-4. Contradicts the code: keep the sentence unchanged and report the mismatch.
+4. Contradicts the code: a sentence with any reading that contradicts the code counts.
+   Keep the sentence unchanged and report the mismatch.
    Do not guess which side is wrong.
+   Delete it instead when another sentence of the comment, already there before this run, states the reading that matches the code.
+   Report the deletion.
+   Never add a sentence that contradicts a kept one.
+   Name the true fact in the report instead.
+   An incomplete list follows Claims About Other Code instead of this step.
 5. Fails the delete test: delete it.
    - If the code passes the add test, write the missing fact instead.
      Take the fact only from the code, its history, or the user.
@@ -164,8 +184,13 @@ Then apply the writing rules to what is left.
 - One fact per sentence.
   What the code does and why share one sentence: "Limits X to avoid Y."
 - One sentence per line.
-  When a sentence is too long for one line, split it into two sentences.
-  Keep every fact.
+  A sentence never wraps onto a second line.
+- When a project rule sets a line width, such as a formatter, a linter or a style guide, keep every line within it.
+  If a sentence still does not fit after its words are shortened, report the line.
+- Without a project rule, aim for 80 characters, indentation included.
+  When a sentence is longer, first cut words that carry no fact.
+  If it still holds two or more facts, split it into one sentence per fact.
+  If it holds one fact, or one fact and its reason, keep it on one line.
 - Never split what the code does from its why.
   After any other split, run the delete test on each new sentence, and delete a sentence that fails.
   A sentence that carries a why passes, even when its what-part repeats the code.
@@ -198,7 +223,7 @@ Use a label only when it classifies the comment usefully:
 - `TODO`: work to finish later.
 - `FIXME`: known wrong behaviour.
 - `NOTE`: an easy-to-miss fact.
-- `WARNING`: a risk, or code that must not change.
+- `WARNING`: a risk, code that must not change, or a value that must change with its copies.
 
 Use the project's labels and format when it defines them.
 Follow a label with a complete sentence.
@@ -235,11 +260,15 @@ Leave out empty items.
 - a comment that makes up for a bad name;
 - a missing fact with no source;
 - items skipped in an "every item" request;
-- commented-out code, kept.
+- commented-out code, kept;
+- a line that does not fit the project's line width;
+- an incomplete list whose items the code does not group.
 
 **For Your Information**
 
 - how many comments were deleted, and each deleted comment in full when its file is not under version control;
+- each contradicting sentence deleted because an older sentence states its true reading;
+- each list completed or replaced by groups;
 - required parts kept unchanged;
 - what you could not check, and why;
 - the files not done, when the run stopped before every file was done;
@@ -251,5 +280,10 @@ Before returning:
 
 - Run the delete test on every sentence you wrote or kept.
 - Check the writing rules on every sentence.
+- List every sentence you wrote that depends on code outside its own lines, such as a caller, another function, a value or another file.
+  Read that code again and check each sentence against it.
+  Do not rely on what you read while drafting.
+- List the facts that passed the sort.
+  Each one is still in the comment after the writing rules ran.
 - Count the non-comment lines.
   They match the input, in the same order.

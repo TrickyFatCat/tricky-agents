@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Twenty-five scenario tests for the code-comments skill.
+Thirty-two scenario tests for the code-comments skill.
 
 Read them against the built rules whenever this skill changes. They are read, not executed, except three.
 
@@ -500,3 +500,159 @@ The loop sentence reappears as a comment in the body.
 **Owner**
 
 `SKILL.md`, A Good Comment, Claims About Other Code.
+
+## T26. A Written Claim Is Checked Again Before Delivery
+
+**Trigger**
+
+"Add comments to `InventoryUI.cs`." While drafting, the agent writes `// Called only by the pause menu.` above `public void Refresh()`. `HudController.cs` in the same project also calls `Refresh`.
+
+**Must**
+
+Deliver no sentence that code in reach disproves.
+
+**Must Not**
+
+Deliver the claim as it was written from what the agent read while drafting.
+
+**Owner**
+
+`SKILL.md`, Final Check.
+
+## T27. The Line Width Comes From the Project, Else 80
+
+**Trigger**
+
+"Improve the comments." A Godot script has no formatter, linter or style guide.
+
+- One comment holds one fact and its reason, and reaches 86 characters with its indentation: `# Limits knockback force to avoid pushing enemies through walls.`
+- Another comment holds two facts in one sentence and reaches 95 characters.
+- In a second run, the project's `.editorconfig` sets `max_line_length = 72`.
+
+**Must**
+
+- In the first run, keep the first sentence whole on one line, and split the second into one sentence per fact.
+- In the second run, keep every line within 72 characters, or report each line that still does not fit after its words are shortened.
+
+**Must Not**
+
+- Wrap a sentence onto a second line.
+- Cut the what from its why to reach 80 characters.
+
+**Owner**
+
+`SKILL.md`, Writing Rules.
+
+## T28. Rewording Keeps the Facts That Passed the Sort
+
+**Trigger**
+
+"Shorten the comments." A Unity script holds this tooltip above `public float dashDuration;`:
+
+```csharp
+// Dash duration in seconds. Zero turns the dash off. Unity serialises this public float.
+```
+
+**Must**
+
+Keep the unit and the zero case in the shortened comment.
+
+**Must Not**
+
+- Drop the unit or the zero case to make the comment shorter.
+- Keep the sentence about how Unity serialises the field.
+
+**Owner**
+
+`SKILL.md`, Final Check and Writing Rules.
+
+## T29. A Covered Contradiction Is Deleted, an Uncovered One Is Kept
+
+**Trigger**
+
+"Improve the comments." A save loader holds this doc comment above `LoadSlots()`:
+
+```text
+Returns an empty list when the save file is invalid.
+Returns an empty list when the file header does not match.
+```
+
+The code repairs broken JSON and returns an empty list only for a wrong header. In a second run, the comment holds only the first sentence.
+
+**Must**
+
+- In the first run, delete the first sentence and report the deletion, because the second sentence states its true reading.
+- In the second run, keep the first sentence word for word and report the mismatch.
+
+**Must Not**
+
+- In the second run, add a sentence about the header and then delete the first sentence.
+- In either run, add a sentence that contradicts a kept one.
+
+**Owner**
+
+`SKILL.md`, The Sort, step 4.
+
+## T30. A Copy That Must Change Together Gets a Warning
+
+**Trigger**
+
+"Add comments to `enemy.gd`." The file sets `const MAX_HEALTH := 100`. The game reads `data/enemies.json` at load time, and it holds the same 100. A design wiki page in `docs/` says that enemies have 100 health.
+
+**Must**
+
+Write a `WARNING` above `MAX_HEALTH` that names `data/enemies.json`.
+
+**Must Not**
+
+- Name the wiki page in the warning.
+- Leave the copy without a warning.
+
+**Owner**
+
+`SKILL.md`, A Good Comment, Add Test.
+
+## T31. An Incomplete List Is Completed, Grouped or Reported
+
+**Trigger**
+
+"Improve the comments." An Unreal project holds four comments above four damage functions.
+
+- `// Called by the player and the turret.` A boss class also calls the function.
+- `// Called only by the player.` A turret class also calls the function.
+- `// Called by gameplay code, such as the player and the turret.` A boss class also calls the function.
+- `// Called by the player.` Nine classes call the function. All except the player derive from `AEnemyBase` or `AHazard`.
+
+**Must**
+
+- Complete the first list with the boss, and report the change.
+- Keep the second sentence word for word, and report it as a mismatch.
+- Leave the third sentence as it is.
+- Rewrite the fourth as groups named after the player, `AEnemyBase` and `AHazard`, with examples given by "such as", and report the change.
+
+**Must Not**
+
+- Invent a group that the code does not define.
+- Complete the second or the third list.
+
+**Owner**
+
+`SKILL.md`, A Good Comment, Claims About Other Code.
+
+## T32. A Review Proposes Edits Without Making Them
+
+**Trigger**
+
+"Review the comments in `EnemySpawner.cs`." A comment lists two callers, and the code shows a third. A doc comment holds a contradicting sentence, and an older sentence in the same comment states its true reading.
+
+**Must**
+
+Report findings that show the completed list and the proposed deletion.
+
+**Must Not**
+
+Change the file.
+
+**Owner**
+
+`SKILL.md`, Operations, Review.
