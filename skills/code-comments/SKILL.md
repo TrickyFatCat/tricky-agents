@@ -60,6 +60,8 @@ A copy in documentation written for people does not count.
 Hide the comment.
 Read the code and its names.
 For an interface comment, read only the declaration: its name, parameters and types.
+For a constant, a field or a variable, the declaration includes its value.
+Annotations and attributes on the declaration count as part of it.
 If a reader who knows the language could write the comment from that, delete it.
 
 ### Claims About Other Code
@@ -119,7 +121,9 @@ A file header is an interface comment for the whole file.
 A file header holds only facts about the whole file.
 For the delete test, read the file name and its public declarations, not the bodies.
 A new header goes after the shebang, the encoding line and any licence notice.
-Leave usage and arguments to the tool's help comments when the tool prints them.
+Leave usage to the help the tool prints.
+Usage means commands, arguments, flags, exit codes and call examples.
+The header still states what the file does and its side effects.
 
 ## Operations
 
@@ -196,6 +200,7 @@ Then apply the writing rules to what is left.
   A sentence that carries a why passes, even when its what-part repeats the code.
   If a kept sentence loses its subject, name the subject in it.
 - Do not join clauses with a colon, a semicolon or a dash.
+  A colon after a label, such as a list item's name or a parameter name, is not a join.
 - Join a fact to its reason with "because" or "so" at most once per comment.
 - Write what the code does first, then why.
 - When the reader must not change something, say so first, then why.
@@ -206,6 +211,8 @@ Then apply the writing rules to what is left.
 - Use the third person with no subject: "Updates main", not "Update main" or "This function updates main".
 - Use an identifier only when it is more precise than words.
 - Match related comments, and the project's terms, in wording and detail.
+  This shapes a comment that exists or passes the add test.
+  It never adds a comment on its own.
 - Cut words that carry no fact.
   Never cut a fact that passes the delete test to save words.
 
@@ -214,6 +221,8 @@ Do not explain how the language, the engine, a library or a tool behaves.
 The reader knows them better than you.
 When such behaviour forces unusual code, write only what this code does and why, in this code's terms.
 Leave out the mechanics behind it.
+The why names what this code needs or what breaks without it.
+It does not say what the tool does inside to cause it.
 Explain the language only when the user says the code is an example or teaching project.
 
 ## Labels

@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Thirty-two scenario tests for the code-comments skill.
+Thirty-seven scenario tests for the code-comments skill.
 
 Read them against the built rules whenever this skill changes. They are read, not executed, except three.
 
@@ -656,3 +656,125 @@ Change the file.
 **Owner**
 
 `SKILL.md`, Operations, Review.
+
+## T33. Matching a Sibling Does Not Add a Comment
+
+**Trigger**
+
+"Improve the comments." A Unity pool class holds `Spawn()` with a docstring that says it reuses an inactive enemy and returns null when the pool is empty. `Despawn(Enemy enemy)` has no comment and only calls `enemy.gameObject.SetActive(false)`.
+
+**Must**
+
+Leave `Despawn` without a comment.
+
+**Must Not**
+
+Add a docstring to `Despawn` so that it matches `Spawn`.
+
+**Owner**
+
+`SKILL.md`, Writing Rules.
+
+## T34. The Delete Test Reads the Value and the Annotations
+
+**Trigger**
+
+"Improve the comments." A Godot enemy script holds three exports:
+
+```gdscript
+## Speed is 4.5.
+@export var move_speed := 4.5
+
+## Metres per second, from 0 to 10.
+@export_range(0.0, 10.0) var dash_speed := 6.0
+
+## Metres per second, from 0 to 10.
+@export var knockback_speed := 3.0
+```
+
+The body clamps `knockback_speed` to between 0 and 10.
+
+**Must**
+
+- Delete the comment above `move_speed`.
+- Cut the comment above `dash_speed` to the unit.
+- Keep the comment above `knockback_speed` as it is.
+
+**Must Not**
+
+Keep a sentence that repeats a value or a range the declaration shows.
+
+**Owner**
+
+`SKILL.md`, A Good Comment, Delete Test.
+
+## T35. A File Header Leaves Usage to the Help
+
+**Trigger**
+
+"Improve the comments in `bake_atlas.py`." The script prints its help from `argparse` strings. The file header holds three sentences: "Packs sprite frames into one atlas texture for the engine.", "Usage: bake_atlas.py FOLDER [--padding N]." and "Writes atlas.png next to the input folder."
+
+**Must**
+
+- Delete the usage sentence.
+- Keep the purpose and the side effect.
+
+**Must Not**
+
+Delete the side effect because the help also prints it.
+
+**Owner**
+
+`SKILL.md`, Kinds, File Headers.
+
+## T36. A Label Colon Is Not a Join
+
+**Trigger**
+
+"Improve the comments." A Godot enemy script holds two comments:
+
+```gdscript
+## States the enemy can be in.
+## - "idle": waits at its spawn point.
+## - "chase": moves toward the player.
+
+# Checks the floor first: root motion can carry the enemy off a ledge.
+```
+
+**Must**
+
+- Keep the colons after the state names.
+- Rewrite the floor-check sentence without the joining colon.
+
+**Must Not**
+
+Turn the state list into prose.
+
+**Owner**
+
+`SKILL.md`, Writing Rules.
+
+## T37. A Reason States What the Code Needs
+
+**Trigger**
+
+"Improve the comments." A Unity coroutine holds this comment:
+
+```csharp
+// Unity runs FixedUpdate before the physics step, so this waits for the step to finish.
+yield return new WaitForFixedUpdate();
+ApplyKnockback();
+```
+
+**Must**
+
+Rewrite the comment to state what this code needs, such as "Waits for physics, so knockback reads the final position."
+
+**Must Not**
+
+- Keep the explanation of Unity's frame order.
+- Delete the reason entirely.
+
+**Owner**
+
+`SKILL.md`, Writing Rules, comments are not tutorials.
