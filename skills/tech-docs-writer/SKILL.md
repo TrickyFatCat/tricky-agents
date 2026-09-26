@@ -39,8 +39,7 @@ as written.
 
 A lead-in names what follows. It does not summarise it.
 
-An explanation stays on one question. Steps belong in a how-to guide, and
-lookup detail belongs in a reference.
+An explanation stays on one question.
 
 ## Scope
 
@@ -233,59 +232,28 @@ writer cannot run this check itself, because it has read the source.
 5. Run the cold reader once per Write. Do not run it again after the fixes.
    List each question in the report as fixed, open or known from context.
 
-When no subagent tool is available, skip the check and say "not checked by a
+A subagent tool starts another agent with its own context, such as `Agent` or
+`Task`. When the tool list has none, skip the check and say "not checked by a
 cold reader" in the report. Never imitate the cold reader in your own context.
 
 Review runs the cold reader too. `references/review-criteria.md` owns how.
 
 ## Routing
 
-| Reference                            | Load when                                             |
-| ------------------------------------ | ----------------------------------------------------- |
-| `references/context-gate.md`         | Before drafting, whenever required context is missing |
-| `references/document-modes.md`       | Selecting or adapting a document's shape              |
-| `references/markdown-conventions.md` | Creating, editing or reviewing Markdown               |
-| `references/cli-reference.md`        | Documenting commands, flags or shell workflows        |
-| `references/code-reference.md`       | Documenting a source-level API                        |
-| `references/source-verification.md`  | Any claim that can be checked against an authority    |
-| `references/review-criteria.md`      | Review mode                                           |
-
-## Capability Detection
-
-Four capabilities are detected, never required.
-
-```text
-nu                  which nu           absent → skip the script, manual checks
-dprint              script checks it   absent → exit 3, manual checks
-language server     tool list          absent → drop a verification rung
-subagent            tool list          absent → skip the cold reader, say so
-```
-
-Check for `nu` before invoking the script, because the script cannot report
-its own interpreter missing. The script owns the `dprint` check. `$env.PATH` is
-`$env.Path` on Windows. `which` handles both.
-
-For a language server (LSP), look in the tool list for tools whose names
-carry `lsp`, `definition`, `references`, `hover` or `symbols`. Use them when
-present. Do not name a specific server, because the available bridges change.
-Do not ask the user to install one during a task.
-
-For a subagent, look in the tool list for a tool that starts another agent
-with its own context, such as `Agent` or `Task`.
+| Reference                            | Load when                                                        |
+| ------------------------------------ | ---------------------------------------------------------------- |
+| `references/context-gate.md`         | Before drafting, whenever required context is missing            |
+| `references/document-modes.md`       | Selecting or adapting a document's shape                         |
+| `references/markdown-conventions.md` | Creating, editing or reviewing Markdown, and at Before Delivering |
+| `references/cli-reference.md`        | Documenting commands, flags or shell workflows                   |
+| `references/code-reference.md`       | Documenting a source-level API                                   |
+| `references/source-verification.md`  | Any claim that can be checked against an authority               |
+| `references/review-criteria.md`      | Review mode                                                      |
 
 ## Formatting
 
-```text
-1  Project formatter as the project configures it     → formatted
-2  Bundled script, project dprint config              → formatted
-3  Bundled script, bundled fallback config            → formatted, fallback disclosed
-4  nu or dprint absent                                → manual checks, NOT formatted, disclosed
-```
-
-Rungs 2 and 3 run `nu scripts/format-docs.nu <file>`. Only exit 0 means
-formatted. Exit 3 means dprint is absent, so rung 4 applies. The script's
-`--help` lists every code. Its stdout record says whether the project or the
-fallback config was used.
+Format the document as Markdown Formatting in
+`references/markdown-conventions.md` describes.
 
 Never report a document as formatted when it was not. Never install a
 formatter as part of a documentation task.
@@ -293,32 +261,21 @@ formatter as part of a documentation task.
 Format only the document the task is writing. Never a directory, never source
 material the task is reading.
 
-After formatting, run the post-format checks in
-`references/markdown-conventions.md`. Formatting is not validation.
-
 ## Before Delivering
 
 Run the reader tests and the cold reader first. Then run each check below.
 Each check is a search or a count, because a check phrased as a quality to
 confirm gets confirmed without being run.
 
+For a Markdown document, load `references/markdown-conventions.md` now if it
+is not loaded, and run every row in its Delivery Checks as well: Table
+lead-ins, Table cells, Examples, Placement, Callouts, Orphan sentences,
+Headings. Skip them only for an edit that changes no meaning, such as a typo
+fix. Size does not count.
+
 ```text
 Backward references   Search "the other", "those two", "the remaining"; name the items,
                       or cut the sentence when nearby text already implies what it says
-Table lead-ins        Count the tables; each has a lead-in. Read each lead-in
-                      alone; it names what the table lists
-Table cells           Count the words in each description cell the page wrote; over 8,
-                      move the extra detail into prose after the table or into a new
-                      column. Never drop a fact. A cell that restates a source
-                      condition keeps every clause; split it into columns, never into
-                      prose
-Examples              Search "for example", "for instance", quoted cases and paragraphs
-                      holding two cases; each is labelled, adjacent ones distinctly;
-                      the block after each example has its own heading or label; each
-                      labelled example names a concrete case, not a general statement.
-                      For each example, name what the reader could not do without it;
-                      cut it if nothing. Each step where the reader writes or checks
-                      something freely shows one instance
 Internal rules        Search "decides", "counts as", "is treated as", "picks" and "only
                       when"; for each rule the subject applies internally, ask whether
                       knowing it changes what the reader does or expects. Cut it when
@@ -341,18 +298,6 @@ Broad words           Search "every", "all", "always", "never", "any" and "only"
 States                For each status, result or indicator the subject shows, list
                       the full set the reader can meet from the source; each is
                       named as the reader sees it and says what it means
-Placement             For each callout, example, and paragraph that qualifies a table or
-                      list, name the block it serves; it sits directly after that
-                      block. A definition of one table item goes in that item's cell.
-                      A condition the reader must meet before using any row goes
-                      before the table or list, in the lead-in or the callout its
-                      kind needs. Other blocks that qualify it form one run directly
-                      after it, with nothing else between them: a Danger first, then
-                      blocks about single rows in row order, then the rest
-Callouts              Search "never", "does not", "is not" and "cannot". Each guarantee
-                      about the reader's work is a Note, each limit the reader relies
-                      on is a Warning, and each action with permanent loss is a
-                      Danger, as markdown-conventions.md Callouts defines
 Section fit           Name the question each section answers; name the question each
                       paragraph and table answers; move a block whose question belongs
                       to another section
@@ -378,10 +323,6 @@ Definitions           List each definition the page gives; cut one for a term th
                       standard when the field uses it widely and one search explains
                       it; give its common abbreviation in brackets on first use, such
                       as "language server (LSP)", and no definition
-Orphan sentences      Read each section's first sentence with the heading hidden
-Headings              Read each section heading this task wrote; one that starts with
-                      How, When, Why, What or Where, or reads as a sentence, becomes a
-                      short noun phrase. Step headings in how-tos and tutorials stay imperative
 Environment           Search "/home/", "/Users/", "C:\", "this machine" and "on my"; each
                       becomes the setting that decides the outcome, or a placeholder
 ```
@@ -401,4 +342,6 @@ block that is empty.
    the starting-point line or standard term that covers it.
 3. **Outside The Task** — test findings on sentences the task did not change.
 4. **Not Checked** — each check that did not run, such as the formatter or the
-   cold reader, and each claim labelled Unknown.
+   cold reader, and each claim labelled Unknown. When the Markdown delivery
+   checks did not run, say "Markdown delivery checks not run" with the
+   reason, such as "not Markdown" or "edit changes no meaning".

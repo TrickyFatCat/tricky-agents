@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Thirty-five High-severity scenario tests for this skill. Each names the file that
+Thirty-seven High-severity scenario tests for this skill. Each names the file that
 owns the rule under test.
 
 A test whose Must the rules do not produce is a failed validation, not a test
@@ -182,4 +182,14 @@ T36 Review context    A review of a Godot plugin page; the cold reader asks "Wha
     Must              No finding; list it as known from context, a standard Godot term
     Must Not          Report a finding for a missing definition
     Owner             review-criteria.md
+
+T37 Small edit        A one-paragraph edit to a Markdown document
+    Must              Load markdown-conventions.md and run its Delivery Checks
+    Must Not          Skip them because the edit is small
+    Owner             SKILL.md
+
+T38 Review checks     A review of a Markdown page with a 14-word table cell
+    Must              Report the cell as a finding
+    Must Not          Move the detail into prose
+    Owner             markdown-conventions.md
 ```
