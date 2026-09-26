@@ -338,15 +338,13 @@ The skill turns each `check.py` [status](#output) into part of the result:
 - `findings` are judged one by one. A finding the skill judges blocking makes
     the result Failed.
 
-> ⚠️ **Warning**
->
+> [!WARNING]
 > A Limited result can hide a check that errored, including the safety scan.
 
 Read the Limitations line of the report. The skill's rules do not settle when
 an errored check makes the result Failed instead.
 
-> ℹ️ **Note**
->
+> [!NOTE]
 > The skill never undoes a change silently.
 
 Failed does not end the work, and it does not undo the change by itself. The
@@ -364,8 +362,7 @@ this change. It raises the problem only when it matters now.
 
 ## Reviews
 
-> ℹ️ **Note**
->
+> [!NOTE]
 > A review gives you findings and changes no file.
 
 Asking the skill to fix a finding starts Planning, as
@@ -422,8 +419,7 @@ The scan looks for five groups of problems:
 Each group holds numbered patterns, such as `S1-08`. The full list is in
 [`safety.md`](../skills/agent-setup-helper/references/safety.md).
 
-> ⚠️ **Warning**
->
+> [!WARNING]
 > The scan does not prove that a file is safe, and it misses some problems.
 
 `check.py` matches patterns one line at a time. It misses:
@@ -470,8 +466,7 @@ otherwise.
 2. It reports what it found, including a clean result.
 3. You approve, or you do not.
 
-> ℹ️ **Note**
->
+> [!NOTE]
 > Nothing third-party runs before your approval.
 
 The skill repeats all three steps on every update. A safe version tells you
@@ -501,8 +496,7 @@ one a quick reading misses.
 
 `check.py` checks a skill folder and prints a JSON report.
 
-> ℹ️ **Note**
->
+> [!NOTE]
 > `check.py` never writes a file.
 
 The skill runs it after it applies an approved plan, and after Direct
@@ -512,8 +506,7 @@ Drafting. You can run it yourself.
 
 `check.py` needs Python 3.11 or newer.
 
-> ℹ️ **Note**
->
+> [!NOTE]
 > PyYAML is optional, and without it only the `spec` check reports `limited`.
 
 ### Usage
