@@ -197,7 +197,8 @@ def result(check, status, findings=None, reason=None, extra=None):
 def finding(fid, file, line, message, **extra):
     """Builds one finding.
 
-    fid names the kind of problem, such as "spec-name-missing" or "S1-08".
+    fid names the kind of problem, such as "spec-name-missing".
+    A safety match uses its pattern id as fid, such as "S1-08".
     file is relative to the skill folder, or a full path for a file outside it.
     line starts at 1.
     extra adds fields to the finding, such as value and limit.
@@ -842,7 +843,7 @@ def check_safety(skill, patterns_path):
     Reports limited when a pattern record was skipped.
     Reports limited when a file was over MAX_SCAN_BYTES or its size could not be read.
     The entry also holds pattern_file and pattern_counts.
-    It holds skipped_files when a file was skipped for its size.
+    It holds skipped_files when a file was too large or its size could not be read.
     """
     name = "safety"
     text = read_text(patterns_path)
@@ -885,7 +886,7 @@ def check_safety(skill, patterns_path):
             )
         )
 
-    # Skips the pattern file in use, because its patterns would match themselves.
+    # Skips the pattern file in use, because its own text would match its patterns.
     # Other pattern files in the skill are still scanned and may match.
     excluded = patterns_path.resolve()
     skipped = []
