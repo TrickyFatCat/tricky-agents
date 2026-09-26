@@ -64,6 +64,18 @@ Strong  Reloads on SIGHUP or when the file changes, unless --no-watch is set.
 | Assumption | Inferred from context, not confirmed                      |
 | Unknown    | Unavailable or unsafe to verify in this task              |
 
+An Unknown the reader needs, because it changes what they do or how far they
+trust a result, goes on the page. It is one plain sentence beside the claim it
+limits. Every other Unknown, including a missing reason for a rule, goes under
+Not Checked in the report.
+
+**Example**
+
+A mod loader's source lists load-order states but does not define `Deferred`.
+The page says so beside the table, because a modder decides from that state.
+The source also gives no reason for the 64-mod limit, so that goes under Not
+Checked.
+
 ## The Verification Ladder
 
 ```text
@@ -79,8 +91,9 @@ not name a specific server, because the available bridges change. Do not ask
 the user to install one during a task.
 
 An ambiguous source read is an inference, so it is an Assumption. A lower rung
-changes the label, not the claim. Rung 4 output must reach the
-reader labelled Unknown; it must never be written as though it were verified.
+changes the label, not the claim. Rung 4 output is an Unknown,
+placed as Confidence Labels says; it must never be written as though it were
+verified.
 
 ## Safety
 
@@ -105,6 +118,9 @@ strength leaves a gap in both documents.
 
 Leave the item out, or link to that document when this reader needs to know
 the behaviour exists.
+
+Setup that only the subject's own tooling needs, such as installing a helper
+script's dependency, is another reader's job. Cut it for that reason.
 
 Instructions and how-to guides leave behaviour out on purpose, to keep the
 reader on one path. Do not run this check on them.

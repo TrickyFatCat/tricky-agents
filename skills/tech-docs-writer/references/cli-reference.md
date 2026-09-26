@@ -14,6 +14,10 @@ already cost them a failed run.
 Do not list an obvious dependency. A Python script needs Python; say which
 version, not that it needs one.
 
+An optional dependency is named, with what the reader loses without it. Its
+install steps are a link to its own setup source, when one exists. Do not copy
+its install commands onto the page.
+
 ## Verification
 
 Generated help from the installed version is the primary authority for a CLI.

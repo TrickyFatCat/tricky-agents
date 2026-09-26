@@ -78,7 +78,9 @@ information.
 ### Not Second Person
 
 A how-to addresses "you". A workflow cannot, because "you" is a different
-person at each step. Use role labels.
+person at each step. Use role labels. Voice in
+[markdown-conventions.md](markdown-conventions.md) owns the general rule for
+"you".
 
 ### Authority
 

@@ -29,7 +29,7 @@ Read this reference when creating or editing human-facing Markdown documentation
 Apply documentation requirements in this order:
 
 1. Active project instructions and explicit user requirements.
-2. Established conventions in the target document and nearby authoritative documentation.
+2. Established conventions in the target document and nearby authoritative documentation. Callouts are the exception: [Callouts](#callouts) says what sets their convention.
 3. Confirmed renderer or publishing-system behavior.
 4. Portable Writer defaults in this reference.
 
@@ -150,11 +150,16 @@ Prefer native TOC configuration or heading filters before raw HTML omission when
 
 ## Callouts
 
-Follow established project callout conventions first, including the `TIP` or `IMPORTANT` alert types.
+A project callout convention is one that project instructions or documentation guidance state, including the `TIP` or `IMPORTANT` alert types. Follow it first.
+
+The callouts that other pages happen to use are evidence, not a convention. Name them in the Assumptions block that `context-gate.md` owns.
+
+- An edit keeps the callouts the document already uses.
+- A new document or a rewrite uses the stated convention, or the default alerts below.
 
 Use a callout for three kinds of text, and ordinary prose for everything else:
 
-- **Note** — a guarantee that protects the reader's work, such as something the subject never does to their files, data or system. Also a condition the reader must meet before they start.
+- **Note** — a guarantee that protects the reader's work, such as something the subject never does to their files, data or system. Also a condition the reader must meet before they start, or an optional requirement. What the reader loses without it follows as prose.
 - **Warning** — a limit that could make the reader trust a result too much, or an action that can lose work.
 - **Danger** — an action that causes permanent loss or severe harm.
 
@@ -167,6 +172,8 @@ When the project has no callout convention, use these GitHub alerts:
 | Danger  | `> [!CAUTION]` |
 
 The callout holds the rule in one sentence. Details follow as prose after it. Keep a callout next to the command, option, or workflow it affects.
+
+A blank line ends the callout. Without it, the next line joins the quote.
 
 **Example**
 
@@ -196,6 +203,13 @@ Right   The linter reads the first config it finds, starting in the working
 ```
 
 Naming where a tool looks is general. Asserting what one machine resolved is not.
+
+The same holds for a product or a platform. When the subject works in several, describe it by the condition that decides the outcome, even when the reader's starting point names one. Name a product only when the source limits the subject to it.
+
+```text
+Wrong   On Xbox, the prompt shows the A button.
+Right   When the game detects a gamepad, the prompt shows the confirm button.
+```
 
 Place information where readers need it:
 
@@ -236,7 +250,19 @@ Strong  `global/` holds:
         - `global-agents.md` — generated from the other two
 ```
 
-The signals are a number word, a phrase such as "two kinds of thing", or a sentence whose second half exists only to split what the first half counted.
+The signals are a number word, a phrase such as "two kinds of thing", a sentence whose second half exists only to split what the first half counted, or a plain run of three or more nouns.
+
+```text
+Weak    The save file holds the level, the checkpoint, the inventory and the
+        quest states.
+
+Strong  The save file holds:
+
+        - the level;
+        - the checkpoint;
+        - the inventory;
+        - the quest states.
+```
 
 A sentence that lists three or more actions in order is a numbered list, even with no number word. The reader follows steps by position, and a sentence hides where one step ends.
 
@@ -281,6 +307,14 @@ ask whether there are two things.
 ```text
 Weak    Join a session from the lobby. The match starts when the room is full.
 Strong  Join a match from the lobby. The match starts when it is full.
+```
+
+"You" is the reader, doing their own task. An actor other than the reader,
+such as a hypothetical user, is named: "a person", "a player", or a role.
+
+```text
+Weak    The test checks what you could press during the cutscene.
+Strong  The test checks what a player could press during the cutscene.
 ```
 
 Write for a reader whose first language may not be English.
@@ -328,9 +362,11 @@ a reader what happens without telling them whether it should worry them.
 Use this shape:
 
 1. A note that the situation can arise.
-2. The exact conditions, named rather than counted.
+2. The exact conditions, named rather than counted. Two or more conditions
+   are a list, followed by the result.
 3. The reason behind them.
-4. A simple example.
+4. A simple example. When the rule draws a boundary, give one case on each
+   side of it.
 
 Never write "two of those triggers" or "one of the cases above". The reader
 then has to work out which, and the sentence has added nothing.
@@ -434,18 +470,24 @@ For a related-document list, add a short reason to open each local document when
 
 Do not add a links section that only repeats resources already introduced elsewhere.
 
+Inside one document, when a sentence depends on a list, term or rule that another section owns, link to that section instead of repeating it. Link to a heading, because a bold label has no anchor. Link on the first mention in each section, not on every mention.
+
+**Example**
+
+Stagger uses the poise values in [Enemy Stats](#enemy-stats).
+
 ## Markdown Formatting
 
 Use the first rung that applies:
 
 ```text
 1  Project formatter as the project configures it     → formatted
-2  Bundled script, project dprint config              → formatted
+2  Bundled script, a config dprint finds              → formatted
 3  Bundled script, bundled fallback config            → formatted, fallback disclosed
 4  nu or dprint absent                                → manual checks, NOT formatted, disclosed
 ```
 
-Rungs 2 and 3 run `nu scripts/format-docs.nu <file>`. Only exit 0 means formatted. Exit 3 means dprint is absent, so rung 4 applies. The script's `--help` lists every code. Its stdout record says whether the project or the fallback config was used.
+Rungs 2 and 3 run `nu scripts/format-docs.nu <file>`. Only exit 0 means formatted. Exit 3 means dprint is absent, so rung 4 applies. The script's `--help` lists every code. Its stdout record says whether a discovered config or the fallback config was used. A discovered config can belong to the project or to the user, because dprint chooses it.
 
 Check for `nu` with `which nu` before invoking the script, because the script cannot report its own interpreter missing. The script owns the `dprint` check. `$env.PATH` is `$env.Path` on Windows. `which` handles both.
 
@@ -461,6 +503,7 @@ After formatting, confirm:
 - Code-fence languages are correct.
 - Local links and relative paths still make sense from the document location.
 - Renderer-specific syntax still works in the intended destination.
+- Each paragraph the task wrote or changed keeps the document's line width, with no short line inside it. Other paragraphs stay as they are.
 
 Formatting is not validation.
 
@@ -476,8 +519,8 @@ Table lead-ins        Count the tables; each has a lead-in. Read each lead-in
 Table cells           Count the words in each description cell the page wrote; over 8,
                       move the extra detail into prose after the table or into a new
                       column. Never drop a fact. A cell that restates a source
-                      condition keeps every clause; split it into columns, never into
-                      prose
+                      condition keeps every clause; split it into columns, or keep it
+                      whole in its cell when it cannot split, never into prose
 Examples              Search "for example", "for instance", quoted cases and paragraphs
                       holding two cases; each is labelled, adjacent ones distinctly;
                       the block after each example has its own heading or label; each
@@ -493,8 +536,10 @@ Placement             For each callout, example, and paragraph that qualifies a 
                       kind needs. Other blocks that qualify it form one run directly
                       after it, with nothing else between them: a Danger first, then
                       blocks about single rows in row order, then the rest
-Callouts              Search "never", "does not", "is not" and "cannot"; sort each hit
-                      into a kind that Callouts defines, or leave it as prose
+Callouts              Search "never", "nothing", "does not", "is not" and "cannot"; sort
+                      each hit into a kind that Callouts defines, or leave it as prose.
+                      Then read each callout: its body is one sentence, and a blank
+                      line follows it
 Orphan sentences      Read each section's first sentence with the heading hidden
 Headings              Read each section heading this task wrote; one that starts with
                       How, When, Why, What or Where, or reads as a sentence, becomes a

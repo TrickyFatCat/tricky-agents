@@ -65,7 +65,8 @@ The skill has exactly two operations, and they are separate.
 **Review** produces findings about a document. It produces nothing else.
 
 Applying a finding is a Write operation and needs the user to ask for it. One
-accepted finding does not authorise a rewrite of the document.
+accepted finding does not authorise a rewrite of the document. The one
+exception is Internal Review, which runs inside the writer's own Write.
 
 For a mixed request such as "review this and fix the worst part", review
 first, present findings, and apply only the findings the user names.
@@ -238,6 +239,11 @@ cold reader" in the report. Never imitate the cold reader in your own context.
 
 Review runs the cold reader too. `references/review-criteria.md` owns how.
 
+## Internal Review
+
+After the cold-reader fixes, a Write that creates a document or rewrites a
+whole one runs Internal Review. `references/review-criteria.md` owns how.
+
 ## Routing
 
 | Reference                            | Load when                                                        |
@@ -248,7 +254,7 @@ Review runs the cold reader too. `references/review-criteria.md` owns how.
 | `references/cli-reference.md`        | Documenting commands, flags or shell workflows                   |
 | `references/code-reference.md`       | Documenting a source-level API                                   |
 | `references/source-verification.md`  | Any claim that can be checked against an authority               |
-| `references/review-criteria.md`      | Review mode                                                      |
+| `references/review-criteria.md`      | Review mode, and Internal Review                                 |
 
 ## Formatting
 
@@ -285,7 +291,10 @@ Reasons               Search "because", "so" and "same reason"; point each reaso
                       "refuses", "does not" and "also"; for each rule or automatic
                       action the reader meets and the Job Test keeps, give its reason
                       from the source in one sentence nearby. When the source has
-                      none, list it under Not Checked
+                      none, list it under Not Checked. Then search "saves",
+                      "writes", "creates", "deletes" and "sends"; for each action
+                      the subject takes that the reader did not ask for, give its
+                      reason from the source, or list it under Not Checked
 Behaviour claims      List each statement of what the subject does; point each at a
                       source line, or label it as Source Verification requires. In
                       that source line, search "unless", "except", "only", "if" and
@@ -300,7 +309,8 @@ States                For each status, result or indicator the subject shows, li
                       named as the reader sees it and says what it means
 Section fit           Name the question each section answers; name the question each
                       paragraph and table answers; move a block whose question belongs
-                      to another section
+                      to another section; split a paragraph that answers two
+                      questions
 Order                 Name the first thing the reader does in the document and in
                       each section; it comes before descriptions and reference
                       detail, after the opening and the step's requirements
@@ -324,7 +334,9 @@ Definitions           List each definition the page gives; cut one for a term th
                       it; give its common abbreviation in brackets on first use, such
                       as "language server (LSP)", and no definition
 Environment           Search "/home/", "/Users/", "C:\", "this machine" and "on my"; each
-                      becomes the setting that decides the outcome, or a placeholder
+                      becomes the setting that decides the outcome, or a placeholder.
+                      List each product or platform name; keep one only when the
+                      source limits the subject to it
 ```
 
 Fix what the pass finds before presenting the document. A defect fixed here is
@@ -340,8 +352,10 @@ block that is empty.
 2. **Cold Reader** — the starting point it was given, then each question,
    marked fixed with what changed, open with why, or known from context with
    the starting-point line or standard term that covers it.
-3. **Outside The Task** — test findings on sentences the task did not change.
-4. **Not Checked** — each check that did not run, such as the formatter or the
-   cold reader, and each claim labelled Unknown. When the Markdown delivery
+3. **Review** — each Internal Review finding, marked applied, or declined
+   with the reason.
+4. **Outside The Task** — test findings on sentences the task did not change.
+5. **Not Checked** — each check that did not run, such as the formatter, the
+   cold reader or Internal Review, and each claim labelled Unknown. When the Markdown delivery
    checks did not run, say "Markdown delivery checks not run" with the
    reason, such as "not Markdown" or "edit changes no meaning".

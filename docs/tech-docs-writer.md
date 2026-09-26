@@ -135,6 +135,19 @@ It keeps a structure the project already uses, unless you approve a change. It
 renames a heading only when the heading is wrong. A rename breaks the links to
 that section.
 
+For callouts, such as a note or a warning, the skill picks a style in this
+order:
+
+1. The style that project instructions or documentation guidance state, such
+    as a rule in `AGENTS.md`.
+2. In an edit, the style the document already uses.
+3. In a new document, or a rewrite of a whole document, GitHub alerts, such as
+    `> [!NOTE]`.
+
+Other pages do not set the style. When they use a different one, the skill
+still uses GitHub alerts, and lists that other style under Assumptions, so you
+can correct the choice.
+
 Before you see the result, the skill:
 
 1. Plans the sections.
@@ -172,7 +185,16 @@ Before you see the result, the skill:
     each question against the source. It fixes the document where the source
     has the answer.
 
-5. Runs a fixed set of searches and counts, and fixes what they find.
+5. Gives a new document, or a rewrite of a whole document, to a review agent.
+
+    The review agent is a separate agent, like the cold reader. It reviews the
+    document against the source and returns findings only. It runs no cold
+    reader of its own. The skill then checks each finding, and applies it only
+    when the source confirms it and the reader needs it. It lists every other
+    finding in the report, with the reason. An edit to part of a document
+    skips this step.
+
+6. Runs a fixed set of searches and counts, and fixes what they find.
 
     A search has to be run. A question such as "is this clear?" is easy to
     answer without checking. The set includes these checks:
@@ -193,18 +215,22 @@ changes no meaning, such as a typo fix.
 > The cold reader needs an agent that can start another agent, as Claude Code
 > can. Without one, the report says "not checked by a cold reader".
 
+The review agent also needs an agent that can start another agent. Without
+one, the report says "not reviewed" under Not Checked.
+
 ### Report
 
 After the document, the skill adds a report to its reply. The report does not
 go into the document. It has these blocks, in this order, and leaves out any
 block that is empty:
 
-| Block            | What it lists                                                            |
-| ---------------- | ------------------------------------------------------------------------ |
-| Cuts             | Each fact the skill removed, by section, with the reason                 |
-| Cold Reader      | Each question from the cold reader, as fixed, open or known from context |
-| Outside The Task | Problems in sentences you did not ask it to change                       |
-| Not Checked      | Checks that did not run, and claims the skill could not verify           |
+| Block            | What it lists                                                             |
+| ---------------- | ------------------------------------------------------------------------- |
+| Cuts             | Each fact the skill removed, by section, with the reason                  |
+| Cold Reader      | Each question from the cold reader, as fixed, open or known from context  |
+| Review           | Each review finding, as applied, or declined by the skill with the reason |
+| Outside The Task | Problems in sentences you did not ask it to change                        |
+| Not Checked      | Checks that did not run, and claims the skill could not verify            |
 
 A cold reader question stays open when the source does not answer it. The
 report says why it is open.
@@ -403,7 +429,7 @@ stdout:
 ```json
 {
   "formatted": true,
-  "config": "project",
+  "config": "discovered",
   "file": "docs/tech-docs-writer.md"
 }
 ```
@@ -412,8 +438,9 @@ The record has three fields:
 
 - `formatted` — `true` when dprint finished without an error. With `--check`,
     `true` means the file is already formatted.
-- `config` — `project` when dprint used a config it found itself, `fallback`
-    when the script used the bundled one.
+- `config` — `discovered` when dprint used a config it found itself, in the
+    project or in a global config file. `fallback` when the script used the
+    bundled one.
 - `file` — the path you passed.
 
 The script prints no record for exit 2 or 3, because dprint did not run.

@@ -45,6 +45,33 @@ so, and re-check every claim against its authority.
 Drafting-session memory is not verification. The claim was as likely to be
 wrong when it was written as it is now.
 
+## Internal Review
+
+A Write runs this pass after the cold-reader fixes, when it creates a document
+or rewrites a whole one. It skips an edit to part of a document, and an edit
+that changes no meaning.
+
+1. Start one subagent in Review mode. Give it the finished document, the named
+   reader, the starting point and the source paths. It runs no cold reader,
+   because the Write already ran one.
+2. It returns findings only, in the shape this file describes.
+3. For each finding, the writer checks two things:
+   - the source confirms it;
+   - the named reader needs it.
+4. The writer applies each finding that passes both, inside the same Write.
+   This is the one case where a finding is applied without the user asking.
+5. The writer lists every other finding in the report as declined, with the
+   reason.
+
+When the tool list has no subagent tool, skip the pass and say "not reviewed"
+in the report. Never imitate the review in the writer's own context.
+
+**Example**
+
+A finding says a command reference lacks install steps for an optional export
+plugin. The source confirms the steps. The page's reader only runs the command,
+so the writer declines the finding as another reader's job.
+
 ## Feedback That Asks A Question
 
 When feedback questions a claim rather than stating it is wrong, verify the

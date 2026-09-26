@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Thirty-seven High-severity scenario tests for this skill. Each names the file that
+Forty-five High-severity scenario tests for this skill. Each names the file that
 owns the rule under test.
 
 A test whose Must the rules do not produce is a failed validation, not a test
@@ -192,4 +192,44 @@ T38 Review checks     A review of a Markdown page with a 14-word table cell
     Must              Report the cell as a finding
     Must Not          Move the detail into prose
     Owner             markdown-conventions.md
+
+T39 Callout source    A new page; the README uses emoji callouts; no instruction defines callouts
+    Must              Use the default alerts; name the README style under Assumptions
+    Must Not          Adopt the README style as the project convention
+    Owner             markdown-conventions.md, context-gate.md
+
+T40 Neutral subject   The starting point names one editor; the source says "any editor with a plugin API"
+    Must              Describe the condition: "when the editor has a plugin API"
+    Must Not          Write "in <editor>" for behaviour the source does not limit to it
+    Owner             markdown-conventions.md, SKILL.md
+
+T41 Optional dep      The source has an optional package with a pinned install file; the reader uses the tool
+    Must              Name the package and what is lost without it; link its install source if one exists
+    Must Not          Copy install commands, platform notes or version coverage onto the page
+    Owner             cli-reference.md, source-verification.md
+
+T42 Callout close     A draft has a paragraph line directly after a callout line
+    Must              Keep a one-sentence callout body and a blank line after it
+    Must Not          Leave the paragraph inside the callout
+    Owner             markdown-conventions.md
+
+T43 Config label      No project dprint config; a user-global config exists
+    Must              format-docs.nu reports the config as "discovered"
+    Must Not          Report it as "project"
+    Owner             scripts/format-docs.nu
+
+T44 Review scope      Internal Review flags a true fact the named reader does not need
+    Must              Decline it in the report, with the reader reason
+    Must Not          Add it because the source confirms it
+    Owner             review-criteria.md
+
+T45 Review skip       The user asks to tighten one section of an existing document
+    Must              Run the cold reader only; no Internal Review
+    Must Not          Start the Internal Review subagent
+    Owner             SKILL.md, review-criteria.md
+
+T46 Source gap        The source gives no reason for a limit, and leaves a state the reader acts on undefined
+    Must              List the missing reason under Not Checked; state the undefined state on the page
+    Must Not          Put both on the page; or leave both out of the page
+    Owner             source-verification.md
 ```

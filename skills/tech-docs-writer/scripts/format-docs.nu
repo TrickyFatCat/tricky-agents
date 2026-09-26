@@ -14,13 +14,15 @@ def run-dprint [
         let second = (^dprint $verb --no-gitignore --config $fallback $file | complete)
         {result: $second, config: "fallback"}
     } else {
-        {result: $first, config: "project"}
+        # Says "discovered", not "project", because dprint may have used a user-global config.
+        {result: $first, config: "discovered"}
     }
 }
 
 # Formats one Markdown document with dprint.
 #
 # Prints a JSON record to stdout with the fields formatted, config and file.
+# config is "discovered" when dprint found a config itself, or "fallback".
 #
 #   0   formatted, or already formatted
 #   20  --check found unformatted content

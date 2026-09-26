@@ -58,6 +58,11 @@ present to answer.
 Never record an assumption silently. The assumption block is what makes the
 choice correctable.
 
+The block also appears without a deferral in one case. When other pages use a
+callout shape that no instruction states, it names that evidence and the
+callout format chosen. Callouts in
+[markdown-conventions.md](markdown-conventions.md) owns which format that is.
+
 ## Review And The Gate
 
 The gate applies to review as well as writing. A document cannot be assessed
