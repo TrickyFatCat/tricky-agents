@@ -57,32 +57,42 @@ A change waits for your approval when it will:
 A request to plan also goes through approval. The skill applies every other
 change directly and shows you the diff.
 
-The skill judges a change by its effect, not by its size. A one-word typo fix
-in a line that starts "Never edit" waits for approval.
+The skill judges a change by its effect, not by its size.
 
-A temporary file the skill creates outside the skill folder needs no approval.
-A file it creates inside the skill folder always does. Future agents load a
-file inside the skill. A file outside it is disposable.
+**Needs Approval**
 
-### Mid-Edit Stops
+- Adding a reference for templates.
+- A one-word typo fix in a line that starts "Never edit".
+- Two one-word edits in two files.
+- A scratch file created inside the skill folder.
 
-In Direct Drafting, the skill can find a change from the list above while it
-is already editing. `check.py` can also flag a **must**, **never**, **only** or
-**ask** line that this edit changed. Direct Drafting has no plan, so no such
-change is approved. In both cases the skill stops and moves to Planning. It
-does not report the drafting as complete.
+**No Approval**
 
-When the skill is in git, `check.py` also flags such lines you changed earlier
-and did not commit. The
-skill compares each flag with the diff it showed you, and those flags do not
-stop the edit.
+- A typo fix in a line with no **must**, **never**, **only** or **ask**.
+- A formatting fix in one reference.
+- A temporary working file outside the skill folder, such as the register.
+
+Future agents load every file inside the skill folder. A file outside it is
+disposable.
+
+### Drafting Stops
+
+A Direct Drafting edit can turn out to need approval halfway. This happens
+when:
+
+- the edit reaches a change from the list above;
+- `check.py` flags a **must**, **never**, **only** or **ask** line that this
+    edit changed.
+
+The skill then stops and moves to Planning. It does not report the edit as
+complete.
 
 ### Valid Approval
 
 Only two answers approve a plan:
 
 - accepting the [Approval Brief](#approval-brief), the summary that ends
-    planning, which in Claude Code is the plan-mode approval prompt;
+    planning;
 - asking the skill to apply it.
 
 None of these approve a plan:
@@ -96,10 +106,11 @@ None of these approve a plan:
 After approval, the skill applies the change at once. It does not ask a second
 time.
 
-In Claude Code, the skill uses plan mode for approval. It enters plan mode
-itself, or stays in it when plan mode is already on. That is the approval step
-you already use for other work. Where the agent has no plan mode, the skill
-shows the Approval Brief in the reply and waits.
+When the agent has a plan mode, the skill uses it for approval. It enters plan
+mode itself, or stays in it when plan mode is already on. The brief then
+reaches you as the plan-mode approval prompt, the approval step your agent
+already uses. Without a plan mode, the skill shows the Approval Brief in the
+reply and waits.
 
 If you change the plan after the brief, planning starts again and the old brief
 no longer counts. If you reject the brief, the work ends.
@@ -116,13 +127,18 @@ When planning starts, the skill:
 1. Names the reason planning started, in one line.
 2. Lists the open decisions in a register.
 3. Puts one decision to you at a time.
-4. Runs extra stages for some changes.
+4. Runs extra [design checks](#design-checks) for some changes.
 5. Shows the Approval Brief and asks one approval question.
 
 ### Register
 
-The register is the plan. It is one row per decision, and an arrow marks the
-decision you are on.
+The register is the plan. It lists one decision per row, and an arrow marks
+the decision you are on. Each row shows:
+
+- the decision ID, never reused or renumbered;
+- the status;
+- the rule;
+- the file that will hold the rule.
 
 ```text
     A01  Accepted  Discussion is the default for design talk   SKILL.md
@@ -130,18 +146,27 @@ decision you are on.
     A03  Blocked   Pattern format, waits for A02                —
 ```
 
-The columns are the ID, the status, the rule, and the file that will hold the
-rule. An ID is never reused or renumbered. A replaced row stays, so you can see
-why the current rule looks the way it does.
+A replaced decision stays in the register, so you can see why the current
+rule looks the way it does.
 
-The skill always shows the register in the conversation. It also saves it
-where you ask. Otherwise, when the agent can write files, it saves a temporary
-copy outside the skill folder. Beside it, the skill keeps a decision log,
-`log.md`. The log holds the reasons, the rejected options, and the tests that
-are not High severity. Both are working files, and nothing in the finished
-skill depends on them.
+The skill always shows the register in the conversation. It saves a copy where
+you ask. Otherwise, when the agent can write files, it saves a temporary copy
+outside the skill folder.
 
-A row has one of these statuses:
+**Decision Log**
+
+Beside the register, the skill keeps `log.md`. It holds:
+
+- the reason for each decision;
+- the rejected options;
+- scenario tests that are not High severity.
+
+The register and the log are temporary. The finished skill does not depend on
+them.
+
+**Statuses**
+
+A decision has one of these statuses:
 
 | Status     | Meaning                                        |
 | ---------- | ---------------------------------------------- |
@@ -149,7 +174,7 @@ A row has one of these statuses:
 | Proposed   | Proposed to you, waiting for your answer       |
 | Accepted   | Decided, by you or by the skill on your behalf |
 | Deferred   | Postponed, and outside this approval           |
-| Blocked    | Waits for another row, named by its ID         |
+| Blocked    | Waits for another decision, named by its ID    |
 | Superseded | Replaced by a newer rule. The row stays        |
 
 A decision can be deferred only when the change does not depend on it.
@@ -180,7 +205,7 @@ Next Decision      Keep the patterns in safety.md?
 ### Delegation
 
 You can hand a decision to the skill. Say so, and say which decision. The
-skill then makes that decision, and its row becomes Accepted.
+skill then makes that decision, and it becomes Accepted.
 
 **Example**
 
@@ -214,10 +239,10 @@ When a narrower rule conflicts with a broader one, and nothing shows the
 conflict was intended, the skill asks you. It does not let the narrower rule win
 only because it is narrower.
 
-### Stages
+### Design Checks
 
-Two stages run inside Planning, before you see the brief. Each gives you
-decisions to approve, not file changes. When both run, architecture analysis
+For some changes, the skill runs two extra checks inside Planning, before you
+see the brief. Each gives you decisions to approve, not file changes. When both run, architecture analysis
 comes first.
 
 **Architecture Analysis**
@@ -230,9 +255,8 @@ for:
 
 **Corner-Case Discovery**
 
-Corner-case discovery finds what you could say or do next that the rules do
-not handle. It shows you
-one concrete case at a time, so each new rule is tested against the rules
+Corner-case discovery finds what a person could say or do next that the rules
+do not handle. It shows you one concrete case at a time, so each new rule is tested against the rules
 before it. It runs for:
 
 - a new skill or behavioural `AGENTS.md`;
@@ -557,9 +581,12 @@ neither               →  limited: lists every current must, never, only or ask
 ```
 
 A removed or reworded line is listed too, because the new wording may contain
-none of the four words. The git baseline is the last commit, so the check also
-lists changes you made earlier and did not commit. A file with no copy in the
-baseline makes the check `limited`.
+none of the four words. A file with no copy in the baseline makes the check
+`limited`.
+
+The git baseline is the last commit, so the check also lists changes you made
+earlier and did not commit. The skill compares each flag with the diff it
+showed you. Flags from those earlier changes do not stop an edit.
 
 ### Output
 
