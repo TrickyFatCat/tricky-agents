@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Thirty-seven scenario tests for the code-comments skill.
+Forty-seven scenario tests for the code-comments skill.
 
 Read them against the built rules whenever this skill changes. They are read, not executed, except three.
 
@@ -201,7 +201,7 @@ Break the rule.
 **Must Not**
 
 - A sentence wraps onto a second line.
-- A comment explains how Nushell or git behave.
+- A comment explains how Nushell behaves, or how git arrives at a result.
 
 **Owner**
 
@@ -547,7 +547,7 @@ Deliver the claim as it was written from what the agent read while drafting.
 
 **Trigger**
 
-"Shorten the comments." A Unity script holds this tooltip above `public float dashDuration;`:
+"Shorten the comments." A Unity script holds this comment above `public float dashDuration;`:
 
 ```csharp
 // Dash duration in seconds. Zero turns the dash off. Unity serialises this public float.
@@ -779,3 +779,233 @@ Rewrite the comment to state what this code needs, such as "Waits for physics, s
 **Owner**
 
 `SKILL.md`, Writing Rules, comments are not tutorials.
+
+## T38. Kept Text Is Not Reworded
+
+**Trigger**
+
+"Improve the comments." A Godot script holds `## This function also plays a hit flash effect.` above `func take_damage(amount: int) -> void:`. The function sets `_flash_timer`, and no code in reach reads it.
+
+**Must**
+
+Keep the sentence word for word and report the mismatch.
+
+**Must Not**
+
+Rewrite it to follow the writing rules, such as "Also plays a hit flash effect.", before the user decides.
+
+**Owner**
+
+`SKILL.md`, The Sort.
+
+## T39. A Kept Sentence Keeps Its Context
+
+**Trigger**
+
+"Improve the comments." A Godot script and a C# script each hold a comment of two sentences. The second sentence contradicts the code in both.
+
+```gdscript
+# This variable keeps track of the remaining time before the enemy can attack again.
+# It is decreased every physics frame and when it reaches zero, the enemy can attack.
+var _cooldown_left: float = 0.0
+```
+
+```csharp
+// Stores the health.
+// It never drops below zero.
+int health;
+```
+
+The name `_cooldown_left` does not say which cooldown it tracks. The C# code can make `health` negative.
+
+**Must**
+
+- Keep both Godot sentences, and report the name `_cooldown_left` and the mismatch.
+- Delete "Stores the health." and keep "It never drops below zero." word for word.
+- Say in the C# mismatch entry that the subject of "It" was in a deleted sentence.
+
+**Must Not**
+
+- Delete the first Godot sentence.
+- Rename `_cooldown_left`.
+- Change "It" to "Health" in the kept C# sentence.
+
+**Owner**
+
+`SKILL.md`, The Sort, steps 3 and 5, and A Good Comment, Claims About Other Code.
+
+## T40. A Claim About This Code Is Checked Against This Code
+
+**Trigger**
+
+"Improve the comments." A Godot script holds `## Plays a hit flash effect.` above `take_damage`. The function sets `_flash_timer = 0.1` and plays nothing. No code in reach reads `_flash_timer`, but other scripts in the project are out of reach.
+
+**Must**
+
+Keep the sentence word for word and report it as a mismatch under Needs Your Decision.
+
+**Must Not**
+
+- Report it as not checked because other code might play the flash.
+- Reword it.
+
+**Owner**
+
+`SKILL.md`, A Good Comment, Claims About Other Code.
+
+## T41. A Reason Names the Tool Fact the Code Relies On
+
+**Trigger**
+
+"Improve the comments." A Godot script holds:
+
+```gdscript
+# Godot packs res:// into a read-only .pck file at export, so any write there fails.
+const SAVE_PATH := "user://save.json"
+```
+
+**Must**
+
+Rewrite the comment to state the fact the code relies on, such as "Saves to user://, because an exported game cannot write to res://."
+
+**Must Not**
+
+- Keep the explanation of how Godot packs `res://`.
+- Delete the reason entirely.
+
+**Owner**
+
+`SKILL.md`, Writing Rules, comments are not tutorials.
+
+## T42. Blank Lines Follow the Comments
+
+**Trigger**
+
+"Add comments to this script." A Nushell script opens with its shebang line and a blank line, then `def refuse [msg: string, detail: string] {`. The agent adds a file header and a comment above `refuse`.
+
+**Must**
+
+- Put a blank line between the file header and the `refuse` comment, so the header does not become the help text of `refuse`.
+- Leave every blank line between two code lines as it is.
+
+**Must Not**
+
+- Place the header directly above the `refuse` comment with no blank line.
+- Add or remove a blank line between two code lines.
+
+**Owner**
+
+`SKILL.md`, Invariant, and Kinds, File Headers.
+
+## T43. An Agent Instruction File Counts as a Copy
+
+**Trigger**
+
+"Add comments to `worktree-create.nu`." The script sits in a repository's `scripts` folder. Its `refuse` function exits with code 2. The repository's `AGENTS.md` says that exit code 2 means a refusal, and `README.md` says the same.
+
+**Must**
+
+Write a `WARNING` at `refuse` that names `AGENTS.md`.
+
+**Must Not**
+
+- Name `README.md` in the warning.
+- Leave the exit code without a warning.
+
+**Owner**
+
+`SKILL.md`, A Good Comment, Add Test.
+
+## T44. An Exclusive Claim Stays With the User
+
+**Trigger**
+
+"Improve the comments." A Unity script holds:
+
+```csharp
+// Called only by the player.
+// The turret also calls it when it overheats.
+public void ApplyHeatDamage(float amount)
+```
+
+The code shows two callers, the player and the turret.
+
+**Must**
+
+- Keep both sentences word for word.
+- Report the first as a mismatch, and name the second sentence in the entry.
+
+**Must Not**
+
+- Delete "Called only by the player." because the second sentence names the turret.
+- Complete the first sentence with the turret.
+
+**Owner**
+
+`SKILL.md`, A Good Comment, Claims About Other Code.
+
+## T45. A Tab Counts as the Project's Width, Else 4
+
+**Trigger**
+
+"Improve the comments." A GDScript function holds this comment behind two tabs. The text is 71 characters.
+
+```gdscript
+		# Waits for the landing animation, so the dash cannot start in mid-air.
+```
+
+- In the first run, the project has no `.editorconfig`.
+- In the second run, `.editorconfig` sets `tab_width = 8` and no line width.
+
+**Must**
+
+- In the first run, count the line as 79 characters and keep the comment as it is.
+- In the second run, count it as 87 characters. Cut words that carry no fact, and keep what is left on one line.
+
+**Must Not**
+
+- Count a tab as one character.
+- Split the what from its why, or wrap the sentence.
+
+**Owner**
+
+`SKILL.md`, Writing Rules.
+
+## T46. A List That Would Pass 80 Is Not Completed
+
+**Trigger**
+
+"Improve the comments." A Unity class holds `// Called by the player and the turret.` above a method, with four spaces of indentation. The code shows four more callers, `Boss`, `ExplosiveBarrel`, `SpikeTrap` and `LaserGrid`. The six caller classes share no base class, folder or tag. The shortest completed sentence, `// Called by the player, turret, boss, explosive barrel, spike trap and laser grid.`, is 87 characters with its indentation. The project has no line-width rule.
+
+**Must**
+
+Keep the sentence and report the list as incomplete, with the four missing callers.
+
+**Must Not**
+
+- Complete the list past 80 characters.
+- Invent a group for the callers.
+
+**Owner**
+
+`SKILL.md`, A Good Comment, Claims About Other Code.
+
+## T47. A Review Leads With Its Proposed Changes
+
+**Trigger**
+
+"Review the comments in `EnemySpawner.cs`." A comment lists two callers, and the code shows a third. Another comment says "Called only by the player.", and a turret also calls that method.
+
+**Must**
+
+- Open the report with Proposed Changes, which shows the completed caller list.
+- Put the "only" claim under Needs Your Decision.
+
+**Must Not**
+
+- Put the proposed text only under For Your Information.
+- Change the file.
+
+**Owner**
+
+`SKILL.md`, Operations, Review, and Output, Report.

@@ -13,6 +13,8 @@ This skill adds such comments, and deletes, replaces or reports the rest.
 Preserve all non-comment code exactly, including identifiers, literals, ordering, behaviour and formatting.
 Do not refactor, rename, reformat, optimise or correct code.
 If a comment change would need a code change, report the conflict instead.
+Blank lines next to a comment you add, delete or change are part of that comment's layout, and may be added or removed.
+Never add or remove a blank line that has a code line directly above and below it.
 
 ## Before Commenting
 
@@ -54,6 +56,7 @@ Add a comment when:
 
 A comment for a copy is a `WARNING` that names each copy.
 A copy in documentation written for people does not count.
+A file an agent follows as instructions, such as `AGENTS.md`, counts, even when people also read it.
 
 ### Delete Test
 
@@ -71,13 +74,17 @@ Check each such claim against that code before you keep or write it.
 When that code is out of reach, report the claim as not checked.
 When code in reach disproves the claim, report it as a mismatch, even when other code is out of reach.
 Report a claim as not checked only when nothing in reach disproves it.
+A claim about what this code does is checked against this code, even when other code might add to it.
+Keep a claim reported as not checked unchanged.
 
 A claim that lists callers, copies or cases is incomplete when code in reach shows one it leaves out.
-When the completed sentence stays within the line width from the Writing Rules, complete it from the code and report the change.
+When the completed sentence fits the project's line width, or else 80 characters, complete it from the code and report the change.
+Here 80 is a limit, not a target.
 Otherwise name the groups the code defines, such as a base class, a folder or a tag.
 Add examples with "such as", and report the change.
 When the code defines no groups, report the list as incomplete.
 When the claim uses "only", "never", "all" or a similar word, keep it unchanged and report it as a mismatch instead.
+When another sentence of the comment names the item the claim leaves out, name that sentence in the entry and keep it unchanged too.
 A list given as examples, with "such as", "for example" or a similar phrase, claims no complete set.
 Leave it as it is.
 
@@ -101,7 +108,7 @@ A comment above a private helper is an interface comment for the code that calls
 An implementation comment sits inside a body.
 It tells a maintainer why the code has this shape.
 
-State a guarantee only when the code shows it.
+Write a guarantee only when the code shows it.
 Never invent thread safety, ownership, lifetime or performance claims.
 
 When an interface comment holds an implementation fact, move the fact into the body, next to the code it explains.
@@ -121,6 +128,7 @@ A file header is an interface comment for the whole file.
 A file header holds only facts about the whole file.
 For the delete test, read the file name and its public declarations, not the bodies.
 A new header goes after the shebang, the encoding line and any licence notice.
+Separate a new header from the comment or code below it with a blank line.
 Leave usage to the help the tool prints.
 Usage means commands, arguments, flags, exit codes and call examples.
 The header still states what the file does and its side effects.
@@ -147,7 +155,7 @@ If no source gives it, report the missing fact.
 
 Answer in the conversation with these rules.
 Change no files.
-Report each change Improve would make, with the proposed text.
+Report each change Improve would make, with the proposed text, under **Proposed Changes**.
 
 ## The Sort
 
@@ -173,6 +181,9 @@ Then for each sentence of any other comment:
    Name the true fact in the report instead.
    An incomplete list follows Claims About Other Code instead of this step.
 5. Fails the delete test: delete it.
+   - Before deleting a sentence that a sentence kept unchanged depends on, check step 3 for the whole comment.
+     When step 3 does not apply, the dependent sentence still stays unchanged.
+     Say in its report entry that its subject was in a deleted sentence.
    - If the code passes the add test, write the missing fact instead.
      Take the fact only from the code, its history, or the user.
      If no source gives it, report the missing fact.
@@ -182,7 +193,8 @@ Then for each sentence of any other comment:
      If no source gives such a fact, keep the part as it is.
 6. Passes: keep its facts.
 
-Then apply the writing rules to what is left.
+Then apply the writing rules to what is left, except text the sort keeps unchanged.
+Text kept unchanged anywhere in these rules keeps its words, but each of its sentences is joined onto one line.
 
 ## Writing Rules
 
@@ -190,6 +202,7 @@ Then apply the writing rules to what is left.
   What the code does and why share one sentence: "Limits X to avoid Y."
 - One sentence per line.
   A sentence never wraps onto a second line.
+- A tab counts as the width a project rule sets, such as `tab_width` in `.editorconfig`, or else as 4 characters.
 - When a project rule sets a line width, such as a formatter, a linter or a style guide, keep every line within it.
   If a sentence still does not fit after its words are shortened, report the line.
 - Without a project rule, aim for 80 characters, indentation included.
@@ -224,6 +237,8 @@ When such behaviour forces unusual code, write only what this code does and why,
 Leave out the mechanics behind it.
 The why names what this code needs or what breaks without it.
 It does not say what the tool does inside to cause it.
+When the code relies on a fact about the engine, a library or a tool, such as where it puts a file, state that fact in the why.
+Leave out how the tool arrives at it.
 Explain the language only when the user says the code is an example or teaching project.
 
 ## Labels
@@ -264,6 +279,8 @@ When unsure whether a comment is protected, leave it unchanged and report it.
 Group the report by file when there is more than one file.
 Leave out empty items.
 
+A Review report opens with **Proposed Changes**, before the two groups below.
+
 **Needs Your Decision**
 
 - a sentence that contradicts the code;
@@ -288,12 +305,12 @@ Leave out empty items.
 
 Before returning:
 
-- Run the delete test on every sentence you wrote or kept.
-- Check the writing rules on every sentence.
+- Run the delete test on every sentence you wrote or kept, except text the sort keeps unchanged.
+- Check the writing rules on every sentence you wrote or changed.
 - List every sentence you wrote that depends on code outside its own lines, such as a caller, another function, a value or another file.
   Read that code again and check each sentence against it.
   Do not rely on what you read while drafting.
 - List the facts that passed the sort.
   Each one is still in the comment after the writing rules ran.
-- Count the non-comment lines.
+- Count the code lines, leaving out comments and blank lines.
   They match the input, in the same order.
