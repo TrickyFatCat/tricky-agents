@@ -108,7 +108,7 @@ Delete it as unnecessary.
 
 **Must**
 
-Each `##` comment says what the value does, its units and its range, with one sentence per line.
+Each `##` comment says what the value does, its units and its range, where the declaration and its annotations do not show them, with one sentence per line.
 
 **Must Not**
 
@@ -525,8 +525,8 @@ Deliver the claim as it was written from what the agent read while drafting.
 
 "Improve the comments." A Godot script has no formatter, linter or style guide.
 
-- One comment holds one fact and its reason, and reaches 86 characters with its indentation: `# Limits knockback force to avoid pushing enemies through walls.`
-- Another comment holds two facts in one sentence and reaches 95 characters.
+- A top-level comment holds one fact and its reason, and reaches 90 characters: `# Limits knockback force to 300 per hit, so stacked hits never push enemies through walls.`
+- Another top-level comment holds two facts and reaches 94 characters: `# Stores the dash speed in metres per second and resets it to zero each time the player lands.`
 - In a second run, the project's `.editorconfig` sets `max_line_length = 72`.
 
 **Must**
@@ -696,13 +696,14 @@ The body clamps `knockback_speed` to between 0 and 10.
 
 **Must**
 
-- Delete the comment above `move_speed`.
+- Delete the comment above `move_speed`, and report its unit as a missing fact.
 - Cut the comment above `dash_speed` to the unit.
-- Keep the comment above `knockback_speed` as it is.
+- Keep the unit and the range above `knockback_speed`.
 
 **Must Not**
 
-Keep a sentence that repeats a value or a range the declaration shows.
+- Keep a sentence that repeats a value or a range the declaration shows.
+- Invent a unit for `move_speed`.
 
 **Owner**
 

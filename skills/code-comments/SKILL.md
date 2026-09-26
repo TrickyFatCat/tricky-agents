@@ -73,7 +73,7 @@ When code in reach disproves the claim, report it as a mismatch, even when other
 Report a claim as not checked only when nothing in reach disproves it.
 
 A claim that lists callers, copies or cases is incomplete when code in reach shows one it leaves out.
-When the completed list fits on one line, complete it from the code and report the change.
+When the completed sentence stays within the line width from the Writing Rules, complete it from the code and report the change.
 Otherwise name the groups the code defines, such as a base class, a folder or a tag.
 Add examples with "such as", and report the change.
 When the code defines no groups, report the list as incomplete.
@@ -110,7 +110,7 @@ Then run the delete test on it there.
 ### Editor Tooltips
 
 A comment the editor shows as a tooltip is an interface comment for a designer.
-It says what the value does, its units and its range.
+It says what the value does, its units and its range, where the declaration and its annotations do not show them.
 
 - Unreal shows the comment above a `UPROPERTY` or `UFUNCTION`.
 - Godot 4 shows a `##` comment above an `@export` variable.
@@ -147,6 +147,7 @@ If no source gives it, report the missing fact.
 
 Answer in the conversation with these rules.
 Change no files.
+Report each change Improve would make, with the proposed text.
 
 ## The Sort
 
