@@ -123,7 +123,6 @@ def normalise(text):
 def read_text(path):
     """Reads a file as UTF-8 text with normalised line endings.
 
-    Returns None when it is not decodable text.
     Returns None when the file cannot be read.
     Returns None when the file contains a null byte, which marks it as binary.
     Replaces bytes that are not valid UTF-8 instead of failing.
