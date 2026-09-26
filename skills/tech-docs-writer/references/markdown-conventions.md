@@ -20,7 +20,6 @@ Read this reference when creating or editing human-facing Markdown documentation
 - [Section Introductions](#section-introductions)
 - [Links](#links)
 - [Markdown Formatting](#markdown-formatting)
-- [Delivery Checks](#delivery-checks)
 
 <!--toc:end-->
 
@@ -506,42 +505,3 @@ After formatting, confirm:
 - Each paragraph the task wrote or changed keeps the document's line width, with no short line inside it. Other paragraphs stay as they are.
 
 Formatting is not validation.
-
-## Delivery Checks
-
-Write runs these checks before delivering and fixes what they find. Review reports each hit as a finding and changes nothing.
-
-`SKILL.md` Before Delivering says when to run them, and owns the other checks.
-
-```text
-Table lead-ins        Count the tables; each has a lead-in. Read each lead-in
-                      alone; it names what the table lists
-Table cells           Count the words in each description cell the page wrote; over 8,
-                      move the extra detail into prose after the table or into a new
-                      column. Never drop a fact. A cell that restates a source
-                      condition keeps every clause; split it into columns, or keep it
-                      whole in its cell when it cannot split, never into prose
-Examples              Search "for example", "for instance", quoted cases and paragraphs
-                      holding two cases; each is labelled, adjacent ones distinctly;
-                      the block after each example has its own heading or label; each
-                      labelled example names a concrete case, not a general statement.
-                      For each example, name what the reader could not do without it;
-                      cut it if nothing. Each step where the reader writes or checks
-                      something freely shows one instance
-Placement             For each callout, example, and paragraph that qualifies a table or
-                      list, name the block it serves; it sits directly after that
-                      block. A definition of one table item goes in that item's cell.
-                      A condition the reader must meet before using any row goes
-                      before the table or list, in the lead-in or the callout its
-                      kind needs. Other blocks that qualify it form one run directly
-                      after it, with nothing else between them: a Danger first, then
-                      blocks about single rows in row order, then the rest
-Callouts              Search "never", "nothing", "does not", "is not" and "cannot"; sort
-                      each hit into a kind that Callouts defines, or leave it as prose.
-                      Then read each callout: its body is one sentence, and a blank
-                      line follows it
-Orphan sentences      Read each section's first sentence with the heading hidden
-Headings              Read each section heading this task wrote; one that starts with
-                      How, When, Why, What or Where, or reads as a sentence, becomes a
-                      short noun phrase. Step headings in how-tos and tutorials stay imperative
-```

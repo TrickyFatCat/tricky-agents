@@ -126,15 +126,14 @@ Name the sentence's job from the list in A Good Document.
   or verifies, stays only when knowing it changes what the reader does or
   expects, and nothing else in the document already gives them that.
   Otherwise cut it, and keep the result the reader sees. Run this before the
-  `Reasons` check and the Behaviour Inventory. A rule it cuts counts as cut
-  for a named reason.
+  `Reasons` check and the Behaviour Inventory.
 - When you are not sure the reader needs the fact, keep the sentence.
   Low-value text can be seen and cut later. A missing fact cannot be seen.
   Doubt keeps a fact, not a second copy of it.
 - A sentence with a job but no section to hold it means the structure is
   wrong. Fix the structure, and keep the sentence.
 
-List every cut in the report, as Before Delivering describes.
+List every cut in the report, as Report describes.
 
 **Example**
 
@@ -228,8 +227,9 @@ writer cannot run this check itself, because it has read the source.
    - the source cannot answer it: label the claim Unknown, as
      `references/source-verification.md` requires;
    - known from context: a line in the starting point answers it, or it asks
-     about a standard term of the field, as the `Definitions` check defines.
-     Change nothing. Nothing else counts, and doubt makes it a gap.
+     about a standard term of the field. A term is standard when the field uses
+     it widely and one search explains it. Change nothing. Nothing else counts,
+     and doubt makes it a gap.
 5. Run the cold reader once per Write. Do not run it again after the fixes.
    List each question in the report as fixed, open or known from context.
 
@@ -250,11 +250,12 @@ whole one runs Internal Review. `references/review-criteria.md` owns how.
 | ------------------------------------ | ---------------------------------------------------------------- |
 | `references/context-gate.md`         | Before drafting, whenever required context is missing            |
 | `references/document-modes.md`       | Selecting or adapting a document's shape                         |
-| `references/markdown-conventions.md` | Creating, editing or reviewing Markdown, and at Before Delivering |
+| `references/markdown-conventions.md` | Creating, editing or reviewing Markdown                           |
 | `references/cli-reference.md`        | Documenting commands, flags or shell workflows                   |
 | `references/code-reference.md`       | Documenting a source-level API                                   |
 | `references/source-verification.md`  | Any claim that can be checked against an authority               |
 | `references/review-criteria.md`      | Review mode, and Internal Review                                 |
+| `references/delivery-checks.md`      | At Before Delivering, and in Review                              |
 
 ## Formatting
 
@@ -269,75 +270,13 @@ material the task is reading.
 
 ## Before Delivering
 
-Run the reader tests and the cold reader first. Then run each check below.
+Run the reader tests and the cold reader first. Then load
+`references/delivery-checks.md` and run every check that applies. Skip them
+only for an edit that changes no meaning, such as a typo fix. Size does not
+count.
+
 Each check is a search or a count, because a check phrased as a quality to
 confirm gets confirmed without being run.
-
-For a Markdown document, load `references/markdown-conventions.md` now if it
-is not loaded, and run every row in its Delivery Checks as well: Table
-lead-ins, Table cells, Examples, Placement, Callouts, Orphan sentences,
-Headings. Skip them only for an edit that changes no meaning, such as a typo
-fix. Size does not count.
-
-```text
-Backward references   Search "the other", "those two", "the remaining"; name the items,
-                      or cut the sentence when nearby text already implies what it says
-Internal rules        Search "decides", "counts as", "is treated as", "picks" and "only
-                      when"; for each rule the subject applies internally, ask whether
-                      knowing it changes what the reader does or expects. Cut it when
-                      it does not, as the Job Test requires. Run this before Reasons
-Reasons               Search "because", "so" and "same reason"; point each reason at a
-                      source line, or cut it. Then search "only", "never", "always",
-                      "refuses", "does not" and "also"; for each rule or automatic
-                      action the reader meets and the Job Test keeps, give its reason
-                      from the source in one sentence nearby. When the source has
-                      none, list it under Not Checked. Then search "saves",
-                      "writes", "creates", "deletes" and "sends"; for each action
-                      the subject takes that the reader did not ask for, give its
-                      reason from the source, or list it under Not Checked
-Behaviour claims      List each statement of what the subject does; point each at a
-                      source line, or label it as Source Verification requires. In
-                      that source line, search "unless", "except", "only", "if" and
-                      "when"; the claim keeps each condition it finds. A clause that
-                      limits which cases the rule covers is a condition too, with or
-                      without those words
-Broad words           Search "every", "all", "always", "never", "any" and "only"; for
-                      each, search the source for cases that break it; name them, or
-                      narrow the word
-States                For each status, result or indicator the subject shows, list
-                      the full set the reader can meet from the source; each is
-                      named as the reader sees it and says what it means
-Section fit           Name the question each section answers; name the question each
-                      paragraph and table answers; move a block whose question belongs
-                      to another section; split a paragraph that answers two
-                      questions
-Order                 Name the first thing the reader does in the document and in
-                      each section; it comes before descriptions and reference
-                      detail, after the opening and the step's requirements
-Terms                 List each name used in a heading, table or scope list; search the
-                      rest for other words for it
-Source words          List each noun the page takes from the source for a part, stage,
-                      check or category. Keep one the reader types or sees: a command,
-                      flag, setting, label or printed word. Replace the rest with the
-                      word this reader uses in their own work
-Steps                 Search sentences joining three or more actions with commas; each
-                      is a numbered list. For each numbered item longer than one
-                      sentence, the first line is the action alone
-Plain language        Count sentences over 25 words; split each. Search "so", "because"
-                      and "which" in long sentences; split any sentence carrying two
-                      ideas; list each idiom, and each term new to this reader that has
-                      no definition
-Definitions           List each definition the page gives; cut one for a term this
-                      reader uses or a standard term of the field; each defined
-                      word is the exact term, not a vaguer word for it. A term is
-                      standard when the field uses it widely and one search explains
-                      it; give its common abbreviation in brackets on first use, such
-                      as "language server (LSP)", and no definition
-Environment           Search "/home/", "/Users/", "C:\", "this machine" and "on my"; each
-                      becomes the setting that decides the outcome, or a placeholder.
-                      List each product or platform name; keep one only when the
-                      source limits the subject to it
-```
 
 Fix what the pass finds before presenting the document. A defect fixed here is
 not a finding to report. Cuts are still listed.
@@ -356,6 +295,6 @@ block that is empty.
    with the reason.
 4. **Outside The Task** — test findings on sentences the task did not change.
 5. **Not Checked** — each check that did not run, such as the formatter, the
-   cold reader or Internal Review, and each claim labelled Unknown. When the Markdown delivery
-   checks did not run, say "Markdown delivery checks not run" with the
-   reason, such as "not Markdown" or "edit changes no meaning".
+   cold reader or Internal Review, and each claim labelled Unknown. When the
+   delivery checks did not run, say "delivery checks not run" with the reason,
+   such as "edit changes no meaning".

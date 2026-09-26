@@ -37,7 +37,8 @@ needs its own evidence.
 
 A field keeps its source name when the reader sees that field. An internal
 field the reader never sees may take the reader's word, as the `Source words`
-check in `SKILL.md` requires. Check each of its cells against the source.
+check in `delivery-checks.md` requires. Check each of its cells against the
+source.
 
 Check clause by clause. A paraphrase that reads correctly can still have
 dropped the exception.
@@ -91,9 +92,8 @@ not name a specific server, because the available bridges change. Do not ask
 the user to install one during a task.
 
 An ambiguous source read is an inference, so it is an Assumption. A lower rung
-changes the label, not the claim. Rung 4 output is an Unknown,
-placed as Confidence Labels says; it must never be written as though it were
-verified.
+changes the label, not the claim. Rung 4 output is an Unknown, placed as
+Confidence Labels says; it must never be written as though it were verified.
 
 ## Safety
 

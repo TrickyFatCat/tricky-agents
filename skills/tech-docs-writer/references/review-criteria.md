@@ -27,9 +27,10 @@ inside it.
     navigation.
 5. Assess terminology, density, abstraction and tone where they affect reader
     success.
-6. Check each sentence with the job test and the view test in `SKILL.md`,
-    then against the writing conventions, which are loaded for review as well
-    as for writing. A failed test is a finding, not an edit. A counted
+6. Run every check in `delivery-checks.md` that applies. Each hit is a
+    finding, filtered by step 7. Then check each sentence with the job test and
+    the view test in `SKILL.md`, then against the writing conventions, which
+    are loaded for review as well as for writing. A failed test is a finding, not an edit. A counted
     sentence, a section opening on a code block, and a flag explained only in
     a comment are defects a reader feels and rarely names.
 7. Convert only material reader impact into findings.

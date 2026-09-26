@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Forty-five High-severity scenario tests for this skill. Each names the file that
+Forty-seven High-severity scenario tests for this skill. Each names the file that
 owns the rule under test.
 
 A test whose Must the rules do not produce is a failed validation, not a test
@@ -55,7 +55,7 @@ T9  Questioned claim  Reviewer asks "do we really have this?" of a true claim
 T10 Delivery pass     A draft has an unlabelled example and a weak lead-in
     Must              Fix both before presenting the document
     Must Not          Present it, then report the defects as findings
-    Owner             SKILL.md
+    Owner             SKILL.md, delivery-checks.md
 
 T11 Working heading   A correct heading could be phrased better
     Must              Leave it alone
@@ -135,12 +135,12 @@ T25 Many findings     A review finds eight problems
 T26 Source word       A draft says "the cooldown timer"; the Inspector shows Attack Cooldown
     Must              Use Attack Cooldown
     Must Not          Keep the internal name the reader never sees
-    Owner             SKILL.md
+    Owner             delivery-checks.md
 
 T27 No source reason  A rule the reader meets has no reason in the source
     Must              List it under Not Checked
     Must Not          Invent a reason
-    Owner             SKILL.md
+    Owner             delivery-checks.md
 
 T28 Step shape        A step reads "Set Detection Range, which is the distance at which the enemy chases"
     Must              "Set Detection Range." on its own line, the explanation as a paragraph below
@@ -150,12 +150,12 @@ T28 Step shape        A step reads "Set Detection Range, which is the distance a
 T29 Kept condition    The source says "never delete a part that project rules require"
     Must              The page keeps "unless a project rule requires it"
     Must Not          State the rule with no condition
-    Owner             SKILL.md
+    Owner             delivery-checks.md
 
 T30 Broad word        The page says "every comment it keeps follows the writing rules"
     Must              Name the exceptions from the source, or narrow "keeps" to "rewrites"
     Must Not          Keep a promise the source breaks elsewhere
-    Owner             SKILL.md
+    Owner             delivery-checks.md
 
 T31 Second copy       Two neighbouring sentences state the same fact in other words
     Must              Cut the second one; list it in Cuts with where the fact stays
@@ -171,12 +171,12 @@ T33 Internal rule     The source says "picks the upload server by latency" and "
                       over 2 GB because the API rejects them"
     Must              Cut the server rule; keep the 2 GB rule with its reason
     Must Not          Restore the server rule to satisfy Reasons or the Behaviour Inventory
-    Owner             SKILL.md
+    Owner             SKILL.md, delivery-checks.md
 
 T35 Long condition    A restated source cell holds a 13-word condition with an unless clause
     Must              Keep every clause in the cell, or split it into columns
     Must Not          Move the unless clause into prose to meet the count
-    Owner             SKILL.md
+    Owner             delivery-checks.md
 
 T36 Review context    A review of a Godot plugin page; the cold reader asks "What is a scene?"
     Must              No finding; list it as known from context, a standard Godot term
@@ -184,14 +184,14 @@ T36 Review context    A review of a Godot plugin page; the cold reader asks "Wha
     Owner             review-criteria.md
 
 T37 Small edit        A one-paragraph edit to a Markdown document
-    Must              Load markdown-conventions.md and run its Delivery Checks
+    Must              Load delivery-checks.md and run every check that applies
     Must Not          Skip them because the edit is small
-    Owner             SKILL.md
+    Owner             SKILL.md, delivery-checks.md
 
 T38 Review checks     A review of a Markdown page with a 14-word table cell
     Must              Report the cell as a finding
     Must Not          Move the detail into prose
-    Owner             markdown-conventions.md
+    Owner             delivery-checks.md, review-criteria.md
 
 T39 Callout source    A new page; the README uses emoji callouts; no instruction defines callouts
     Must              Use the default alerts; name the README style under Assumptions
@@ -232,4 +232,14 @@ T46 Source gap        The source gives no reason for a limit, and leaves a state
     Must              List the missing reason under Not Checked; state the undefined state on the page
     Must Not          Put both on the page; or leave both out of the page
     Owner             source-verification.md
+
+T47 Tracked checks    A Write reaches Before Delivering; the agent has a task or to-do tool
+    Must              Add each applicable delivery check as a task; close each when it has run
+    Must Not          Run the checks from memory with nothing tracked
+    Owner             delivery-checks.md
+
+T48 Review general    A review of a README whose page says "always" where the source has an exception
+    Must              Run the General checks too; report the Broad words hit as a finding
+    Must Not          Run only the Markdown Only checks in a review
+    Owner             delivery-checks.md, review-criteria.md
 ```
