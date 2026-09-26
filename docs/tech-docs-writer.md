@@ -116,21 +116,9 @@ It then:
 2. Lists each choice in its reply, under the heading `Assumptions`.
 3. Says that the final result is yours to check.
 4. Continues without waiting.
-5. Offers once to add the assumptions to the document as `REVIEW` markers.
 
 The skill never fills a missing answer without listing it. The list is what
 lets you find a choice and correct it.
-
-It adds `REVIEW` markers only if you accept that offer. Each marker sits at the
-passage it affects. It is a temporary note for you to check and remove, not part
-of the document.
-
-**Example**
-
-```markdown
-> [!REVIEW]
-> Assumed reader: a maintainer who knows Git.
-```
 
 ## Writing
 

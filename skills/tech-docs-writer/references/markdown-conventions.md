@@ -18,7 +18,6 @@ Read this reference when creating or editing human-facing Markdown documentation
 - [States And Results](#states-and-results)
 - [Frontmatter and Prose](#frontmatter-and-prose)
 - [Section Introductions](#section-introductions)
-- [Review Markers](#review-markers)
 - [Links](#links)
 - [Markdown Formatting](#markdown-formatting)
 - [Delivery Checks](#delivery-checks)
@@ -422,19 +421,6 @@ and the meaning survives.
 Keep clause order parallel between neighbouring rows and sentences. A reader
 scanning a table compares cells position by position, and a reordered clause
 breaks that.
-
-## Review Markers
-
-When the user asks to record assumptions in the document, add each one as a
-`REVIEW` marker at the passage it affects:
-
-```markdown
-> [!REVIEW]
-> Assumed reader: a maintainer who knows Git.
-```
-
-A `REVIEW` marker is a temporary note for the user, not documentation
-content. Reader-facing callouts such as `NOTE` and `WARNING` are content.
 
 ## Links
 

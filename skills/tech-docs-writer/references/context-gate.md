@@ -54,8 +54,6 @@ present to answer.
     per line with the chosen value.
 3. State that the user owns the final result.
 4. Continue without waiting.
-5. Offer once to record the assumptions in the document as `REVIEW` markers.
-    Add them only if asked.
 
 Never record an assumption silently. The assumption block is what makes the
 choice correctable.
