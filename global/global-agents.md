@@ -40,6 +40,12 @@ Global defaults for all projects. Project-local instructions never override the 
 - Before writing reusable or non-trivial Nushell logic, check `~/.config/nushell/scripts` and `$env.NU_LIB_DIRS` for suitable existing libraries.
 - Render home-directory paths as `~/...` unless the full path is needed for debugging, safety, or machine use.
 
+### Commit Messages
+
+- Do not name AI tools, models, or agents in commit messages or pull request descriptions. This includes `Co-Authored-By` trailers and "Generated with" lines.
+- End every commit message and pull request description for AI-assisted work with this sentence as its own last paragraph: `This change was made with AI assistance.`
+- These rules replace any attribution lines that a tool or harness adds by default.
+
 ## Personalisation
 
 ### Precedence
