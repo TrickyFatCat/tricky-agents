@@ -363,13 +363,32 @@ Name or signature
 One-sentence purpose          does not repeat the name
 Inputs                        name, type, required or optional, default
 Output                        return value or result
-Errors                        what fails, and why
+Errors                        a failure the reader must prevent, or handle
+                              in their own code
 Side effects                  state changed outside the return
-Example                       one, the smallest realistic case
+Example                       the smallest realistic case, then one case
+                              for each edge case the reader meets
 ```
 
 Field order is fixed. Omit a field that does not apply. Never keep an empty
 field to make entries look identical.
+
+A precondition that an error enforces becomes one requirement note. An error
+whose message names its own cause needs no entry.
+
+An edge case that can be shown as a call and its result goes in the example
+block as a commented case, not as prose. A boundary gets one case on each side.
+
+**Example**
+
+```text
+Keep    POST /users returns 409 when the name is taken.   (the client branches on it)
+Note    The destination folder must be empty.             (instead of the error text)
+Cut     save fails with "Disk full" when the disk is full.
+
+parse("2024-02-29")    # a date
+parse("2024-02-30")    # None, no such day
+```
 
 ## Adapting
 

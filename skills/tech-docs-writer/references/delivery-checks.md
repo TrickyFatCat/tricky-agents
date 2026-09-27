@@ -28,7 +28,9 @@ Run these for every document.
 - [ ] **Internal rules** — Search "decides", "counts as", "is treated as",
   "picks" and "only when"; for each rule the subject applies internally, ask
   whether knowing it changes what the reader does or expects. Cut it when it
-  does not, as the Job Test requires. Run this before Reasons.
+  does not, as the Job Test requires. Then list the names and quoted strings
+  from the source's body that appear on the page; for each one the reader does
+  not type, ask the same question. Run this before Reasons.
 - [ ] **Reasons** — Search "because", "so" and "same reason"; point each reason
   at a source line, or cut it. Then search "only", "never", "always", "refuses",
   "does not" and "also"; for each rule or automatic action the reader meets and
@@ -45,9 +47,13 @@ Run these for every document.
 - [ ] **Broad words** — Search "every", "all", "always", "never", "any" and
   "only"; for each, search the source for cases that break it; name them, or
   narrow the word.
-- [ ] **States** — For each status, result or indicator the subject shows, list
-  the full set the reader can meet from the source; each is named as the reader
-  sees it and says what it means.
+- [ ] **States** — For each fixed set of statuses, results or indicators the
+  subject shows, list the full set the reader can meet from the source; each is
+  named as the reader sees it and says what it means. A message that says in
+  plain words what happened is not a status; leave it out.
+- [ ] **Lists** — For each list or count on the page, name the file it comes
+  from; when it is not the documented source, link the document that owns it,
+  or cut it when none does. Skip instructions and how-to guides.
 - [ ] **Section fit** — Name the question each section answers; name the
   question each paragraph and table answers; move a block whose question belongs
   to another section; split a paragraph that answers two questions.
@@ -93,7 +99,11 @@ Run these for a Markdown document only.
   block after each example has its own heading or label; each labelled example
   names a concrete case, not a general statement. For each example, name what
   the reader could not do without it; cut it if nothing. Each step where the
-  reader writes or checks something freely shows one instance.
+  reader writes or checks something freely shows one instance. Search prose
+  for a code span holding an input with its result; move each into the entry's
+  example block as a commented case.
+- [ ] **Entry tables** — List each entry section's first table and its columns;
+  they match across sections, even in a section with one entry.
 - [ ] **Placement** — For each callout, example, and paragraph that qualifies a
   table or list, name the block it serves; it sits directly after that block. A
   definition of one table item goes in that item's cell. A condition the reader
@@ -101,10 +111,10 @@ Run these for a Markdown document only.
   or the callout its kind needs. Other blocks that qualify it form one run
   directly after it, with nothing else between them: a Danger first, then blocks
   about single rows in row order, then the rest.
-- [ ] **Callouts** — Search "never", "nothing", "does not", "is not" and
-  "cannot"; sort each hit into a kind that Callouts defines, or leave it as
-  prose. Then read each callout: its body is one sentence, and a blank line
-  follows it.
+- [ ] **Callouts** — Search "never", "nothing", "does not", "is not",
+  "cannot", "needs", "requires", "must" and "keep"; sort each hit into a kind
+  that Callouts defines, or leave it as prose. Then read each callout: its body
+  is one sentence, and a blank line follows it.
 - [ ] **Orphan sentences** — Read each section's first sentence with the heading
   hidden.
 - [ ] **Headings** — Read each section heading this task wrote; one that starts

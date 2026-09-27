@@ -111,7 +111,8 @@ must approve, or is changed by. Each item is either documented or cut for a
 reason the writer can name. An internal rule that the Job Test in `SKILL.md`
 cuts counts as cut for a named reason.
 
-Another document covering the item for a different reader is such a reason.
+Another document covering the item, for this reader or another, is such a
+reason.
 Before cutting the item, open that document and confirm it covers the item. A
 document the writer has not checked is an invented source, and cutting on its
 strength leaves a gap in both documents.
@@ -121,6 +122,12 @@ the behaviour exists.
 
 Setup that only the subject's own tooling needs, such as installing a helper
 script's dependency, is another reader's job. Cut it for that reason.
+
+A list or count taken from a file other than the documented source, such as
+the subject's callers or a table another module owns, is linked to its owner,
+not copied. It changes without the subject changing. A warning that a change
+to the subject breaks its callers goes in that entry's section, and names
+where the callers live, not each one.
 
 Instructions and how-to guides leave behaviour out on purpose, to keep the
 reader on one path. Do not run this check on them.
@@ -135,6 +142,12 @@ deletes backups older than 30 days.
 A game's player manual does not explain the save-file format. The modding
 guide explains it to modders, so the manual leaves it out.
 
+**Copied List**
+
+A design page for a shared damage formula lists the 14 enemies that use it.
+The page says instead that every enemy in `enemies/melee/` uses the formula,
+so a change affects them.
+
 ## Subject Checklists
 
 ### Command and Script Checks
@@ -148,7 +161,7 @@ Check whether documentation accurately represents:
 - Defaults and precedence.
 - Pattern matching, including regex versus exact matching.
 - Return values and output shapes.
-- Errors for missing or invalid input.
+- Errors for missing or invalid input that the reader must prevent or handle.
 - File, process, network, or application-state side effects.
 - Discovery and utility commands.
 

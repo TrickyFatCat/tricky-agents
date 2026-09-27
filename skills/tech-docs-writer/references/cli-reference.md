@@ -18,6 +18,10 @@ An optional dependency is named, with what the reader loses without it. Its
 install steps are a link to its own setup source, when one exists. Do not copy
 its install commands onto the page.
 
+In a dependency list or requirement note, a link goes to a document that
+explains the setup, never to the dependency's own files, such as its unit file
+or config.
+
 ## Verification
 
 Generated help from the installed version is the primary authority for a CLI.
@@ -68,6 +72,10 @@ For state-changing commands, prefer:
 | ------------------ | -------------------------- |
 | `tool remove <id>` | Removes the selected item. |
 ```
+
+Every command section opens with the same Syntax table, even when it holds one
+command. A table of conditions or cases does not replace it. Detail goes after
+it.
 
 When a compact group intentionally mixes query, validation, or operational commands, use a neutral column such as `Result`. Do not describe an action as a return value. Split the group only when a neutral column would hide important side effects or make the commands harder to compare.
 

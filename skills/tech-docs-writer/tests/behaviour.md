@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Forty-seven High-severity scenario tests for this skill. Each names the file that
+Fifty-seven High-severity scenario tests for this skill. Each names the file that
 owns the rule under test.
 
 A test whose Must the rules do not produce is a failed validation, not a test
@@ -242,4 +242,55 @@ T48 Review general    A review of a README whose page says "always" where the so
     Must              Run the General checks too; report the Broad words hit as a finding
     Must Not          Run only the Markdown Only checks in a review
     Owner             delivery-checks.md, review-criteria.md
+
+T49 Late addition     The cold reader asks what happens when a required variable is unset
+    Must              Add one requirement note; run the Job Test on it
+    Must Not          Add the error text and the branch that raises it
+    Owner             SKILL.md
+
+T50 Restated code     The source says retry() calls _backoff(n), which sleeps 2^n seconds
+    Must              Keep "each retry waits longer than the one before"
+    Must Not          Keep function names the reader does not type
+    Owner             SKILL.md, delivery-checks.md
+
+T51 Tutorial output   A tutorial step prints "Build succeeded"
+    Must              Keep "you will see Build succeeded"
+    Must Not          Cut it as printed text
+    Owner             SKILL.md
+
+T52 Caller error      An API returns 409 when a name is taken; a CLI prints "Disk full"
+    Must              Keep the 409 in Errors; give "Disk full" no entry
+    Must Not          Document both, or cut both
+    Owner             document-modes.md
+
+T53 Copied list       A function reads a table another module owns
+    Must              Link the document that owns the table
+    Must Not          Copy the table onto the page
+    Owner             source-verification.md, delivery-checks.md
+
+T54 Callers           A review asks to list the scripts that call a function
+    Must              One warning in that entry, naming the folder the callers live in
+    Must Not          List each caller, or put the warning in the overview
+    Owner             source-verification.md
+
+T55 Plain message     A command prints "Saving..." then "Saved."
+    Must              No entry for either message
+    Must Not          Add a message table
+    Owner             markdown-conventions.md, delivery-checks.md
+
+T56 Edge case         A reference entry's lookup is case-sensitive
+    Must              One more commented case in the entry's example block
+    Must Not          A prose sentence describing it
+    Owner             document-modes.md, delivery-checks.md
+
+T57 Platform          The starting point names Unity; the cold reader asks whether prefab
+                      edits reach placed copies
+    Must              Mark it known from context
+    Must Not          Add an explanation of prefabs
+    Owner             SKILL.md
+
+T58 One command       A section holds one command whose effect depends on a condition
+    Must              The same Syntax table as the other sections
+    Must Not          A condition table in its place
+    Owner             cli-reference.md, delivery-checks.md
 ```

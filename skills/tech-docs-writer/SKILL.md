@@ -99,8 +99,9 @@ section means the structure is wrong, not that the fact is worthless.
 Two sections that answer the same question merge into one. A reader who finds
 the first stops looking and never reaches the second.
 
-Do not explain the category the document belongs to. Someone reading a tool's
-documentation already knows what a tool is.
+Do not explain the category the document belongs to, or the standard behaviour
+of a platform the reader already uses. Someone reading a tool's documentation
+already knows what a tool is.
 
 A sentence you have had to explain twice is in the wrong place or the wrong
 shape. Fix the structure before rewording it again.
@@ -122,11 +123,13 @@ Name the sentence's job from the list in A Good Document.
   sentence that repeats nearby text, such as the sentence before it, the table
   beside it or the index entry above it. It also includes a sentence that
   spells out what a heading, lead-in, list, table or sentence already implies.
-- A rule the subject applies internally, such as how it decides, classifies
-  or verifies, stays only when knowing it changes what the reader does or
-  expects, and nothing else in the document already gives them that.
-  Otherwise cut it, and keep the result the reader sees. Run this before the
-  `Reasons` check and the Behaviour Inventory.
+- A rule the subject applies internally stays only when knowing it changes
+  what the reader does or expects, and nothing else in the document already
+  gives them that. That covers how it decides, classifies or verifies, and how
+  it produces a result: the functions it calls, the branches it takes, the text
+  it prints. The reader learns these by using the subject. Otherwise cut it,
+  and keep what the reader gets from it. Run this before the `Reasons` check
+  and the Behaviour Inventory.
 - When you are not sure the reader needs the fact, keep the sentence.
   Low-value text can be seen and cut later. A missing fact cannot be seen.
   Doubt keeps a fact, not a second copy of it.
@@ -141,6 +144,8 @@ List every cut in the report, as Report describes.
 Cut     The launcher picks a download server by pinging each one.
 Keep    Your bracket depends on your last 20 matches, so one bad match
         moves it only a little.
+Cut     retry() calls _backoff(n), which sleeps 2^n seconds.
+Keep    Each retry waits longer than the one before.
 ```
 
 ### View Test
@@ -222,13 +227,15 @@ writer cannot run this check itself, because it has read the source.
    - Which terms or sentences did you not understand?
 3. It returns questions only. It proposes no wording and edits nothing.
 4. Check each question against the source:
-   - a gap: add the missing fact;
+   - a gap: add the missing fact in its smallest form, such as one example
+     case or one requirement note, in the section that owns it;
    - a misreading: rewrite the sentence;
    - the source cannot answer it: label the claim Unknown, as
      `references/source-verification.md` requires;
    - known from context: a line in the starting point answers it, or it asks
-     about a standard term of the field. A term is standard when the field uses
-     it widely and one search explains it. Change nothing. Nothing else counts,
+     about a standard term of the field or the standard behaviour of a
+     platform the starting point names. It is standard when the field uses it
+     widely and one search explains it. Change nothing. Nothing else counts,
      and doubt makes it a gap.
 5. Run the cold reader once per Write. Do not run it again after the fixes.
    List each question in the report as fixed, open or known from context.
@@ -270,8 +277,11 @@ material the task is reading.
 
 ## Before Delivering
 
-Run the reader tests and the cold reader first. Then load
-`references/delivery-checks.md` and run every check that applies. Skip them
+Run this pass after the cold-reader fixes and Internal Review. Run the reader
+tests on every sentence those passes added, then load
+`references/delivery-checks.md` and run every check that applies. When a
+review finding is applied later, run the tests and checks again on the
+sentences it added. Skip them
 only for an edit that changes no meaning, such as a typo fix. Size does not
 count.
 

@@ -376,9 +376,14 @@ gap is a claim the document cannot support.
 
 ## States And Results
 
-When the subject shows the reader a status, a result or an indicator,
-document the full set the reader can meet. A very large set, such as a list
-of error codes, belongs in a reference. Link to it.
+When the subject shows the reader a fixed set of statuses, results or
+indicators to compare, such as a status column, document the full set the
+reader can meet. A very large set, such as a list of error codes, belongs in a
+reference. Link to it.
+
+A message that says in plain words what happened needs no entry. The reader
+reads it when it appears. An enemy alert icon with Idle, Alert and Hunting is
+a set to document; a game's "Saving..." and "Saved." are not.
 
 - Name each one by what the reader sees: the printed word or the label.
 - Say what each one means.
