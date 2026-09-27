@@ -187,7 +187,7 @@ Break the rule.
 - No clause is joined by a colon, a semicolon, or a dash.
 - Each why sits in one sentence with its what.
 - No sentence fails the delete test, except a sentence kept unchanged.
-- Every pronoun in a comment the agent wrote or changed resolves from that comment and the code it sits on.
+- Every pronoun in a comment the agent wrote or changed resolves from that comment and the code it sits on, except in a sentence kept unchanged.
 - The root-motion reason for the floor check before an attack is kept.
 - The hit-flash sentence in the `take_damage` comment is kept word for word and reported as a contradiction.
 - The `_cooldown_left` sentence "It is decreased every physics frame…" is kept word for word and reported, because `_physics_process` returns before the decrease when there is no player.
@@ -327,7 +327,7 @@ Write one sentence with the what first and the why after it, such as "Shows yell
 **Must**
 
 - Delete the symlink comment.
-- Replace the four lines with "Do not remove the `default`." followed by what breaks in this code.
+- Replace the four lines with a sentence that says the `default` must stay, such as "Do not remove the `default`.", followed by what breaks in this code.
 
 **Must Not**
 
@@ -412,15 +412,17 @@ Two runs of "Add comments to this script."
 
 **Must**
 
-Explain the language in the first run only.
+- In the first run, explain each language or engine feature a beginner may not know, once per file, at its first use, next to the line, from documentation read in the run.
+- In the second run, explain no language or engine feature.
 
 **Must Not**
 
-Explain the language in the second run because of the folder name.
+- Explain the language or engine in the second run because of the folder name.
+- In the first run, explain the same feature at every use in a file, or put the explanation in a doc comment or tooltip.
 
 **Owner**
 
-`SKILL.md`, Writing Rules.
+`SKILL.md`, A Good Comment, Add Test, Delete Test and Fact Sources, and Writing Rules.
 
 ## T20. What Could Not Be Checked Is Reported
 
@@ -674,7 +676,7 @@ Write a `WARNING` above `MAX_HEALTH` that names `data/enemies.json`.
 - `// Called by the player and the turret.` A boss class also calls the method.
 - `// Called only by the player.` A turret class also calls the method.
 - `// Called by gameplay code, such as the player and the turret.` A boss class also calls the method.
-- `// Called by the player.` Nine classes call the method. All except the player derive from `AEnemyBase` or `AHazard`.
+- `// Called by the player.` Nine classes with long names call the method, so the completed list would pass 80 characters. All except the player derive from `AEnemyBase` or `AHazard`.
 - `// Called only by the player.` followed by `// The turret also calls it when it overheats.` The code shows the player and the turret as callers.
 - `// Called by the player and the turret.`, with four spaces of indentation. The code shows seven more callers: `Boss`, `ExplosiveBarrel`, `SpikeTrap`, `LaserGrid`, `PoisonCloud`, `FallingRock` and `ArenaHazardController`. The nine caller classes share no base class, folder or tag.
 

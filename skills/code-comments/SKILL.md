@@ -53,7 +53,8 @@ Add a comment when:
 - a reader might simplify, move or delete the code by mistake;
 - you would have to explain the code in a code review;
 - a caller could pass a value the code rejects or treats specially, or needs a unit to use a value correctly;
-- a value or text has a copy that must change with it, in code or in a file that a program or an agent reads.
+- a value or text has a copy that must change with it, in code or in a file that a program or an agent reads;
+- the user says the code is an example or teaching project, and a line holds the first use in its file of a language or engine feature a learner may not know.
 
 A comment for a copy is a `WARNING` that names each copy.
 A copy in documentation written for people does not count.
@@ -67,11 +68,12 @@ For an interface comment, read only the declaration: its name, parameters and ty
 For a constant, a field or a variable, the declaration includes its value.
 Annotations and attributes on the declaration count as part of it.
 If a reader who knows the language could write the comment from that, delete it.
+A sentence that explains a language or engine feature passes when the add test asks for it.
 A sentence whose why passes this test passes, even when its what-part repeats the code.
 
 ### Fact Sources
 
-Take every fact from the project's files, their history, the user, or the help or documentation of a tool, library or engine the code uses, read in this run.
+Take every fact from the project's files, their history, the user, or the help or documentation of the language, a tool, library or engine the code uses, read in this run.
 Never write a fact from memory or a guess.
 If no source gives a fact the comment needs, report the missing fact.
 
@@ -101,7 +103,6 @@ When the code defines no groups, report the list as incomplete, with the items i
 When the claim uses "only", "never", "all" or a similar word, keep it unchanged and report it as a mismatch instead.
 When another sentence of the comment names the item the claim leaves out, name that sentence in the entry and keep it unchanged too.
 A list given as examples, with "such as", "for example" or a similar phrase, claims no complete set.
-Do not complete it.
 
 Reading other code to check a claim does not bring its comments into scope.
 Do not change those comments or mention them in the report.
@@ -214,8 +215,6 @@ Then apply the writing rules to what is left.
 
 ### Kept Text
 
-Text these rules keep unchanged stays as it was, so the user can judge it.
-
 - Protected text and commented-out code keep everything: text, spacing, line breaks and position.
 - Any other text kept unchanged keeps its words, and each of its sentences is joined onto one line.
   When a required line width forbids the join, keep its line breaks.
@@ -231,10 +230,10 @@ Only text that existed before this run can be kept unchanged.
   A sentence never wraps onto a second line.
 - A parameter entry, a list item or a table row may be a name followed by a phrase, and one already in that form stays in it.
   A colon or a dash after the name is not a join.
-- A tooltip may be a phrase, such as a unit.
+- A tooltip may be one phrase per fact, such as a unit.
 - A list of numbered values, such as exit codes or log levels, goes from the lowest number to the highest, unless the code relies on another order or the comment states one.
 - A tab counts as the width a project rule sets, such as `tab_width` in `.editorconfig`, or else as 4 characters.
-- When a project rule sets a line width, such as a formatter, a linter or a style guide, keep every line within it.
+- When a project rule sets a line width, keep every line within it.
   If a sentence still does not fit after its words are shortened, report the line.
 - Without a project rule, aim for 80 characters, indentation included.
   When a sentence is longer, first cut words that carry no fact.
@@ -264,7 +263,7 @@ Do not explain how the language, the engine, a library or a tool behaves.
 When such behaviour forces unusual code, the why names what this code needs or what breaks without it.
 When the code relies on a fact about the engine, a library or a tool, such as where it puts a file, state that fact in the why.
 Leave out how the tool arrives at it.
-Explain the language only when the user says the code is an example or teaching project.
+Explain the language or engine only where the add test asks for it, next to the line, never in a doc comment or a tooltip.
 
 ## Labels
 
@@ -288,7 +287,7 @@ Keep these unchanged:
 - markers that documentation generators or other tools read;
 - code inside a doc comment, such as a doctest.
 
-A doc tag, such as `@param`, is not a marker when the language's or engine's documentation, read in this run, shows its tools do not read the tag, and no project file names another tool that does.
+A doc tag, such as `@param`, is not a marker when the language's or engine's documentation shows its tools do not read the tag, and no project file names another tool that does.
 Never put a comment between a directive and the line it applies to.
 When unsure whether a comment is protected, keep it unchanged and report it.
 
@@ -304,7 +303,7 @@ When unsure whether a comment is protected, keep it unchanged and report it.
 
 Group the report by file when there is more than one file.
 Leave out empty items.
-In each group, list first an entry that may show a bug in the code.
+In each report list, put first an entry that may show a bug in the code.
 
 **Needs Your Decision**
 

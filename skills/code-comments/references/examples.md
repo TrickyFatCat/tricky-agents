@@ -93,7 +93,7 @@ Here the header declares the function, and the `.cpp` file holds the cache check
 ```cpp
 // Plays the footstep sound for the surface under the character.
 // Traces down from the capsule and reads the physical material.
-// Reuses the last sound on the same surface, to skip the sound lookup.
+// Reuses the last sound on the same surface, so the sound lookup is skipped.
 void PlayFootstep();
 ```
 
@@ -105,7 +105,7 @@ void PlayFootstep();
 ```
 
 ```cpp
-// Reuses the last sound on the same surface, to skip the sound lookup.
+// Reuses the last sound on the same surface, so the sound lookup is skipped.
 if (Material == LastMaterial)
 ```
 
