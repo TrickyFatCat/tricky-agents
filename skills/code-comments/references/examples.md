@@ -183,6 +183,39 @@ def export_level(level: Level, path: str) -> None:
 
 The first sentence stays, because the declaration does not show JSON.
 
+## List Numbered Values From Lowest To Highest
+
+A reader finds a value faster when the list runs from the lowest number to the highest.
+Here the script prints this docstring as its help, and relies on no order among its exit codes.
+
+**Before**
+
+```python
+"""Bakes the sprite atlas for the build.
+
+Exit codes:
+  0   atlas written
+  20  nothing changed since the last bake
+  3   the packer is not installed
+  2   the input is not a folder
+  1   the packer failed
+"""
+```
+
+**After**
+
+```python
+"""Bakes the sprite atlas for the build.
+
+Exit codes:
+  0   atlas written
+  1   the packer failed
+  2   the input is not a folder
+  3   the packer is not installed
+  20  nothing changed since the last bake
+"""
+```
+
 ## Keep A Contradiction For The User
 
 A sentence whose fact the code contradicts stays word for word.

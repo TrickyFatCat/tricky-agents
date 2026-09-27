@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Forty-five scenario tests for the code-comments skill.
+Forty-seven scenario tests for the code-comments skill.
 
 Read them against the built rules whenever this skill changes. They are read, not executed, except three.
 
@@ -258,7 +258,7 @@ Reword it, for example to "Counts the cooldown down each frame."
 
 ```gdscript
 ## Takes damage.
-## Subtracts the amount from health.
+## Takes the amount as an int.
 ## This function also plays a hit flash effect.
 func take_damage(amount: int) -> void:
 ```
@@ -268,7 +268,7 @@ The function sets `_flash_timer = 0.1` and plays nothing. No code in reach reads
 **Must**
 
 - Keep the hit-flash sentence word for word and report it as a mismatch under Needs Your Decision.
-- Still delete the two sentences that repeat the code.
+- Still delete the two sentences that repeat the declaration.
 
 **Must Not**
 
@@ -439,7 +439,7 @@ Keep the comment and list the claim under "what you could not check", with the r
 
 **Owner**
 
-`SKILL.md`, Output, Report.
+`SKILL.md`, The Sort, and Output, Report.
 
 ## T21. "Every Function" Skips Functions With Nothing to Say
 
@@ -755,7 +755,7 @@ Delete the side effect because the help also prints it.
 
 **Must**
 
-- Keep the colon and the dash after the state names.
+- Keep each state entry as a name followed by a phrase. The dash may become a colon to match the other entry.
 - Keep the parameter entry as a name and a phrase.
 - Rewrite the floor-check sentence without the joining colon.
 
@@ -936,7 +936,7 @@ Rewrite the sentence so that no reading contradicts the code, such as "Forwards 
 
 "Improve the comments in `format.sh`." The script runs a formatter that is installed on the machine. Two runs.
 
-- The file holds `# Matches the message, because the formatter has no exit code for a missing config.` The formatter's help lists exit code 11 as a configuration error.
+- The file holds `# Matches the message, because the formatter has no exit code for a missing config.` The formatter's help lists exit code 11 as a configuration error, and a run in a temporary folder with no config exits 11.
 - The file has no comment above the line that prints the formatter's stderr. The agent wants to write a sentence about which stream the formatter uses for its diff.
 
 **Must**
@@ -952,7 +952,7 @@ Rewrite the sentence so that no reading contradicts the code, such as "Forwards 
 
 **Owner**
 
-`SKILL.md`, A Good Comment, Fact Sources and Claims About Other Code, and Final Check.
+`SKILL.md`, A Good Comment, Fact Sources and Claims About Other Code, The Sort, step 4, and Final Check.
 
 ## T43. A Missing Fact Joins an Existing Comment
 
@@ -975,7 +975,7 @@ A Python script's `main()` docstring says "Prints a JSON record with the fields 
 
 **Owner**
 
-`SKILL.md`, Operations, Improve, The Sort, step 4, and Kinds.
+`SKILL.md`, Operations, Improve, The Sort, step 4, Kinds, and Output, Report.
 
 ## T44. A Sentence That Misses a Case Is Completed
 
@@ -1025,3 +1025,46 @@ The animation clip is not in reach.
 **Owner**
 
 `SKILL.md`, A Good Comment, Claims About Other Code.
+
+## T46. Numbered Values Go From Lowest to Highest
+
+**Trigger**
+
+"Improve the comments." Two runs.
+
+- A Python script passes its module docstring to `argparse` as the help text. The docstring lists its exit codes in the order 0, 20, 3, 2, 1. The code relies on no order among them.
+- A Python script's help docstring, passed to `argparse`, lists damage types as `3 fire`, `1 ice`, `2 poison` and says "Checked in this order." The code tests the types in that order and stops at the first match.
+
+**Must**
+
+- In the first run, list the codes as 0, 1, 2, 3, 20, with each meaning unchanged.
+- In the second run, keep the listed order.
+
+**Must Not**
+
+- In the first run, keep the order or drop a code.
+- In the second run, sort the list by value.
+
+**Owner**
+
+`SKILL.md`, The Sort, step 5, and Writing Rules.
+
+## T47. A Step With a Hidden Reason Gets a Comment
+
+**Trigger**
+
+"Add comments to `read_save.py`." One line is `start = header_size + 4`. The project's `docs/save-format.md` says that a 4-byte length field follows the header. No other line of the file hides its reason.
+
+**Must**
+
+- Write a comment on that line that gives the reason, such as "Skips the 4-byte length field after the header."
+- Take the fact from `docs/save-format.md`.
+
+**Must Not**
+
+- Leave the line without a comment.
+- Add a comment to a line whose names already show why its result is right.
+
+**Owner**
+
+`SKILL.md`, A Good Comment, Add Test and Fact Sources, and Final Check.
