@@ -1,5 +1,8 @@
 #!/usr/bin/env nu
 
+# Runs dprint, and reruns with the fallback config when dprint finds no config.
+# Returns the last run's complete output in the result field.
+# The config field is "discovered", or "fallback" after a rerun.
 def run-dprint [
     verb: string
     file: string
@@ -14,7 +17,7 @@ def run-dprint [
         let second = (^dprint $verb --no-gitignore --config $fallback $file | complete)
         {result: $second, config: "fallback"}
     } else {
-        # Says "discovered", not "project", because dprint may have used a user-global config.
+        # Says "discovered", not "project", because the config may be user-global.
         {result: $first, config: "discovered"}
     }
 }
@@ -22,7 +25,10 @@ def run-dprint [
 # Formats one Markdown document with dprint.
 #
 # Prints a JSON record to stdout with the fields formatted, config and file.
-# config is "discovered" when dprint found a config itself, or "fallback".
+# Prints no record when the script exits 2 or 3.
+# formatted is true only when the script exits 0.
+# config is "discovered" when dprint found a config itself.
+# config is "fallback" when dprint found none and the bundled config was used.
 #
 #   0   formatted, or already formatted
 #   20  --check found unformatted content
@@ -39,19 +45,20 @@ def main [
         exit 2
     }
 
-    # Checks only for dprint, because the caller checks for nu before running this script.
+    # Checks only for dprint, because the caller has already checked for nu.
     if (which dprint | is-empty) {
         print -e "dprint is not on PATH. Run the manual checks and report the document as not formatted."
         exit 3
     }
 
-    # Finds the fallback from the script's own location, because the caller may run it from any folder.
+    # Finds the fallback from the script's folder, because the script may run from any folder.
     let fallback = ($env.FILE_PWD | path dirname | path join "assets" "dprint.default.jsonc")
 
     let verb = if $check { "check" } else { "fmt" }
     let outcome = (run-dprint $verb $file $fallback)
     let code = $outcome.result.exit_code
 
+    # Forwards only the last dprint run's stderr, so stdout holds only the JSON record.
     let diagnostics = ($outcome.result.stderr | str trim)
     if $diagnostics != "" {
         print -e $diagnostics
