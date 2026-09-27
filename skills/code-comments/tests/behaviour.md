@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Forty-seven scenario tests for the code-comments skill.
+Forty-three scenario tests for the code-comments skill.
 
 Read them against the built rules whenever this skill changes. They are read, not executed, except three.
 
@@ -100,23 +100,44 @@ Delete it as unnecessary.
 
 `SKILL.md`, The Sort, step 2.
 
-## T6. Editor Tooltips Are Written for Designers
+## T6. Tooltips Are Written for Designers From the Declaration
 
 **Trigger**
 
-"Comment the exported values in this script." The file is a Godot 4 script with `@export` variables.
+Three runs.
+
+- "Comment the exported values in this script." The file is a Godot 4 script with `@export` variables and no comments.
+- "Improve the comments." A Godot enemy script holds three exports. The body clamps `knockback_speed` to between 0 and 10.
+
+  ```gdscript
+  ## Speed is 4.5.
+  @export var move_speed := 4.5
+
+  ## Metres per second, from 0 to 10.
+  @export_range(0.0, 10.0) var dash_speed := 6.0
+
+  ## Metres per second, from 0 to 10.
+  @export var knockback_speed := 3.0
+  ```
+
+- "Comment the dash values." The file is a Unity C# script with `public float dashSpeed;` and no `[Tooltip]` attribute.
 
 **Must**
 
-Each `##` comment says what the value does, its units and its range, where the declaration and its annotations do not show them, with one sentence per line.
+- In the first run, each `##` comment says what the value does, its units and its range, where the declaration and its annotations do not show them, with one sentence per line.
+- In the second run, delete the comment above `move_speed` and report its unit as a missing fact, cut the comment above `dash_speed` to the unit, and keep the unit and the range above `knockback_speed`.
+- In the third run, report the missing Unity tooltip under Needs Your Decision, with the text it would hold.
 
 **Must Not**
 
-Include implementation detail.
+- Include implementation detail in a tooltip.
+- Keep a sentence that repeats a value or a range the declaration shows.
+- Invent a unit for `move_speed`.
+- Add a `[Tooltip]` attribute, or a `//` comment presented as the tooltip.
 
 **Owner**
 
-`SKILL.md`, Kinds, Editor Tooltips.
+`SKILL.md`, Kinds, Editor Tooltips, and A Good Comment, Delete Test.
 
 ## T7. A Conflict With a Required Rule Is Asked Once
 
@@ -165,7 +186,8 @@ Break the rule.
 - Each comment line holds one sentence.
 - No clause is joined by a colon, a semicolon, or a dash.
 - Each why sits in one sentence with its what.
-- No sentence fails the delete test, except a sentence kept because it contradicts the code.
+- No sentence fails the delete test, except a sentence kept unchanged.
+- Every pronoun in a comment the agent wrote or changed resolves from that comment and the code it sits on.
 - The root-motion reason for the floor check before an attack is kept.
 - The hit-flash sentence in the `take_damage` comment is kept word for word and reported as a contradiction.
 - The `## @param amount` line is gone, because GDScript has no `@param` tag to require it.
@@ -181,7 +203,7 @@ Break the rule.
 
 **Owner**
 
-`SKILL.md`, The Sort and Writing Rules.
+`SKILL.md`, The Sort, Writing Rules and Final Check.
 
 ## T10. New Comments Come Out Plain
 
@@ -195,7 +217,9 @@ Break the rule.
 - No clause is joined by a colon, a semicolon, or a dash.
 - Each why sits in one sentence with its what.
 - No sentence fails the delete test.
+- Every pronoun resolves from its comment and the code it sits on.
 - The reason the parent of the shared git folder is the primary checkout gets a comment.
+- Each sentence about how git behaves was checked in the run, against git's help or with a run in a temporary folder.
 - Code outside comments is unchanged.
 
 **Must Not**
@@ -205,7 +229,7 @@ Break the rule.
 
 **Owner**
 
-`SKILL.md`, A Good Comment and Writing Rules.
+`SKILL.md`, A Good Comment, Writing Rules and Final Check.
 
 ## T11. An Obvious Comment Is Deleted, Not Reworded
 
@@ -225,25 +249,35 @@ Reword it, for example to "Counts the cooldown down each frame."
 
 `SKILL.md`, The Sort, step 5.
 
-## T12. A Contradiction Is Kept and Reported
+## T12. A Contradiction Is Kept Word for Word
 
 **Trigger**
 
-"Improve the comments." A doc comment holds two sentences that repeat the code and one that says the function plays a hit flash. The function sets `_flash_timer`, and nothing reads it.
+"Improve the comments." A Godot script holds this doc comment above `take_damage`:
+
+```gdscript
+## Takes damage.
+## Subtracts the amount from health.
+## This function also plays a hit flash effect.
+func take_damage(amount: int) -> void:
+```
+
+The function sets `_flash_timer = 0.1` and plays nothing. No code in reach reads `_flash_timer`, but other scripts in the project are out of reach.
 
 **Must**
 
-- Keep the hit-flash sentence word for word and report the mismatch.
-- Still delete the sentences that repeat the code.
+- Keep the hit-flash sentence word for word and report it as a mismatch under Needs Your Decision.
+- Still delete the two sentences that repeat the code.
 
 **Must Not**
 
-- Delete or rewrite the hit-flash sentence.
+- Delete the hit-flash sentence, or rewrite it to follow the writing rules, such as "Also plays a hit flash effect.", before the user decides.
+- Report it as not checked because other code might play the flash.
 - Leave the whole comment unchanged because one sentence contradicts the code.
 
 **Owner**
 
-`SKILL.md`, The Sort, step 4.
+`SKILL.md`, The Sort, step 4 and Kept Text, and A Good Comment, Claims About Other Code.
 
 ## T13. A Bad Name Is Reported, Not Renamed
 
@@ -281,7 +315,7 @@ Write one sentence with the what first and the why after it, such as "Shows yell
 
 **Owner**
 
-`SKILL.md`, Writing Rules.
+`SKILL.md`, Writing Rules, and A Good Comment, Delete Test.
 
 ## T15. The Language Is Not Explained
 
@@ -318,25 +352,34 @@ Write a reason the sources do not give.
 
 **Owner**
 
-`SKILL.md`, The Sort, step 5, and Operations, Improve.
+`SKILL.md`, The Sort, step 5, and A Good Comment, Fact Sources.
 
-## T17. A Review Changes No Files
+## T17. A Review Proposes Changes and Changes No Files
 
 **Trigger**
 
-"Review the comments in `install.nu`."
+"Review the comments in `EnemySpawner.cs`." No project rule sets a line width. The file holds five comments.
+
+- `// Called by the player and the turret.` sits above `SpawnWave()`, and a boss also calls it.
+- A doc comment holds a contradicting sentence, and an older sentence in the same comment states its true reading.
+- Another comment says "Called only by the player.", and a turret also calls that method.
+- A doc comment says "Returns the spawned enemy.", and the method returns nothing.
+- `float t;  // Seconds since the last wave ended.` makes up for the name `t`.
 
 **Must**
 
-Answer in the conversation, judging the comments with the skill's rules.
+- Answer in the conversation, judging the comments with the skill's rules.
+- Open the report with Proposed Changes, which shows the completed caller list and the proposed deletion.
+- Put the return-value mismatch and the "only" claim under Needs Your Decision, before the bad name, because they may show a bug in the code.
 
 **Must Not**
 
-Change any file.
+- Change any file.
+- Put the proposed text only under For Your Information.
 
 **Owner**
 
-`SKILL.md`, Operations, Review.
+`SKILL.md`, Operations, Review, and Output, Report.
 
 ## T18. A Required Doc Part Is Replaced, Not Deleted
 
@@ -441,21 +484,21 @@ Leave the deletions out of the report.
 
 **Trigger**
 
-"Improve the comments in `export.py`." The docstring of `main()` is passed to `argparse` as the help description. It also holds a doctest.
+"Improve the comments in `export.py`." The docstring of `main()` is passed to `argparse` as the help description. It also holds a doctest that spans three lines.
 
 **Must**
 
 - Keep the help text. Its wording may change under the writing rules.
-- Keep the doctest lines exactly as they are.
+- Keep the doctest lines exactly as they are, including their line breaks.
 
 **Must Not**
 
 - Delete the help text because it fails the delete test.
-- Reword the doctest.
+- Reword the doctest, or join its lines.
 
 **Owner**
 
-`SKILL.md`, The Sort, step 5, and Protected Comments.
+`SKILL.md`, The Sort, steps 1 and 5 and Kept Text, and Protected Comments.
 
 ## T24. A Moved Fact Is Tested Again
 
@@ -505,39 +548,46 @@ The loop sentence reappears as a comment in the body.
 
 **Trigger**
 
-"Add comments to `InventoryUI.cs`." While drafting, the agent writes `// Called only by the pause menu.` above `public void Refresh()`. `HudController.cs` in the same project also calls `Refresh`.
+"Add comments to `InventoryUI.cs`." While drafting, the agent writes `// Called only by the pause menu.` above `public void Refresh()`.
+
+- In the first run, `HudController.cs` in the same project also calls `Refresh`.
+- In the second run, only the pause menu calls `Refresh` in the code in reach, and the method is public, so code out of reach may call it.
 
 **Must**
 
-Deliver no sentence that code in reach disproves.
+- In the first run, deliver no sentence that code in reach disproves.
+- In the second run, do not write the claim, because the code in reach does not prove it.
 
 **Must Not**
 
-Deliver the claim as it was written from what the agent read while drafting.
+- Deliver the claim as it was written from what the agent read while drafting.
+- Deliver a new claim and report it as not checked.
 
 **Owner**
 
-`SKILL.md`, Final Check.
+`SKILL.md`, A Good Comment, Claims About Other Code, and Final Check.
 
 ## T27. The Line Width Comes From the Project, Else 80
 
 **Trigger**
 
-"Improve the comments." A Godot script has no formatter, linter or style guide.
+"Improve the comments." Three runs.
 
-- A top-level comment holds one fact and its reason, and reaches 90 characters: `# Limits knockback force to 300 per hit, so stacked hits never push enemies through walls.`
-- Another top-level comment holds two facts and reaches 94 characters: `# Stores the dash speed in metres per second and resets it to zero each time the player lands.`
-- In a second run, the project's `.editorconfig` sets `max_line_length = 72`.
+- A Godot script has no formatter, linter, style guide or `.editorconfig`. A top-level comment holds one fact and its reason, and reaches 90 characters: `# Limits knockback force to 300 per hit, so stacked hits never push enemies through walls.` Another top-level comment holds two facts and reaches 94 characters: `# Stores the dash speed in metres per second and resets it to zero each time the player lands.` A function holds `# Waits for the landing animation, so the dash cannot start in mid-air.` behind two tabs, with 71 characters of text.
+- The same script, and `.editorconfig` sets `max_line_length = 72`.
+- The same script, and `.editorconfig` sets `tab_width = 8` and no line width.
 
 **Must**
 
-- In the first run, keep the first sentence whole on one line, and split the second into one sentence per fact.
+- In the first run, keep the first sentence whole on one line, split the second into one sentence per fact, and count the tabbed line as 79 characters and keep it as it is.
 - In the second run, keep every line within 72 characters, or report each line that still does not fit after its words are shortened.
+- In the third run, count the tabbed line as 87 characters, cut words that carry no fact, and keep what is left on one line.
 
 **Must Not**
 
 - Wrap a sentence onto a second line.
 - Cut the what from its why to reach 80 characters.
+- Count a tab as one character.
 
 **Owner**
 
@@ -587,6 +637,7 @@ The code repairs broken JSON and returns an empty list only for a wrong header. 
 **Must Not**
 
 - In the second run, add a sentence about the header and then delete the first sentence.
+- In the second run, correct "invalid" as a wrong word, because the condition is the fact the sentence states.
 - In either run, add a sentence that contradicts a kept one.
 
 **Owner**
@@ -616,12 +667,14 @@ Write a `WARNING` above `MAX_HEALTH` that names `data/enemies.json`.
 
 **Trigger**
 
-"Improve the comments." An Unreal project holds four comments above four damage functions.
+"Improve the comments." A game project holds six comments above six methods. No project rule sets a line width.
 
-- `// Called by the player and the turret.` A boss class also calls the function.
-- `// Called only by the player.` A turret class also calls the function.
-- `// Called by gameplay code, such as the player and the turret.` A boss class also calls the function.
-- `// Called by the player.` Nine classes call the function. All except the player derive from `AEnemyBase` or `AHazard`.
+- `// Called by the player and the turret.` A boss class also calls the method.
+- `// Called only by the player.` A turret class also calls the method.
+- `// Called by gameplay code, such as the player and the turret.` A boss class also calls the method.
+- `// Called by the player.` Nine classes call the method. All except the player derive from `AEnemyBase` or `AHazard`.
+- `// Called only by the player.` followed by `// The turret also calls it when it overheats.` The code shows the player and the turret as callers.
+- `// Called by the player and the turret.`, with four spaces of indentation. The code shows seven more callers: `Boss`, `ExplosiveBarrel`, `SpikeTrap`, `LaserGrid`, `PoisonCloud`, `FallingRock` and `ArenaHazardController`. The nine caller classes share no base class, folder or tag.
 
 **Must**
 
@@ -629,35 +682,20 @@ Write a `WARNING` above `MAX_HEALTH` that names `data/enemies.json`.
 - Keep the second sentence word for word, and report it as a mismatch.
 - Leave the third sentence as it is.
 - Rewrite the fourth as groups named after the player, `AEnemyBase` and `AHazard`, with examples given by "such as", and report the change.
+- Keep both sentences of the fifth comment word for word, report the first as a mismatch, and name the second sentence in the entry.
+- Keep the sixth sentence and report the list as incomplete, with the seven missing callers.
 
 **Must Not**
 
 - Invent a group that the code does not define.
-- Complete the second or the third list.
+- Complete the second, the third, the fifth or the sixth list.
+- Delete "Called only by the player." because the next sentence names the turret.
 
 **Owner**
 
 `SKILL.md`, A Good Comment, Claims About Other Code.
 
-## T32. A Review Proposes Edits Without Making Them
-
-**Trigger**
-
-"Review the comments in `EnemySpawner.cs`." A comment lists two callers, and the code shows a third. A doc comment holds a contradicting sentence, and an older sentence in the same comment states its true reading.
-
-**Must**
-
-Report findings that show the completed list and the proposed deletion.
-
-**Must Not**
-
-Change the file.
-
-**Owner**
-
-`SKILL.md`, Operations, Review.
-
-## T33. Matching a Sibling Does Not Add a Comment
+## T32. Matching a Sibling Does Not Add a Comment
 
 **Trigger**
 
@@ -675,41 +713,7 @@ Add a docstring to `Despawn` so that it matches `Spawn`.
 
 `SKILL.md`, Writing Rules.
 
-## T34. The Delete Test Reads the Value and the Annotations
-
-**Trigger**
-
-"Improve the comments." A Godot enemy script holds three exports:
-
-```gdscript
-## Speed is 4.5.
-@export var move_speed := 4.5
-
-## Metres per second, from 0 to 10.
-@export_range(0.0, 10.0) var dash_speed := 6.0
-
-## Metres per second, from 0 to 10.
-@export var knockback_speed := 3.0
-```
-
-The body clamps `knockback_speed` to between 0 and 10.
-
-**Must**
-
-- Delete the comment above `move_speed`, and report its unit as a missing fact.
-- Cut the comment above `dash_speed` to the unit.
-- Keep the unit and the range above `knockback_speed`.
-
-**Must Not**
-
-- Keep a sentence that repeats a value or a range the declaration shows.
-- Invent a unit for `move_speed`.
-
-**Owner**
-
-`SKILL.md`, A Good Comment, Delete Test.
-
-## T35. A File Header Leaves Usage to the Help
+## T33. A File Header Leaves Usage to the Help
 
 **Trigger**
 
@@ -728,34 +732,40 @@ Delete the side effect because the help also prints it.
 
 `SKILL.md`, Kinds, File Headers.
 
-## T36. A Label Colon Is Not a Join
+## T34. An Entry Name Is Not a Join
 
 **Trigger**
 
-"Improve the comments." A Godot enemy script holds two comments:
+"Improve the comments." A Godot enemy script holds two comments, and a Python script holds a parameter entry.
 
 ```gdscript
 ## States the enemy can be in.
 ## - "idle": waits at its spawn point.
-## - "chase": moves toward the player.
+## - "chase" - moves toward the player.
 
 # Checks the floor first: root motion can carry the enemy off a ledge.
 ```
 
+```python
+    Args:
+        radius: blast radius in metres, 0 or more.
+```
+
 **Must**
 
-- Keep the colons after the state names.
+- Keep the colon and the dash after the state names.
+- Keep the parameter entry as a name and a phrase.
 - Rewrite the floor-check sentence without the joining colon.
 
 **Must Not**
 
-Turn the state list into prose.
+- Turn the state list or the parameter entry into prose.
 
 **Owner**
 
 `SKILL.md`, Writing Rules.
 
-## T37. A Reason States What the Code Needs
+## T35. A Reason States What the Code Needs
 
 **Trigger**
 
@@ -780,25 +790,7 @@ Rewrite the comment to state what this code needs, such as "Waits for physics, s
 
 `SKILL.md`, Writing Rules, comments are not tutorials.
 
-## T38. Kept Text Is Not Reworded
-
-**Trigger**
-
-"Improve the comments." A Godot script holds `## This function also plays a hit flash effect.` above `func take_damage(amount: int) -> void:`. The function sets `_flash_timer`, and no code in reach reads it.
-
-**Must**
-
-Keep the sentence word for word and report the mismatch.
-
-**Must Not**
-
-Rewrite it to follow the writing rules, such as "Also plays a hit flash effect.", before the user decides.
-
-**Owner**
-
-`SKILL.md`, The Sort.
-
-## T39. A Kept Sentence Keeps Its Context
+## T36. A Kept Sentence Keeps Its Context
 
 **Trigger**
 
@@ -820,7 +812,7 @@ The name `_cooldown_left` does not say which cooldown it tracks. The C# code can
 
 **Must**
 
-- Keep both Godot sentences, and report the name `_cooldown_left` and the mismatch.
+- Keep the first Godot sentence, reworded under the writing rules, and keep the second word for word. Report the name `_cooldown_left` and the mismatch.
 - Delete "Stores the health." and keep "It never drops below zero." word for word.
 - Say in the C# mismatch entry that the subject of "It" was in a deleted sentence.
 
@@ -832,28 +824,9 @@ The name `_cooldown_left` does not say which cooldown it tracks. The C# code can
 
 **Owner**
 
-`SKILL.md`, The Sort, steps 3 and 5, and A Good Comment, Claims About Other Code.
+`SKILL.md`, The Sort, steps 3, 4 and 5, and A Good Comment, Claims About Other Code.
 
-## T40. A Claim About This Code Is Checked Against This Code
-
-**Trigger**
-
-"Improve the comments." A Godot script holds `## Plays a hit flash effect.` above `take_damage`. The function sets `_flash_timer = 0.1` and plays nothing. No code in reach reads `_flash_timer`, but other scripts in the project are out of reach.
-
-**Must**
-
-Keep the sentence word for word and report it as a mismatch under Needs Your Decision.
-
-**Must Not**
-
-- Report it as not checked because other code might play the flash.
-- Reword it.
-
-**Owner**
-
-`SKILL.md`, A Good Comment, Claims About Other Code.
-
-## T41. A Reason Names the Tool Fact the Code Relies On
+## T37. A Reason Names the Tool Fact the Code Relies On
 
 **Trigger**
 
@@ -877,7 +850,7 @@ Rewrite the comment to state the fact the code relies on, such as "Saves to user
 
 `SKILL.md`, Writing Rules, comments are not tutorials.
 
-## T42. Blank Lines Follow the Comments
+## T38. Blank Lines Follow the Comments
 
 **Trigger**
 
@@ -886,7 +859,7 @@ Rewrite the comment to state the fact the code relies on, such as "Saves to user
 **Must**
 
 - Put a blank line between the file header and the `refuse` comment, so the header does not become the help text of `refuse`.
-- Leave every blank line between two code lines as it is.
+- Leave every blank line between two code lines in the input as it is.
 
 **Must Not**
 
@@ -897,7 +870,7 @@ Rewrite the comment to state the fact the code relies on, such as "Saves to user
 
 `SKILL.md`, Invariant, and Kinds, File Headers.
 
-## T43. An Agent Instruction File Counts as a Copy
+## T39. An Agent Instruction File Counts as a Copy
 
 **Trigger**
 
@@ -916,96 +889,88 @@ Write a `WARNING` at `refuse` that names `AGENTS.md`.
 
 `SKILL.md`, A Good Comment, Add Test.
 
-## T44. An Exclusive Claim Stays With the User
+## T40. The Agent's Own Sentence Is Fixed, Not Kept
 
 **Trigger**
 
-"Improve the comments." A Unity script holds:
-
-```csharp
-// Called only by the player.
-// The turret also calls it when it overheats.
-public void ApplyHeatDamage(float amount)
-```
-
-The code shows two callers, the player and the turret.
+"Improve the comments in `export_level.py`." While drafting, the agent writes `# Sends the tool's messages to stderr, so stdout holds only the JSON result.` above the line that prints the tool's stderr. The code captures the tool's stdout and drops it. Before the final check, the agent notices that one reading of its sentence says every message is forwarded.
 
 **Must**
 
-- Keep both sentences word for word.
-- Report the first as a mismatch, and name the second sentence in the entry.
+Rewrite the sentence so that no reading contradicts the code, such as "Forwards only the tool's stderr, so stdout holds only the JSON result."
 
 **Must Not**
 
-- Delete "Called only by the player." because the second sentence names the turret.
-- Complete the first sentence with the turret.
+- Keep the sentence word for word and report it as a mismatch.
+- Treat the sentence as text that existed before the run.
 
 **Owner**
 
-`SKILL.md`, A Good Comment, Claims About Other Code.
+`SKILL.md`, The Sort and Kept Text, and Final Check.
 
-## T45. A Tab Counts as the Project's Width, Else 4
+## T41. A Wrong Word Outside the Fact Is Corrected
 
 **Trigger**
 
-"Improve the comments." A GDScript function holds this comment behind two tabs. The text is 71 characters.
-
-```gdscript
-		# Waits for the landing animation, so the dash cannot start in mid-air.
-```
-
-- In the first run, the project has no `.editorconfig`.
-- In the second run, `.editorconfig` sets `tab_width = 8` and no line width.
+"Improve the comments." A texture build script holds `# Compresses the texture even when it is read-only, because the artist chose this file.` above `process(texture, mode, force=True)`. `mode` is "compress" or "verify", and nothing else in the comment mentions the mode.
 
 **Must**
 
-- In the first run, count the line as 79 characters and keep the comment as it is.
-- In the second run, count it as 87 characters. Cut words that carry no fact, and keep what is left on one line.
+- Correct "Compresses" to a word that covers both modes, and keep the sentence's other facts and its reason.
+- Report the correction under For Your Information.
 
 **Must Not**
 
-- Count a tab as one character.
-- Split the what from its why, or wrap the sentence.
+- Keep the sentence unchanged and report it under Needs Your Decision.
+- Rewrite the reason, or drop `force`'s why.
 
 **Owner**
 
-`SKILL.md`, Writing Rules.
+`SKILL.md`, The Sort, step 4, and Output, Report.
 
-## T46. A List That Would Pass 80 Is Not Completed
+## T42. A Claim About a Tool Is Checked Like a Claim About Code
 
 **Trigger**
 
-"Improve the comments." A Unity class holds `// Called by the player and the turret.` above a method, with four spaces of indentation. The code shows four more callers, `Boss`, `ExplosiveBarrel`, `SpikeTrap` and `LaserGrid`. The six caller classes share no base class, folder or tag. The shortest completed sentence, `// Called by the player, turret, boss, explosive barrel, spike trap and laser grid.`, is 87 characters with its indentation. The project has no line-width rule.
+"Improve the comments in `format.sh`." The script runs a formatter that is installed on the machine. Two runs.
+
+- The file holds `# Matches the message, because the formatter has no exit code for a missing config.` The formatter's help lists exit code 11 as a configuration error.
+- The file has no comment above the line that prints the formatter's stderr. The agent wants to write a sentence about which stream the formatter uses for its diff.
 
 **Must**
 
-Keep the sentence and report the list as incomplete, with the four missing callers.
+- In the first run, keep the sentence word for word, report it as a mismatch, and name the help as the source of the true fact.
+- In the second run, check the stream from the formatter's help, or from a run on a copy of a file in a temporary folder, before writing the sentence.
 
 **Must Not**
 
-- Complete the list past 80 characters.
-- Invent a group for the callers.
+- Write the stream from memory.
+- Check it with a run that formats the user's files in place, or with a run whose effects the agent is unsure of.
+- Report the first sentence as not checked when the help was in reach.
 
 **Owner**
 
-`SKILL.md`, A Good Comment, Claims About Other Code.
+`SKILL.md`, A Good Comment, Fact Sources and Claims About Other Code, and Final Check.
 
-## T47. A Review Leads With Its Proposed Changes
+## T43. A Missing Fact Joins an Existing Comment
 
 **Trigger**
 
-"Review the comments in `EnemySpawner.cs`." A comment lists two callers, and the code shows a third. Another comment says "Called only by the player.", and a turret also calls that method.
+A Python script's `main()` docstring says "Prints a JSON record with the fields ok and file." The script exits with code 2 before printing when the path is a folder. Two runs.
+
+- In the first run, the user says "Improve the comments."
+- In the second run, the user says "Shorten the comments."
 
 **Must**
 
-- Open the report with Proposed Changes, which shows the completed caller list.
-- Put the "only" claim under Needs Your Decision.
+- In the first run, add a sentence to the docstring that says no record is printed for exit code 2.
+- In the second run, report the missing fact instead of adding it.
 
 **Must Not**
 
-- Put the proposed text only under For Your Information.
-- Change the file.
+- In the first run, leave the fact out because a comment already exists, or write it as a separate comment in the body.
+- In the second run, make the comment longer.
 
 **Owner**
 
-`SKILL.md`, Operations, Review, and Output, Report.
+`SKILL.md`, Operations, Improve, and Kinds.

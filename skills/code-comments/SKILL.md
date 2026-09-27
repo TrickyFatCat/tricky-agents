@@ -5,7 +5,7 @@ description: Use this skill when the user asks to add, improve, rewrite, shorten
 
 # Code Comments
 
-A comment tells the reader something they need and cannot get from the code, its names, or the language.
+A comment tells a reader new to this code something they need and cannot get from the code, its names, or the language.
 This skill adds such comments, and deletes, replaces or reports the rest.
 
 ## Invariant
@@ -14,7 +14,7 @@ Preserve all non-comment code exactly, including identifiers, literals, ordering
 Do not refactor, rename, reformat, optimise or correct code.
 If a comment change would need a code change, report the conflict instead.
 Blank lines next to a comment you add, delete or change are part of that comment's layout, and may be added or removed.
-Never add or remove a blank line that has a code line directly above and below it.
+Never add or remove a blank line that has a code line directly above and below it in the input.
 
 ## Before Commenting
 
@@ -31,6 +31,8 @@ Never add or remove a blank line that has a code line directly above and below i
    A yes breaks the rule for this request.
    Any other answer, including "you decide", keeps the rule.
    When it is unclear whether a rule is required, follow it.
+4. Read `references/examples.md`.
+   It shows these rules applied, and adds no rule of its own.
 
 Ask nothing else before the work.
 Do not ask whether the project has comment rules, or whether the code is shared.
@@ -66,27 +68,42 @@ For an interface comment, read only the declaration: its name, parameters and ty
 For a constant, a field or a variable, the declaration includes its value.
 Annotations and attributes on the declaration count as part of it.
 If a reader who knows the language could write the comment from that, delete it.
+A sentence whose why passes this test passes, even when its what-part repeats the code.
+
+### Fact Sources
+
+Take every fact from the project's files, their history, the user, or the help or documentation of a tool, library or engine the code uses, read in this run.
+Never write a fact from memory or a guess.
+If no source gives a fact the comment needs, report the missing fact.
 
 ### Claims About Other Code
 
 A comment can claim something about code outside its own lines, such as "change nothing else", "the only caller" or "never null".
 Check each such claim against that code before you keep or write it.
+Write a new claim only when a source in reach proves it.
 When that code is out of reach, report the claim as not checked.
 When code in reach disproves the claim, report it as a mismatch, even when other code is out of reach.
 Report a claim as not checked only when nothing in reach disproves it.
 A claim about what this code does is checked against this code, even when other code might add to it.
 Keep a claim reported as not checked unchanged.
 
+A claim about how a tool, a library or an engine behaves, such as an exit code, an output stream or where a file goes, is a tool claim.
+Check it against the tool's help or documentation, or with a run that changes nothing outside a temporary folder.
+Never run a command that could change the user's files, a remote or a shared service to check a claim.
+When unsure what a run changes, do not run it.
+A tool claim that the help or documentation disproves is a mismatch, and sort step 4 keeps it unchanged.
+A tool claim that cannot be checked is reported as not checked.
+Unlike a claim about code, the writing rules still apply to it and may cut it, but never change its fact.
+
 A claim that lists callers, copies or cases is incomplete when code in reach shows one it leaves out.
-When the completed sentence fits the project's line width, or else 80 characters, complete it from the code and report the change.
-Here 80 is a limit, not a target.
+When the completed sentence fits within the project's line width, or else within 80 characters, complete it from the code and report the change.
 Otherwise name the groups the code defines, such as a base class, a folder or a tag.
 Add examples with "such as", and report the change.
 When the code defines no groups, report the list as incomplete.
 When the claim uses "only", "never", "all" or a similar word, keep it unchanged and report it as a mismatch instead.
 When another sentence of the comment names the item the claim leaves out, name that sentence in the entry and keep it unchanged too.
 A list given as examples, with "such as", "for example" or a similar phrase, claims no complete set.
-Leave it as it is.
+Do not complete it.
 
 Reading other code to check a claim does not bring its comments into scope.
 Do not change those comments or mention them in the report.
@@ -122,10 +139,11 @@ It says what the value does, its units and its range, where the declaration and 
 - Unreal shows the comment above a `UPROPERTY` or `UFUNCTION`.
 - Godot 4 shows a `##` comment above an `@export` variable.
 
+When the editor reads the tooltip from code, such as Unity's `[Tooltip]` attribute, report a missing tooltip and the text it would hold, instead of writing it.
+
 ### File Headers
 
-A file header is an interface comment for the whole file.
-A file header holds only facts about the whole file.
+A file header is an interface comment for the whole file, and holds only facts about the whole file.
 For the delete test, read the file name and its public declarations, not the bodies.
 A new header goes after the shebang, the encoding line and any licence notice.
 Separate a new header from the comment or code below it with a blank line.
@@ -147,9 +165,8 @@ A project rule that requires the comment still wins.
 
 Improve covers requests to rewrite, shorten, clean up or remove comments.
 Run the sort on every existing comment in scope.
-Also add a comment where the add test passes and no comment exists.
-Take the fact only from the code, its history, or the user.
-If no source gives it, report the missing fact.
+Also add each missing fact where the add test passes, as a new comment or as a new sentence in an existing one.
+When the user asked only to shorten or remove comments, report a missing fact instead of adding it.
 
 **Review**
 
@@ -159,42 +176,54 @@ Report each change Improve would make, with the proposed text, under **Proposed 
 
 ## The Sort
 
-Sort each existing comment before you reword it.
+Sort each comment that existed before this run.
+A sentence you wrote in this run is never sorted, and the Final Check covers it instead.
 
 For the whole comment:
 
-1. Protected: leave it unchanged.
-2. Commented-out code: keep it and report it.
+1. Protected: keep it unchanged.
+   When only part of a comment is protected, such as a doctest, keep that part unchanged and sort the rest.
+2. Commented-out code: keep it unchanged and report it.
    Delete it only when the user asks.
-3. Makes up for a bad name: keep it and report the name.
+3. Makes up for a bad name: report the name.
    The rename is the user's decision.
    Never rename.
+   The sentence that makes up for the name passes step 5.
 
-Then for each sentence of any other comment:
+Then for each sentence of any comment that steps 1 and 2 do not keep:
 
 4. Contradicts the code: a sentence with any reading that contradicts the code counts.
-   Keep the sentence unchanged and report the mismatch.
+   Keep it unchanged and report the mismatch.
    Do not guess which side is wrong.
-   Delete it instead when another sentence of the comment, already there before this run, states the reading that matches the code.
-   Report the deletion.
-   Never add a sentence that contradicts a kept one.
-   Name the true fact in the report instead.
-   An incomplete list follows Claims About Other Code instead of this step.
+   - Delete it instead when another sentence of the comment, already there before this run, states the reading that matches the code.
+     Report the deletion.
+   - Correct it instead when the wrong word is not part of the fact the sentence exists to state, and the code shows the right word.
+     Report the correction.
+     When unsure, keep it unchanged.
+   - Never add a sentence that contradicts a kept one.
+     Name the true fact and its source in the report instead.
+   - An incomplete list follows Claims About Other Code instead of this step.
 5. Fails the delete test: delete it.
-   - Before deleting a sentence that a sentence kept unchanged depends on, check step 3 for the whole comment.
-     When step 3 does not apply, the dependent sentence still stays unchanged.
-     Say in its report entry that its subject was in a deleted sentence.
+   - When a sentence kept unchanged depends on a sentence you delete, say in its report entry that its subject was in the deleted sentence.
    - If the code passes the add test, write the missing fact instead.
-     Take the fact only from the code, its history, or the user.
-     If no source gives it, report the missing fact.
    - Never delete a part of a doc comment that project rules or tools require.
      A doc comment the program reads at runtime, such as help text or reflection, counts as required.
      Replace a failing required part with a fact the caller needs.
-     If no source gives such a fact, keep the part as it is.
+     If no source gives such a fact, keep the part unchanged.
 6. Passes: keep its facts.
 
-Then apply the writing rules to what is left, except text the sort keeps unchanged.
-Text kept unchanged anywhere in these rules keeps its words, but each of its sentences is joined onto one line.
+Then apply the writing rules to what is left.
+
+### Kept Text
+
+Text these rules keep unchanged stays as it was, so the user can judge it.
+
+- Protected text and commented-out code keep everything: text, spacing, line breaks and position.
+- Any other text kept unchanged keeps its words, and each of its sentences is joined onto one line.
+  When a required line width forbids the join, keep its line breaks.
+
+The writing rules and the Final Check skip text kept unchanged.
+Only text that existed before this run can be kept unchanged.
 
 ## Writing Rules
 
@@ -202,6 +231,7 @@ Text kept unchanged anywhere in these rules keeps its words, but each of its sen
   What the code does and why share one sentence: "Limits X to avoid Y."
 - One sentence per line.
   A sentence never wraps onto a second line.
+- A parameter entry, a list item or a table row may be a name followed by a phrase.
 - A tab counts as the width a project rule sets, such as `tab_width` in `.editorconfig`, or else as 4 characters.
 - When a project rule sets a line width, such as a formatter, a linter or a style guide, keep every line within it.
   If a sentence still does not fit after its words are shortened, report the line.
@@ -211,18 +241,18 @@ Text kept unchanged anywhere in these rules keeps its words, but each of its sen
   If it holds one fact, or one fact and its reason, keep it on one line.
 - Never split what the code does from its why.
   After any other split, run the delete test on each new sentence, and delete a sentence that fails.
-  A sentence that carries a why passes, even when its what-part repeats the code.
-  If a kept sentence loses its subject, name the subject in it.
+  If a remaining sentence loses its subject, name the subject in it.
 - Do not join clauses with a colon, a semicolon or a dash.
-  A colon after a label, such as a list item's name or a parameter name, is not a join.
+  A colon or a dash after the name in a parameter entry, a list item or a table row is not a join.
 - Join a fact to its reason with "because" or "so" at most once per comment.
 - Write what the code does first, then why.
 - When the reader must not change something, say so first, then why.
+  Such a sentence may tell the reader directly, such as "Do not remove the default."
 - Use common words.
   No idioms.
   No compressed grammar.
   Explain a technical term the code does not define.
-- Use the third person with no subject: "Updates main", not "Update main" or "This function updates main".
+- Otherwise use the third person with no subject: "Updates main", not "Update main" or "This function updates main".
 - Use an identifier only when it is more precise than words.
 - Match related comments, and the project's terms, in wording and detail.
   This shapes a comment that exists or passes the add test.
@@ -232,11 +262,7 @@ Text kept unchanged anywhere in these rules keeps its words, but each of its sen
 
 Comments are not tutorials.
 Do not explain how the language, the engine, a library or a tool behaves.
-The reader knows them better than you.
-When such behaviour forces unusual code, write only what this code does and why, in this code's terms.
-Leave out the mechanics behind it.
-The why names what this code needs or what breaks without it.
-It does not say what the tool does inside to cause it.
+When such behaviour forces unusual code, the why names what this code needs or what breaks without it.
 When the code relies on a fact about the engine, a library or a tool, such as where it puts a file, state that fact in the why.
 Leave out how the tool arrives at it.
 Explain the language only when the user says the code is an example or teaching project.
@@ -255,7 +281,7 @@ Follow a label with a complete sentence.
 
 ## Protected Comments
 
-Leave these exactly as they are, including text, spacing and position:
+Keep these unchanged:
 
 - copyright, licence, SPDX and attribution notices;
 - generated-code and "do not edit" markers;
@@ -264,7 +290,7 @@ Leave these exactly as they are, including text, spacing and position:
 - code inside a doc comment, such as a doctest.
 
 Never put a comment between a directive and the line it applies to.
-When unsure whether a comment is protected, leave it unchanged and report it.
+When unsure whether a comment is protected, keep it unchanged and report it.
 
 ## Output
 
@@ -278,6 +304,7 @@ When unsure whether a comment is protected, leave it unchanged and report it.
 
 Group the report by file when there is more than one file.
 Leave out empty items.
+In each group, list first an entry that may show a bug in the code.
 
 A Review report opens with **Proposed Changes**, before the two groups below.
 
@@ -289,12 +316,14 @@ A Review report opens with **Proposed Changes**, before the two groups below.
 - items skipped in an "every item" request;
 - commented-out code, kept;
 - a line that does not fit the project's line width;
-- an incomplete list whose items the code does not group.
+- an incomplete list whose items the code does not group;
+- a missing tooltip that the editor reads from code.
 
 **For Your Information**
 
 - how many comments were deleted, and each deleted comment in full when its file is not under version control;
 - each contradicting sentence deleted because an older sentence states its true reading;
+- each word corrected under sort step 4;
 - each list completed or replaced by groups;
 - required parts kept unchanged;
 - what you could not check, and why;
@@ -305,11 +334,13 @@ A Review report opens with **Proposed Changes**, before the two groups below.
 
 Before returning:
 
-- Run the delete test on every sentence you wrote or kept, except text the sort keeps unchanged.
+- Run the delete test on every sentence you wrote or left in place, except text kept unchanged.
 - Check the writing rules on every sentence you wrote or changed.
-- List every sentence you wrote that depends on code outside its own lines, such as a caller, another function, a value or another file.
-  Read that code again and check each sentence against it.
+- List each sentence you wrote, with the code, tool help or documentation it depends on, including code outside its own lines.
+  Read that source again, and rewrite or delete a sentence with any reading that contradicts it.
   Do not rely on what you read while drafting.
+- Read each comment you wrote or changed with only the code it sits on.
+  Name the subject of any pronoun that this leaves unclear.
 - List the facts that passed the sort.
   Each one is still in the comment after the writing rules ran.
 - Count the code lines, leaving out comments and blank lines.
