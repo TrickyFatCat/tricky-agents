@@ -10,6 +10,7 @@ This skill adds such comments, and deletes, replaces or reports the rest.
 
 ## Invariant
 
+This skill covers comment work only, and never blocks code work the user asks for in the same request.
 Preserve all non-comment code exactly, including identifiers, literals, ordering, behaviour and formatting.
 Do not refactor, rename, reformat, optimise or correct code.
 If a comment change would need a code change, report the conflict instead.
@@ -32,7 +33,6 @@ Never add or remove a blank line that has a code line directly above and below i
    Any other answer, including "you decide", keeps the rule.
    When it is unclear whether a rule is required, follow it.
 4. Read `references/examples.md`.
-   It shows these rules applied, and adds no rule of its own.
 
 Ask nothing else before the work.
 Do not ask whether the project has comment rules, or whether the code is shared.
@@ -85,7 +85,8 @@ When that code is out of reach, report the claim as not checked.
 When code in reach disproves the claim, report it as a mismatch, even when other code is out of reach.
 Report a claim as not checked only when nothing in reach disproves it.
 A claim about what this code does is checked against this code, even when other code might add to it.
-Keep a claim reported as not checked unchanged.
+A claim reported as not checked keeps its fact, though the writing rules may reword it.
+Only the rule that comments are not tutorials may remove it.
 
 A claim about how a tool, a library or an engine behaves, such as an exit code, an output stream or where a file goes, is a tool claim.
 Check it against the tool's help or documentation, or with a run that changes nothing outside a temporary folder.
@@ -93,13 +94,12 @@ Never run a command that could change the user's files, a remote or a shared ser
 When unsure what a run changes, do not run it.
 A tool claim that the help or documentation disproves is a mismatch, and sort step 4 keeps it unchanged.
 A tool claim that cannot be checked is reported as not checked.
-Unlike a claim about code, the writing rules still apply to it and may cut it, but never change its fact.
 
 A claim that lists callers, copies or cases is incomplete when code in reach shows one it leaves out.
 When the completed sentence fits within the project's line width, or else within 80 characters, complete it from the code and report the change.
 Otherwise name the groups the code defines, such as a base class, a folder or a tag.
 Add examples with "such as", and report the change.
-When the code defines no groups, report the list as incomplete.
+When the code defines no groups, report the list as incomplete, with the items it leaves out.
 When the claim uses "only", "never", "all" or a similar word, keep it unchanged and report it as a mismatch instead.
 When another sentence of the comment names the item the claim leaves out, name that sentence in the entry and keep it unchanged too.
 A list given as examples, with "such as", "for example" or a similar phrase, claims no complete set.
@@ -184,10 +184,9 @@ For the whole comment:
 1. Protected: keep it unchanged.
    When only part of a comment is protected, such as a doctest, keep that part unchanged and sort the rest.
 2. Commented-out code: keep it unchanged and report it.
-   Delete it only when the user asks.
+   Delete it only when the user asks to remove commented-out code.
 3. Makes up for a bad name: report the name.
    The rename is the user's decision.
-   Never rename.
    The sentence that makes up for the name passes step 5.
 
 Then for each sentence of any comment that steps 1 and 2 do not keep:
@@ -203,6 +202,9 @@ Then for each sentence of any comment that steps 1 and 2 do not keep:
    - Never add a sentence that contradicts a kept one.
      Name the true fact and its source in the report instead.
    - An incomplete list follows Claims About Other Code instead of this step.
+   - A sentence with no condition, and no word such as "always", "never", "every" or "only", describes the main path.
+     When the code follows that path except in a case the sentence does not name, such as an error or an early exit, it is not a contradiction.
+     Continue with step 5, and treat the missing case as a missing fact.
 5. Fails the delete test: delete it.
    - When a sentence kept unchanged depends on a sentence you delete, say in its report entry that its subject was in the deleted sentence.
    - If the code passes the add test, write the missing fact instead.
@@ -289,6 +291,7 @@ Keep these unchanged:
 - markers that documentation generators or other tools read;
 - code inside a doc comment, such as a doctest.
 
+A doc tag, such as `@param`, is not a marker when the language's or engine's documentation, read in this run, shows its tools do not read the tag, and no project file names another tool that does.
 Never put a comment between a directive and the line it applies to.
 When unsure whether a comment is protected, keep it unchanged and report it.
 
@@ -328,7 +331,7 @@ A Review report opens with **Proposed Changes**, before the two groups below.
 - required parts kept unchanged;
 - what you could not check, and why;
 - the files not done, when the run stopped before every file was done;
-- one line on what you assumed, including the source of any convention you followed.
+- one line on what you assumed, and the comment rules and conventions you followed with their source, or that the project has none.
 
 ## Final Check
 
@@ -342,6 +345,6 @@ Before returning:
 - Read each comment you wrote or changed with only the code it sits on.
   Name the subject of any pronoun that this leaves unclear.
 - List the facts that passed the sort.
-  Each one is still in the comment after the writing rules ran.
+  Each one is still in a comment, unless the rule that comments are not tutorials, or a later delete test, removed it.
 - Count the code lines, leaving out comments and blank lines.
   They match the input, in the same order.

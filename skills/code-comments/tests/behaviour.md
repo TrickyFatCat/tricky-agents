@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Forty-three scenario tests for the code-comments skill.
+Forty-five scenario tests for the code-comments skill.
 
 Read them against the built rules whenever this skill changes. They are read, not executed, except three.
 
@@ -25,7 +25,7 @@ Refuse or pause the code step because this skill forbids code changes.
 
 **Owner**
 
-`SKILL.md`, description. Live run only.
+`SKILL.md`, description and Invariant. Live run only.
 
 ## T2. Pasted Code Comes Back in Full
 
@@ -61,7 +61,7 @@ Ask about project rules, or whether the code is shared, before the work.
 
 **Owner**
 
-`SKILL.md`, Before Commenting.
+`SKILL.md`, Before Commenting, and Output, Report.
 
 ## T4. An Interface Comment Is Tested on the Declaration
 
@@ -137,7 +137,7 @@ Three runs.
 
 **Owner**
 
-`SKILL.md`, Kinds, Editor Tooltips, and A Good Comment, Delete Test.
+`SKILL.md`, Kinds, Editor Tooltips, A Good Comment, Delete Test and Fact Sources, and Writing Rules.
 
 ## T7. A Conflict With a Required Rule Is Asked Once
 
@@ -190,6 +190,7 @@ Break the rule.
 - Every pronoun in a comment the agent wrote or changed resolves from that comment and the code it sits on.
 - The root-motion reason for the floor check before an attack is kept.
 - The hit-flash sentence in the `take_damage` comment is kept word for word and reported as a contradiction.
+- The `_cooldown_left` sentence "It is decreased every physics frame…" is kept word for word and reported, because `_physics_process` returns before the decrease when there is no player.
 - The `## @param amount` line is gone, because GDScript has no `@param` tag to require it.
 - The commented-out line `#var _debug_draw := true` is kept and reported.
 - The file header, if any, holds only facts about the whole file.
@@ -203,7 +204,7 @@ Break the rule.
 
 **Owner**
 
-`SKILL.md`, The Sort, Writing Rules and Final Check.
+`SKILL.md`, The Sort, Writing Rules, Protected Comments and Final Check.
 
 ## T10. New Comments Come Out Plain
 
@@ -536,7 +537,8 @@ The loop sentence reappears as a comment in the body.
 
 **Must Not**
 
-- Delete or reword the claim.
+- In the first run, delete or reword the claim.
+- In the second run, delete the claim or change its fact.
 - Report the claim as not checked when code in reach disproves it.
 - Change or report the comment in `EnemySpawner.cpp`.
 
@@ -973,4 +975,53 @@ A Python script's `main()` docstring says "Prints a JSON record with the fields 
 
 **Owner**
 
-`SKILL.md`, Operations, Improve, and Kinds.
+`SKILL.md`, Operations, Improve, The Sort, step 4, and Kinds.
+
+## T44. A Sentence That Misses a Case Is Completed
+
+**Trigger**
+
+"Improve the comments in `AccountCache.h`." The body in the `.cpp` file returns `nullptr` when no account matches. Two runs.
+
+- In the first run, the header holds `// Returns the matching account.` above `Account* FindAccount(AccountId Id);`.
+- In the second run, the header holds `// Always returns the matching account.`.
+
+**Must**
+
+- In the first run, add "Returns null when no account matches.", or an equal sentence, and do not report the first sentence as a mismatch. The delete test may remove the first sentence.
+- In the second run, keep the sentence word for word and report it as a mismatch.
+
+**Must Not**
+
+- In the first run, keep the sentence unchanged and report it as a contradiction.
+- In the second run, add the null case, because it would contradict the kept sentence.
+
+**Owner**
+
+`SKILL.md`, The Sort, step 4.
+
+## T45. A Claim Not Checked Keeps Its Fact, Not Its Words
+
+**Trigger**
+
+"Improve the comments." A Unity script holds this comment above `public void EnableHitbox()`:
+
+```csharp
+// This method is getting called by an animation event that sits on the first frame of the swing animation, so basically the hitbox is never active before the swing starts.
+```
+
+The animation clip is not in reach.
+
+**Must**
+
+- Rewrite the comment under the writing rules, and keep both facts: an animation event on the swing's first frame calls the method, and the hitbox is never active before the swing starts.
+- Report the claim as not checked.
+
+**Must Not**
+
+- Keep the sentence word for word.
+- Drop the animation event or the swing, or state either as checked.
+
+**Owner**
+
+`SKILL.md`, A Good Comment, Claims About Other Code.

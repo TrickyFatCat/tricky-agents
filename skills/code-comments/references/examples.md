@@ -159,6 +159,30 @@ mkdir -p "$out_dir"
 mkdir -p "$out_dir"
 ```
 
+## Add The Case A Sentence Leaves Out
+
+A sentence about the main path is incomplete, not wrong, when the code also has an early exit it does not name.
+Here the body returns without writing when the level has no rooms.
+
+**Before**
+
+```python
+def export_level(level: Level, path: str) -> None:
+    """Writes the level to path as JSON."""
+```
+
+**After**
+
+```python
+def export_level(level: Level, path: str) -> None:
+    """Writes the level to path as JSON.
+
+    Writes nothing when the level has no rooms.
+    """
+```
+
+The first sentence stays, because the declaration does not show JSON.
+
 ## Keep A Contradiction For The User
 
 A sentence whose fact the code contradicts stays word for word.
