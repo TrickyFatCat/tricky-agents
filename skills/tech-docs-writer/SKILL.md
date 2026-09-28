@@ -155,17 +155,28 @@ Name the sentence's job from the list in A Good Document.
   Document decides it. Otherwise cut the rule, with its edge cases, and keep
   what the reader gets from it. Run this before the `Reasons`,
   `Behaviour claims` and `Broad words` checks and the Behaviour Inventory.
-- A fact that another tool's configuration defines, not the documented
-  source, such as the key binding that opens the subject, goes out. Link that
-  configuration's document when one exists. A step the reader must take in
-  another tool to use the subject stays.
+- A fact that another tool's configuration, or another file the page lists,
+  defines goes out. An example is the key binding that opens the subject. Link
+  that configuration's document, or the file's entry on the page, when one
+  exists. A step the reader takes stays where the page teaches it, such as a
+  key they press in a how-to step, or an action in another tool they need to
+  use the subject.
+- Where the page lists files so the reader can choose which one to open and
+  edit, such as the config files of a setup, each entry names the kinds of
+  content its file holds, not single settings or their values. The reader
+  reads the rest in the file. The settings, values and comments the file
+  states go out of the entry, and are not moved into prose or a new column. A
+  fact the file cannot show stays, such as what loads it, what it overrides,
+  or where a file missing from the reader's copy comes from. A file the reader
+  runs or uses, such as a script or a shader, keeps what it does.
 - When you are not sure the reader needs the fact, keep the sentence.
   Low-value text can be seen and cut later. A missing fact cannot be seen.
   Doubt keeps a fact, not a second copy of it. Doubt does not keep a fact this
   test cuts by kind:
   - a mechanism the reader finds out through normal use;
   - what a picture shows;
-  - a fact another tool's configuration defines;
+  - a fact another tool's configuration or another listed file defines;
+  - what a listed file states, which the reader reads by opening it;
   - what the page already implies.
 - A sentence with a job but no section to hold it means the structure is
   wrong. Fix the structure, and keep the sentence.

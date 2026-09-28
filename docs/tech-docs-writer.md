@@ -162,7 +162,10 @@ Before you see the result, the skill:
     sure you need a fact, it keeps the fact. Extra text is easy to see and cut
     later. A missing fact is not. It still cuts a detail of how the subject
     works, when the reader sees that detail by using the subject. An example
-    is which window a script brings to the front.
+    is which window a script brings to the front. In a list of files you can
+    open, it names what kind of content each file holds. It cuts the settings
+    and values you read in the file, and keeps what the file cannot show, such
+    as what loads it.
 
 3. Rewrites sentences about internal parts from the reader's side.
 

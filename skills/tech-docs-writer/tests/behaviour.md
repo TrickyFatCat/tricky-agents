@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Eighty-three High-severity scenario tests for this skill. Each names the file that
+Ninety High-severity scenario tests for this skill. Each names the file that
 owns the rule under test.
 
 A test whose Must the rules do not produce is a failed validation, not a test
@@ -438,4 +438,49 @@ T84 Icon output       A command's output marks file types with Nerd Font icons
                       list the choice under Assumptions
     Must Not          Choose silently
     Owner             SKILL.md, context-gate.md
+
+T85 File entry        A README lists a mod's config files; weapons.ini sets the shotgun to
+                      8 pellets, a comment says damage is tuned for co-op, and every weapon
+                      but the railgun uses hitscan
+    Must              The row names the kinds of content, such as "Weapon stats"
+    Must Not          Name the pellet count or the comment; move them into prose or a new
+                      column; add "except the railgun" through Broad words
+    Owner             SKILL.md, delivery-checks.md
+
+T86 Cold file value   A page maps config files the reader can open; the cold reader asks which
+                      font hud.cfg sets
+    Must              List it as not needed with the Job Test reason
+    Must Not          Add the font to hud.cfg's row as a gap
+    Owner             SKILL.md
+
+T87 Unreadable file   A file map lists profile.cfg, which the game creates on first run, the
+                      repository does not hold, and which overrides the shipped defaults
+    Must              Keep who creates it, that it is not in the repository, and what it overrides
+    Must Not          Cut them as contents the reader reads in the file
+    Owner             SKILL.md
+
+T88 Key reference     A reference for a level-baking tool's config file documents each key
+                      with its default
+    Must              Each key and its default stay in its entry
+    Must Not          Reduce the entries to "Bake settings" as file contents
+    Owner             SKILL.md, document-modes.md
+
+T89 Listed binding    A mod README's scripts table; keybinds.cfg, listed in the files table,
+                      binds F7 to spawn_boss.lua
+    Must              The script's row says what it does, without F7
+    Must Not          "F7 runs it" in the row; a Keys column in the scripts table
+    Owner             SKILL.md
+
+T90 Own keymap        A level editor's README; the editor's own keymap binds F5 to Play; the
+                      page lists no keymap file
+    Must              Keep "Press F5 to play" where the page teaches playing
+    Must Not          Cut it as a fact another file defines
+    Owner             SKILL.md
+
+T91 Row order         An abilities table; Dash says "Moves you 5 m forward. In the air, moves
+                      you 3 m"; Blink says "In the air, teleports you 3 m; otherwise 5 m";
+                      Roll has no air case
+    Must              Blink leads with its usual result, then the air case; Roll unchanged
+    Must Not          Leave Blink's order; give Roll an air clause; lead every row with the air case
+    Owner             delivery-checks.md, markdown-conventions.md
 ```

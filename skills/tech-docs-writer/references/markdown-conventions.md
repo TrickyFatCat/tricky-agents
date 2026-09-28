@@ -466,9 +466,10 @@ Strong  Two cases stop a deployment from rolling back automatically.
 Cut words that carry no context. "After you approve" becomes "After approval",
 and the meaning survives.
 
-Keep clause order parallel between neighbouring rows and sentences. A reader
-scanning a table compares cells position by position, and a reordered clause
-breaks that.
+Keep clause order parallel between neighbouring sentences, and between rows
+of the same kind. A row gives the usual result first, then each condition
+that changes it. A reader scanning a table compares cells position by
+position, and a reordered clause breaks that.
 
 ## Pictures
 

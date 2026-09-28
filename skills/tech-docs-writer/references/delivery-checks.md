@@ -38,6 +38,10 @@ Run these for every document.
   source's body that appear on the page; for each one the reader does not
   type, ask the same question. Run this before Reasons, Behaviour claims and
   Broad words.
+- [ ] **File entries** — For each table row or list item that names a file
+  the reader opens to read or edit, list each setting name, value and comment
+  the entry takes from inside that file; cut each one the Job Test cuts. Run
+  this before Reasons, Behaviour claims and Broad words.
 - [ ] **Reasons** — Search "because", "so" and "same reason"; point each reason
   at a source line, or cut it. Then search "only", "never", "always", "refuses",
   "does not" and "also"; for each rule or automatic action the reader meets and
@@ -54,8 +58,9 @@ Run these for every document.
   Test cuts, such as an edge case of a cut mechanism, is not added.
 - [ ] **Broad words** — Search "every", "all", "always", "never", "any" and
   "only"; for each, search the source for cases that break it; name them, or
-  narrow the word. A case that belongs to a mechanism the Job Test cuts is not
-  named; narrow the word instead.
+  narrow the word. A case the Job Test cuts, such as an edge case of a cut
+  mechanism or a value inside a listed file, is not named; narrow the word
+  instead.
 - [ ] **States** — For each fixed set of statuses, results or indicators the
   subject shows, list the full set the reader can meet from the source; each is
   named as the reader sees it and says what it means. A message that says in
@@ -112,9 +117,12 @@ Run these for a Markdown document only.
 - [ ] **Table cells** — Count the words in each description cell the page wrote;
   over 8, move a detail every row has into a new column, and move reasoning
   into prose after the table. A fact about one row stays in that row's cell.
-  Never drop a fact. A cell that restates a source condition keeps every clause;
-  split it into columns, or keep it whole in its cell when it cannot split,
-  never into prose.
+  Never drop a fact the Job Test keeps. A cell that restates a source condition
+  keeps every clause; split it into columns, or keep it whole in its cell when
+  it cannot split, never into prose. Then group the rows whose items do the
+  same kind of thing. In each group, list whether each cell starts with a verb,
+  and the order of its clauses. They match: the usual result first, then each condition that
+  changes it. Never add a clause to make rows match.
 - [ ] **Examples** — Search "for example", "for instance", quoted cases and
   paragraphs holding two cases; each is labelled, adjacent ones distinctly; the
   block after each example has its own heading or label; each labelled example
