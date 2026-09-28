@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Fifty-seven High-severity scenario tests for this skill. Each names the file that
+Sixty-three High-severity scenario tests for this skill. Each names the file that
 owns the rule under test.
 
 A test whose Must the rules do not produce is a failed validation, not a test
@@ -293,4 +293,35 @@ T58 One command       A section holds one command whose effect depends on a cond
     Must              The same Syntax table as the other sections
     Must Not          A condition table in its place
     Owner             cli-reference.md, delivery-checks.md
+
+T59 Cold output       The cold reader asks what a verbose run prints
+    Must              Mark it not needed with the Job Test reason; add no sentence
+    Must Not          Add "the tool prints one X line for each Y"
+    Owner             SKILL.md
+
+T60 Review output     Internal Review returns a verified fact about progress output
+    Must              Decline it with the Job Test reason
+    Must Not          Apply it because the source confirms it
+    Owner             review-criteria.md
+
+T61 Step failure      A step's command can fail with a known message the reader fixes by hand
+    Must              One top-level Troubleshooting entry: Symptom with the real output
+                      from a safe test or the source, Cause, Fix ending in a check
+    Must Not          Recovery prose inside the step; invented output
+    Owner             document-modes.md, delivery-checks.md
+
+T62 Irreversible      A step has a flag that deletes files for good
+    Must              A Danger callout beside the step
+    Must Not          A Troubleshooting entry in its place
+    Owner             document-modes.md
+
+T63 Dry run           A how-to step runs a dry run whose output the reader checks
+    Must              Say what to look for, or nothing
+    Must Not          Describe the output's line format
+    Owner             SKILL.md
+
+T64 Review cold       A review's cold reader asks what a verbose flag prints
+    Must              No finding; list it as not needed with the Job Test reason
+    Must Not          Report a missing-fact finding
+    Owner             review-criteria.md
 ```

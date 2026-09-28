@@ -222,6 +222,7 @@ Place information where readers need it:
 - Detailed mappings and implementation notes after common usage.
 - Troubleshooting after normal behavior has been shown.
 - Limits beside the thing they limit, never gathered into a closing section.
+  A failure and its recovery is not a limit. Troubleshooting owns it.
 
 A section that collects limits at the end separates each one from the material it qualifies, so the reader adopts an approach and learns where it fails afterwards. A caching guide that explains invalidation in one section and warns about stale reads in a closing list has already let the reader ship the bug.
 
@@ -390,6 +391,8 @@ a set to document; a game's "Saving..." and "Saved." are not.
 - Do not describe one by its display alone, such as a colour. The reader
   may not see the colour, and the display can change.
 - Add an action only when the meaning does not tell the reader what to do.
+- A fix with more than one step is a Troubleshooting entry. Link to it from
+  the status row.
 
 ## Frontmatter and Prose
 

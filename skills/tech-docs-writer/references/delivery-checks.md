@@ -69,6 +69,12 @@ Run these for every document.
 - [ ] **Steps** — Search sentences joining three or more actions with commas;
   each is a numbered list. For each numbered item longer than one sentence, the
   first line is the action alone.
+- [ ] **Recovery** — Search "fails", "failed", "error", "aborted" and
+  "conflict" in steps and the paragraphs next to them, and each sentence in a
+  step that starts with "If". A warning the reader needs before the step stays
+  beside it. Recovery from a failure the reader has seen becomes a
+  Troubleshooting entry, or follows States And Results for a status in a fixed
+  set.
 - [ ] **Plain language** — Count sentences over 25 words; split each. Search
   "so", "because" and "which" in long sentences; split any sentence carrying two
   ideas; list each idiom, and each term new to this reader that has no

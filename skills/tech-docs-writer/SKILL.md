@@ -24,7 +24,8 @@ Each sentence does one job for that reader:
 
 - tells them what this part covers, so they can read it or skip it;
 - tells them what to do;
-- tells them what they will see, and what it means;
+- tells them what they will see when they must check it, act on it or use it,
+  and what it means;
 - gives a fact they need to use the subject, choose, or avoid a mistake;
 - explains why, when the reason changes what they do or how they judge the
   subject.
@@ -146,6 +147,11 @@ Keep    Your bracket depends on your last 20 matches, so one bad match
         moves it only a little.
 Cut     retry() calls _backoff(n), which sleeps 2^n seconds.
 Keep    Each retry waits longer than the one before.
+Cut     The asset baker prints one line for each texture it compresses.
+Keep    The bake ends with "0 errors". Any other count means some textures
+        were not baked.
+Cut     The dry run prints one line for each file it would copy.
+Keep    The dry run must not end with "aborted".
 ```
 
 ### View Test
@@ -223,7 +229,7 @@ writer cannot run this check itself, because it has read the source.
 2. Ask it to answer from the page alone:
    - What is this document for, and who is it for?
    - What do you do first?
-   - What does each status or result mean?
+   - Where the page names or shows a status or result, what does it mean?
    - Which terms or sentences did you not understand?
 3. It returns questions only. It proposes no wording and edits nothing.
 4. Check each question against the source:
@@ -235,10 +241,15 @@ writer cannot run this check itself, because it has read the source.
    - known from context: a line in the starting point answers it, or it asks
      about a standard term of the field or the standard behaviour of a
      platform the starting point names. It is standard when the field uses it
-     widely and one search explains it. Change nothing. Nothing else counts,
-     and doubt makes it a gap.
+     widely and one search explains it. Change nothing. Nothing else counts
+     as known from context.
+   - not needed: the Job Test would cut the answer, such as output the reader
+     does not check, act on or use. Change nothing.
+
+   Doubt makes a question a gap.
 5. Run the cold reader once per Write. Do not run it again after the fixes.
-   List each question in the report as fixed, open or known from context.
+   List each question in the report as fixed, open, known from context, or
+   not needed with the Job Test reason.
 
 A subagent tool starts another agent with its own context, such as `Agent` or
 `Task`. When the tool list has none, skip the check and say "not checked by a
@@ -299,8 +310,9 @@ block that is empty.
 1. **Cuts** — every fact the job test removed, grouped by section, one line
    each: the fact, and why it has no job.
 2. **Cold Reader** — the starting point it was given, then each question,
-   marked fixed with what changed, open with why, or known from context with
-   the starting-point line or standard term that covers it.
+   marked fixed with what changed, open with why, known from context with
+   the starting-point line or standard term that covers it, or not needed
+   with the Job Test reason.
 3. **Review** — each Internal Review finding, marked applied, or declined
    with the reason.
 4. **Outside The Task** — test findings on sentences the task did not change.

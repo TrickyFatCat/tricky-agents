@@ -108,8 +108,8 @@ document.
 
 For a README or a reference, list what the source does that the reader meets,
 must approve, or is changed by. Each item is either documented or cut for a
-reason the writer can name. An internal rule that the Job Test in `SKILL.md`
-cuts counts as cut for a named reason.
+reason the writer can name. A fact that the Job Test in `SKILL.md` cuts counts
+as cut for a named reason.
 
 Another document covering the item, for this reader or another, is such a
 reason.

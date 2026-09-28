@@ -30,8 +30,10 @@ Combine modes through clear boundaries instead of blending them:
 - Link to a separate reference when exhaustive details would interrupt
     instructions or a how-to guide.
 - Add a short explanation only when it helps the reader make a decision.
-- Keep symptom-led troubleshooting separate from normal operation unless one
-    local warning belongs beside the affected step.
+- Keep troubleshooting separate from normal operation. A warning the reader
+    needs before a step stays beside it. Recovery from a failure in a step,
+    once the reader has seen it, goes in Troubleshooting, even when only one
+    step causes it. A reference entry keeps its Errors field.
 
 Apply project instructions, renderer conventions, headings, TOCs, callouts,
 and formatting after selecting the mode.
@@ -316,14 +318,18 @@ Example outline:
 
 Connect symptoms to safe diagnosis and recovery.
 
-Use a repeated shape when practical:
+Troubleshooting is one top-level section, after the sections that describe
+normal use.
 
-1. Symptom or exact error.
-2. Safe inspection command or check.
-3. Likely causes in useful order.
-4. Smallest reversible fix.
-5. Verification.
-6. Recovery or escalation when the fix fails.
+Each entry has a short noun heading that names the problem, and three labelled
+blocks:
+
+1. **Symptom**: what the reader sees, shown as the real output or message.
+2. **Cause**: one or two sentences.
+3. **Fix**: numbered steps, ending with how the reader confirms it worked.
+
+Add an inspection step, several causes or escalation only when the cause or
+the fix is not certain.
 
 Keep expected normal states with the feature that produces them. Add a
 troubleshooting entry only when symptom-led diagnosis or recovery adds value.

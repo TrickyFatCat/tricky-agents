@@ -19,8 +19,9 @@ inside it.
 3. Run the cold reader once, as `SKILL.md` describes. Check each of its
     questions against the source. A gap is a finding for a missing fact. A
     misreading is a finding for an unclear sentence. A question known from
-    context, under the limits in `SKILL.md`, is not a finding. List it with
-    what covers it. When the reader is only implied, say that the starting
+    context or not needed, under the limits in `SKILL.md`, is not a finding.
+    List it with what covers it, or the Job Test reason. When the reader is
+    only implied, say that the starting
     point is implied too. When no subagent tool is available, say "not
     checked by a cold reader".
 4. Check progression, duplication, misplaced detail, mixed purposes and
@@ -58,7 +59,8 @@ that changes no meaning.
 2. It returns findings only, in the shape this file describes.
 3. For each finding, the writer checks two things:
    - the source confirms it;
-   - the named reader needs it.
+   - the named reader needs it: each fact it adds passes the Job Test in
+     `SKILL.md`.
 4. The writer applies each finding that passes both, inside the same Write.
    This is the one case where a finding is applied without the user asking.
 5. The writer lists every other finding in the report as declined, with the
