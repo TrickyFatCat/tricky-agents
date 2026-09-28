@@ -38,6 +38,12 @@ such as a request, a command, a value or an output, show one instance of it.
 Leave out an instance that only repeats a claim the reader can already apply
 as written.
 
+Show what the reader sees on screen with a picture, not with sentences. That
+covers what they see when they open or run the subject, such as a window, a
+panel or a menu. Keep only what a picture cannot show, such as what a state means
+or what to do next. Name a control the reader uses, such as a menu item, in
+the step that uses it. Text the reader sees, such as output, is shown as text.
+
 A lead-in names what follows. It does not summarise it.
 
 An explanation stays on one question.
@@ -124,16 +130,37 @@ Name the sentence's job from the list in A Good Document.
   sentence that repeats nearby text, such as the sentence before it, the table
   beside it or the index entry above it. It also includes a sentence that
   spells out what a heading, lead-in, list, table or sentence already implies.
-- A rule the subject applies internally stays only when knowing it changes
-  what the reader does or expects, and nothing else in the document already
-  gives them that. That covers how it decides, classifies or verifies, and how
-  it produces a result: the functions it calls, the branches it takes, the text
-  it prints. The reader learns these by using the subject. Otherwise cut it,
-  and keep what the reader gets from it. Run this before the `Reasons` check
-  and the Behaviour Inventory.
+- In a set whose items the reader sets up or uses one at a time, another item
+  is not nearby text. Examples are the enemies in a bestiary and the weapon
+  classes of a combat guide. Each item keeps its full requirements, controls and
+  settings, even when they repeat. Controls and settings the source defines
+  once for every item, such as a tool's global options, are stated once and
+  linked from each item. A requirement every item shares goes once, in the
+  opening that introduces the set.
+- A rule the subject applies internally stays only when all of these hold:
+  - knowing it changes what the reader does or expects;
+  - the reader would not find it out through normal use, or finding it out
+    that way would cost them work or time;
+  - nothing else in the document already gives them that.
+
+  That covers how it decides, classifies or verifies, and how it produces a
+  result: the functions it calls, the branches it takes, the text it prints.
+  Printed text the reader must check, act on or use is not covered. A Good
+  Document decides it. Otherwise cut the rule, with its edge cases, and keep
+  what the reader gets from it. Run this before the `Reasons`,
+  `Behaviour claims` and `Broad words` checks and the Behaviour Inventory.
+- A fact that another tool's configuration defines, not the documented
+  source, such as the key binding that opens the subject, goes out. Link that
+  configuration's document when one exists. A step the reader must take in
+  another tool to use the subject stays.
 - When you are not sure the reader needs the fact, keep the sentence.
   Low-value text can be seen and cut later. A missing fact cannot be seen.
-  Doubt keeps a fact, not a second copy of it.
+  Doubt keeps a fact, not a second copy of it. Doubt does not keep a fact this
+  test cuts by kind:
+  - a mechanism the reader finds out through normal use;
+  - what a picture shows;
+  - a fact another tool's configuration defines;
+  - what the page already implies.
 - A sentence with a job but no section to hold it means the structure is
   wrong. Fix the structure, and keep the sentence.
 
@@ -158,6 +185,11 @@ Keep    The dry run must not end with "aborted".
 
 Name the subject of the sentence: who or what does the verb. A passive
 sentence hides its subject, so name the actor first.
+
+Check in the source that this actor performs the verb. A control the reader
+uses, such as a key or a button, starts an action but does not perform it.
+Name the part that does, then apply the next paragraph when the reader never
+sees that part.
 
 When the subject is a part the reader never sees or touches, such as an
 internal stage, a mode, a check or a classification, rewrite the sentence from
@@ -236,8 +268,9 @@ writer cannot run this check itself, because it has read the source.
    hint passes on what the writer knows, and the cold reader must not have it.
 3. It returns questions only. It proposes no wording and edits nothing.
 4. Check each question against the source:
-   - a gap: add the missing fact in its smallest form, such as one example
-     case or one requirement note, in the section that owns it;
+   - a gap: when a table on the page lists that kind of item, put the fact in
+     that item's row. Otherwise add it in its smallest form, such as one
+     example case or one requirement note, in the section that owns it;
    - a misreading: rewrite the sentence;
    - the source cannot answer it: label the claim Unknown, as
      `references/source-verification.md` requires;
@@ -247,9 +280,10 @@ writer cannot run this check itself, because it has read the source.
      widely and one search explains it. Change nothing. Nothing else counts
      as known from context.
    - not needed: the Job Test would cut the answer, such as output the reader
-     does not check, act on or use. Change nothing.
+     does not check, act on or use. Change nothing, except a link the Job
+     Test asks for, such as to another tool's configuration document.
 
-   Doubt makes a question a gap.
+   Doubt makes a question a gap, unless the Job Test cuts that kind of fact.
 5. Run the cold reader once per Write. Do not run it again after the fixes.
    List each question in the report as fixed, open, known from context, or
    not needed with the Job Test reason.
@@ -312,14 +346,15 @@ block that is empty.
 
 1. **Cuts** — every fact the job test removed, grouped by section, one line
    each: the fact, and why it has no job.
-2. **Cold Reader** — the starting point it was given, then each question,
+2. **Pictures** — each placeholder, by section, with what it must show.
+3. **Cold Reader** — the starting point it was given, then each question,
    marked fixed with what changed, open with why, known from context with
    the starting-point line or standard term that covers it, or not needed
    with the Job Test reason.
-3. **Review** — each Internal Review finding, marked applied, partly applied
+4. **Review** — each Internal Review finding, marked applied, partly applied
    with each declined fact and its reason, or declined with the reason.
-4. **Outside The Task** — test findings on sentences the task did not change.
-5. **Not Checked** — each check that did not run, such as the formatter, the
+5. **Outside The Task** — test findings on sentences the task did not change.
+6. **Not Checked** — each check that did not run, such as the formatter, the
    cold reader or Internal Review, and each claim labelled Unknown. When the
    delivery checks did not run, say "delivery checks not run" with the reason,
    such as "edit changes no meaning".

@@ -25,12 +25,19 @@ Run these for every document.
 - [ ] **Backward references** — Search "the other", "those two", "the
   remaining"; name the items, or cut the sentence when nearby text already
   implies what it says.
+- [ ] **Forward references** — List each key, flag, setting, term or item a
+  sentence names; find where the page first says what it is or does. When
+  that is further down, name the thing by what it does for the reader, or
+  move the sentence below it. A linked entry in a list whose job is to lead
+  to sections, such as a TOC or a lead-in list, is not one. Neither is a
+  standard term of the field.
 - [ ] **Internal rules** — Search "decides", "counts as", "is treated as",
   "picks" and "only when"; for each rule the subject applies internally, ask
-  whether knowing it changes what the reader does or expects. Cut it when it
-  does not, as the Job Test requires. Then list the names and quoted strings
-  from the source's body that appear on the page; for each one the reader does
-  not type, ask the same question. Run this before Reasons.
+  whether it meets the Job Test's three conditions; cut it, with its edge
+  cases, when it does not. Then list the names and quoted strings from the
+  source's body that appear on the page; for each one the reader does not
+  type, ask the same question. Run this before Reasons, Behaviour claims and
+  Broad words.
 - [ ] **Reasons** — Search "because", "so" and "same reason"; point each reason
   at a source line, or cut it. Then search "only", "never", "always", "refuses",
   "does not" and "also"; for each rule or automatic action the reader meets and
@@ -43,10 +50,12 @@ Run these for every document.
   each at a source line, or label it as Source Verification requires. In that
   source line, search "unless", "except", "only", "if" and "when"; the claim
   keeps each condition it finds. A clause that limits which cases the rule
-  covers is a condition too, with or without those words.
+  covers is a condition too, with or without those words. A condition the Job
+  Test cuts, such as an edge case of a cut mechanism, is not added.
 - [ ] **Broad words** — Search "every", "all", "always", "never", "any" and
   "only"; for each, search the source for cases that break it; name them, or
-  narrow the word.
+  narrow the word. A case that belongs to a mechanism the Job Test cuts is not
+  named; narrow the word instead.
 - [ ] **States** — For each fixed set of statuses, results or indicators the
   subject shows, list the full set the reader can meet from the source; each is
   named as the reader sees it and says what it means. A message that says in
@@ -101,7 +110,8 @@ Run these for a Markdown document only.
 - [ ] **Table lead-ins** — Count the tables; each has a lead-in. Read each
   lead-in alone; it names what the table lists.
 - [ ] **Table cells** — Count the words in each description cell the page wrote;
-  over 8, move the extra detail into prose after the table or into a new column.
+  over 8, move a detail every row has into a new column, and move reasoning
+  into prose after the table. A fact about one row stays in that row's cell.
   Never drop a fact. A cell that restates a source condition keeps every clause;
   split it into columns, or keep it whole in its cell when it cannot split,
   never into prose.
@@ -117,12 +127,12 @@ Run these for a Markdown document only.
   they match across sections, even in a section with one entry.
 - [ ] **Placement** — For each callout, example, and paragraph that qualifies a
   table or list, name the block it serves; it sits directly after that block. A
-  definition of one table item goes in that item's cell. A condition the reader
-  must meet before using any row goes before the table or list, in the lead-in
-  or the callout its kind needs. Other blocks that qualify it form one run
-  directly after it, with nothing else between them: a Danger first, then blocks
-  about single rows in row order, then the rest. A callout sits outside every
-  list item; one about a step's action follows the list and names that step's
+  definition of one table item, or a fact about it, goes in that item's row. A
+  condition the reader must meet before using any row goes before the table or
+  list, in the lead-in or the callout its kind needs. Other blocks that qualify
+  it form one run directly after it, with nothing else between them. The run
+  starts with a Danger, then callouts, examples and reasons about single rows
+  in row order, then the rest. A callout sits outside every list item; one about a step's action follows the list and names that step's
   command or action. A callout about a command, and a paragraph or example
   about its output, form one run directly after that command's block, the
   callout first.
@@ -130,6 +140,9 @@ Run these for a Markdown document only.
   "cannot", "needs", "requires", "must" and "keep"; sort each hit into a kind
   that Callouts defines, or leave it as prose. Then read each callout: its body
   is one sentence, and a blank line follows it.
+- [ ] **Pictures** — Search "shows", "displays", "appears", "looks" and "on
+  screen"; replace each description of what is on screen with a picture or a
+  placeholder, as Pictures in `markdown-conventions.md` describes.
 - [ ] **Orphan sentences** — Read each section's first sentence with the heading
   hidden.
 - [ ] **Headings** — Read each section heading this task wrote; one that starts

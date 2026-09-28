@@ -18,6 +18,7 @@ Read this reference when creating or editing human-facing Markdown documentation
 - [States And Results](#states-and-results)
 - [Frontmatter and Prose](#frontmatter-and-prose)
 - [Section Introductions](#section-introductions)
+- [Pictures](#pictures)
 - [Links](#links)
 - [Markdown Formatting](#markdown-formatting)
 
@@ -132,7 +133,7 @@ Rules:
 - Do not remove or replace markers during formatting.
 - Do not add a separate `Table of Contents` heading unless the project convention requires it.
 
-Do not repeat the full table of contents inside a section. Use a short linked section map only when readers must choose between meaningful groups.
+Do not repeat the full table of contents inside a section. Use a short linked section map only when readers must choose between meaningful groups, or the section holds parallel items, as [Section Introductions](#section-introductions) describes.
 
 ## Renderer-Aware Syntax
 
@@ -352,7 +353,7 @@ lists, so the reader knows what they are scanning before they start.
 - The description column answers what the reader decides with the table. For a list of kinds, such as types, modes or classes, that is usually what each one does.
 - Two tables may sit together when the second has its own introductory line. Without one they read as a single confusing block.
 - A bare code such as `S1` or `E2` is not an identifier. Use the name it stands for, so the reader does not have to open another document.
-- Keep cells short. Reasoning goes in the prose around the table.
+- Keep cells short. A fact about one row stays in that row; reasoning goes in the prose around the table.
 
 ## Explaining a Rule
 
@@ -412,6 +413,10 @@ An introduction can:
 - Identify when it is relevant.
 - Link to child sections when readers must choose a path.
 
+A section whose subsections are parallel items opens with a linked list of
+them, one line each, saying what each one is for. Each item's own first
+sentence stays; the list is not nearby text for it.
+
 Do not add introductory prose only to satisfy a template.
 
 Keep a lead-in short and literal. "This tool has these modes:" does the job; a
@@ -465,6 +470,18 @@ Keep clause order parallel between neighbouring rows and sentences. A reader
 scanning a table compares cells position by position, and a reordered clause
 breaks that.
 
+## Pictures
+
+A diagram the writer can draw from the source, such as a folder layout or a
+flow, goes in directly as a text block. A screenshot or recording of the
+subject gets a placeholder line where it goes. The line is in italics, starts
+with `TODO:`, and names what the picture must show, so it is visible on the
+rendered page. Never draw a mock-up of the screen in its place.
+
+```markdown
+_TODO: screenshot of the tile palette with a tileset open._
+```
+
 ## Links
 
 Use descriptive link text rather than bare URLs when practical.
@@ -476,6 +493,10 @@ For a related-document list, add a short reason to open each local document when
 ```
 
 Do not add a links section that only repeats resources already introduced elsewhere.
+
+Link each third-party tool the reader must or may install to its official
+page or repository, on its first mention in each requirements list. Do not
+copy its install commands.
 
 Inside one document, when a sentence depends on a list, term or rule that another section owns, link to that section instead of repeating it. Link to a heading, because a bold label has no anchor. Link on the first mention in each section, not on every mention.
 

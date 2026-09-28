@@ -18,9 +18,9 @@ An optional dependency is named, with what the reader loses without it. Its
 install steps are a link to its own setup source, when one exists. Do not copy
 its install commands onto the page.
 
-In a dependency list or requirement note, a link goes to a document that
-explains the setup, never to the dependency's own files, such as its unit file
-or config.
+In a dependency list or requirement note, a link goes to the tool's official
+page or repository, or to a document that explains the setup. It never goes to
+one file inside the tool, such as its unit file or config.
 
 ## Verification
 

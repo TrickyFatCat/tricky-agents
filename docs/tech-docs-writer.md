@@ -160,7 +160,9 @@ Before you see the result, the skill:
     It cuts a sentence that gives the reader nothing to do, see, use or
     understand. It also cuts a sentence that repeats another. When it is not
     sure you need a fact, it keeps the fact. Extra text is easy to see and cut
-    later. A missing fact is not.
+    later. A missing fact is not. It still cuts a detail of how the subject
+    works, when the reader sees that detail by using the subject. An example
+    is which window a script brings to the front.
 
 3. Rewrites sentences about internal parts from the reader's side.
 
@@ -227,6 +229,7 @@ block that is empty:
 | Block            | What it lists                                                             |
 | ---------------- | ------------------------------------------------------------------------- |
 | Cuts             | Each fact the skill removed, by section, with the reason                  |
+| Pictures         | Each `TODO:` line the skill left where you should add a screenshot        |
 | Cold Reader      | Each question from the cold reader, as fixed, open or known from context  |
 | Review           | Each review finding, as applied, or declined by the skill with the reason |
 | Outside The Task | Problems in sentences you did not ask it to change                        |

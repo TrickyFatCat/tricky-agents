@@ -380,8 +380,9 @@ Example                       the smallest realistic case, then one case
 Field order is fixed. Omit a field that does not apply. Never keep an empty
 field to make entries look identical.
 
-A precondition that an error enforces becomes one requirement note. An error
-whose message names its own cause needs no entry.
+A precondition that an error enforces becomes one requirement note, or a mark
+in its row when a table on the page lists it. An error whose message names its
+own cause needs no entry.
 
 An edge case that can be shown as a call and its result goes in the example
 block as a commented case, not as prose. A boundary gets one case on each side.

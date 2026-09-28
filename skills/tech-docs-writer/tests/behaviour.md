@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Sixty-five High-severity scenario tests for this skill. Each names the file that
+Eighty-one High-severity scenario tests for this skill. Each names the file that
 owns the rule under test.
 
 A test whose Must the rules do not produce is a failed validation, not a test
@@ -188,9 +188,10 @@ T37 Small edit        A one-paragraph edit to a Markdown document
     Must Not          Skip them because the edit is small
     Owner             SKILL.md, delivery-checks.md
 
-T38 Review checks     A review of a Markdown page with a 14-word table cell
-    Must              Report the cell as a finding
-    Must Not          Move the detail into prose
+T38 Review checks     A review of a Markdown page; one 14-word cell holds reasoning,
+                      another 12-word cell holds a fact about its own row
+    Must              Report the reasoning cell as a finding
+    Must Not          Report the one-row fact cell; edit the page
     Owner             delivery-checks.md, review-criteria.md
 
 T39 Callout source    A new page; the README uses emoji callouts; no instruction defines callouts
@@ -243,9 +244,10 @@ T48 Review general    A review of a README whose page says "always" where the so
     Must Not          Run only the Markdown Only checks in a review
     Owner             delivery-checks.md, review-criteria.md
 
-T49 Late addition     The cold reader asks what happens when a required variable is unset
-    Must              Add one requirement note; run the Job Test on it
-    Must Not          Add the error text and the branch that raises it
+T49 Late addition     The cold reader asks what happens when a required variable is unset; the
+                      page has a variables table
+    Must              Put it in that variable's row; run the Job Test on it
+    Must Not          Add a requirement note for it; add the error text and the branch that raises it
     Owner             SKILL.md
 
 T50 Restated code     The source says retry() calls _backoff(n), which sleeps 2^n seconds
@@ -340,4 +342,87 @@ T66 Cold hint         The writer thinks the page's output lines may confuse the
     Must              Send the four questions as written
     Must Not          Add "(for example, the output lines …)", or a fifth question
     Owner             SKILL.md
+
+T67 Visible panel     A how-to for an animation editor; the source describes the timeline panel on open
+    Must              A placeholder naming what the screenshot shows; keep what a picture cannot show
+    Must Not          Describe the panel's layout in prose; draw a mock-up of it
+    Owner             SKILL.md, markdown-conventions.md, delivery-checks.md
+
+T68 Parallel items    A shader library page; two of three shaders need the same noise texture
+    Must              Each shader lists all its required textures
+    Must Not          A shared textures block; cut the repeats as second copies
+    Owner             SKILL.md
+
+T69 Item controls     Four vehicles each define six controls in their own config; most match
+    Must              A full controls table in each vehicle's section
+    Must Not          One shared table plus per-vehicle additions
+    Owner             SKILL.md
+
+T70 Forward key       A mod needs a physics library for its F5 action; the Keys table comes later
+    Must              Name the library by the feature it enables
+    Must Not          "physics library for F5", or a link on F5, before the page says what F5 does
+    Owner             delivery-checks.md
+
+T71 Row fact          A controls table; Dodge grants 0.3 s of invulnerability
+    Must              The fact in the Dodge row's cell
+    Must Not          A sentence after the table; move it out to meet the 8-word count
+    Owner             delivery-checks.md, markdown-conventions.md
+
+T72 Wrong actor       A modding guide for quest authors; source: the quest script reads a save
+                      flag when the player presses Interact
+    Must              "The quest script reads the save flag"
+    Must Not          "Interact reads the save flag"
+    Owner             SKILL.md
+
+T73 Owned elsewhere   The cold reader asks how to start an export script; an editor hotkey config
+                      starts it; the plugin must be enabled in the editor
+    Must              Mark the hotkey not needed; link its config's document if one exists; keep the enable step
+    Must Not          Describe the hotkey; cut the enable step as another tool's
+    Owner             SKILL.md
+
+T74 Internal edge     Source: the launcher focuses an open window whose title starts with the game name
+    Must              Cut the lookup and the prefix match
+    Must Not          Restore either one through Broad words or Behaviour claims
+    Owner             SKILL.md, delivery-checks.md
+
+T75 Implied advice    A Warning says a command closes the terminal it runs in
+    Must              The Warning alone
+    Must Not          Add "run it in a terminal you do not need"
+    Owner             SKILL.md
+
+T76 Tool link         A requirements list names a third-party texture packer
+    Must              Link it to its official page or repository
+    Must Not          Leave it unlinked; copy its install commands; link one file inside it
+    Owner             markdown-conventions.md, cli-reference.md
+
+T77 Item index        A section holds four subsections, one per level biome
+    Must              Open with a linked list of the four, one line each; keep each biome's first sentence
+    Must Not          Cut the list as a TOC copy or a forward reference; cut a first sentence as a repeat
+    Owner             markdown-conventions.md, SKILL.md, delivery-checks.md
+
+T78 Review mechanism  Internal Review returns a verified fact: the launcher looks for an open
+                      window by title before it starts a new one
+    Must              Decline it with the Job Test reason
+    Must Not          Apply it because the source confirms it
+    Owner             review-criteria.md, SKILL.md
+
+T79 Shared need       Every mod in a pack needs the same mod loader
+    Must              The loader once, in the opening that introduces the mods
+    Must Not          The loader in each mod's requirements
+    Owner             SKILL.md
+
+T80 Global options    A level-baking tool defines --quiet once for all 12 subcommands
+    Must              State it once and link it from each subcommand
+    Must Not          Repeat it in every subcommand's table
+    Owner             SKILL.md
+
+T81 Picture report    A how-to leaves two screenshot placeholders
+    Must              List both under Pictures in the report, by section, with what each must show
+    Must Not          Leave them only on the page
+    Owner             SKILL.md
+
+T82 Printed text      A CLI how-to; a command prints a status summary the reader checks
+    Must              Show the summary as a text block
+    Must Not          A screenshot placeholder in its place
+    Owner             SKILL.md, delivery-checks.md
 ```
