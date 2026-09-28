@@ -30,8 +30,9 @@ Combine modes through clear boundaries instead of blending them:
 - Link to a separate reference when exhaustive details would interrupt
     instructions or a how-to guide.
 - Add a short explanation only when it helps the reader make a decision.
-- Keep troubleshooting separate from normal operation. A warning the reader
-    needs before a step stays beside it. Recovery from a failure in a step,
+- Keep troubleshooting separate from normal operation. A warning about a step
+    stays in that step's section, placed as Callouts in
+    `markdown-conventions.md` describes. Recovery from a failure in a step,
     once the reader has seen it, goes in Troubleshooting, even when only one
     step causes it. A reference entry keeps its Errors field.
 

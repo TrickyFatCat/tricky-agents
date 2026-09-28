@@ -170,7 +170,7 @@ When the project has no callout convention, use these GitHub alerts:
 | Warning | `> [!WARNING]` |
 | Danger  | `> [!CAUTION]` |
 
-The callout holds the rule in one sentence. Details follow as prose after it. Keep a callout next to the command, option, or workflow it affects.
+The callout holds the rule in one sentence. Details follow as prose after it. Keep a callout next to the command, option, or workflow it affects. A callout never sits inside a list item, because GitHub alerts, and other callout formats, may not render there. A callout about one item's action, such as a step's command, follows the list, before any other block about it, and names that command or action.
 
 A blank line ends the callout. Without it, the next line joins the quote.
 
@@ -217,7 +217,7 @@ Place information where readers need it:
   says what the document covers, and the requirements for a step, come
   before it.
 - Defaults before optional setup paths.
-- Safety warnings beside risky commands.
+- Safety warnings with risky commands, placed as Callouts describes.
 - Option explanations beside relevant syntax or examples.
 - Detailed mappings and implementation notes after common usage.
 - Troubleshooting after normal behavior has been shown.

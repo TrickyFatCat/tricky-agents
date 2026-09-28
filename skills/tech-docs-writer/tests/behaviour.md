@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Sixty-three High-severity scenario tests for this skill. Each names the file that
+Sixty-five High-severity scenario tests for this skill. Each names the file that
 owns the rule under test.
 
 A test whose Must the rules do not produce is a failed validation, not a test
@@ -311,9 +311,11 @@ T61 Step failure      A step's command can fail with a known message the reader 
     Owner             document-modes.md, delivery-checks.md
 
 T62 Irreversible      A step has a flag that deletes files for good
-    Must              A Danger callout beside the step
-    Must Not          A Troubleshooting entry in its place
-    Owner             document-modes.md
+    Must              A Danger callout directly after the list, first in its run,
+                      naming the step's command
+    Must Not          The callout inside the list item, or before the step or the
+                      list; a Troubleshooting entry in its place
+    Owner             document-modes.md, markdown-conventions.md, delivery-checks.md
 
 T63 Dry run           A how-to step runs a dry run whose output the reader checks
     Must              Say what to look for, or nothing
@@ -324,4 +326,18 @@ T64 Review cold       A review's cold reader asks what a verbose flag prints
     Must              No finding; list it as not needed with the Job Test reason
     Must Not          Report a missing-fact finding
     Owner             review-criteria.md
+
+T65 Command Danger    A top-level command block deletes every baked lightmap; a
+                      sentence says what the reader checks in its output
+    Must              In the run after the block, the Danger first, then the
+                      output sentence
+    Must Not          The Danger before the block; a table or other block between
+                      the command block and that run
+    Owner             delivery-checks.md
+
+T66 Cold hint         The writer thinks the page's output lines may confuse the
+                      cold reader
+    Must              Send the four questions as written
+    Must Not          Add "(for example, the output lines …)", or a fifth question
+    Owner             SKILL.md
 ```

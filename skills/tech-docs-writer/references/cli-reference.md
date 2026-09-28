@@ -159,7 +159,7 @@ For shell commands:
 - Use the correct fenced language, such as `bash` or `nu`.
 - Explain the command before a risky action.
 - State whether it changes the system or application state when that is not obvious.
-- Put warnings beside the command or option they affect.
+- Put warnings where Callouts in `markdown-conventions.md` places them.
 - Offer a safer inspection command before destructive actions when possible.
 - Do not present credentials or remote-code execution patterns casually.
 

@@ -231,6 +231,9 @@ writer cannot run this check itself, because it has read the source.
    - What do you do first?
    - Where the page names or shows a status or result, what does it mean?
    - Which terms or sentences did you not understand?
+
+   Send these questions as written. Add no examples, hints or questions. A
+   hint passes on what the writer knows, and the cold reader must not have it.
 3. It returns questions only. It proposes no wording and edits nothing.
 4. Check each question against the source:
    - a gap: add the missing fact in its smallest form, such as one example
@@ -313,8 +316,8 @@ block that is empty.
    marked fixed with what changed, open with why, known from context with
    the starting-point line or standard term that covers it, or not needed
    with the Job Test reason.
-3. **Review** — each Internal Review finding, marked applied, or declined
-   with the reason.
+3. **Review** — each Internal Review finding, marked applied, partly applied
+   with each declined fact and its reason, or declined with the reason.
 4. **Outside The Task** — test findings on sentences the task did not change.
 5. **Not Checked** — each check that did not run, such as the formatter, the
    cold reader or Internal Review, and each claim labelled Unknown. When the

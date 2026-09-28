@@ -62,9 +62,11 @@ that changes no meaning.
    - the named reader needs it: each fact it adds passes the Job Test in
      `SKILL.md`.
 4. The writer applies each finding that passes both, inside the same Write.
-   This is the one case where a finding is applied without the user asking.
-5. The writer lists every other finding in the report as declined, with the
-   reason.
+   When only some of a finding's facts pass both, the writer applies those
+   facts alone. This is the one case where a finding is applied without the
+   user asking.
+5. The writer lists every other finding in the report as declined, and each
+   fact it did not apply, with the reason.
 
 When the tool list has no subagent tool, skip the pass and say "not reviewed"
 in the report. Never imitate the review in the writer's own context.

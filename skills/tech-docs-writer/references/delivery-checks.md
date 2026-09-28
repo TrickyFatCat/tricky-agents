@@ -68,11 +68,16 @@ Run these for every document.
   reader uses in their own work.
 - [ ] **Steps** — Search sentences joining three or more actions with commas;
   each is a numbered list. For each numbered item longer than one sentence, the
-  first line is the action alone.
+  first line is the action alone. Then read the paragraphs and code blocks
+  between each numbered list and the next heading. An action the list's task
+  still needs becomes the next step. An action for another goal, such as
+  undoing the task, moves to its own section or the section that owns that
+  goal. Recovery from a failure follows the Recovery check.
 - [ ] **Recovery** — Search "fails", "failed", "error", "aborted" and
   "conflict" in steps and the paragraphs next to them, and each sentence in a
-  step that starts with "If". A warning the reader needs before the step stays
-  beside it. Recovery from a failure the reader has seen becomes a
+  step that starts with "If". A warning about a step stays in that step's
+  section, placed as Callouts in `markdown-conventions.md` describes. Recovery
+  from a failure the reader has seen becomes a
   Troubleshooting entry, or follows States And Results for a status in a fixed
   set.
 - [ ] **Plain language** — Count sentences over 25 words; split each. Search
@@ -116,7 +121,11 @@ Run these for a Markdown document only.
   must meet before using any row goes before the table or list, in the lead-in
   or the callout its kind needs. Other blocks that qualify it form one run
   directly after it, with nothing else between them: a Danger first, then blocks
-  about single rows in row order, then the rest.
+  about single rows in row order, then the rest. A callout sits outside every
+  list item; one about a step's action follows the list and names that step's
+  command or action. A callout about a command, and a paragraph or example
+  about its output, form one run directly after that command's block, the
+  callout first.
 - [ ] **Callouts** — Search "never", "nothing", "does not", "is not",
   "cannot", "needs", "requires", "must" and "keep"; sort each hit into a kind
   that Callouts defines, or leave it as prose. Then read each callout: its body
