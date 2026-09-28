@@ -476,7 +476,8 @@ A diagram the writer can draw from the source, such as a folder layout or a
 flow, goes in directly as a text block. A screenshot or recording of the
 subject gets a placeholder line where it goes. The line is in italics, starts
 with `TODO:`, and names what the picture must show, so it is visible on the
-rendered page. Never draw a mock-up of the screen in its place.
+rendered page. Never draw a mock-up of the screen in its place, unless the
+user chose text.
 
 ```markdown
 _TODO: screenshot of the tile palette with a tileset open._

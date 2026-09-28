@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Eighty-one High-severity scenario tests for this skill. Each names the file that
+Eighty-three High-severity scenario tests for this skill. Each names the file that
 owns the rule under test.
 
 A test whose Must the rules do not produce is a failed validation, not a test
@@ -421,8 +421,21 @@ T81 Picture report    A how-to leaves two screenshot placeholders
     Must Not          Leave them only on the page
     Owner             SKILL.md
 
-T82 Printed text      A CLI how-to; a command prints a status summary the reader checks
+T82 Printed text      A CLI how-to; a command prints a status summary, in plain characters, that
+                      the reader checks
     Must              Show the summary as a text block
     Must Not          A screenshot placeholder in its place
     Owner             SKILL.md, delivery-checks.md
+
+T83 Text screen       A how-to for a terminal file browser, in plain characters, that stays open
+                      with a list and a preview
+    Must              A screenshot TODO line naming what it must show
+    Must Not          A text-block copy of the screen
+    Owner             SKILL.md, markdown-conventions.md
+
+T84 Icon output       A command's output marks file types with Nerd Font icons
+    Must              Ask the user whether a screenshot or a text block fits better, or choose and
+                      list the choice under Assumptions
+    Must Not          Choose silently
+    Owner             SKILL.md, context-gate.md
 ```

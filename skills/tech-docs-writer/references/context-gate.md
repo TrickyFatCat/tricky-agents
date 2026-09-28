@@ -58,10 +58,12 @@ present to answer.
 Never record an assumption silently. The assumption block is what makes the
 choice correctable.
 
-The block also appears without a deferral in one case. When other pages use a
+The block also appears without a deferral in two cases. When other pages use a
 callout shape that no instruction states, it names that evidence and the
 callout format chosen. Callouts in
 [markdown-conventions.md](markdown-conventions.md) owns which format that is.
+When the writer chose between a picture and text without the user, as A Good
+Document in `SKILL.md` describes, it names that choice.
 
 ## Review And The Gate
 

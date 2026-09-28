@@ -142,7 +142,9 @@ Run these for a Markdown document only.
   is one sentence, and a blank line follows it.
 - [ ] **Pictures** — Search "shows", "displays", "appears", "looks" and "on
   screen"; replace each description of what is on screen with a picture or a
-  placeholder, as Pictures in `markdown-conventions.md` describes.
+  placeholder, as Pictures in `markdown-conventions.md` describes. Output a
+  command prints before it exits stays as a text block, unless the user chose
+  a picture.
 - [ ] **Orphan sentences** — Read each section's first sentence with the heading
   hidden.
 - [ ] **Headings** — Read each section heading this task wrote; one that starts

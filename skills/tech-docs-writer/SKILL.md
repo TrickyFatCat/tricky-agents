@@ -42,7 +42,13 @@ Show what the reader sees on screen with a picture, not with sentences. That
 covers what they see when they open or run the subject, such as a window, a
 panel or a menu. Keep only what a picture cannot show, such as what a state means
 or what to do next. Name a control the reader uses, such as a menu item, in
-the step that uses it. Text the reader sees, such as output, is shown as text.
+the step that uses it. Output that a command prints before it exits is shown
+as text. A screen that stays open and responds to keys gets a picture, even
+when it is made of text. Text can depend on what a text block cannot show,
+such as Nerd Font icons or colour that carries meaning. Then you may ask the
+user whether a picture or text fits better. When you do not ask, or the user
+defers or is not there to answer, choose, and list the choice in the
+Assumptions block that `references/context-gate.md` owns.
 
 A lead-in names what follows. It does not summarise it.
 
