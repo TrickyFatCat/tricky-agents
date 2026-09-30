@@ -51,11 +51,12 @@ then run the script again.
 The script installs for every tool below. It creates a tool's folder when it
 is missing, even for a tool you do not use.
 
-| Tool     | Rules file            | Skills              |
-| -------- | --------------------- | ------------------- |
-| `agents` | `~/.agents/AGENTS.md` | `~/.agents/skills/` |
-| `claude` | `~/.claude/CLAUDE.md` | `~/.claude/skills/` |
-| `codex`  | `~/.codex/AGENTS.md`  | `~/.codex/skills/`  |
+| Tool     | Rules file              | Skills                |
+| -------- | ----------------------- | --------------------- |
+| `agents` | `~/.agents/AGENTS.md`   | `~/.agents/skills/`   |
+| `claude` | `~/.claude/CLAUDE.md`   | `~/.claude/skills/`   |
+| `codex`  | `~/.codex/AGENTS.md`    | `~/.codex/skills/`    |
+| `pi`     | `~/.pi/agent/AGENTS.md` | `~/.pi/agent/skills/` |
 
 ### Flags
 

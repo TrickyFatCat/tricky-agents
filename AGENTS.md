@@ -86,9 +86,10 @@ sits in the primary checkout is what every agent on this machine reads. There is
 no deploy step between the file and its effect.
 
 ```text
-~/.agents/AGENTS.md   ┐
-~/.claude/CLAUDE.md   ├─→  ~/Repos/tricky-agents/global/global-agents.md
-~/.codex/AGENTS.md    ┘
+~/.agents/AGENTS.md     ┐
+~/.claude/CLAUDE.md     │
+~/.codex/AGENTS.md      ├─→  ~/Repos/tricky-agents/global/global-agents.md
+~/.pi/agent/AGENTS.md   ┘
 ```
 
 **Primary checkout stays on main**

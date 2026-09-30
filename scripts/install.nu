@@ -56,10 +56,11 @@ def path-kind [path: string] {
 # `rules_file` is the file name the tool reads its rules from.
 def tool-targets [] {
     [
-        [tool       dir         rules_file];
-        ["agents"   ".agents"   "AGENTS.md"]
-        ["claude"   ".claude"   "CLAUDE.md"]
-        ["codex"    ".codex"    "AGENTS.md"]
+        [tool       dir           rules_file];
+        ["agents"   ".agents"     "AGENTS.md"]
+        ["claude"   ".claude"     "CLAUDE.md"]
+        ["codex"    ".codex"      "AGENTS.md"]
+        ["pi"       ".pi/agent"   "AGENTS.md"]
     ]
     | each {|r| {
         tool: $r.tool
