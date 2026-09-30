@@ -94,6 +94,7 @@ Before the review, ask only two things, and only when they apply:
 - whether a framework you guessed is right.
 
 Write `?` for other unknown values in the block, and write dependent findings as conditions.
+Show the block and continue in the same message. Do not ask "Correct?" for pasted code.
 
 ### During The Session
 
