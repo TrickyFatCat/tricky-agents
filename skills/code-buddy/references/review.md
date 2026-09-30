@@ -13,8 +13,14 @@ Keep each finding short, so its size matches the size of the problem.
 
 ## What To Check
 
+The Goal line decides which kinds you check.
+A general goal, such as "review" or "check", checks every kind.
+Risks are always checked.
+A kind you did not check shows `not checked` in the Overview table and in Coverage.
+
 - **Risks**: security, data loss, destructive steps, and secrets in the code.
 - **Bugs**: code that does not do what it is meant to do.
+  A deprecated command is a bug too: it works now and breaks on a later release.
   Check the failure path of each external call, meaning a call to an external program or a network request: what happens when it is missing, fails or times out.
 - **Architecture**: structure that will cause problems, and when.
 - **Names**: unclear names, and one value or idea with several names or terms.
@@ -65,6 +71,7 @@ The second step, with the name of the technique and a link, follows `SKILL.md` u
 
 State risks as `SKILL.md` describes under Risks.
 In a review, the Risks section comes first after the Overview, and holds the only callout for each risk.
+It lists every risk, even one stated earlier in the session.
 
 ## Grouping And Order
 
@@ -78,6 +85,7 @@ Number findings across sections, so "work through 3" names one finding.
 
 The stage changes the weight.
 In a prototype, an architecture finding that matters only at a larger scale goes to a Later section after Comments.
+Other stages change nothing.
 With no stage weighting, there is no Later section.
 
 Show every finding.
@@ -87,12 +95,13 @@ Never cap or sample them, because a missing finding reads as "no problem there".
 
 When you did not read every file in the target, list what you read and what you did not.
 
+When the goal skipped some kinds, name them below the Overview table.
+
 When there are no findings, say which checks ran and which files were not read.
 "No findings" never means "no bugs".
 
 ## Comments
 
-These tests are adapted from the `code-comments` skill, and may differ from it on purpose.
 Flag the comment. Never rewrite it.
 
 Flag a comment that:

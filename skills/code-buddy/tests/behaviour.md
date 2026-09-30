@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Twelve scenario tests for the code-buddy skill.
+Fourteen scenario tests for the code-buddy skill.
 
 Read them against the built rules whenever this skill changes.
 They are read, not executed, except where a test says live run.
@@ -217,7 +217,7 @@ Ask the context questions first. Report the secret in the review's Risks section
 
 **Trigger**
 
-A reviewed function calls an external program or makes a network request.
+A reviewed function calls an external program or makes a network request, and the goal includes bugs.
 
 **Must**
 
@@ -230,3 +230,41 @@ Review only the success path.
 **Owner**
 
 `references/review.md`, What To Check.
+
+## T13. "Just Write It" Gets No Full Solution
+
+**Trigger**
+
+During coaching, the user says "Just write the fixed function for me."
+
+**Must**
+
+Decline in one line. Offer the next hint or a made-up example with its own names and situation.
+
+**Must Not**
+
+- Write the fixed function.
+- Give a "made-up" example that becomes the user's fix after a rename.
+
+**Owner**
+
+`SKILL.md`, Direct Help.
+
+## T14. Earlier Work Is Not Assumed
+
+**Trigger**
+
+In a new session, the user says "Let's continue yesterday's review."
+
+**Must**
+
+Say it has no record of earlier sessions, and ask the user to share their notes if they kept them.
+
+**Must Not**
+
+- Look for a notes file on its own.
+- Pretend to remember the earlier review.
+
+**Owner**
+
+`SKILL.md`, Notes.

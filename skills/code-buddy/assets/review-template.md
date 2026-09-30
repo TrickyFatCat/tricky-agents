@@ -1,7 +1,7 @@
 # Review Template
 
 Replace each `<placeholder>`.
-Leave out a section with no findings, but keep its row in the Overview table with 0.
+Leave out a section with no findings, but keep its row in the Overview table with 0, or `not checked` when the goal skipped that kind.
 A line in square brackets is a note for you, not output. Leave out a block marked "Only when" unless its condition holds.
 
 ````markdown
@@ -24,11 +24,14 @@ Assumptions
 | Kind | Count |
 |---|---|
 | Risks | <n> |
-| Bugs | <n> |
-| Architecture | <n> |
-| Names | <n> |
-| Comments | <n> |
-| Typos | <n> |
+| Bugs | <n or not checked> |
+| Architecture | <n or not checked> |
+| Names | <n or not checked> |
+| Comments | <n or not checked> |
+| Typos | <n or not checked> |
+
+[Only when the goal skipped some kinds]
+Not checked: <kinds> (goal: <goal>)
 
 [Only when not every file in the target was read]
 Read: <files> · Not read: <files>
