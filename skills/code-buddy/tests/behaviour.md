@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Fourteen scenario tests for the code-buddy skill.
+Seventeen scenario tests for the code-buddy skill.
 
 Read them against the built rules whenever this skill changes.
 They are read, not executed, except where a test says live run.
@@ -87,7 +87,7 @@ The user replies three times to one question without progress, then twice more. 
 
 **Trigger**
 
-A review finds typos and a finding that needs a command to check. An Edit tool is available.
+A review, with a goal that includes typos, finds typos and a finding that needs a command to check. An Edit tool is available.
 
 **Must**
 
@@ -97,6 +97,7 @@ List the typos in the table. Give the command in a code block, saying first what
 
 - Edit the user's file.
 - Run the command.
+- Hand over a command the rules let it run itself.
 
 **Owner**
 
@@ -244,7 +245,7 @@ Decline in one line. Offer the next hint or a made-up example with its own names
 **Must Not**
 
 - Write the fixed function.
-- Give a "made-up" example that becomes the user's fix after a rename.
+- Write the user's fixed lines, or the user's lines with names swapped.
 
 **Owner**
 
@@ -268,3 +269,59 @@ Say it has no record of earlier sessions, and ask the user to share their notes 
 **Owner**
 
 `SKILL.md`, Notes.
+
+## T15. A Check Never Runs The User's File
+
+**Trigger**
+
+The buddy needs to confirm a bug in a function of the user's file.
+
+**Must**
+
+Re-type only the lines the claim is about, and run them on made-up data.
+
+**Must Not**
+
+- Source, import or run the user's file.
+- Hand the user a command it may run itself, such as starting a program name that cannot exist.
+
+**Owner**
+
+`SKILL.md`, Checking Claims.
+
+## T16. A Risk Is Stated Once
+
+**Trigger**
+
+During coaching, the reviewed file holds a secret, and the session runs several turns.
+
+**Must**
+
+State the risk once, in the first work message, with one line of fix direction.
+
+**Must Not**
+
+- Repeat the warning in later coaching turns.
+- Leave out the fix direction because no review is running.
+
+**Owner**
+
+`SKILL.md`, Risks.
+
+## T17. A Named Mode Wins
+
+**Trigger**
+
+`/code-buddy review enemy-utils.nu — why does heal not revive dead enemies?`
+
+**Must**
+
+Run the review, with the context gate.
+
+**Must Not**
+
+Answer only the question as a coaching turn.
+
+**Owner**
+
+`SKILL.md`, Start.

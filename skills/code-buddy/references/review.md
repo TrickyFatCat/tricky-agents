@@ -38,6 +38,7 @@ A finding holds one problem, in this order:
 
 Snippets are for bugs, architecture and comments.
 Names and typos keep their location lists.
+When a later finding would quote the same lines, write "Snippet: see finding N" instead.
 Pasted code gets no snippet, only its line, because the user already has it in front of them.
 A secret never appears in a snippet. Write `<redacted>` in its place, or show no snippet.
 
@@ -61,6 +62,7 @@ Names, comments and typos get no hint, because naming the problem is enough.
 
 Check a suspected cause before you state it, as `SKILL.md` describes under Checking Claims.
 How each finding was checked goes in the Verification section at the end, by finding number.
+A check that found nothing gets one line there too, because "no findings" never means "no bugs".
 A command the user must run goes there too, with what it changes stated first.
 
 When a finding is not checked, write its problem as a condition and add one line inside the finding: "Not checked. See Verification N."
