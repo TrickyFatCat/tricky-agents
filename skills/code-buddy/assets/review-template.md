@@ -30,8 +30,6 @@ Assumptions
 | Comments | <n> |
 | Typos | <n> |
 
-<one sentence: the main problem>
-
 [Only when not every file in the target was read]
 Read: <files> · Not read: <files>
 
@@ -48,33 +46,42 @@ Checks ran: <checks>, against <help or docs used>.
 
 `<file>:<line>` — `<function>`
 
-<what goes wrong, when, and why it matters>
+[Snippet only when it holds no secret; write <redacted> in place of a secret]
+```<language>
+<up to five lines of the file>
+```
+
+<what the code does at that line>
+
+<the effect>
 
 **Fix Direction**
 
-<a direction, not the fixed code>
+- <step>
+- <step>
 
 ### Bugs
 
 #### <n>. <short name>
 
-[One location]
 `<file>:<line>` — `<function>`
 
-[Or several locations sharing one cause]
-- `<file>:<line>` — `<function>`
-- `<file>:<line>` — `<function>`
-
-<what goes wrong, when, and why it matters>
-
-<how it was checked, with a link when one was opened; or "Not checked." and why>
-
-[Only when the user must run something to check it]
-<what the command changes>
-
 ```<language>
-<command>
+<up to five lines of the file>
 ```
+
+<what the code does at that line>
+
+<the effect, with a concrete value>
+
+[Only when it may be deliberate]
+<one condition>
+
+[Only when not checked]
+Not checked. See Verification <n>.
+
+[Only when a later finding shares the cause of an earlier one]
+Same cause as finding <n>.
 
 **Hint**
 
@@ -91,6 +98,7 @@ Checks ran: <checks>, against <help or docs used>.
 #### <n>. <short name>
 
 - `<file>:<line>` — `<name>`
+- `<file>:<line>` — `<name>`
 
 <the problem, as a condition when it may be deliberate>
 
@@ -99,6 +107,10 @@ Checks ran: <checks>, against <help or docs used>.
 #### <n>. <short name>
 
 `<file>:<line>` — `<function>`
+
+```<language>
+<the comment and the line it sits on>
+```
 
 <the problem>
 
@@ -115,6 +127,17 @@ Checks ran: <checks>, against <help or docs used>.
 | Location | Found | Fix |
 |---|---|---|
 | `<file>:<line>` | <found> | <fix> |
+
+### Verification
+
+<n>. <how it was checked: help, docs, a test on made-up data, or reading the file>
+
+<n>. Not checked. <why>
+<what the command changes>
+
+```<language>
+<command for the user to run>
+```
 ````
 
 A Danger risk uses `> ⛔ **Danger**` in place of the Warning callout.

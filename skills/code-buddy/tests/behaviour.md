@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Ten scenario tests for the code-buddy skill.
+Twelve scenario tests for the code-buddy skill.
 
 Read them against the built rules whenever this skill changes.
 They are read, not executed, except where a test says live run.
@@ -193,3 +193,40 @@ Imply that the whole project was reviewed.
 **Owner**
 
 `SKILL.md`, Context Gate, and `references/review.md`, Coverage.
+
+## T11. A Risk Waits For The Context
+
+**Trigger**
+
+A review target holds a secret, and the stage is not yet known.
+
+**Must**
+
+Ask the context questions first. Report the secret in the review's Risks section.
+
+**Must Not**
+
+- Put the risk warning in the context-gathering message.
+- Show the warning twice.
+
+**Owner**
+
+`SKILL.md`, Risks, and `references/review.md`, Risks.
+
+## T12. An External Call Gets Its Failure Path
+
+**Trigger**
+
+A reviewed function calls an external program or makes a network request.
+
+**Must**
+
+Report what happens when the call is missing or fails.
+
+**Must Not**
+
+Review only the success path.
+
+**Owner**
+
+`references/review.md`, What To Check.

@@ -8,10 +8,14 @@ It never writes the fix, because the user makes the change.
 A typo's corrected spelling is the one exception.
 A risk gets a fix direction instead of a hint, because a risk must not wait for the learner.
 
+A reader skims a review.
+Keep each finding short, so its size matches the size of the problem.
+
 ## What To Check
 
 - **Risks**: security, data loss, destructive steps, and secrets in the code.
 - **Bugs**: code that does not do what it is meant to do.
+  Check the failure path of each external call, meaning a call to an external program or a network request: what happens when it is missing, fails or times out.
 - **Architecture**: structure that will cause problems, and when.
 - **Names**: unclear names, and one value or idea with several names or terms.
 - **Comments**: see Comments below.
@@ -19,30 +23,53 @@ A risk gets a fix direction instead of a hint, because a risk must not wait for 
 
 ## Each Finding
 
-Each finding gives:
+A finding holds one problem, in this order:
 
-- where it is, as `file:line`, with the function name when there is one;
-- what goes wrong, when, and why it matters;
-- a hint toward another way.
+1. Where it is, as `file:line`, with the function name when there is one.
+2. A snippet: up to five lines of the file around the problem, unchanged.
+3. The problem.
+4. The hint, or a Fix Direction for a risk.
 
-Explain the symptom and its effect.
-The hint must not be answerable by re-reading the explanation.
+Snippets are for bugs, architecture and comments.
+Names and typos keep their location lists.
+Pasted code gets no snippet, only its line, because the user already has it in front of them.
+A secret never appears in a snippet. Write `<redacted>` in its place, or show no snippet.
 
-Names, comments and typos get no hint, because naming the problem is enough.
-Typos go in their own table, with the corrected spelling.
+### The Problem
 
-Behaviour that may be deliberate is written as a condition, such as "If you only use one monitor, this never shows."
+Start with what the code does at that line, then the effect.
+Use a concrete value, such as "A dead enemy with 0 health gets 5 health and stays `alive: false`."
+Add a general rule only when the fact needs it, in one sentence after the fact.
+Give each sentence its own paragraph.
+Write at most three sentences. More means two problems, or a list.
+
+Behaviour that may be deliberate gets one condition, in one sentence after the problem, such as "This is a bug if dead enemies can be healed."
+Evidence of intent, such as a comment that promises a result, gets its own sentence or is left out.
 When the user says the behaviour is intended, name its risk once and close it.
 
-Check a suspected cause before you state it, as `SKILL.md` describes under Checking Claims.
-When you cannot check it, write the finding as a condition and say it is not checked.
+The hint comes right after the problem.
+It must not be answerable by re-reading the problem.
+Names, comments and typos get no hint, because naming the problem is enough.
 
+### Checks And Commands
+
+Check a suspected cause before you state it, as `SKILL.md` describes under Checking Claims.
+How each finding was checked goes in the Verification section at the end, by finding number.
+A command the user must run goes there too, with what it changes stated first.
+
+When a finding is not checked, write its problem as a condition and add one line inside the finding: "Not checked. See Verification N."
+A docs link that explains the problem stays in the finding.
 The second step, with the name of the technique and a link, follows `SKILL.md` under Coaching and Sources.
-Risks are stated at once, as `SKILL.md` describes under Risks.
+
+## Risks
+
+State risks as `SKILL.md` describes under Risks.
+In a review, the Risks section comes first after the Overview, and holds the only callout for each risk.
 
 ## Grouping And Order
 
-When several findings share one root cause, name the cause once and list the findings under it.
+Group findings under one shared cause only when every finding is the same kind and the same seriousness.
+Otherwise write separate findings, and add "Same cause as finding N" to the later one.
 
 Order the sections by seriousness: Risks, Bugs, Architecture, Names, Comments.
 Typos come last.
@@ -82,21 +109,31 @@ Follow the project's own comment rules when it has them.
 
 ## Worked Example
 
-One finding, from a Nushell module:
+One finding and its Verification entry, from a Nushell module:
 
-```text
-#### 1. Values Lost Before The Last Line
+````text
+#### 3. Healed Enemies Stay Dead
 
-- `mango-utils.nu:22` — `mwm-get-all-clients`, empty-fields branch
-- `mango-utils.nu:40` — `mwm-get-tags --active`
+`enemy-utils.nu:31` — `heal`
 
-Both functions produce a value, then keep running or stop without it.
-Nushell hands back only the last expression of a custom command, so the value is dropped.
-Callers such as other scripts get the wrong value or nothing.
+```nu
+let life = [($enemy.health + $amount) $enemy.max_hp] | math min
+$enemy | upsert health $life
+```
 
-Checked on Nushell 0.116 with two made-up commands.
+`heal` sets `health` but never changes `alive`.
+
+A dead enemy with 0 health gets 5 health and stays `alive: false`.
+
+This is a bug if dead enemies can be healed.
 
 **Hint**
 
-How can a command stop early and still hand back a value?
-```
+What should `heal` do with an enemy whose `alive` is `false`?
+
+...
+
+### Verification
+
+3. Checked by reading the file: no line sets `alive` to `true`.
+````
