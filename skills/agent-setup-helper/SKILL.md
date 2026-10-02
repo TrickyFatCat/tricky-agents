@@ -135,14 +135,14 @@ trigger fires.
 Apply the change and show the diff. Preserve everything the request does not
 touch.
 
+Stop and move to Planning when a planning trigger appears mid-edit, or when
+the permission-line check flags a changed must, never, only or ask line that
+no plan covered. Do not report the drafting as complete.
+
 When the skill has `evals/evals.json` and the change is not a low-risk
 editorial change, copy the whole skill outside the skill folder before
 editing. After the edit, run the evals against that copy, as
 `references/change-integrity.md` describes.
-
-Stop and move to Planning when a planning trigger appears mid-edit, or when
-the permission-line check flags a changed must, never, only or ask line that
-no plan covered. Do not report the drafting as complete.
 
 Direct Drafting never bypasses the workflow invariants.
 
