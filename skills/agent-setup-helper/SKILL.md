@@ -106,6 +106,7 @@ Start Planning when a change will:
 - change a trigger, a permission or a routing rule;
 - touch more than one file;
 - change a line containing **must**, **never**, **only** or **ask**;
+- change or remove an eval in `evals/`;
 
 or when the user asks to plan.
 
@@ -133,6 +134,11 @@ trigger fires.
 
 Apply the change and show the diff. Preserve everything the request does not
 touch.
+
+When the skill has `evals/evals.json` and the change is not a low-risk
+editorial change, copy the whole skill outside the skill folder before
+editing. After the edit, run the evals against that copy, as
+`references/change-integrity.md` describes.
 
 Stop and move to Planning when a planning trigger appears mid-edit, or when
 the permission-line check flags a changed must, never, only or ask line that
@@ -272,7 +278,8 @@ A pattern match is a finding for review, never a verdict. A clean scan is
 evidence, not proof.
 
 A third-party artefact is read and scanned in full, the findings are reported,
-and the user approves before anything runs. Repeat on every update.
+and the user approves before anything runs. Repeat on every update. Running a
+third-party skill's evals is running the skill.
 
 ## Routing
 
@@ -282,7 +289,7 @@ loaded together when their responsibilities meet.
 | Reference | Route trigger | Permission boundary |
 |---|---|---|
 | `references/planning.md` | A planning trigger fires | No file changes before approval |
-| `references/change-integrity.md` | Approval given; stays active through validation and recovery | Only the approved scope |
+| `references/change-integrity.md` | Approval given, or Direct Drafting finished an edit; stays active through validation and recovery | Only the approved scope |
 | `references/review.md` | Review mode | Never authorises a change |
 | `references/authoring-guidance.md` | Designing or reviewing a Skill, reference or template | Knowledge only |
 | `references/agents-md.md` | The artefact is an `AGENTS.md` | Knowledge only |

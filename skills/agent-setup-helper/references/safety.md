@@ -9,7 +9,7 @@ This file says which patterns make an instruction file or a script unsafe. It
 does not decide anything. A match is a finding for review, never a verdict,
 and the user still approves.
 
-The scan covers `SKILL.md`, `AGENTS.md`, references and scripts.
+The scan covers `SKILL.md`, `AGENTS.md`, references, scripts and evals.
 
 Each group below ends with a fenced `safety-patterns` block. `scripts/check.py`
 reads those blocks and reports matches. The prose beside each block is for the

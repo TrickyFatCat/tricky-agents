@@ -315,6 +315,7 @@ in this shape:
 Result        Passed, Limited or Failed
 Checks        What was actually checked
 Findings      What the script reported, and the judgement on each
+Evals         Each eval's result before and after the change, and any that did not run
 Coverage      Accepted decisions not found in their file, or "none"
 Limitations   What could not be checked, and why
 ```
@@ -359,6 +360,38 @@ or the file was wrong, and both need you.
 
 When validation finds an unrelated problem, the skill does not fix it inside
 this change. It raises the problem only when it matters now.
+
+**Evals**
+
+An eval is a test prompt for a skill. A fresh agent runs it with the skill
+loaded, and another fresh agent grades the answer.
+
+When the changed skill has `evals/evals.json`, the skill runs every eval after
+each change, Direct Drafting included. A typo, grammar or formatting fix needs
+no evals.
+
+Each eval runs on the changed skill and on a copy taken before the change.
+Every run works in its own temporary folder. An eval that asks for an edit
+never touches your files.
+
+Each eval in `evals/evals.json` names the file and section that hold its rule.
+The change edited that rule when its diff changed that section.
+
+The Evals line of the report gives each outcome and its effect on the result:
+
+| Outcome                                             | Result                                     |
+| --------------------------------------------------- | ------------------------------------------ |
+| Fails on the changed skill, passes on the copy      | Failed                                     |
+| Fails on both, and the change edited its rule       | Failed                                     |
+| Fails on both, and the change did not edit its rule | No effect, reported as an existing problem |
+| Did not run, and the change edited its rule         | Failed                                     |
+| Did not run, and the change did not edit its rule   | Limited                                    |
+
+An eval you ask the skill to skip counts as one that did not run.
+
+Evals run only where the agent can start subagents and read their transcripts.
+Claude Code can do both. Other agents are not checked. Where no eval runs, a
+change to a rule an eval covers ends Failed.
 
 ## Reviews
 

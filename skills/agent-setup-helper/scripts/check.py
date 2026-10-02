@@ -78,7 +78,7 @@ TRIGGER_PATTERN = re.compile(
 )
 
 # A code span that starts with one of these folders is checked as a file path.
-KNOWN_FOLDERS = ("references/", "scripts/", "assets/", "tests/")
+KNOWN_FOLDERS = ("references/", "scripts/", "assets/", "tests/", "evals/")
 # The pattern groups of references/safety.md.
 # A group with no valid pattern makes the safety check report an error.
 # WARNING: Change this with safety.md and _add_record(), because all name the groups.

@@ -1,0 +1,22 @@
+[
+  {"query": "i keep telling claude the same things about our monorepo every session. can you help me write an AGENTS.md for the repo root? packages live in packages/*, we use pnpm, and tests run with pnpm -r test", "should_trigger": true},
+  {"query": "Review my skill at ~/.claude/skills/pdf-forms/SKILL.md. I think the description is too vague, it almost never gets picked up", "should_trigger": true},
+  {"query": "found a skill on github (github.com/someone/git-commit-skill) and I want to put it in ~/.codex/skills. is it safe to install?", "should_trigger": true},
+  {"query": "should the rule about never force-pushing live in my global rules file or in the references of my git skill? not sure where it belongs", "should_trigger": true},
+  {"query": "my SKILL.md for the level-design helper is 700 lines now. help me split it into reference files without losing any rules", "should_trigger": true},
+  {"query": "update the code-buddy skill so it asks before rewriting the user's code. right now its SKILL.md says it may refactor freely", "should_trigger": true},
+  {"query": "can you check agents.md in this repo for contradictions? the testing section and the commit section seem to disagree about when to run the linter", "should_trigger": true},
+  {"query": "I want a new skill that reviews enemy encounter designs from our GDD pages and flags unreadable attack tells. help me design it", "should_trigger": true},
+  {"query": "the third-party tdd-coach skill just got an update. pull it and tell me if anything changed that I should worry about before I use it again", "should_trigger": true},
+  {"query": "rewrite the description of my tech-docs-writer skill so it stops firing when people ask about CLAUDE.md files", "should_trigger": true},
+  {"query": "use the tech-docs-writer skill to write a README for scripts/install.nu", "should_trigger": false},
+  {"query": "write a python script that reads every SKILL.md under ~/skills, parses the YAML frontmatter and prints a table of names and descriptions", "should_trigger": false},
+  {"query": "what's the practical difference between sonnet and opus for long coding sessions? which one should I default to", "should_trigger": false},
+  {"query": "run the code-comments skill on scripts/check.py, the docstrings in the parser section are way too long", "should_trigger": false},
+  {"query": "add a hook to my claude settings.json that runs dprint fmt after every file edit", "should_trigger": false},
+  {"query": "summarise what our AGENTS.md says about the merge workflow, I forgot the order of the steps", "should_trigger": false},
+  {"query": "translate the README.md in this repo into Russian, keep the code blocks as they are", "should_trigger": false},
+  {"query": "the test in tests/test_parser.py fails because the agent fixture returns None. can you fix it", "should_trigger": false},
+  {"query": "write the user manual for our enemy AI behaviour-tree editor, for designers who never used it", "should_trigger": false},
+  {"query": "set up a GitHub Actions workflow that runs nu scripts/build-global-agents.nu on every push and fails if the output changed", "should_trigger": false}
+]

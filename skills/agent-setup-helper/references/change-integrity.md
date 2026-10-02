@@ -1,7 +1,7 @@
 # Change Integrity
 
-Load this reference when approval is given. Keep it active through
-application, validation and recovery.
+Load this reference when approval is given, or when Direct Drafting finishes
+an edit. Keep it active through application, validation and recovery.
 
 ## Boundary
 
@@ -9,7 +9,8 @@ This file answers one question: did the approved change land exactly, and what
 happens if it did not?
 
 It owns the context and dependency checks, validation, the coverage check, the
-script run, recovery, the final integrity check and the validation report.
+script run, the evals, recovery, the final integrity check and the validation
+report.
 
 It does not own what gets approved. `planning.md` owns that.
 
@@ -53,13 +54,18 @@ After application:
    accident.
 4. Run the coverage check.
 5. Run `check.py`.
-6. Read `tests/behaviour.md` when this skill itself changed.
-7. Correct low-risk editorial mistakes directly.
-8. Stop and use a recovery path when a correction would itself be a planned
+6. Run the evals when the skill has `evals/evals.json`.
+7. Read `tests/behaviour.md` when this skill itself changed.
+8. Correct low-risk editorial mistakes directly.
+9. Stop and use a recovery path when a correction would itself be a planned
    change.
 
 Keep validation to what the change could materially affect. Scale the depth to
 the possible impact. Do not turn validation into a general audit.
+
+The evals are the one exception: when they run, every eval runs. A change in
+one file can break a rule held in another, and an eval is the check that sees
+it.
 
 Report only the checks actually completed.
 
@@ -160,6 +166,96 @@ A changed permission line that no plan covered stops the work. It is a
 planning trigger that fired during application, which means the approved scope
 was wrong.
 
+## Evals
+
+An eval is a prompt run by a fresh agent that has the skill loaded, then
+graded against the behaviour the skill must produce.
+
+A skill with `evals/evals.json` has its evals run after every change except a
+low-risk editorial change that fired no planning trigger. That covers Direct
+Drafting as well as a planned change.
+
+### Eval Files
+
+`evals/evals.json` holds one entry per eval: the prompt, the expected
+behaviour, the Must Not, the Owner (the file and section holding the rule),
+any setup, and fixture files under `evals/files/`.
+
+`evals/trigger.json` holds about 20 queries for the description, half that
+should trigger the skill and half near misses that should not. Run them only
+when the description changes, about 3 times each, as the trigger testing in
+`skill-spec.md` describes.
+
+Results go to a temporary folder outside the skill folder. They are never
+committed.
+
+An eval is never edited to make the change under validation pass. Changing or
+removing an eval is a planned change of its own.
+
+### Baseline
+
+Before applying a change, copy the whole skill to a temporary folder outside
+the skill folder. That copy is the baseline.
+
+Git HEAD at validation time is not a baseline. A commit made before validation
+turns HEAD into the changed version, which is then compared with itself.
+
+Outside git, the same copy is the `--base` for `permission-lines`. Under git,
+`permission-lines` keeps comparing with the last commit, because passing
+`--base` switches that comparison off.
+
+Run the changed version's evals against both versions.
+
+### Isolation
+
+An eval run never writes outside its own temporary folder.
+
+1. Copy the version under test and the eval's fixtures into a fresh temporary
+   folder outside the skill folder, one per run.
+2. Tell the run to read the skill from that folder, and not to load it through
+   the harness's skill mechanism. The installed copy may be another version.
+3. After all runs, confirm that the real skill files changed only by the
+   applied edits.
+4. Read each run's transcript for the files it read and any skill it loaded.
+   The same record shows which references the run used.
+
+A run is invalid when it wrote outside its folder, loaded another copy of the
+skill, or left no transcript to check. An invalid run counts as an eval that
+did not run.
+
+### Runs And Grading
+
+Run each eval once on each version, each in a fresh subagent.
+
+When an eval fails, or the two versions disagree, rerun both versions up to
+three times each and compare pass rates. A result still mixed after three runs
+is unstable, and counts as an eval that did not run.
+
+A fresh subagent grades each run against the expected behaviour and the Must
+Not, without being told which version produced it. Do not override a grade.
+Take a disagreement with one to the user.
+
+### Eval Results
+
+| Outcome | Validation |
+|---|---|
+| Changed version fails, baseline passes | Failed: a regression |
+| Both fail, rule touched | Failed |
+| Both fail, rule not touched | An existing defect: report it, do not fix it here |
+| Did not run, rule touched | Failed |
+| Did not run, rule not touched | Limited, with the reason |
+| No baseline, changed version fails | Failed |
+| No baseline, changed version passes | Limited, with the reason `no baseline` |
+
+A rule is touched when the diff changed the section that holds it, as the
+eval's Owner names it. A routing change in `SKILL.md` touches a reference's
+rules only when it removes or narrows a route to that reference. Adding a
+route cannot stop a rule loading where it loaded before.
+
+An eval did not run when it could not run, when its run was invalid or
+unstable, or when the user asked to skip it. A skip is not an exception to the
+table.
+
 ## Behaviour Tests
 
 When agent-setup-helper itself is the artefact being changed, read
@@ -168,8 +264,8 @@ When agent-setup-helper itself is the artefact being changed, read
 Each test gives a Trigger, a Must, a Must Not and an Owner. Read the built
 rules and decide whether the Must is produced and the Must Not is prevented.
 
-These tests are read, not executed. A test whose Must the rules no longer
-produce is a Failed validation, not a test to update.
+Read every test, including those that also run as evals. A test whose Must the
+rules no longer produce is a Failed validation, not a test to update.
 
 ## Failure And Recovery
 
@@ -225,6 +321,7 @@ not the goal; one authoritative rule per behaviour is.
 Result        Passed, Limited or Failed
 Checks        What was actually checked
 Findings      What the script reported, and the judgement on each
+Evals         Each eval's result on both versions, and any that did not run
 Coverage      Accepted decisions with no location, or none
 Limitations   What could not be checked, and why
 ```

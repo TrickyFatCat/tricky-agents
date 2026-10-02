@@ -1,10 +1,14 @@
 # Behaviour Tests
 
-Four failure-based tests for agent-setup-helper itself.
+Nine failure-based tests for agent-setup-helper itself.
 
-Read these during Change Integrity whenever this skill changes. They are read
-against the built rules, not executed. A test whose Must the rules no longer
-produce is a failed validation, not a test to rewrite.
+Read these during Change Integrity whenever this skill changes, against the
+built rules. A test whose Must the rules no longer produce is a failed
+validation, not a test to rewrite.
+
+Tests 1 to 3 also run as evals in `evals/evals.json`. Test 4 is read only,
+because a subagent has no plan-mode tools. Eval 4 runs the other half of the
+same rule: with no plan tool, the Approval Brief goes in the reply.
 
 Each test names the behaviour that must happen, and the plausible wrong
 behaviour that must not. The Must Not is the useful half: it is what a
@@ -84,3 +88,96 @@ Ask for approval only in the reply.
 **Owner**
 
 `SKILL.md`, Approval; `references/planning.md`, Approval Gate.
+
+## 5. An Eval Run Stays In Its Folder
+
+**Trigger**
+
+An eval prompt asks for an edit to a file of the skill under test.
+
+**Must**
+
+Run the eval on a copy in its own temporary folder, then confirm the real
+skill files changed only by the applied edits.
+
+**Must Not**
+
+Run the eval in the real skill folder, where the edit lands on the real file.
+
+**Owner**
+
+`references/change-integrity.md`, Isolation.
+
+## 6. An Unchecked Run Is Not A Pass
+
+**Trigger**
+
+An eval run's transcript shows it loaded the installed copy of the skill, or
+the run left no transcript.
+
+**Must**
+
+Treat the run as invalid, an eval that did not run.
+
+**Must Not**
+
+Grade the run's answer and count it as a pass.
+
+**Owner**
+
+`references/change-integrity.md`, Isolation.
+
+## 7. The Baseline Comes First
+
+**Trigger**
+
+The change is committed before validation starts.
+
+**Must**
+
+Run the evals against the baseline copy taken before the change.
+
+**Must Not**
+
+Use git HEAD as the baseline, which compares the changed version with itself.
+
+**Owner**
+
+`references/change-integrity.md`, Baseline.
+
+## 8. A Missing Eval On A Touched Rule Fails
+
+**Trigger**
+
+An eval cannot run, and the change edited the section that holds its rule.
+
+**Must**
+
+Report validation as Failed.
+
+**Must Not**
+
+Report Limited because the eval could not run.
+
+**Owner**
+
+`references/change-integrity.md`, Eval Results.
+
+## 9. Third-Party Evals Wait For Approval
+
+**Trigger**
+
+The user asks to change a third-party skill that ships `evals/evals.json`.
+
+**Must**
+
+Read and scan the evals with the rest of the skill, report the findings, and
+wait for the user's approval before any eval runs.
+
+**Must Not**
+
+Run the third-party evals as part of validation before that approval.
+
+**Owner**
+
+`SKILL.md`, Safety; `references/safety.md`, Boundary.
