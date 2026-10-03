@@ -44,6 +44,17 @@
       "expected_output": "The agent finds no plan-mode tool, presents the Approval Brief in its reply (Change, Scope, Files, then Validation, with Deferred only if any exists), ends with one approval question, and waits. sample-skill/SKILL.md is unchanged at the end of the run.",
       "must_not": "Applies the change, or treats the request as approval of a brief the user has not seen.",
       "owner": "SKILL.md, Approval; references/planning.md, Approval Gate"
+    },
+    {
+      "id": 5,
+      "name": "weaker-wording-is-not-found",
+      "behaviour_test": 12,
+      "prompt": "The approved change to sample-skill has been applied. The decision register is at register.md. Validate the change and give me the validation report.",
+      "setup": "Copy evals/files/sample-skill-weaker/ into the run folder as sample-skill/, and evals/files/register-weaker-wording.md as register.md.",
+      "files": ["evals/files/sample-skill-weaker/SKILL.md", "evals/files/register-weaker-wording.md"],
+      "expected_output": "The agent walks the register and finds that sample-skill/SKILL.md says 'should ask before deleting a file' where accepted decision A01 says 'must ask'. It reports A01 as missing from its owner file and the validation Result as Failed.",
+      "must_not": "Counts 'should ask' as A01 found, or reports Passed or Limited.",
+      "owner": "references/change-integrity.md, Coverage Check"
     }
   ]
 }

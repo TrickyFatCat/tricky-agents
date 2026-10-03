@@ -45,18 +45,22 @@ When context is missing:
 
 ## Validation
 
-After application:
+After application, or after a Direct Drafting edit:
 
-1. Verify the result matches the approved brief.
+1. Verify the result matches the approved brief or, after Direct Drafting,
+   the request.
 2. Check context, dependencies, related artefacts and earlier decisions for
    conflict or lost context.
-3. Verify that deferred and unrelated decisions were not implemented by
-   accident.
-4. Run the coverage check.
+3. Verify that nothing beyond the brief or request changed, and that deferred
+   and unrelated decisions were not implemented by accident.
+4. Run the coverage check. It does not apply to Direct Drafting, which has no
+   register.
 5. Run `check.py`.
 6. Run the evals when the skill has `evals/evals.json`.
 7. Read `tests/behaviour.md` when this skill itself changed.
-8. Correct low-risk editorial mistakes directly.
+8. Correct low-risk editorial mistakes directly, then run `check.py` again. A
+   second round of corrections that still finds problems stops, and the
+   report says so.
 9. Stop and use a recovery path when a correction would itself be a planned
    change.
 
@@ -73,19 +77,58 @@ Report only the checks actually completed.
 
 | Result | Meaning |
 |---|---|
-| Passed | Required checks completed, no blocking problem |
-| Limited | A check could not run, and cannot change whether the work is correct |
-| Failed | A blocking problem prevents validated completion |
+| Passed | Every check the change needed ran, and no Failed cause holds |
+| Limited | A check did not run, and it cannot change the result for this change |
+| Failed | At least one Failed cause holds |
 
-When a missing check could change the correctness conclusion, the result is
-Failed, not Limited. Limited is for checks whose absence does not matter, not
-for checks that were inconvenient.
+When results mix, Failed beats Limited, and Limited beats Passed.
 
-Passed and a genuinely non-blocking Limited complete the workflow. Report the
-limitation in one line.
+### Failed Causes
 
-Failed does not end the workflow, and does not by itself authorise a
-rollback.
+Validation is Failed when any of these holds:
+
+- an accepted decision is missing from its owner file (Coverage Check);
+- a permission line changed that no plan covered (Permission Lines);
+- a finding is judged a real problem, even inside an approved change;
+- an eval outcome is Failed in the Eval Results table;
+- a check did not run and could change the result (Missing Checks);
+- a behaviour test's Must is no longer produced;
+- the change does something the brief or request did not ask for, or misses
+  something it asked for.
+
+### Missing Checks
+
+A check did not run when it errored, ended `limited`, could not run, or was
+skipped, including at the user's request.
+
+Such a check is Limited only when it cannot change the result for this change.
+It can when the diff changed something the check covers. When that is unclear,
+the result is Failed, and the report says which check and which file.
+
+Before reporting that a script cannot run, rule out a path error, as Gotchas in
+`SKILL.md` describes.
+
+The Eval Results table is the specific rule for evals. This section does not
+override it.
+
+### Ending After Failed
+
+Failed does not end the workflow by itself, and does not by itself authorise a
+rollback. The work returns to Planning, unless the user explicitly chooses one
+of two endings.
+
+- **Accept.** The Failed causes inside the approved scope, or inside the
+  request after Direct Drafting, close as they stand. Content outside that
+  scope cannot be accepted: it is restored or planned first.
+- **Abandon.** The change ends and the files stay as they are. Offer an exact
+  restore from the baseline copy. Restore only on the user's yes, then confirm
+  that the files match the baseline.
+
+Never infer either ending from silence, "ok" or a change of topic. Accepting
+never overrides global safety.
+
+The report says "ended: Failed accepted" or "ended: abandoned", never
+"completed". It lists every open Failed cause and any safety finding.
 
 When validation exposes an unrelated problem, do not fix it inside this
 change. Raise it only if it matters now.
@@ -94,6 +137,13 @@ change. Raise it only if it matters now.
 
 Every accepted decision must appear in the file named as its owner in the
 register.
+
+A decision is found when its owner file states the same behaviour at the same
+strength (must, may, never) and under the same conditions. Exact wording is
+not required. Quote the matching line in the report.
+
+Weaker wording is a miss. "Should ask" does not cover a decision that says
+"must ask".
 
 A decision with no location is a validation failure, not a note. The register
 recorded a rule that the built artefact does not contain, which means either
@@ -107,30 +157,34 @@ already there.
 
 Run `check.py` with a Python 3.11 or newer interpreter. The command name
 varies between machines, so use whichever interpreter on this machine meets
-that version.
+that version. Run it by this skill's base directory, as Gotchas in `SKILL.md`
+describes.
 
 ```bash
-python3 scripts/check.py all <skill-dir>
+python3 <this-skill-dir>/scripts/check.py all <skill-dir>
 ```
 
-Map the results:
+Map each check's status:
 
 | Script status | Validation |
 |---|---|
-| `pass` | Passed |
-| `limited` | Limited, with the reason it gives |
-| `findings` | Agent judgement, case by case |
-| `error` | The check did not run; treat as Limited and say why |
+| `pass` | Passed for that check |
+| `findings` | Judge each finding; a real problem is a Failed cause |
+| `limited` | Did not run in full; Missing Checks decides |
+| `error` | Did not run; Missing Checks decides |
 
 Findings are not failures and not passes. Each one is read and judged. A
 safety match may be a legitimate pattern in a security file; a near-limit size
 finding may be acceptable.
 
-Exit codes: 0 all passed, 1 at least one check has findings, 2 a usage or run
-error, 3 no findings but at least one check limited.
+Take the result from each check's status, never from the exit code alone.
+`check.py --help` lists the exit codes.
 
-When the script cannot run at all, validation is Limited, and the report says
-which checks were skipped.
+A check lists at most 50 findings. When its report says `truncated`, read the
+rest in the files themselves.
+
+When the script cannot run at all, every check counts as not run, and Missing
+Checks decides.
 
 ### Spec Dates
 
@@ -142,22 +196,30 @@ was not, so the agent and the script are working to different rules.
 
 ### Permission Lines
 
-The `permission-lines` check compares lines containing must, never, only or
-ask against a baseline.
+The `permission-lines` check compares permission lines, as `SKILL.md` defines
+them, against a baseline.
 
 ```text
 skill under git  ──────────►  compare with the last commit
 no git, baseline ──────────►  compare with --base <path>
-no git, no copy  ──────────►  Limited, lists every trigger-word line
+no git, no copy  ──────────►  Limited, lists every permission line
 ```
+
+A file the baseline does not hold, such as a new file, is compared with an
+empty file. Each of its permission lines is reported as added. A baseline that
+cannot be read for a file makes the check `limited`, and the reason names that
+file.
 
 Outside git, copy the files to be edited to a temporary folder outside the
 skill *before* editing, pass it with `--base`, and delete the copy after
 validation. The agent makes that copy; the script never writes.
 
 With neither git nor a copy, the result is Limited with the reason `no
-baseline`, and the script lists every current trigger-word line in the touched
-files. Check those against the diff shown to the user.
+baseline`, and the script lists every current permission line in the files it
+checks. Check those against the diff shown to the user.
+
+A permission line in a file the plan creates and names is covered by that
+plan. Compare it with the planned content.
 
 Flags caused by earlier uncommitted changes are expected. Check each against
 the diff rather than treating the list as the change.

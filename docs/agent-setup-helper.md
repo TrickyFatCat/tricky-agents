@@ -308,58 +308,20 @@ The brief ends with one approval question and nothing after it.
 
 ## Validation
 
-After it applies an approved plan, the skill checks the result and reports it
-in this shape:
+After a change, the skill checks the result and reports it in this shape. This
+holds for an approved plan and for a Direct Drafting edit.
 
 ```text
 Result        Passed, Limited or Failed
 Checks        What was actually checked
-Findings      What the script reported, and the judgement on each
+Findings      What check.py reported, and the judgement on each
 Evals         Each eval's result before and after the change, and any that did not run
 Coverage      Accepted decisions not found in their file, or "none"
 Limitations   What could not be checked, and why
 ```
 
-The result is one of three:
-
-| Result  | Meaning                                                         |
-| ------- | --------------------------------------------------------------- |
-| Passed  | Required checks ran, no blocking problem                        |
-| Limited | A check could not run, and its absence cannot change the result |
-| Failed  | A blocking problem prevents completion                          |
-
-A missing check that could change the result makes it Failed, not Limited.
-
-The skill turns each `check.py` [status](#output) into part of the result:
-
-- `pass` counts toward Passed.
-- `limited` makes the result Limited, with the reason the script gives.
-- `error` means the check did not run. The skill treats it as Limited and says
-    why.
-- `findings` are judged one by one. A finding the skill judges blocking makes
-    the result Failed.
-
-> [!WARNING]
-> A Limited result can hide a check that errored, including the safety scan.
-
-Read the Limitations line of the report. The skill's rules do not settle when
-an errored check makes the result Failed instead.
-
-> [!NOTE]
-> The skill never undoes a change silently.
-
-Failed does not end the work, and it does not undo the change by itself. The
-skill fixes a file that does not match the plan when the fix is mechanical. It restores a file only when it can put back
-exactly what was there before. Any other recovery goes through Planning.
-
-**Coverage**
-
-Each accepted decision must appear in the file its register row named. A
-decision the skill cannot find there fails validation. Either the rule was lost
-or the file was wrong, and both need you.
-
-When validation finds an unrelated problem, the skill does not fix it inside
-this change. It raises the problem only when it matters now.
+A Direct Drafting edit has no register, so its report has no Coverage line.
+The skill checks that edit against your request instead of an Approval Brief.
 
 **Evals**
 
@@ -367,15 +329,17 @@ An eval is a test prompt for a skill. A fresh agent runs it with the skill
 loaded, and another fresh agent grades the answer.
 
 When the changed skill has `evals/evals.json`, the skill runs every eval after
-each change, Direct Drafting included. A typo, grammar or formatting fix needs
-no evals.
+each change, Direct Drafting included. A typo, grammar or formatting fix runs
+no evals, and they do not count as missing.
 
 Each eval runs on the changed skill and on a copy taken before the change.
 Every run works in its own temporary folder. An eval that asks for an edit
 never touches your files.
 
-Each eval in `evals/evals.json` names the file and section that hold its rule.
-The change edited that rule when its diff changed that section.
+Each entry in `evals/evals.json` holds a test prompt, the behaviour that must
+happen, the behaviour that must not, and the file and section that hold the
+rule. Sample files for the prompts sit in `evals/files/`. A change edits an
+eval's rule when it changes the section that entry names.
 
 The Evals line of the report gives each outcome and its effect on the result:
 
@@ -390,8 +354,97 @@ The Evals line of the report gives each outcome and its effect on the result:
 An eval you ask the skill to skip counts as one that did not run.
 
 Evals run only where the agent can start subagents and read their transcripts.
-Claude Code can do both. Other agents are not checked. Where no eval runs, a
-change to a rule an eval covers ends Failed.
+Claude Code can do both. Whether other agents can is not tested. Where no eval
+runs, a change to a rule an eval covers ends Failed.
+
+**Failed Causes**
+
+The skill reports Failed when any of these applies:
+
+- an accepted decision is missing from its file;
+- a **must**, **never**, **only** or **ask** line changed that no plan covered;
+- a finding is a real problem, even in a part of the change you approved;
+- an eval outcome in the Evals table above is Failed;
+- a check did not run, and it could change the result;
+- when the change is to agent-setup-helper itself, one of its behaviour tests
+    no longer holds;
+- the change did something you did not approve or ask for, or missed something
+    you did.
+
+**Missing Checks**
+
+A check did not run when it errored, stopped part way, or was skipped. A skip
+you ask for counts too.
+
+Such a check gives Limited only when it cannot affect this change. When the
+change edited something the check covers, the result is Failed. When the skill
+cannot tell, the result is Failed, and the report names the check and the file.
+
+**Example**
+
+A change adds a script, and `check.py` errors before the safety scan. The scan
+covers the new script, so the result is Failed, not Limited.
+
+The skill turns each `check.py` [status](#output) into part of the result:
+
+- `pass` counts toward Passed.
+- `findings` are judged one by one. A real problem makes the result Failed.
+- `limited` and `error` mean the check did not run in full. Missing Checks
+    decides.
+
+**Result**
+
+The result is one of three:
+
+| Result  | Meaning                                                        |
+| ------- | -------------------------------------------------------------- |
+| Passed  | Every check the change needed ran, and no Failed cause applies |
+| Limited | A check did not run, and it could not affect this change       |
+| Failed  | At least one Failed cause applies                              |
+
+When results mix, Failed wins over Limited, and Limited wins over Passed.
+
+Passed and Limited both end the work. After Limited, read the Limitations line:
+it names each check that did not run.
+
+**After Failed**
+
+> [!NOTE]
+> The skill never undoes a change silently.
+
+Failed does not end the work by itself. The work returns to Planning, unless
+you choose one of two endings:
+
+- **Accept.** The Failed causes inside the approved change, or inside your
+    request for a Direct Drafting edit, stay as they are, and the work ends.
+    The report says "ended: Failed accepted". You cannot accept content outside
+    the approved change. Restore it or plan it before you accept.
+- **Abandon.** The change ends, and the files stay as they are. The skill
+    offers to restore them exactly from the copy it took before the change,
+    and restores them only when you say yes. The report says "ended:
+    abandoned".
+
+The skill never reads silence or "ok" as either ending.
+
+During validation, the skill fixes a file that does not match the plan when
+the fix needs no new decision. It restores a file only when it can put back
+exactly what was there before. Any other recovery goes through Planning.
+
+**Coverage**
+
+Each accepted decision must appear in the file its register row named. The
+skill counts a decision as found when that file states the same behaviour, at
+the same strength and under the same conditions. For each decision it finds,
+the report quotes the matching line.
+
+Weaker wording does not count. "Should ask" in the file does not cover a
+decision that says "must ask".
+
+A decision the skill cannot find fails validation. Either the rule was lost,
+or the register named the wrong file, and both need you.
+
+When validation finds an unrelated problem, the skill does not fix it inside
+this change. It raises the problem only when it matters now.
 
 ## Reviews
 
@@ -516,7 +569,8 @@ Before it proposes one, it checks:
     matches the project.
 - **Maintenance** — recent releases, and whether the project is active.
 - **Licence** — OSI-approved and compatible with the work.
-- **Dependencies** — the full tree, checked against the OSV database.
+- **Dependencies** — the full tree, checked against OSV (osv.dev), a public
+    database of known security problems in packages.
 - **Pin** — an exact version, with hashes, installed from wheels.
 
 Each result comes with its source and the date it was fetched. You approve.
@@ -584,8 +638,9 @@ The script also refuses:
     default.
 
 `--base` takes a folder with the same layout as the skill folder. A checked
-file with no copy there makes the check `limited`. Copy the whole skill, or
-pass `--files` with the files you copied. `--files` takes paths relative to the
+file with no copy there counts as new, so each of its must, never, only or ask
+lines is listed as added. Copy the whole skill, or pass `--files` with the
+files you copied. `--files` takes paths relative to the
 skill folder.
 
 The default pattern file is the script's own `references/safety.md`. The
@@ -604,8 +659,12 @@ neither               →  limited: lists every current must, never, only or ask
 ```
 
 A removed or reworded line is listed too, because the new wording may contain
-none of the four words. A file with no copy in the baseline makes the check
-`limited`.
+none of the four words.
+
+A file the baseline does not hold, such as a new file, counts as empty there.
+Each of its must, never, only or ask lines is listed as added. When the
+baseline cannot be read for a file, the check is `limited`, and `reason` names
+that file.
 
 The git baseline is the last commit, so the check also lists changes you made
 earlier and did not commit. The skill compares each flag with the diff it
@@ -616,6 +675,12 @@ showed you. Flags from those earlier changes do not stop an edit.
 The report is JSON on stdout. Error messages go to stderr. The report holds
 `tool`, `spec_date`, `spec_url`, `skill`, and a `results` list with one entry
 per check.
+
+`check.py` holds the published limits for skills, such as the maximum
+`SKILL.md` length. `spec_date` is the date those limits were fetched, and
+`spec_url` is the page they came from. The skill's own copy of the limits
+carries a date too. When the two dates differ, the skill reports it as a
+finding.
 
 Each check in the report has a `status`:
 
@@ -668,3 +733,7 @@ The exit code sums up the whole report:
 When checks differ, 2 comes before 1, and 1 comes before 3. A report with an
 `error` and a finding exits 2. A `limited` check that also lists findings
 gives 1.
+
+The exit code only sums up the report. The skill takes the validation result
+from each check's status, as [Validation](#validation) describes. A report that
+exits 1 can still end Passed when no finding is a real problem.

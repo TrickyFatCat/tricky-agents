@@ -976,7 +976,9 @@ def git_show(top, relative):
     """Returns the text of a file at the last commit, HEAD.
 
     relative is a path from the repository root top, with forward slashes.
-    Returns None when git fails or the file is not in that commit.
+    Returns "" when the file is not in that commit, or the repository has no
+    commit yet, so a new file reads as empty.
+    Returns None when git itself fails.
     """
     try:
         done = subprocess.run(
@@ -994,20 +996,42 @@ def git_show(top, relative):
     except (OSError, subprocess.SubprocessError):
         return None
     if done.returncode != 0:
-        return None
+        # git show fails the same way for a missing file and a broken
+        # repository, so a second call tells the two apart.
+        return "" if _git_answers(top) else None
     # Decodes like read_text, so both sides of the comparison read the same text.
     return normalise(done.stdout.decode("utf-8", "replace"))
 
 
-def check_permission_lines(skill, base, files):
-    """Reports lines with a trigger word that differ from a baseline.
+def _git_answers(top):
+    """Returns True when git can read the repository at top.
 
+    A repository with no commit yet still answers, so its files count as new.
+    """
+    try:
+        done = subprocess.run(
+            ["git", "--no-optional-locks", "-C", str(top), "rev-parse", "--git-dir"],
+            capture_output=True,
+            timeout=20,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return False
+    return done.returncode == 0
+
+
+def check_permission_lines(skill, base, files):
+    """Reports permission lines that differ from a baseline.
+
+    A permission line is a line with a word from TRIGGER_WORDS.
     The baseline is the folder base when it is given.
     Otherwise it is the last git commit, so uncommitted edits are reported too.
     files limits the check to those files.
     An empty files list means every .md, .py, .sh and .nu file in the skill.
-    Without any baseline, lists every trigger-word line and reports limited.
-    A file with no baseline copy makes the check limited.
+    Without any baseline, lists every permission line and reports limited.
+    A file the baseline does not hold is compared with an empty file, so each
+    of its permission lines is reported as added.
+    A baseline that cannot be read for a file makes the check limited, and the
+    reason names that file.
     """
     name = "permission-lines"
     targets = files if files else _default_targets(skill)
@@ -1026,7 +1050,7 @@ def check_permission_lines(skill, base, files):
                         "perm-unbaselined",
                         where,
                         number,
-                        "Trigger-word line, no baseline to compare with: %s"
+                        "Permission line, no baseline to compare with: %s"
                         % _clip(line),
                     )
                 )
@@ -1053,7 +1077,7 @@ def check_permission_lines(skill, base, files):
                         "perm-added",
                         where,
                         number,
-                        "Trigger-word line added or changed: %s" % _clip(line),
+                        "Permission line added or changed: %s" % _clip(line),
                     )
                 )
         # A removed obligation is the more dangerous change.
@@ -1066,7 +1090,7 @@ def check_permission_lines(skill, base, files):
                         "perm-removed",
                         where,
                         number,
-                        "Trigger-word line removed or reworded: %s" % _clip(line),
+                        "Permission line removed or reworded: %s" % _clip(line),
                         baseline_line=number,
                     )
                 )
@@ -1075,7 +1099,7 @@ def check_permission_lines(skill, base, files):
     reason = None
     if unavailable:
         status = "limited"
-        reason = "no baseline for %d file(s)" % len(unavailable)
+        reason = "baseline could not be read for: %s" % ", ".join(unavailable)
     return result(name, status, found, reason=reason)
 
 
@@ -1089,7 +1113,8 @@ def _default_targets(skill):
 
 
 def _baseline_text(path, skill, base, top):
-    """Returns the baseline text of path, or None when the baseline has no copy.
+    """Returns the baseline text of path, "" when the baseline holds no copy,
+    or None when the baseline cannot be read.
 
     With base, reads the file at the same path relative to base.
     Otherwise reads it from the last commit of the repository at top.
@@ -1098,7 +1123,7 @@ def _baseline_text(path, skill, base, top):
         candidate = base / rel(path, skill)
         if candidate.is_file():
             return read_text(candidate)
-        return None
+        return ""
     try:
         relative = path.resolve().relative_to(top.resolve()).as_posix()
     except ValueError:
@@ -1116,7 +1141,6 @@ def _clip(line, width=90):
 # Keep this text short, because the agent reads --help to learn the interface.
 # WARNING: Change this text and its copies together, so they stay the same.
 # docs/agent-setup-helper.md repeats the subcommands and exit codes.
-# references/change-integrity.md repeats the exit codes.
 HELP_EPILOG = """\
 subcommands:
   spec              frontmatter fields and types

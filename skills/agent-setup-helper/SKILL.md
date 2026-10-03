@@ -34,6 +34,9 @@ better alternative. Do not challenge to seem thorough.
   omitting a relevant earlier decision, constraint, dependency or meaning.
 - **Delegation** — the user handing an open decision to the agent. It never
   describes anything else.
+- **Permission line** — a line containing must, never, only or ask, as whole
+  words in any letter case. Such a line usually grants or limits what the
+  agent may do.
 - **Routing** — this file sending a workflow to the reference that owns it.
 - **Ownership** — the file a rule lives in.
 - **Authority** — who may set that rule.
@@ -92,6 +95,7 @@ Direct Drafting ──trigger found mid-edit──► stop ──► Planning
 
 Planning ──approval──────────────────────► Change Integrity
 Change Integrity ──Passed or Limited─────► ends
+                 ├──Failed, user accepts or abandons──► ends
                  └──Failed, or a new open decision──► Planning
 ```
 
@@ -136,8 +140,11 @@ Apply the change and show the diff. Preserve everything the request does not
 touch.
 
 Stop and move to Planning when a planning trigger appears mid-edit, or when
-the permission-line check flags a changed must, never, only or ask line that
-no plan covered. Do not report the drafting as complete.
+the `permission-lines` check flags a changed permission line that no plan
+covered. Do not report the drafting as complete.
+
+When validation of the edit ends Failed, the work stops. The user may accept
+the causes inside the request; anything else goes to Planning.
 
 When the skill has `evals/evals.json` and the change is not a low-risk
 editorial change, copy the whole skill outside the skill folder before
@@ -155,15 +162,19 @@ plan. Discussion, review, recommendation and exploration do not start one.
 
 It stays active through planning, approval, application, validation and
 recovery. It ends on successful application and validation, on rejection of
-the Approval Brief, or on an explicit discard during planning.
+the Approval Brief, or on an explicit discard during planning. After a Failed
+validation it also ends when the user explicitly accepts the result or
+abandons the change, as `references/change-integrity.md` describes.
 
 Failure, blocking, interruption, inactivity and a change of topic do not end
 it.
 
-Returning to deferred, rejected, discarded or completed work starts a *new*
-workflow. Reuse the context and recheck the assumptions, but not the old
-state or authorisation. Completed work is established, deferred work is
-unapproved, rejected work stays rejected, and discarded planning is history.
+Returning to deferred, rejected, discarded, completed, accepted or abandoned
+work starts a *new* workflow. Reuse the context and recheck the assumptions,
+but not the old state or authorisation. Completed work is established,
+accepted work stands with its open Failed causes, abandoned work is whatever
+the files now hold, deferred work is unapproved, rejected work stays rejected,
+and discarded planning is history.
 
 Discard planning only on an explicit instruction to discard, cancel or abandon
 it. Never infer a discard from a change of topic, silence, disagreement or an
@@ -294,7 +305,7 @@ loaded together when their responsibilities meet.
 | `references/authoring-guidance.md` | Designing or reviewing a Skill, reference or template | Knowledge only |
 | `references/agents-md.md` | The artefact is an `AGENTS.md` | Knowledge only |
 | `references/architecture-analysis.md` | A new multi-reference Skill, or a change that adds, removes, splits or merges a reference | A stage inside Planning |
-| `references/corner-case-discovery.md` | A new Skill or behavioural `AGENTS.md`, or a change to a trigger, permission, routing rule or must-line | A stage inside Planning |
+| `references/corner-case-discovery.md` | A new Skill or behavioural `AGENTS.md`, or a change to a trigger, permission, routing rule or permission line | A stage inside Planning |
 | `references/skill-spec.md` | Creating a Skill, changing frontmatter or a description, adding scripts | Knowledge only |
 | `references/safety.md` | Create, change, review, install or update of an `AGENTS.md` or Skill | Findings for review; third-party needs approval |
 
@@ -315,14 +326,24 @@ about when to ask the user is behavioural.
 reports; it decides nothing and writes nothing.
 
 ```bash
-python3 scripts/check.py all <skill-dir>
+python3 <this-skill-dir>/scripts/check.py all <skill-dir>
 ```
 
 Use any Python 3.11 or newer interpreter on the machine. `check.py --help`
 lists the subcommands and exit codes. `change-integrity.md` owns how the
-results map to a validation result.
+results map to a validation result, including when a check cannot run.
 
-When the script cannot run, say so and report validation as Limited.
+The `spec` check needs PyYAML to read frontmatter. `scripts/requirements.txt`
+pins it. Install it only with the user's approval, after the Library Check in
+`references/safety.md`.
+
+## Gotchas
+
+- The shell may start outside this skill's folder, usually in the user's
+  project. Run a bundled script by this skill's base directory, not by a path
+  relative to the working folder. A "can't open file" error is a path to fix:
+  correct the path and run once more before treating the script as unable to
+  run. No fallback installs anything.
 
 ## Decision Prompt
 

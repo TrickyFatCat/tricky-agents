@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Nine failure-based tests for agent-setup-helper itself.
+Twelve failure-based tests for agent-setup-helper itself.
 
 Read these during Change Integrity whenever this skill changes, against the
 built rules. A test whose Must the rules no longer produce is a failed
@@ -8,7 +8,8 @@ validation, not a test to rewrite.
 
 Tests 1 to 3 also run as evals in `evals/evals.json`. Test 4 is read only,
 because a subagent has no plan-mode tools. Eval 4 runs the other half of the
-same rule: with no plan tool, the Approval Brief goes in the reply.
+same rule: with no plan tool, the Approval Brief goes in the reply. Test 12
+also runs as eval 5.
 
 Each test names the behaviour that must happen, and the plausible wrong
 behaviour that must not. The Must Not is the useful half: it is what a
@@ -181,3 +182,59 @@ Run the third-party evals as part of validation before that approval.
 **Owner**
 
 `SKILL.md`, Safety; `references/safety.md`, Boundary.
+
+## 10. A Missing Check On A Changed File Fails
+
+**Trigger**
+
+A check errors or ends `limited` on a file the change edited. For example, the
+safety scan skips a changed file over its size limit.
+
+**Must**
+
+Report validation as Failed, and name the check and the file.
+
+**Must Not**
+
+Report Limited because the check did not run.
+
+**Owner**
+
+`references/change-integrity.md`, Missing Checks.
+
+## 11. A Real Finding Fails An Approved Change
+
+**Trigger**
+
+A finding is judged a real problem, and it sits inside the approved change.
+
+**Must**
+
+Report validation as Failed.
+
+**Must Not**
+
+Report Passed because the change was approved.
+
+**Owner**
+
+`references/change-integrity.md`, Failed Causes.
+
+## 12. Weaker Wording Is Not Found
+
+**Trigger**
+
+The register says "must ask before deleting a file", and the owner file says
+"should ask before deleting a file".
+
+**Must**
+
+Report the decision as missing from its owner file, and validation as Failed.
+
+**Must Not**
+
+Count the weaker line as the decision found.
+
+**Owner**
+
+`references/change-integrity.md`, Coverage Check.

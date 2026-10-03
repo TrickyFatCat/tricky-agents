@@ -115,8 +115,9 @@ next. Seven rules follow from that.
   lost part is often the part that mattered.
 - Offer a dry run for anything destructive, and be safe to run twice.
 
-Reference a script by a path relative to the skill root. The agent runs
-commands from there.
+Reference a script by a path relative to the skill root, and tell the agent to
+resolve it from the skill's base directory. The shell may start elsewhere,
+such as the user's project, where a relative path fails.
 
 ## Sources and Fetch Dates
 
