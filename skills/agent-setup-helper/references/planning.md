@@ -104,9 +104,12 @@ The log sits beside the register, in `log.md`. This file owns it.
 | Rejected | The alternatives, and why each was rejected |
 | Tests | Scenario tests that do not persist in the built skill |
 
-Keep rationale here, not in the skill files. A skill file states the rule; the
-reason it exists is design history, and design history in an instruction file
-competes for the agent's attention with the instruction.
+Keep design history here: the rejected alternatives, and how a rule came to
+look the way it does. In an instruction file it competes for the agent's
+attention with the instruction.
+
+One sentence of reason may stay beside a rule that is not obvious. A reason
+that tells the agent why helps it apply the rule to a case nobody listed.
 
 ### Both Are Disposable
 

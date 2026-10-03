@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Twelve failure-based tests for agent-setup-helper itself.
+Fourteen failure-based tests for agent-setup-helper itself.
 
 Read these during Change Integrity whenever this skill changes, against the
 built rules. A test whose Must the rules no longer produce is a failed
@@ -238,3 +238,42 @@ Count the weaker line as the decision found.
 **Owner**
 
 `references/change-integrity.md`, Coverage Check.
+
+## 13. An Irreversible Step Gets Its Rule Now
+
+**Trigger**
+
+Corner-case discovery finds a step that cannot be undone, such as deleting a
+folder, and no failure has been observed yet.
+
+**Must**
+
+Accept the case, and give the step a preview and a confirmation rule.
+
+**Must Not**
+
+Hold the rule back until a failure is seen, because the case has no evidence.
+
+**Owner**
+
+`references/corner-case-discovery.md`, Rule-Addition Gate.
+
+## 14. An Imagined Case Closes In The Log
+
+**Trigger**
+
+Corner-case discovery finds a case that only imagination supports, and it is
+neither unsafe nor irreversible.
+
+**Must**
+
+Leave it unaccepted, and record it with its scenario test in the decision log,
+closed.
+
+**Must Not**
+
+Accept it with a failing scenario test and no rule, which blocks the freeze.
+
+**Owner**
+
+`references/corner-case-discovery.md`, Rule-Addition Gate and Freeze Criteria.

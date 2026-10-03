@@ -241,9 +241,26 @@ Classify every case before accepting it. Most cases do not deserve a rule, and
 a skill that adds one per case becomes unreadable long before it becomes
 complete.
 
+Ask first: would the agent get this wrong without a rule? Evidence counts: an
+observed failure, an eval or baseline run without the rule, or an existing
+rule that reads two ways.
+
+- An unsafe or irreversible case, the kind lens 14 and "unsafe or destructive
+  behaviour" in the Severity Order name, gets its rule without waiting for
+  evidence. A rule that arrives after the first lost file arrives too late.
+- Any other case that only imagination supports is not accepted. It goes to
+  the decision log with its scenario test, closed, and does not count against
+  the freeze.
+
+**Example**
+
+"Delete the old folder" with no preview step is irreversible, so it gets a
+confirmation rule now. "The user pastes a skill written in Spanish", with no
+evidence the agent mishandles it, goes to the log.
+
 | Kind | What it is | What it produces |
 |---|---|---|
-| Uncovered | Genuinely undefined behaviour | A new rule |
+| Uncovered | Genuinely undefined behaviour | A new rule, when the case passes the gate |
 | Clarification | An existing rule is unclear here | A refinement of that rule |
 | Example | Another instance of an existing rule | An example or a test, no rule |
 | Contradiction | It conflicts with an existing rule | Nothing, until the conflict is resolved |
@@ -286,8 +303,8 @@ The case discussion goes to the decision log, not into the skill.
 During discovery, every accepted case has a test.
 
 At delivery, only High-severity tests persist in the built skill's
-`tests/behaviour.md`, proposed through the Approval Brief. The rest go to the
-decision log.
+`tests/behaviour.md`, proposed through the Approval Brief. Those persisted
+tests are the skill's behaviour tests. The rest go to the decision log.
 
 The log is disposable. A test that matters after the freeze belongs in
 `tests/behaviour.md`, not in the log.
@@ -302,7 +319,7 @@ Discovery is finished when all five hold.
 3. No contradiction is open, and superseded rules have been removed.
 4. Every accepted case has a passing scenario test.
 5. After the freeze, a new case reopens the design only if its scenario test
-   fails.
+   fails and the case passes the gate.
 
 Criterion 5 is what makes the freeze real. Without it, any new idea reopens
 the work, and discovery never ends.

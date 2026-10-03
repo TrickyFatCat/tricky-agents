@@ -40,9 +40,9 @@ except ImportError:
 # Source: https://agentskills.io/specification
 #         https://agentskills.io/skill-creation/best-practices
 # references/skill-spec.md repeats these limits for the agent to read.
-# SPEC_DATE is the date these limits were fetched.
-# references/skill-spec.md carries its own fetch date.
-# The agent compares the two dates and reports a mismatch as a finding.
+# SPEC_DATE is the date both agentskills.io pages above were fetched.
+# references/skill-spec.md carries a fetch date for each of its source pages.
+# The agent compares the two copies only when a change touches them.
 #
 # WARNING: Change limits here and in skill-spec.md together, so both use one rule set.
 
@@ -55,16 +55,32 @@ MAX_NAME_CHARS = 64
 MAX_DESCRIPTION_CHARS = 1024
 MAX_COMPATIBILITY_CHARS = 500
 
+# Rules that apply where Claude may load the skill. Findings from them carry
+# the "Claude platform only" label, and the agent judges each one.
+# WARNING: skill-spec.md Frontmatter Fields repeats these, so change both together.
+CLAUDE_SOURCE_URL = (
+    "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices"
+)
+CLAUDE_SOURCE_DATE = "2026-10-01"
+RESERVED_NAME_WORDS = ("anthropic", "claude")
+# Text shaped like an XML tag, such as <skill-dir>. "a < b" does not match.
+TAG_PATTERN = re.compile(r"<[A-Za-z/][^<>\n]*>")
+
 # The next four values are this script's own choices, not published limits.
 
 # A size of at least (1 - this fraction) of its limit counts as near the limit.
+# The 10 per cent is chosen, not measured.
 NEAR_LIMIT_FRACTION = 0.10
+# Chosen, not measured: a common rough rule for English text, not taken from
+# any one tokenizer, so the token count is an estimate.
 # WARNING: HELP_EPILOG says 4, so change both together.
 CHARS_PER_TOKEN = 4
 
 # Caps the findings each check shows, so a harness does not cut off the report.
+# The 50 is chosen, not measured.
 MAX_FINDINGS = 50
 # The safety check skips a larger file and reports itself as limited.
+# The 1 MB is chosen, not measured.
 # WARNING: check_safety() says 1 MB in its reason, so change both together.
 MAX_SCAN_BYTES = 1024 * 1024
 
@@ -383,6 +399,20 @@ def _check_name(data, skill):
                 % (value, skill.name),
             )
         )
+    # Compares whole hyphen-separated parts, so "claude-notes" matches and
+    # "claudette" does not.
+    for word in RESERVED_NAME_WORDS:
+        if word in value.split("-"):
+            out.append(
+                finding(
+                    "spec-name-reserved",
+                    "SKILL.md",
+                    1,
+                    "Claude platform only: `name` contains the reserved word "
+                    "%r. Judge it by whether Claude may load this skill." % word,
+                    platform="claude",
+                )
+            )
     return out
 
 
@@ -427,6 +457,19 @@ def _check_description(data):
                 "`description` is %d characters, over the %d limit."
                 % (len(value), MAX_DESCRIPTION_CHARS),
                 characters=len(value),
+            )
+        )
+    tag = TAG_PATTERN.search(value)
+    if tag:
+        out.append(
+            finding(
+                "spec-xml-tag",
+                "SKILL.md",
+                1,
+                "Claude platform only: `description` contains tag-shaped text "
+                "%r. Judge it by whether Claude may load this skill."
+                % tag.group(0),
+                platform="claude",
             )
         )
     return out
@@ -963,7 +1006,7 @@ def git_toplevel(skill):
             ],
             capture_output=True,
             text=True,
-            timeout=20,
+            timeout=20,  # 20 seconds is chosen, not measured.
         )
     except (OSError, subprocess.SubprocessError):
         return None
@@ -991,7 +1034,7 @@ def git_show(top, relative):
                 "HEAD:" + relative,
             ],
             capture_output=True,
-            timeout=20,
+            timeout=20,  # 20 seconds is chosen, not measured.
         )
     except (OSError, subprocess.SubprocessError):
         return None
@@ -1012,7 +1055,7 @@ def _git_answers(top):
         done = subprocess.run(
             ["git", "--no-optional-locks", "-C", str(top), "rev-parse", "--git-dir"],
             capture_output=True,
-            timeout=20,
+            timeout=20,  # 20 seconds is chosen, not measured.
         )
     except (OSError, subprocess.SubprocessError):
         return False

@@ -177,6 +177,12 @@ Findings are not failures and not passes. Each one is read and judged. A
 safety match may be a legitimate pattern in a security file; a near-limit size
 finding may be acceptable.
 
+A finding labelled "Claude platform only" can be a real problem only when
+Claude may load the skill: installed for Claude Code, or uploaded to claude.ai
+or the API. When that is unknown, count the skill as targeted, and still judge
+the finding. A tag-shaped placeholder may be harmless; a reserved word in a
+skill Claude loads is not.
+
 Take the result from each check's status, never from the exit code alone.
 `check.py --help` lists the exit codes.
 
@@ -188,11 +194,20 @@ Checks decides.
 
 ### Spec Dates
 
-`references/skill-spec.md` and the constants in `check.py` each carry a fetch
-date for the published limits. The script prints its date in every report.
+`references/skill-spec.md` and `check.py` each hold a copy of the published
+limits and frontmatter rules. Each source page carries its own fetch date, and
+the script prints its date in every report.
 
-Compare the two. A mismatch is a finding: one copy was updated and the other
-was not, so the agent and the script are working to different rules.
+Compare the two copies only when the change touches skill-spec.md Limits,
+Frontmatter Fields or Sources, or a published limit value in `check.py`.
+Otherwise the comparison is not needed for this change, and it is not a
+missing check.
+
+- A value that differs between the copies is a real problem. The agent and
+  the script are working to different rules.
+- A date that differs while the values match is updated in both copies, after
+  the values are checked against the source, as part of the same approved
+  change. Outside such a change it is a planned change of its own.
 
 ### Permission Lines
 

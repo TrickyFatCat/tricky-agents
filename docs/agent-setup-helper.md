@@ -676,11 +676,16 @@ The report is JSON on stdout. Error messages go to stderr. The report holds
 `tool`, `spec_date`, `spec_url`, `skill`, and a `results` list with one entry
 per check.
 
-`check.py` holds the published limits for skills, such as the maximum
-`SKILL.md` length. `spec_date` is the date those limits were fetched, and
-`spec_url` is the page they came from. The skill's own copy of the limits
-carries a date too. When the two dates differ, the skill reports it as a
-finding.
+`check.py` holds the limits that the Agent Skills specification at
+agentskills.io publishes, such as the maximum `SKILL.md` length. `spec_date` is
+the date those limits were fetched, and `spec_url` is the page they came from.
+The skill keeps its own copy of the limits in `references/skill-spec.md`, with
+a date for each source page.
+
+The skill compares the two copies only when a change to agent-setup-helper
+edits the limits or their sources. A value that differs between them fails
+validation. When only the dates differ, both copies take the date the source
+page was checked again.
 
 Each check in the report has a `status`:
 

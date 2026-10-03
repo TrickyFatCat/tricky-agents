@@ -8,16 +8,16 @@ description, or adding scripts.
 This file holds the published Agent Skills rules the skill applies. It does
 not say when to plan a change, how to review one, or where content belongs.
 
-The limits below are duplicated in `scripts/check.py` as constants. Both
-copies carry a fetch date. When the two dates differ, Change Integrity reports
-a finding.
+The limits and frontmatter rules below are duplicated in `scripts/check.py`.
+Each source page carries its own fetch date. Change Integrity compares the two
+copies only when a change touches them or their sources.
 
 ## Limits
 
 | Rule | Value | Source page |
 |---|---|---|
-| `SKILL.md` length | Under 500 lines | Specification, Best Practices |
-| `SKILL.md` size | Under 5,000 tokens | Specification, Best Practices |
+| `SKILL.md` length | Under 500 lines | Specification, agentskills Best Practices |
+| `SKILL.md` size | Under 5,000 tokens | Specification, agentskills Best Practices |
 | `description` | 1 to 1,024 characters | Specification |
 | `name` | 1 to 64 characters | Specification |
 | `compatibility` | 1 to 500 characters, when present | Specification |
@@ -42,6 +42,15 @@ The `name` field has four further rules. It must not start with a hyphen, must
 not end with a hyphen, must not contain two hyphens in a row, and must match
 the name of the folder that holds the file.
 
+Two rules come from Claude best practices and apply where Claude may load the
+skill:
+
+- `name` must not contain the reserved words "anthropic" or "claude";
+- `description` must not contain XML tags, such as `<skill-dir>`.
+
+`check.py` reports both as "Claude platform only" findings. Change Integrity
+says how they are judged.
+
 ### Progressive Disclosure
 
 The agent loads a skill in three stages: `name` and `description` at startup,
@@ -61,7 +70,8 @@ references that load each other.
 
 ## Description Writing
 
-Four rules from the optimising-descriptions page.
+Four rules from the optimising-descriptions page, and one from Claude best
+practices.
 
 - Use imperative phrasing. Write "Use this skill when...", not "This skill
   does...".
@@ -69,6 +79,9 @@ Four rules from the optimising-descriptions page.
 - Be pushy. Name the contexts where the skill applies, including ones where
   the user does not name the domain.
 - Stay concise. A few sentences to a short paragraph.
+- Never write "I" or "you". The description is injected into the agent's
+  system prompt, where a first or second person reads as a speaker.
+  "Use this skill when..." uses neither, so it meets both sources.
 
 ### Trigger Testing
 
@@ -119,15 +132,35 @@ Reference a script by a path relative to the skill root, and tell the agent to
 resolve it from the skill's base directory. The shell may start elsewhere,
 such as the user's project, where a relative path fails.
 
+Three more rules come from Claude best practices.
+
+- Write paths with forward slashes, even for Windows. A backslash path fails
+  on other systems.
+- Give each constant a reason for its value: name its source, or say it was
+  chosen, not measured. Never invent a reason; an agent cannot tune a value
+  whose origin it cannot see.
+- Name an MCP tool the way the target harness writes it, server and tool
+  together. The page writes `ServerName:tool_name`; Claude Code writes
+  `mcp__server__tool`. A bare tool name may not resolve when several servers
+  are loaded.
+
 ## Sources and Fetch Dates
 
-Fetched 2026-09-20. Every rule above comes from these five pages.
+Every rule above comes from these pages.
+
+Fetched 2026-09-20:
 
 - https://agentskills.io/home
 - https://agentskills.io/specification
-- https://agentskills.io/skill-creation/best-practices
+- https://agentskills.io/skill-creation/best-practices (agentskills Best
+  Practices)
 - https://agentskills.io/skill-creation/optimizing-descriptions
 - https://agentskills.io/skill-creation/using-scripts
+
+Fetched 2026-10-01:
+
+- https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
+  (Claude best practices)
 
 ## Update Check
 
@@ -136,5 +169,6 @@ Skip the check when there is no web access, and say that the rules are
 unverified.
 
 Report what changed. Do not apply a change to any file as part of the check.
-A changed limit is a planned change, because it updates this file and the
-constants in `scripts/check.py` together.
+A changed limit, a changed frontmatter rule or a new fetch date is a planned
+change, because it updates this file and `scripts/check.py` together. Change a
+date only after checking its values against the source.

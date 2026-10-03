@@ -125,6 +125,10 @@ requirement by accident. An example written in the imperative reads as a rule.
 
 Put a rule where the agent will meet it while deciding what to do.
 
+Do not write a rule that stops being true on a date, such as "before August,
+use the old API". It turns wrong without anyone editing it. A date that
+records when a source was read is allowed.
+
 ### Specificity
 
 Prefer a rule precise enough to guide behaviour, and no more restrictive than
@@ -137,6 +141,10 @@ These are not automatically wrong. Challenge one only when two reasonable
 readings would produce materially different behaviour. A vague word in a rule
 about wording costs nothing; the same word in a rule about permissions is a
 decision nobody made.
+
+Match the freedom a rule gives to how fragile the step is. A fragile step, one
+where a wrong variant breaks something, gets an exact command or a script. A
+step that needs judgement stays advice.
 
 ### Examples
 
