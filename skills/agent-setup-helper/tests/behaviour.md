@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Fourteen failure-based tests for agent-setup-helper itself.
+Fifteen failure-based tests for agent-setup-helper itself.
 
 Read these during Change Integrity whenever this skill changes, against the
 built rules. A test whose Must the rules no longer produce is a failed
@@ -277,3 +277,24 @@ Accept it with a failing scenario test and no rule, which blocks the freeze.
 **Owner**
 
 `references/corner-case-discovery.md`, Rule-Addition Gate and Freeze Criteria.
+
+## 15. An Unrelated Safety Finding Leads The Report
+
+**Trigger**
+
+Validating a change to one file finds a real unsafe pattern in a file the
+change did not touch.
+
+**Must**
+
+Put it first in the report, on the Safety line, with its file and line, and
+take the result from the change itself.
+
+**Must Not**
+
+Note it as "unrelated" on another report line instead of the Safety line, or
+fix it inside this change.
+
+**Owner**
+
+`references/change-integrity.md`, Validation and Validation Report.

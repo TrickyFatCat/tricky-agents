@@ -312,16 +312,38 @@ After a change, the skill checks the result and reports it in this shape. This
 holds for an approved plan and for a Direct Drafting edit.
 
 ```text
+Safety        Safety problems outside the change, with file and line
 Result        Passed, Limited or Failed
 Checks        What was actually checked
 Findings      What check.py reported, and the judgement on each
 Evals         Each eval's result before and after the change, and any that did not run
-Coverage      Accepted decisions not found in their file, or "none"
+Coverage      Each accepted decision: those not found first, then those found, with the matching line
 Limitations   What could not be checked, and why
 ```
 
-A Direct Drafting edit has no register, so its report has no Coverage line.
-The skill checks that edit against your request instead of an Approval Brief.
+The report leaves out a line with nothing in it, except Result. A Direct
+Drafting edit has no register, so its report has no Coverage line. The skill
+checks that edit against your request instead of an Approval Brief.
+
+**Unrelated Problems**
+
+A problem is unrelated when all three hold:
+
+- it sits outside your request or the approved plan;
+- the change did not cause it or make it worse;
+- the change did not edit the section that holds it.
+
+The skill notes an unrelated problem once in the report, marked "unrelated",
+and never fixes it inside this change. It does not change the result, even when
+it is a real problem.
+
+An unrelated safety problem goes on the Safety line instead, first in the
+report, with its file and line. It does not change the result either. The
+report recommends that you plan its fix as your next change, after this one
+ends.
+
+A safety problem inside the change is a finding like any other. When it is a
+real problem, the result is Failed.
 
 **Evals**
 
@@ -343,13 +365,15 @@ eval's rule when it changes the section that entry names.
 
 The Evals line of the report gives each outcome and its effect on the result:
 
-| Outcome                                             | Result                                     |
-| --------------------------------------------------- | ------------------------------------------ |
-| Fails on the changed skill, passes on the copy      | Failed                                     |
-| Fails on both, and the change edited its rule       | Failed                                     |
-| Fails on both, and the change did not edit its rule | No effect, reported as an existing problem |
-| Did not run, and the change edited its rule         | Failed                                     |
-| Did not run, and the change did not edit its rule   | Limited                                    |
+| Outcome                                             | Result                        |
+| --------------------------------------------------- | ----------------------------- |
+| Passes on both                                      | No effect                     |
+| Passes on the changed skill, fails on the copy      | No effect, reported as fixed  |
+| Fails on the changed skill, passes on the copy      | Failed                        |
+| Fails on both, and the change edited its rule       | Failed                        |
+| Fails on both, and the change did not edit its rule | No effect, marked "unrelated" |
+| Did not run, and the change edited its rule         | Failed                        |
+| Did not run, and the change did not edit its rule   | Limited                       |
 
 An eval you ask the skill to skip counts as one that did not run.
 
@@ -389,8 +413,10 @@ The skill turns each `check.py` [status](#output) into part of the result:
 
 - `pass` counts toward Passed.
 - `findings` are judged one by one. A real problem makes the result Failed.
-- `limited` and `error` mean the check did not run in full. Missing Checks
-    decides.
+- `limited` means the check ran only in part. Its listed findings are judged
+    one by one, like `findings`. Missing Checks decides the part that did not
+    run.
+- `error` means the check did not run. Missing Checks decides.
 
 **Result**
 
@@ -443,8 +469,9 @@ decision that says "must ask".
 A decision the skill cannot find fails validation. Either the rule was lost,
 or the register named the wrong file, and both need you.
 
-When validation finds an unrelated problem, the skill does not fix it inside
-this change. It raises the problem only when it matters now.
+The Coverage line marks each decision as found or not found. When the file a
+register row names does not exist, it says "owner file missing" instead, and
+the decision counts as not found.
 
 ## Reviews
 

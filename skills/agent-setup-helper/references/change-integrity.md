@@ -76,6 +76,17 @@ it.
 
 Report only the checks actually completed.
 
+A problem is unrelated when it sits outside the brief or request, the diff did
+not cause or worsen it, and the diff did not change the section that holds it.
+Note it once, marked "unrelated", on the report line of the check that found
+it, or on the Findings line when no check did. Never fix it inside this change.
+It is not a Failed cause, even when it is real, and it does not affect the
+result.
+
+An unrelated real safety finding goes on the Safety line instead, first in the
+report, with its file and line. It is never fixed inside this change, and it
+does not affect the result. The report recommends planning its fix next.
+
 ### Results
 
 | Result | Meaning |
@@ -133,9 +144,6 @@ never overrides global safety.
 The report says "ended: Failed accepted" or "ended: abandoned", never
 "completed". It lists every open Failed cause and any safety finding.
 
-When validation exposes an unrelated problem, do not fix it inside this
-change. Raise it only if it matters now.
-
 ### Coverage Check
 
 Every accepted decision must appear in the file named as its owner in the
@@ -173,7 +181,7 @@ Map each check's status:
 |---|---|
 | `pass` | Passed for that check |
 | `findings` | Judge each finding; a real problem is a Failed cause |
-| `limited` | Did not run in full; Missing Checks decides |
+| `limited` | Judge each listed finding as for `findings`; Missing Checks decides the part that did not run |
 | `error` | Did not run; Missing Checks decides |
 
 Findings are not failures and not passes. Each one is read and judged. A
@@ -319,9 +327,11 @@ Take a disagreement with one to the user.
 
 | Outcome | Validation |
 |---|---|
+| Both pass | No effect |
+| Changed version passes, baseline fails | No effect; the report notes the eval as fixed |
 | Changed version fails, baseline passes | Failed: a regression |
 | Both fail, rule touched | Failed |
-| Both fail, rule not touched | An existing defect: report it, do not fix it here |
+| Both fail, rule not touched | An unrelated problem, as Validation describes |
 | Did not run, rule touched | Failed |
 | Did not run, rule not touched | Limited, with the reason |
 | No baseline, changed version fails | Failed |
@@ -398,15 +408,20 @@ not the goal; one authoritative rule per behaviour is.
 ## Validation Report
 
 ```text
+Safety        Unrelated safety findings, with file and line
 Result        Passed, Limited or Failed
 Checks        What was actually checked
 Findings      What the script reported, and the judgement on each
 Evals         Each eval's result on both versions, and any that did not run
-Coverage      Accepted decisions with no location, or none
+Coverage      Every accepted decision: not found first, then found, with its quoted line
 Limitations   What could not be checked, and why
 ```
 
-Report the result first. A report that describes the checks and leaves the
-result to be inferred makes the reader do the work the report exists to do.
+A decision whose owner file does not exist is listed as "owner file missing",
+which counts as not found.
+
+Report the result first, after any Safety line. A report that describes the
+checks and leaves the result to be inferred makes the reader do the work the
+report exists to do.
 
 Omit a line that has nothing in it, except Result.
