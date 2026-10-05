@@ -6,6 +6,10 @@ never, only or ask.
 
 ## Boundary
 
+Sections, in order: Skill Type And Lens Map; The Lenses; One-At-A-Time Pattern;
+Discovery Prompts; Rule-Addition Gate; Consolidation Cadence; Scenario Tests;
+Freeze Criteria.
+
 This file answers one question: what could a user do next that the rules do
 not handle?
 
@@ -245,9 +249,8 @@ Ask first: would the agent get this wrong without a rule? Evidence counts: an
 observed failure, an eval or baseline run without the rule, or an existing
 rule that reads two ways.
 
-- An unsafe or irreversible case, the kind lens 14 and "unsafe or destructive
-  behaviour" in the Severity Order name, gets its rule without waiting for
-  evidence. A rule that arrives after the first lost file arrives too late.
+- An unsafe or irreversible case, the kind lens 14 names, gets its rule
+  without waiting for evidence. A rule that arrives after the first lost file arrives too late.
 - Any other case that only imagination supports is not accepted. It goes to
   the decision log with its scenario test, closed, and does not count against
   the freeze.

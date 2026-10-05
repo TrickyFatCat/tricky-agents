@@ -5,6 +5,10 @@ Load this reference on create, change, review, install or update of an
 
 ## Boundary
 
+Sections, in order: S1: Instruction Manipulation; S2: Hidden Content; S3: Data
+Leaving the Machine; S4: Privilege and Destruction; S5: Supply Chain,
+Persistence, Secrets; Third-Party Rule; Limits.
+
 This file says which patterns make an instruction file or a script unsafe. It
 does not decide anything. A match is a finding for review, never a verdict,
 and the user still approves.

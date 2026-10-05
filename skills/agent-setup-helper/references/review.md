@@ -4,10 +4,14 @@ Load this reference when there is an artefact to assess.
 
 ## Boundary
 
+Sections, in order: Default Shape; Finding Shape; Severity; Severity Order;
+Status Labels; Principles; Insufficient Context; Final Checks.
+
 This file answers two questions: what is wrong with this artefact, and how bad
 is it?
 
-It owns the review shape, the finding shape and the status labels.
+It owns the review shape, the finding shape, the Severity Order and the status
+labels.
 
 It does not own what to look for. `authoring-guidance.md` holds the design
 criteria, `agents-md.md` the criteria for an `AGENTS.md`, and `safety.md` the
@@ -76,10 +80,28 @@ Pair severity with the label from corner-case discovery when one applies. The
 label says what kind of problem it is; severity says how much it costs.
 
 When several findings compete for attention, order them using the Severity
-Order in `authoring-guidance.md`.
+Order below.
 
 Source order is better when the user will work through the file applying the
 findings. Use whichever the user will act on.
+
+## Severity Order
+
+When several problems exist at once, prefer this order.
+
+1. Unsafe or destructive behaviour.
+2. Incorrect or conflicting behaviour.
+3. Unclear scope or instruction precedence.
+4. Ambiguous decision rules.
+5. Missing constraints, exceptions or dependencies.
+6. Inconsistency between files.
+7. Hidden assumptions or missing context.
+8. Unnecessary complexity or duplication.
+9. Structure and readability.
+10. Wording and style.
+
+The order is by what the agent does wrong, not by how much text is affected.
+A single ambiguous permission line outranks a whole file of awkward wording.
 
 ## Status Labels
 

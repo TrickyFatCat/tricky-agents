@@ -5,8 +5,15 @@ description, or adding scripts.
 
 ## Boundary
 
+Sections, in order: Limits; Description Writing; Gotchas; Script Interface;
+Sources and Fetch Dates; Update Check.
+
 This file holds the published Agent Skills rules the skill applies. It does
 not say when to plan a change, how to review one, or where content belongs.
+
+It owns the limits, the frontmatter rules, progressive disclosure, description
+writing and trigger testing, where gotchas go, the script interface, the
+sources and the update check.
 
 The limits and frontmatter rules below are duplicated in `scripts/check.py`.
 Each source page carries its own fetch date. Change Integrity compares the two
@@ -67,6 +74,10 @@ Useless: See references/ for details.
 
 Keep file references one level deep from `SKILL.md`. Avoid chains of
 references that load each other.
+
+Give a file over 100 lines a list of its sections at the top, a guide from
+Claude best practices. An agent may preview only the start of a long file, and
+the list shows it the whole scope before it decides what to read.
 
 ## Description Writing
 

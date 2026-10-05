@@ -5,6 +5,9 @@ Load this reference when the artefact being designed or reviewed is an
 
 ## Boundary
 
+Sections, in order: Global and Local; Scope; Placement; Conventions; Decision
+Boundaries; Review Checks.
+
 This file says what makes an `AGENTS.md` well designed. It does not say what
 makes a Skill well designed, where a piece of content belongs, or when a
 change needs planning.
@@ -83,18 +86,6 @@ Three things make a boundary usable.
 - Name the class of decision, not one instance of it.
 - Give the observable test that puts a decision on one side or the other.
 - Say what the agent does when the test is unclear.
-
-## Behavioural or Static
-
-The distinction decides whether a change to this file needs corner-case
-discovery.
-
-An `AGENTS.md` is behavioural when it defines workflows, interaction
-behaviour, decision ownership, delegation or state transitions. It is static
-when it records paths, commands, conventions or constraints and nothing more.
-
-A static file may be long and still be static. The test is whether the file
-tells the agent how to behave, not how much it says.
 
 ## Review Checks
 

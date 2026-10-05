@@ -624,6 +624,8 @@ def check_routes(skill):
     Reports a references/*.md file that SKILL.md never names.
     Reports a reference that SKILL.md names but that does not exist.
     Looks for unnamed references only directly inside references/.
+    Reports an orphan: a Markdown file or script that nothing reaches from
+    SKILL.md. This finds unused files; it does not check how deep a file sits.
     Also checks links and path code spans in every Markdown file of the skill.
     """
     name = "routes"
@@ -661,8 +663,79 @@ def check_routes(skill):
                 )
             )
 
+    found.extend(_check_reach(skill))
     found.extend(_check_links(skill))
     return result(name, "findings" if found else "pass", found)
+
+
+# Folders whose files need no route from SKILL.md: maintainer tests, eval
+# prompts and fixtures, and data files that a script or template reads.
+REACH_SKIPPED = ("tests", "evals", "assets")
+
+
+def _check_reach(skill):
+    """Reports each Markdown file or script that nothing reaches from SKILL.md.
+
+    The walk starts at SKILL.md and follows links and path code spans from
+    every Markdown file it reaches. Files under REACH_SKIPPED need no route.
+    """
+    reached = set()
+    queue = [(skill / "SKILL.md").resolve()]
+    while queue:
+        path = queue.pop()
+        if path in reached:
+            continue
+        reached.add(path)
+        if path.suffix.lower() != ".md":
+            continue
+        text = read_text(path)
+        if text is None:
+            continue
+        for target in _route_targets(text, path, skill):
+            if target.is_file() and target not in reached:
+                queue.append(target)
+
+    found = []
+    for path in sorted(skill.rglob("*")):
+        if not path.is_file() or path.resolve() in reached:
+            continue
+        parts = path.relative_to(skill).parts
+        if parts[0] in REACH_SKIPPED or any(
+            p.startswith(".") or p == "__pycache__" for p in parts
+        ):
+            continue
+        if path.suffix.lower() == ".md" or parts[0] == "scripts":
+            found.append(
+                finding(
+                    "routes-unreached",
+                    rel(path, skill),
+                    1,
+                    "Nothing reached from SKILL.md names this file, so the agent "
+                    "never loads or runs it.",
+                )
+            )
+    return found
+
+
+def _route_targets(text, source, skill):
+    """Returns the resolved paths that a Markdown file links to or names.
+
+    A link resolves from the folder of source.
+    A path code span counts only when it starts with a folder in KNOWN_FOLDERS,
+    and resolves from the skill root.
+    Paths inside fenced code blocks do not count.
+    """
+    targets = []
+    for line in strip_fenced_blocks(text).split("\n"):
+        for target in LINK_PATTERN.findall(line):
+            clean = target.split("#")[0].split("?")[0].strip()
+            if clean and "://" not in clean and not clean.startswith("mailto:"):
+                targets.append((source.parent / clean).resolve())
+        for span in CODE_SPAN_PATTERN.findall(line):
+            candidate = span.strip()
+            if candidate.startswith(KNOWN_FOLDERS):
+                targets.append((skill / candidate).resolve())
+    return targets
 
 
 def _named_references(text):
@@ -1187,7 +1260,8 @@ def _clip(line, width=90):
 HELP_EPILOG = """\
 subcommands:
   spec              frontmatter fields and types
-  routes            references exist and are named; links resolve inside the skill
+  routes            references exist and are named; links resolve inside the skill;
+                    no orphan .md or script (not a depth check)
   size              SKILL.md lines, characters, and a token estimate
   permission-lines  changed lines containing must, never, only or ask
   safety            pattern matches from references/safety.md

@@ -5,11 +5,14 @@ template.
 
 ## Boundary
 
+Sections, in order: Skill; Skill Reference; Skill Template; Cross-Artifact
+Rules; Instruction Design; Substantial Artefacts.
+
 This file answers one question: what makes a Skill, a reference or a template
 well designed?
 
 It owns the criteria for each of those three, the rules that apply across
-them, instruction design and the Severity Order.
+them, instruction design and the checks for a substantial artefact.
 
 It does not own `AGENTS.md` design (`agents-md.md`), where content belongs
 (`architecture-analysis.md`), unsafe patterns (`safety.md`), or when a stage
@@ -159,25 +162,9 @@ Check whether:
 
 Prefer a clear rule followed by the smallest example that clarifies it.
 
-## Severity Order
+## Substantial Artefacts
 
-When several problems exist at once, prefer this order.
-
-1. Unsafe or destructive behaviour.
-2. Incorrect or conflicting behaviour.
-3. Unclear scope or instruction precedence.
-4. Ambiguous decision rules.
-5. Missing constraints, exceptions or dependencies.
-6. Inconsistency between files.
-7. Hidden assumptions or missing context.
-8. Unnecessary complexity or duplication.
-9. Structure and readability.
-10. Wording and style.
-
-The order is by what the agent does wrong, not by how much text is affected.
-A single ambiguous permission line outranks a whole file of awkward wording.
-
-For a substantial artefact, also check whether:
+For a substantial artefact, check whether:
 
 - purpose and scope are clear;
 - important rules and exceptions are explicit;

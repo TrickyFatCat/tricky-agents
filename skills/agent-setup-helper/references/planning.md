@@ -5,6 +5,10 @@ Approval Brief. Its rules are mandatory.
 
 ## Boundary
 
+Sections, in order: Start; The Register; Decision Log; Working Files And The
+Planning Trigger; One At A Time; Scope Changes; Deferral; Blocking; Stages;
+Approval Gate; Completion; Approval Brief.
+
 This file answers one question: what must be decided before a planned change
 can be approved?
 

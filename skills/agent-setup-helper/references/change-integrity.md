@@ -5,6 +5,9 @@ an edit. Keep it active through application, validation and recovery.
 
 ## Boundary
 
+Sections, in order: Context And Dependency Checks; Validation; Evals; Behaviour
+Tests; Failure And Recovery; Final Integrity Check; Validation Report.
+
 This file answers one question: did the approved change land exactly, and what
 happens if it did not?
 

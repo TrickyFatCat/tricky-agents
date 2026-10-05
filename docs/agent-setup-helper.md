@@ -607,14 +607,14 @@ python3 skills/agent-setup-helper/scripts/check.py all <skill-dir>
 The folder must contain a `SKILL.md`. Replace `all` with one check name to run
 only that check:
 
-| Check              | What it checks                                                 |
-| ------------------ | -------------------------------------------------------------- |
-| `spec`             | Frontmatter fields and types                                   |
-| `routes`           | References exist and are named; links resolve inside the skill |
-| `size`             | `SKILL.md` lines, characters, and a token estimate             |
-| `permission-lines` | Changed lines containing must, never, only or ask              |
-| `safety`           | Pattern matches from `references/safety.md`                    |
-| `all`              | Every check above, in one report                               |
+| Check              | What it checks                                                                                                                                                                                           |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `spec`             | Frontmatter fields and types                                                                                                                                                                             |
+| `routes`           | References exist and are named; links resolve inside the skill; every Markdown file or script outside `tests/`, `evals/` and `assets/` is reached from `SKILL.md`, directly or through files it links to |
+| `size`             | `SKILL.md` lines, characters, and a token estimate                                                                                                                                                       |
+| `permission-lines` | Changed lines containing must, never, only or ask                                                                                                                                                        |
+| `safety`           | Pattern matches from `references/safety.md`                                                                                                                                                              |
+| `all`              | Every check above, in one report                                                                                                                                                                         |
 
 `size` reports a finding when `SKILL.md` is over 500 lines or 5,000 tokens. It
 also reports a finding when `SKILL.md` is within 10% of either limit. The token count is an estimate:

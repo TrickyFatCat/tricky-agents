@@ -5,6 +5,9 @@ adds, removes, splits or merges a reference.
 
 ## Boundary
 
+Sections, in order: Core Principle; Scope; Unit Analysis; Visibility; Split Or
+Merge; Duplication; Stop Rule; Audit Checklist.
+
 This file answers one question: where does each piece of content belong?
 
 It owns roles, unit analysis, splitting and merging, duplication ownership and
