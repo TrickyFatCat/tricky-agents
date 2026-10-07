@@ -559,6 +559,19 @@ A note that is not a problem carries a status instead: `✅ Accepted`,
 `✅ Pass`, `🟢 Optional polish` or `⛔ Declined`. The skill's rules name these
 statuses but do not define them. These are not validation results.
 
+**Wording Checks**
+
+A review of a skill also looks for seven wording problems, based on
+ASD-STE100 Simplified Technical English, a standard for clear technical
+writing. Each problem is a sentence that two agents could read in two ways. Examples are an "it" that can mean two things,
+and a condition placed after the action it limits. The review reports such a
+sentence only when the two readings lead to different actions. Each such
+finding is Medium, or High when one reading leads to an action that cannot be
+undone. The checks are
+listed in
+[`authoring-guidance.md`](../skills/agent-setup-helper/references/authoring-guidance.md),
+under Plain Wording Checks.
+
 ## Safety Scanning
 
 The skill scans `SKILL.md`, `AGENTS.md`, references and scripts. It scans when

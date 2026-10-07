@@ -162,6 +162,85 @@ Check whether:
 
 Prefer a clear rule followed by the smallest example that clarifies it.
 
+### Plain Wording Checks
+
+These checks come from ASD-STE100 Simplified Technical English, Issue 9. They
+paraphrase STE and adapt it for agents. Each check names a wording defect that
+can make two agents act differently.
+
+Use the checks when you review a skill. Report a finding when two reasonable
+readings of the text produce materially different behaviour, as Specificity
+above says. Before you report a finding, read the section around the sentence.
+When a nearby line settles the reading, the sentence passes. Each finding
+names the lines that you read.
+
+These checks rank below every other rule, such as the safety rules,
+`skill-spec.md`, the project's and the user's instructions, and the other
+rules of agent-setup-helper. When a check conflicts with another rule, report
+the conflict instead of choosing.
+
+The checks cover the body of `SKILL.md` and of each reference. They do not
+cover `AGENTS.md`. The checks apply to English text.
+
+Before a review, copy each check in the table into your task list or working
+notes. Tick each check when it has run. A check that you
+skip goes in the report, with the reason.
+
+| Check | The defect | Example |
+|---|---|---|
+| Unclear reference | "it", "they", "this" or "that" can refer to two nouns in the sentence or the one before | "Copy the file to the folder, then delete it." |
+| Two meanings | One word or term carries two meanings in the skill | "flag" for a listed line and for a command-line option |
+| Late condition | A condition comes after another clause, or after an instruction that cannot be undone | "Delete the branch, and push the fix, when the tests pass." |
+| Chained instructions | One sentence holds instructions with an order or a condition between them | "Run the tests, fix each failure, and commit when all pass." |
+| Buried steps | One sentence covers two or more steps under one condition | "When a merge fails, reset the branch and report the conflict." |
+| Hidden actor | Two actors in the skill can do the action, and the sentence names neither | "The file is updated before the merge." |
+| Unclear modal | "should" or "may" has two readings that change what the agent does | "may" as a permission, or as a possibility |
+
+A limit with a permission word can stay after its instruction, and it is not a
+late condition. This exception does not cover an instruction that cannot be
+undone.
+
+When two checks match one sentence, report one finding and name both checks.
+
+A note, a reason or an example that gives an instruction falls under Content
+Roles above. Report it, and the user decides whether it becomes a rule.
+
+**Fixes**
+
+- Change the sentence that has the finding, and keep its other words. A fix
+  changes no text that passes, unless the user asks for a wider change.
+- Before you change a sentence, list each condition, limit and exception in
+  it. After the change, find each item of the list in the new text. When an
+  item is missing, change the sentence again, or keep the original sentence.
+- Never add a fact. A fix adds no reason, risk or example that the source does
+  not give.
+- Keep each permission word that the sentence has, and add none. The words are
+  `must`, `never`, `only` and `ask`, as whole words in any letter case. A fix
+  to a line with one of these words is a planned change, as Planning Triggers
+  in `SKILL.md` says.
+- Treat a fix to a line that bans or limits an agent action as a fix to a
+  permission line. This holds with or without a permission word.
+- For an unclear reference, write the noun.
+- For two meanings, choose one term for each meaning. A new definition is a
+  planned change.
+- For a late condition, put the condition first, then the instruction.
+- For chained instructions or buried steps, use the condition as a lead-in and
+  the instructions as list items.
+- For a hidden actor, name the agent, the user or the script.
+- For an unclear modal:
+    - for a permission, use `can`, with the actor as the subject;
+    - for a possibility, use "possibly";
+    - for advice, use "recommends" with a named actor, as in "This skill
+      recommends a dry run first";
+    - for an obligation, use the command form.
+
+**Severity**
+
+Rate each finding by what the agent does, as Severity in `review.md` says. A
+finding is at least Medium. It is High when one reading leads to an action that
+cannot be undone, or that breaks a safety rule. Name the concrete case in this
+skill's workflow.
+
 ## Substantial Artefacts
 
 For a substantial artefact, check whether:

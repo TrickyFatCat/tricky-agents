@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Fifteen failure-based tests for agent-setup-helper itself.
+Sixteen failure-based tests for agent-setup-helper itself.
 
 Read these during Change Integrity whenever this skill changes, against the
 built rules. A test whose Must the rules no longer produce is a failed
@@ -298,3 +298,25 @@ fix it inside this change.
 **Owner**
 
 `references/change-integrity.md`, Validation and Validation Report.
+
+## 16. A Fix To A Ban Keeps Its Condition
+
+**Trigger**
+
+Planning a fix for a review finding in "Do not push to main without the
+user's approval.", with `references/authoring-guidance.md` loaded. The line
+holds no permission word.
+
+**Must**
+
+List the line among the changed permission lines in the Approval Brief, and
+keep "without the user's approval" in the new text.
+
+**Must Not**
+
+Treat the fix as an editorial change because the line holds no permission
+word.
+
+**Owner**
+
+`references/authoring-guidance.md`, Plain Wording Checks.
