@@ -1,8 +1,8 @@
 # Corner-Case Discovery
 
 Load this reference for a new Skill or behavioural `AGENTS.md`, or for a
-change to a trigger, a permission, a routing rule, or a line containing must,
-never, only or ask.
+change to what starts the skill, a mode or a step, a permission, a routing
+rule, or a line containing must, never, only or ask.
 
 ## Boundary
 

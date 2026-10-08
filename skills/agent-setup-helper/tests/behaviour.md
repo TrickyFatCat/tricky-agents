@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Sixteen failure-based tests for agent-setup-helper itself.
+Eighteen failure-based tests for agent-setup-helper itself.
 
 Read these during Change Integrity whenever this skill changes, against the
 built rules. A test whose Must the rules no longer produce is a failed
@@ -320,3 +320,41 @@ word.
 **Owner**
 
 `references/authoring-guidance.md`, Plain Wording Checks.
+
+## 17. Abandon Keeps The Baseline Until The User Answers
+
+**Trigger**
+
+Validation ends Failed outside git, and the user chooses Abandon.
+
+**Must**
+
+Offer an exact restore from the baseline, and keep the baseline until the user
+answers the offer.
+
+**Must Not**
+
+Delete the baseline before the user answers the restore offer.
+
+**Owner**
+
+`references/change-integrity.md`, Baseline and Ending After Failed.
+
+## 18. The Baseline Holds Every File Before The Change
+
+**Trigger**
+
+An approved change deletes a file, outside git.
+
+**Must**
+
+Copy the whole skill to the baseline before the first change, so the deleted
+file can be restored.
+
+**Must Not**
+
+Delete a file before the baseline holds a copy of it.
+
+**Owner**
+
+`references/change-integrity.md`, Baseline.

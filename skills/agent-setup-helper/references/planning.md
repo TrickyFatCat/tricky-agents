@@ -126,8 +126,9 @@ makes sense with the log open, the rule is incomplete.
 ## Working Files And The Planning Trigger
 
 A temporary working file created outside the skill folder does not fire a
-planning trigger. That covers the register, the log, and any baseline copy
-made for validation, provided it is deleted or left disposable afterwards.
+planning trigger. That covers the register, the log, and the baseline,
+provided each is deleted or left disposable afterwards. Baseline in
+`change-integrity.md` says when the baseline is deleted.
 
 A file created inside the skill folder is always a planned change, whatever it
 is for.
@@ -215,8 +216,8 @@ nor deferred work.
 ### Corner-Case Discovery
 
 Run `corner-case-discovery.md` for a new Skill or behavioural `AGENTS.md`, or
-a change to a trigger, permission, routing rule, or a line containing must,
-never, only or ask.
+a change to what starts the skill, a mode or a step, a permission, a routing
+rule, or a line containing must, never, only or ask.
 
 Run it once the core design is coherent. Resolve cases one at a time, and fold
 accepted findings into the register before the final checks.
@@ -251,8 +252,11 @@ Before producing the Approval Brief:
    tooling and related artefacts.
 3. Check for conflicts, stale assumptions, lost context, and dependencies on
    deferred work.
-4. Reopen the relevant entry if anything blocks.
-5. Produce the brief only when nothing unresolved blocks the change.
+4. For a substantial rewrite, run the Final Integrity Check in
+   `change-integrity.md`. When unsure whether a rewrite is substantial, run
+   it.
+5. Reopen the relevant entry if anything blocks.
+6. Produce the brief only when nothing unresolved blocks the change.
 
 When the checks pass, produce the brief in the same turn. Do not announce that
 planning is complete, and do not ask whether to move to approval.

@@ -107,12 +107,17 @@ start in Review. Move to Planning when work on a finding actually begins.
 Start Planning when a change will:
 
 - create, delete, rename or split a file;
-- change a trigger, a permission or a routing rule;
+- change when the skill, a mode or a step starts, such as the description, a
+  route trigger or a step's start condition;
+- change a permission or a routing rule;
 - touch more than one file;
 - change a line containing **must**, **never**, **only** or **ask**;
 - change or remove an eval in `evals/`;
 
 or when the user asks to plan.
+
+A wording change that keeps when the skill, a mode or a step starts does not
+count as a change to when it starts. When unsure, plan.
 
 Otherwise edit directly and show the diff.
 
@@ -146,10 +151,10 @@ covered. Do not report the drafting as complete.
 When validation of the edit ends Failed, the work stops. The user may accept
 the causes inside the request; anything else goes to Planning.
 
-When the skill has `evals/evals.json` and the change is not a low-risk
-editorial change, copy the whole skill outside the skill folder before
-editing. After the edit, run the evals against that copy, as
-`references/change-integrity.md` describes.
+Before editing, copy the whole skill outside the skill folder. That copy is
+the baseline, as Baseline in `references/change-integrity.md` describes. When
+the skill has `evals/evals.json` and the change is not a low-risk editorial
+change, run the evals against the baseline after the edit.
 
 Direct Drafting never bypasses the workflow invariants.
 
@@ -305,7 +310,7 @@ loaded together when their responsibilities meet.
 | `references/authoring-guidance.md` | Designing or reviewing a Skill, reference or template | Knowledge only |
 | `references/agents-md.md` | The artefact is an `AGENTS.md` | Knowledge only |
 | `references/architecture-analysis.md` | A new multi-reference Skill, or a change that adds, removes, splits or merges a reference | A stage inside Planning |
-| `references/corner-case-discovery.md` | A new Skill or behavioural `AGENTS.md`, or a change to a trigger, permission, routing rule or permission line | A stage inside Planning |
+| `references/corner-case-discovery.md` | A new Skill or behavioural `AGENTS.md`, or a change to what starts the skill, a mode or a step, a permission, a routing rule or a permission line | A stage inside Planning |
 | `references/skill-spec.md` | Creating a Skill, changing frontmatter or a description, adding scripts | Knowledge only |
 | `references/safety.md` | Create, change, review, install or update of an `AGENTS.md` or Skill | Findings for review; third-party needs approval |
 
@@ -343,7 +348,9 @@ pins it. Install it only with the user's approval, after the Library Check in
   project. Run a bundled script by this skill's base directory, not by a path
   relative to the working folder. A "can't open file" error is a path to fix:
   correct the path and run once more before treating the script as unable to
-  run. No fallback installs anything.
+  run. Never install an interpreter or a package as a fallback, except
+  PyYAML with the user's approval, as Validation Script says. When the script
+  cannot run, Missing Checks in `references/change-integrity.md` decides.
 
 ## Decision Prompt
 

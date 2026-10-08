@@ -170,9 +170,11 @@ can make two agents act differently.
 
 Use the checks when you review a skill. Report a finding when two reasonable
 readings of the text produce materially different behaviour, as Specificity
-above says. Before you report a finding, read the section around the sentence.
-When a nearby line settles the reading, the sentence passes. Each finding
-names the lines that you read.
+above says. Before you report a finding, read the section that holds the
+sentence, up to the next heading of the same level. When a line in that section
+settles the reading, the sentence passes. When the sentence points to another
+file, read the section it names, or the whole file when it names none. Do not
+follow a pointer in that file. Each finding names the lines that you read.
 
 These checks rank below every other rule, such as the safety rules,
 `skill-spec.md`, the project's and the user's instructions, and the other
@@ -238,8 +240,8 @@ Roles above. Report it, and the user decides whether it becomes a rule.
 
 Rate each finding by what the agent does, as Severity in `review.md` says. A
 finding is at least Medium. It is High when one reading leads to an action that
-cannot be undone, or that breaks a safety rule. Name the concrete case in this
-skill's workflow.
+cannot be undone, or that breaks a safety rule. Name the concrete case in the
+workflow of the skill under review.
 
 ## Substantial Artefacts
 

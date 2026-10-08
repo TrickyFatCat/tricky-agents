@@ -49,10 +49,14 @@ finding as small as a typo.
 A change waits for your approval when it will:
 
 - create, delete, rename or split a file;
-- change a trigger, a permission or a routing rule, which is a line in
-    `SKILL.md` that sends a kind of work to the reference that owns it;
+- change when the skill, a mode or a step starts, such as the description or
+    the condition that starts a step;
+- change a permission or a routing rule, which is a line in `SKILL.md` that
+    sends a kind of work to the reference that owns it;
 - touch more than one file;
 - change a line that contains **must**, **never**, **only** or **ask**.
+
+A wording change that keeps when something starts does not count.
 
 The four words count as whole words, in any letter case. "Must" counts.
 "Asks" does not.
@@ -264,7 +268,8 @@ do not handle. It shows you one concrete case at a time, so each new rule is
 tested against the rules before it. It runs for:
 
 - a new skill or behavioural `AGENTS.md`;
-- a change to a trigger, a permission or a routing rule;
+- a change to what starts the skill, a mode or a step, a permission or a
+    routing rule;
 - a change to a line that contains **must**, **never**, **only** or **ask**.
 
 An `AGENTS.md` is behavioural when it defines workflows, how the agent
@@ -479,18 +484,24 @@ change. The Limitations line names each check that did not run, and the reason.
 > [!NOTE]
 > The skill never undoes a change silently.
 
+Before the first change, the skill copies the whole skill to a folder outside
+the skill folder. The two endings below restore from this copy. The skill keeps
+the copy until you have answered every restore offer. When you plan a part of
+the change, the skill keeps the copy until that plan ends.
+
 Failed does not end the work by itself. The work returns to Planning, unless
 you choose one of two endings:
 
 - **Accept the Failed result.** The Failed causes inside the approved change,
     or inside your request for a Direct Drafting edit, stay as they are, and
     the work ends. The report says "ended: Failed accepted". You cannot accept
-    a change that you did not approve or ask for. Restore it or plan it before
-    you accept.
+    a change that you did not approve or ask for. The skill asks about each
+    such part: restore it from the copy, or plan it. It restores only the
+    parts you choose. A part you plan sends the work back to Planning.
 - **Abandon.** The change ends, and the files stay as they are. The skill
-    offers to restore them exactly from the copy it took before the change,
-    and restores them only when you say yes. The report says "ended:
-    abandoned".
+    offers an exact restore from the copy, and restores only when you say
+    yes. An exact restore puts back each file that changed, and deletes each
+    file that the change added. The report says "ended: abandoned".
 
 After either ending, the report still lists each open Failed cause and any
 safety finding.

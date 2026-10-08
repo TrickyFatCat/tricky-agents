@@ -133,9 +133,12 @@ of two endings.
 
 - **Accept.** The Failed causes inside the approved scope, or inside the
   request after Direct Drafting, close as they stand. Content outside that
-  scope cannot be accepted: it is restored or planned first.
+  scope cannot be accepted. Ask the user about each piece of outside content:
+  restore it from the baseline, or plan it. Restore only those lines or files,
+  and only when the user chooses restore. A piece that the user plans sends
+  the work back to Planning.
 - **Abandon.** The change ends and the files stay as they are. Offer an exact
-  restore from the baseline copy. Restore only on the user's yes, then confirm
+  restore from the baseline. Restore only on the user's yes, then confirm
   that the files match the baseline.
 
 Never infer either ending from silence, "ok" or a change of topic. Accepting
@@ -228,7 +231,7 @@ them, against a baseline.
 ```text
 skill under git  ──────────►  compare with the last commit
 no git, baseline ──────────►  compare with --base <path>
-no git, no copy  ──────────►  Limited, lists every permission line
+no git, no copy  ──────────►  limited; Missing Checks decides
 ```
 
 A file the baseline does not hold, such as a new file, is compared with an
@@ -236,13 +239,14 @@ empty file. Each of its permission lines is reported as added. A baseline that
 cannot be read for a file makes the check `limited`, and the reason names that
 file.
 
-Outside git, copy the files to be edited to a temporary folder outside the
-skill *before* editing, pass it with `--base`, and delete the copy after
-validation. The agent makes that copy; the script never writes.
+Outside git, pass the baseline with `--base`. Baseline in Evals says when the
+agent makes it and when the agent deletes it. The agent makes that copy; the
+script never writes.
 
-With neither git nor a copy, the result is Limited with the reason `no
-baseline`, and the script lists every current permission line in the files it
-checks. Check those against the diff shown to the user.
+With neither git nor a copy, the check is `limited` with the reason `no
+baseline`, and Missing Checks decides the result. The script lists every current
+permission line in the files it checks. Check those against the diff shown to
+the user.
 
 A permission line in a file the plan creates and names is covered by that
 plan. Compare it with the planned content.
@@ -282,8 +286,19 @@ removing an eval is a planned change of its own.
 
 ### Baseline
 
-Before applying a change, copy the whole skill to a temporary folder outside
-the skill folder. That copy is the baseline.
+Before the first change of the work, copy the whole skill to a folder
+outside the skill folder. That copy is the baseline. It serves the `--base`
+of `permission-lines` outside git, the evals, and an exact restore after
+Abandon. Later changes in the same work do not copy again.
+
+An exact restore puts back each file of the baseline that changed, and
+deletes each file that the baseline does not hold.
+
+When a piece of outside content goes to Planning, keep the baseline. The
+plan started from that piece uses the kept baseline, does not copy again, and
+deletes the baseline when that work ends. Otherwise, delete the baseline when
+the work ends: the result is Passed or Limited, or the user chose an ending
+after Failed and answered every restore offer.
 
 Git HEAD at validation time is not a baseline. A commit made before validation
 turns HEAD into the changed version, which is then compared with itself.
@@ -387,8 +402,11 @@ A blocked state does not end or suspend the workflow.
 
 ## Final Integrity Check
 
-Run this before the Approval Brief for a substantial rewrite, and again after
-application.
+For a substantial rewrite, run this check twice: before the Approval Brief,
+and after application. When unsure whether a rewrite is substantial, run it.
+Other changes skip this check. After application, apply only a suggestion
+that the approved brief already covers. A suggestion outside the approved
+scope goes to Planning.
 
 - Consolidate overlapping rules by responsibility.
 - Keep one authoritative rule per behaviour.
