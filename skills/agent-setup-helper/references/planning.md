@@ -298,9 +298,13 @@ Keep the order: Change, Scope, Files, Deferred, Validation.
 
 ### Files And The Coverage Map
 
-List exact relative paths, and beside each one the IDs of the accepted
-decisions it implements. That list is the coverage map, and validation checks
-it afterwards.
+List exact relative paths, and beside each one the IDs of the accepted decisions
+it implements. That list is the coverage map, and validation checks it
+afterwards.
+
+Under each file, list each permission line the change adds, changes or
+removes, with its old and new text. Include a line that bans or limits an
+agent action without a permission word.
 
 Include **Files** whenever files change, and omit it otherwise. Omit empty
 categories.

@@ -10,6 +10,9 @@ You do not need to name it. The agent loads it when you ask about a skill, an
 It is not for running the task another skill exists for, or for writing
 application code.
 
+After a change, the skill gives you a report. [Validation](#validation)
+explains it, and what you can do when it says Failed.
+
 ## Modes
 
 The skill works in one of five modes. It picks the mode from what you ask for,
@@ -51,8 +54,9 @@ A change waits for your approval when it will:
 - create, delete, rename or split a file;
 - change when the skill, a mode or a step starts, such as the description or
     the condition that starts a step;
-- change a permission or a routing rule, which is a line in `SKILL.md` that
-    sends a kind of work to the reference that owns it;
+- change a permission, which is any rule about what the agent may or may not
+    do, or a routing rule, which is a line in `SKILL.md` that sends a kind of
+    work to the reference that owns it;
 - touch more than one file;
 - change a line that contains **must**, **never**, **only** or **ask**.
 
@@ -313,7 +317,10 @@ The brief is the last step of planning. It has these parts, in this order:
 1. **Change** — what will change, and the main effect.
 2. **Scope** — what is affected, and what is kept.
 3. **Files** — each file to create, modify or delete, with the IDs of the
-    decisions it carries.
+    decisions it carries. Under each file, the brief lists each line with
+    **must**, **never**, **only** or **ask** that the change adds, changes or
+    removes, with its old and new text. It also lists each line that bans or
+    limits what the agent does, even without one of these words.
 4. **Deferred** — postponed decisions, when there are any.
 5. **Validation** — how the skill will check the change.
 
@@ -326,9 +333,9 @@ holds for an approved plan and for a Direct Drafting edit.
 
 ```text
 Safety        Safety problems outside the change, with file and line
-Result        Passed, Limited or Failed
+Result        Passed, Limited or Failed; after Failed, the report lines that hold each cause, and the ending once you choose one
 Checks        What was actually checked
-Findings      What check.py reported, and the judgement on each
+Findings      What each check found, including the check against your request or plan, and the behaviour tests, with the judgement on each
 Evals         Each eval's result before and after the change, and any that did not run
 Coverage      Each accepted decision: those not found first, then those found, with the matching line
 Limitations   What could not be checked, and why
@@ -338,12 +345,15 @@ The report leaves out a line with nothing in it, except Result. A Direct
 Drafting edit has no register, so its report has no Coverage line. The skill
 checks that edit against your request instead of an Approval Brief.
 
-Read the Safety line first when there is one, then Result.
+Read the Safety line first when there is one, then Result. When the result is
+Failed, the Result line names each report line that holds a Failed cause, such
+as `Failed: Findings, Coverage`.
 
-Checks lists each step that ran. The steps are the coverage check, which fills
-the Coverage line, `check.py` and the evals. For a change to agent-setup-helper
-itself, they also include the behaviour tests. The judgement on a finding is "real problem", "acceptable" with
-the reason, or "unrelated", as Unrelated Problems below describes. A skill with
+Checks lists each step that ran. The steps are the check against your request
+or the plan, the coverage check, which fills the Coverage line, `check.py` and
+the evals. For a change to agent-setup-helper itself, they also include the
+behaviour tests. The judgement on a finding is "real problem", "acceptable"
+with the reason, or "unrelated", as Unrelated Problems below describes. A skill with
 no `evals/evals.json` has no Evals line. That does not make the result Limited.
 
 **Example**
@@ -353,7 +363,7 @@ is missing from the file. Line 15 was already in the file. The change edited the
 Rules section, which holds line 15, so its finding is not unrelated.
 
 ```text
-Result        Failed
+Result        Failed: Coverage
 Checks        Coverage check; check.py all
 Findings      permission-lines, SKILL.md:14: acceptable. A01 in the plan covers this added line.
               safety S4-06, SKILL.md:15: acceptable. The line tells the agent never to use rm -rf.
@@ -420,7 +430,8 @@ An eval you ask the skill to skip counts as one that did not run.
 Evals run only where the agent can start subagents and read their transcripts.
 Claude Code can do both: the eval runs made while fixing this skill in October
 2026 used it. No one has tested other agents. In an agent that cannot do this,
-no eval runs. A change that edits the rule of an eval then ends Failed.
+no eval runs. A change that edits the rule of an eval then ends Failed, and
+After Failed describes what you can do.
 
 **Failed Causes**
 
@@ -457,12 +468,25 @@ part of the result:
 - `findings`: the skill judges each one. A real problem makes the result
     Failed. Other findings do not change the result.
 - `limited` means the check ran only in part. Its listed findings are judged
-    one by one, like `findings`. Missing Checks decides the part that did not
-    run.
+    one by one, like `findings`. Missing Checks decides whether the part that
+    did not run makes the result Limited or Failed.
 - `error` means the check did not run. Missing Checks decides.
+
+A `check.py` finding is a real problem when it would make the agent act
+wrongly or unsafely, or two agents act differently. A finding that would make
+a platform reject the skill, or load it wrongly, is one too. So is a size
+finding over the limit. Any other finding is acceptable, and the report gives
+the reason.
 
 A safety match can be correct in a file about security, such as a list of scan
 patterns. A size finding near the limit can be acceptable.
+
+You can change the judgement of a `check.py` finding. Say which finding and how
+you judge it, such as "the size finding is acceptable". The report then marks
+it "judged by the user", and the result follows your judgement. Coverage and
+eval results stay as the skill found them. Two findings stay
+real problems whatever you say: a safety finding the skill judged real, and a
+**must**, **never**, **only** or **ask** line that changed with no plan.
 
 **Result**
 
@@ -484,36 +508,86 @@ change. The Limitations line names each check that did not run, and the reason.
 > [!NOTE]
 > The skill never undoes a change silently.
 
-Before the first change, the skill copies the whole skill to a folder outside
-the skill folder. The two endings below restore from this copy. The skill keeps
-the copy until you have answered every restore offer. When you plan a part of
-the change, the skill keeps the copy until that plan ends.
+Failed does not end the work by itself. After a Failed report, the skill asks
+you to choose one of three paths:
 
-Failed does not end the work by itself. The work returns to Planning, unless
-you choose one of two endings:
-
+- **Return to Planning.** This is the default. A reply that chooses neither
+    ending also returns to Planning, after a Direct Drafting edit as well.
 - **Accept the Failed result.** The Failed causes inside the approved change,
-    or inside your request for a Direct Drafting edit, stay as they are, and
-    the work ends. The report says "ended: Failed accepted". You cannot accept
-    a change that you did not approve or ask for. The skill asks about each
-    such part: restore it from the copy, or plan it. It restores only the
-    parts you choose. A part you plan sends the work back to Planning.
+    or inside your request for a Direct Drafting edit, stay open, and the work
+    ends. The Result line says Failed and adds "ended: Failed accepted". You
+    cannot accept a change that you did not approve or ask for. The skill asks
+    about each such part: restore it from the copy the skill made before the
+    change, or plan it. It restores
+    only the parts you choose. A part you plan gets its own plan after this
+    work ends.
 - **Abandon.** The change ends, and the files stay as they are. The skill
     offers an exact restore from the copy, and restores only when you say
     yes. An exact restore puts back each file that changed, and deletes each
-    file that the change added. The report says "ended: abandoned".
+    file that the change added. The Result line says Failed and adds "ended:
+    abandoned".
+
+The prompt also says that you can change the judgement of a `check.py`
+finding.
+
+**Example**
+
+```text
+Validation Failed: Coverage. A02 is missing from SKILL.md.
+Choose one: return to Planning (default), Accept, or Abandon.
+You can also change my judgement of a check.py finding.
+```
+
+To choose an ending, name it, or say what you want: keep the change with its
+open causes (Accept), or give it up (Abandon). When your reply could mean
+either, the skill asks. The skill never reads silence or "ok" as either ending.
+
+A changed **must**, **never**, **only** or **ask** line that no plan covered is
+the exception. The skill does not offer the three paths, and the work goes
+straight to Planning, as Drafting Stops describes. You can still name Abandon
+yourself.
+
+Some checks cannot run in your agent, such as evals in an agent without
+subagents. When every open Failed cause is such a check, the skill offers only
+Accept and Abandon. You can still ask to plan. A plan clears those causes only
+by a change that no longer edits what the checks cover. Otherwise the change
+ends with Accept or Abandon.
+
+Before the first change, the skill copies the whole skill to a folder outside
+the skill folder. The evals and `permission-lines` use the same copy. Both
+endings can restore from it, and only when you say yes. A Direct Drafting edit
+that moves to Planning keeps the copy made before the edit. The skill deletes
+the copy when the work ends, but not before you have answered every restore
+offer.
+
+When you plan a part under Accept, that new plan makes its own copy. The skill
+keeps the first copy so that it can still restore that part. If the new plan
+ends with Abandon, the skill also offers to restore the part from the first
+copy.
 
 After either ending, the report still lists each open Failed cause and any
-safety finding.
+safety finding. Accept does not close a cause. Only a later change that fixes
+it does.
 
-The skill never reads silence or "ok" as either ending.
+When you refuse every restore, both endings leave the same files. After
+Accept, the change stands, with its open causes. After Abandon, the change is
+given up, and a later plan takes the files as they are.
 
 Before it gives you the report, the skill fixes small editorial mistakes, such
 as a typo. It also fixes a file that does not match the plan, when the fix needs
 no new decision. It restores a file only when it can restore exactly what was
-there before. A second round of fixes that still finds problems stops, and the
-report says so. A fix that needs approval, and any other recovery, goes through
-Planning.
+there before. The Findings line lists each of these fixes, with its file and
+line, marked "fixed during validation".
+
+These fixes never change a **must**, **never**, **only** or **ask** line, or a
+line that bans or limits what the agent does. Such a change needs your
+approval, even when it would make the file match the plan. The problem stays on
+the report. These fixes also never remove a change you did not ask for. The Accept ending asks
+you about it.
+
+A round is one set of fixes, then one `check.py` run. When a second round still
+finds problems, the skill stops fixing, and the Findings line says so. A fix
+that needs approval, and any other recovery, goes through Planning.
 
 **Coverage**
 
@@ -779,6 +853,11 @@ A file the baseline does not hold, such as a new file, counts as empty there.
 Each of its must, never, only or ask lines is listed as added. When the
 baseline cannot be read for a file, the check is `limited`, and `reason` names
 that file.
+
+The skill passes its copy of the skill with `--base` whenever it has one,
+also in git. Without a copy, in git, it compares with the last commit. In that
+case, do not commit the change before the report. The check would then compare
+the change with itself.
 
 The git baseline is the last commit, so the check also lists changes you made
 earlier and did not commit. The skill compares each listed line with the diff

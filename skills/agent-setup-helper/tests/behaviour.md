@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Eighteen failure-based tests for agent-setup-helper itself.
+Twenty failure-based tests for agent-setup-helper itself.
 
 Read these during Change Integrity whenever this skill changes, against the
 built rules. A test whose Must the rules no longer produce is a failed
@@ -319,7 +319,8 @@ word.
 
 **Owner**
 
-`references/authoring-guidance.md`, Plain Wording Checks.
+`references/authoring-guidance.md`, Plain Wording Checks;
+`references/planning.md`, Files And The Coverage Map.
 
 ## 17. Abandon Keeps The Baseline Until The User Answers
 
@@ -358,3 +359,46 @@ Delete a file before the baseline holds a copy of it.
 **Owner**
 
 `references/change-integrity.md`, Baseline.
+
+## 19. A Change Nobody Asked For Is Not Judged By Severity
+
+**Trigger**
+
+A Direct Drafting edit also rewords a sentence that the request did not name.
+The reword changes no behaviour. After the Failed report, the user chooses
+Accept.
+
+**Must**
+
+Report the reword as a Failed cause, and ask about it as outside content:
+restore it or plan it.
+
+**Must Not**
+
+Judge the reword Low by Severity and report Passed.
+
+**Owner**
+
+`references/change-integrity.md`, Failed Causes, Running The Script and
+Ending After Failed.
+
+## 20. Returning To Planning Keeps The First Baseline
+
+**Trigger**
+
+A planned change ends Failed, the work returns to Planning, and a new brief is
+approved.
+
+**Must**
+
+Apply the new brief and keep the baseline made before the first change of the
+work.
+
+**Must Not**
+
+Copy the changed skill as a new baseline, which loses the exact restore for
+Abandon.
+
+**Owner**
+
+`SKILL.md`, Application; `references/change-integrity.md`, Baseline.

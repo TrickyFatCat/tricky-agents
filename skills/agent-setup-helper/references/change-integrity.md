@@ -61,11 +61,18 @@ After application, or after a Direct Drafting edit:
 5. Run `check.py`.
 6. Run the evals when the skill has `evals/evals.json`.
 7. Read `tests/behaviour.md` when this skill itself changed.
-8. Correct low-risk editorial mistakes directly, then run `check.py` again. A
-   second round of corrections that still finds problems stops, and the
-   report says so.
+8. Correct low-risk editorial mistakes directly, except in a permission line
+   or a line that bans or limits an agent action. Then run `check.py` again.
+   A round is one set of corrections, then one `check.py` run. A second round
+   that still finds problems stops, and the Findings line says so. It lists
+   each problem still found, judged as usual, and the result follows from
+   those judgements.
 9. Stop and use a recovery path when a correction would itself be a planned
-   change.
+   change. A correction that changes a permission line, or a line that bans
+   or limits an agent action, is a planned change. This holds even when it
+   makes the file match the approved brief, and for a listed line that
+   application missed. Do not apply it. The problem stays on the report,
+   judged as usual.
 
 Keep validation to what the change could materially affect. Scale the depth to
 the possible impact. Do not turn validation into a general audit.
@@ -75,6 +82,12 @@ one file can break a rule held in another, and an eval is the check that sees
 it.
 
 Report only the checks actually completed.
+
+Judged as usual means: a script finding by Severity, as Running The Script
+says, and any other problem by Failed Causes.
+
+Each correction, mismatch fix and restore made during validation goes on the
+Findings line, with its file and line, marked "fixed during validation".
 
 A problem is unrelated when it sits outside the brief or request, the diff did
 not cause or worsen it, and the diff did not change the section that holds it.
@@ -131,21 +144,36 @@ Failed does not end the workflow by itself, and does not by itself authorise a
 rollback. The work returns to Planning, unless the user explicitly chooses one
 of two endings.
 
-- **Accept.** The Failed causes inside the approved scope, or inside the
-  request after Direct Drafting, close as they stand. Content outside that
+After a Failed report, put the three paths to the user in one Decision
+Prompt: return to Planning, Accept or Abandon. Planning is the default. The
+prompt also says that the user may change the judgement of a script finding.
+A changed permission line that no plan covered is the exception: the work
+moves to Planning, as Direct Drafting in `SKILL.md` and Permission Lines say.
+
+When every open Failed cause is a check that this agent cannot run, say so in
+the prompt, and offer Accept and Abandon instead of the three paths. When the
+user asks to plan, return to Planning. A plan clears these causes only by a
+change that no longer touches what the check covers.
+
+- **Accept.** The Failed causes inside the approved scope, or inside the request
+  after Direct Drafting, stay open, and the work ends. Content outside that
   scope cannot be accepted. Ask the user about each piece of outside content:
   restore it from the baseline, or plan it. Restore only those lines or files,
-  and only when the user chooses restore. A piece that the user plans sends
-  the work back to Planning.
+  and only when the user chooses restore. A piece that the user plans starts a
+  new plan after this work ends, as Baseline describes.
 - **Abandon.** The change ends and the files stay as they are. Offer an exact
   restore from the baseline. Restore only on the user's yes, then confirm
   that the files match the baseline.
 
-Never infer either ending from silence, "ok" or a change of topic. Accepting
-never overrides global safety.
+A reply chooses an ending only when it names the ending or states its effect:
+keep the change with its open causes (Accept), or give the change up
+(Abandon). When a reply fits both endings, ask. A reply that chooses neither
+ending leaves the work in Planning. Never infer either ending from silence,
+"ok" or a change of topic. Accepting never overrides global safety.
 
-The report says "ended: Failed accepted" or "ended: abandoned", never
-"completed". It lists every open Failed cause and any safety finding.
+The Result line stays Failed and adds "ended: Failed accepted" or "ended:
+abandoned", never "completed". The report lists every open Failed cause and
+any safety finding.
 
 ### Coverage Check
 
@@ -178,6 +206,8 @@ describes.
 python3 <this-skill-dir>/scripts/check.py all <skill-dir>
 ```
 
+Add `--base <baseline>` when a baseline exists, as Permission Lines says.
+
 Map each check's status:
 
 | Script status | Validation |
@@ -190,6 +220,18 @@ Map each check's status:
 Findings are not failures and not passes. Each one is read and judged. A
 safety match may be a legitimate pattern in a security file; a near-limit size
 finding may be acceptable.
+
+Judge a script finding by Severity in `review.md`. A High or Medium finding is
+a real problem. A finding that would make a platform reject the skill, or
+load it wrongly, is High. A size finding over the limit is a real problem. A
+finding that matches another Failed cause, such as a permission line that no
+plan covered, is a real problem at any severity. A Low finding is acceptable,
+and the report gives the reason.
+
+The user may change the judgement of a script finding. The report marks that
+finding "judged by the user", and the result follows from it. Two findings
+are exceptions, and each stays a real problem: a safety finding judged a real
+problem, and a permission line that no plan covered.
 
 A finding labelled "Claude platform only" can be a real problem only when
 Claude may load the skill: installed for Claude Code, or uploaded to claude.ai
@@ -229,9 +271,9 @@ The `permission-lines` check compares permission lines, as `SKILL.md` defines
 them, against a baseline.
 
 ```text
-skill under git  ──────────►  compare with the last commit
-no git, baseline ──────────►  compare with --base <path>
-no git, no copy  ──────────►  limited; Missing Checks decides
+baseline             ──────────►  compare with --base <path>
+no baseline, git     ──────────►  compare with the last commit
+no baseline, no git  ──────────►  limited; Missing Checks decides
 ```
 
 A file the baseline does not hold, such as a new file, is compared with an
@@ -239,11 +281,16 @@ empty file. Each of its permission lines is reported as added. A baseline that
 cannot be read for a file makes the check `limited`, and the reason names that
 file.
 
-Outside git, pass the baseline with `--base`. Baseline in Evals says when the
-agent makes it and when the agent deletes it. The agent makes that copy; the
-script never writes.
+Pass the baseline with `--base` whenever one exists, under git as well.
+Baseline in Evals says when the agent makes it and when the agent deletes it.
+A copy made after the first change is not a baseline. The agent makes that
+copy; the script never writes.
 
-With neither git nor a copy, the check is `limited` with the reason `no
+Without a baseline, under git, the check compares with the last commit. In
+that case, do not commit before validation ends, for the reason Baseline
+gives.
+
+With neither git nor a baseline, the check is `limited` with the reason `no
 baseline`, and Missing Checks decides the result. The script lists every current
 permission line in the files it checks. Check those against the diff shown to
 the user.
@@ -251,7 +298,8 @@ the user.
 A permission line in a file the plan creates and names is covered by that
 plan. Compare it with the planned content.
 
-Flags caused by earlier uncommitted changes are expected. Check each against
+When the check compares with the last commit, flags caused by earlier
+uncommitted changes are expected. Check each against
 the diff rather than treating the list as the change.
 
 A changed permission line that no plan covered stops the work. It is a
@@ -288,24 +336,29 @@ removing an eval is a planned change of its own.
 
 Before the first change of the work, copy the whole skill to a folder
 outside the skill folder. That copy is the baseline. It serves the `--base`
-of `permission-lines` outside git, the evals, and an exact restore after
+of `permission-lines`, the evals, and an exact restore after
 Abandon. Later changes in the same work do not copy again.
 
 An exact restore puts back each file of the baseline that changed, and
 deletes each file that the baseline does not hold.
 
-When a piece of outside content goes to Planning, keep the baseline. The
-plan started from that piece uses the kept baseline, does not copy again, and
-deletes the baseline when that work ends. Otherwise, delete the baseline when
-the work ends: the result is Passed or Limited, or the user chose an ending
-after Failed and answered every restore offer.
+After Accept, when a piece of outside content goes to Planning, keep the
+baseline. The plan
+started from that piece makes its own baseline, and keeps the old one only to
+restore that piece. When that plan ends with Abandon, also offer to restore the
+piece from the old baseline. Delete the old baseline when the last such plan
+ends and every offer to restore a piece is answered. Otherwise, delete the
+baseline when the work ends: the result is Passed or Limited, or the user chose
+an ending after Failed and answered every restore offer.
+
+Work that moves from Direct Drafting to Planning keeps the Direct Drafting
+baseline.
 
 Git HEAD at validation time is not a baseline. A commit made before validation
 turns HEAD into the changed version, which is then compared with itself.
 
-Outside git, the same copy is the `--base` for `permission-lines`. Under git,
-`permission-lines` keeps comparing with the last commit, because passing
-`--base` switches that comparison off.
+The same copy is the `--base` for `permission-lines`, under git as well.
+Passing `--base` switches off the comparison with the last commit.
 
 Run the changed version's evals against both versions.
 
@@ -384,10 +437,15 @@ reliable state and re-run the required checks.
 affects. Return to planning when the approved plan needs reconsidering.
 
 **Partial application.** Do not report completion. Continue when no new open
-decision is required; otherwise return to planning.
+decision is required; otherwise return to planning. Once validation has
+started, continuing never changes a permission line, or a line that bans or
+limits an agent action, as Validation step 9 says.
 
 **Implementation mismatch.** Correct it mechanically when that is possible.
-Otherwise return to planning.
+Otherwise return to planning, through the Decision Prompt in Ending After
+Failed. A correction that changes a permission line is not mechanical, as
+Validation step 9 says. Content the brief or request did not ask for is not a
+mismatch. It stays a Failed cause, and Ending After Failed asks about it.
 
 Missing context during implementation is not a normal state. It means a check
 failed earlier, the process failed, or something outside changed. Stop and
@@ -427,9 +485,10 @@ not the goal; one authoritative rule per behaviour is.
 
 ```text
 Safety        Unrelated safety findings, with file and line
-Result        Passed, Limited or Failed
+Result        Passed, Limited or Failed, with cause lines and any ending
 Checks        What was actually checked
-Findings      What the script reported, and the judgement on each
+Findings      What each check found, including Validation steps 1 to 3 and
+              the behaviour tests, and the judgement on each
 Evals         Each eval's result on both versions, and any that did not run
 Coverage      Every accepted decision: not found first, then found, with its quoted line
 Limitations   What could not be checked, and why
@@ -441,5 +500,9 @@ which counts as not found.
 Report the result first, after any Safety line. A report that describes the
 checks and leaves the result to be inferred makes the reader do the work the
 report exists to do.
+
+When the result is Failed, the Result line names each report line that holds
+a Failed cause, such as `Failed: Findings, Coverage`. After an ending, it adds
+the ending: `Failed: Coverage; ended: Failed accepted`.
 
 Omit a line that has nothing in it, except Result.

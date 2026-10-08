@@ -148,8 +148,8 @@ Stop and move to Planning when a planning trigger appears mid-edit, or when
 the `permission-lines` check flags a changed permission line that no plan
 covered. Do not report the drafting as complete.
 
-When validation of the edit ends Failed, the work stops. The user may accept
-the causes inside the request; anything else goes to Planning.
+When validation of the edit ends Failed, the work stops. Ending After Failed
+in `references/change-integrity.md` applies.
 
 Before editing, copy the whole skill outside the skill folder. That copy is
 the baseline, as Baseline in `references/change-integrity.md` describes. When
@@ -221,11 +221,16 @@ workflow. Deferred items stay unapproved.
 
 ### Application
 
+Before the first change of the work, make the baseline, as Baseline in
+`references/change-integrity.md` describes.
+
 Apply only the approved brief.
 
 The only permitted extras are low-risk editorial changes and strictly
-necessary mechanical consequences. Never use "consistency" to introduce
-behaviour nobody approved. A new open decision returns to planning.
+necessary mechanical consequences. An extra never changes a permission line,
+or a line that bans or limits an agent action. Such a line changes only when
+the brief lists it. Never use "consistency" to introduce behaviour nobody
+approved. A new open decision returns to planning.
 
 ## Decisions
 
