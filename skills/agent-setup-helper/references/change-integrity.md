@@ -443,9 +443,10 @@ limits an agent action, as Validation step 9 says.
 
 **Implementation mismatch.** Correct it mechanically when that is possible.
 Otherwise return to planning, through the Decision Prompt in Ending After
-Failed. A correction that changes a permission line is not mechanical, as
-Validation step 9 says. Content the brief or request did not ask for is not a
-mismatch. It stays a Failed cause, and Ending After Failed asks about it.
+Failed. A correction that changes a permission line, or a line that bans or
+limits an agent action, is not mechanical, as Validation step 9 says. Content
+the brief or request did not ask for is not a mismatch. It stays a Failed cause,
+and Ending After Failed asks about it.
 
 Missing context during implementation is not a normal state. It means a check
 failed earlier, the process failed, or something outside changed. Stop and

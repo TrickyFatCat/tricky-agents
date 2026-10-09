@@ -9,7 +9,7 @@ validation, not a test to rewrite.
 Tests 1 to 3 also run as evals in `evals/evals.json`. Test 4 is read only,
 because a subagent has no plan-mode tools. Eval 4 runs the other half of the
 same rule: with no plan tool, the Approval Brief goes in the reply. Test 12
-also runs as eval 5.
+also runs as eval 5. Test 2 also runs as eval 6.
 
 Each test names the behaviour that must happen, and the plausible wrong
 behaviour that must not. The Must Not is the useful half: it is what a
@@ -303,9 +303,9 @@ fix it inside this change.
 
 **Trigger**
 
-Planning a fix for a review finding in "Do not push to main without the
+Planning a fix for a review finding in "Avoid pushing to main without the
 user's approval.", with `references/authoring-guidance.md` loaded. The line
-holds no permission word.
+bans an agent action, but it is not a permission line.
 
 **Must**
 
@@ -314,8 +314,8 @@ keep "without the user's approval" in the new text.
 
 **Must Not**
 
-Treat the fix as an editorial change because the line holds no permission
-word.
+Treat the fix as an editorial change because the line is not a permission
+line.
 
 **Owner**
 

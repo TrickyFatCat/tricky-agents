@@ -217,7 +217,7 @@ nor deferred work.
 
 Run `corner-case-discovery.md` for a new Skill or behavioural `AGENTS.md`, or
 a change to what starts the skill, a mode or a step, a permission, a routing
-rule, or a line containing must, never, only or ask.
+rule, or a permission line, as Definitions in `SKILL.md` describes.
 
 Run it once the core design is coherent. Resolve cases one at a time, and fold
 accepted findings into the register before the final checks.
@@ -304,7 +304,7 @@ afterwards.
 
 Under each file, list each permission line the change adds, changes or
 removes, with its old and new text. Include a line that bans or limits an
-agent action without a permission word.
+agent action, even when it is not a permission line.
 
 Include **Files** whenever files change, and omit it otherwise. Omit empty
 categories.

@@ -35,8 +35,13 @@ better alternative. Do not challenge to seem thorough.
 - **Delegation** — the user handing an open decision to the agent. It never
   describes anything else.
 - **Permission line** — a line containing must, never, only or ask, as whole
-  words in any letter case. Such a line usually grants or limits what the
-  agent may do.
+  words in any letter case. A line also counts when "do not" or "don't", in
+  any letter case and with either apostrophe, comes at the line start, after a
+  bullet, a list number or a table bar there, after . : ; , ! ? with any
+  closing ** and then a space, after a straight quote, an opening curly quote
+  or "(", or after "and", "or" or "then". "Do not confirm the obvious." is
+  one. "They do not cover it." is not. Such a line usually grants or limits
+  what the agent may do. `check.py` matches exactly these lines.
 - **Routing** — this file sending a workflow to the reference that owns it.
 - **Ownership** — the file a rule lives in.
 - **Authority** — who may set that rule.
@@ -111,7 +116,7 @@ Start Planning when a change will:
   route trigger or a step's start condition;
 - change a permission or a routing rule;
 - touch more than one file;
-- change a line containing **must**, **never**, **only** or **ask**;
+- change a permission line, as Definitions describes;
 - change or remove an eval in `evals/`;
 
 or when the user asks to plan.

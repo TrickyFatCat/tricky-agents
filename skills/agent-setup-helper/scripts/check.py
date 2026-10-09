@@ -85,12 +85,30 @@ MAX_FINDINGS = 50
 MAX_SCAN_BYTES = 1024 * 1024
 
 NAME_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
-# A line with one of these words usually grants or limits what the agent may do.
-# permission-lines reports such a line when it is added, changed or removed.
-# WARNING: HELP_EPILOG lists these words, so change both together.
+# A line with one of these words or phrases usually grants or limits what the
+# agent may do. permission-lines reports such a line when it is added, changed
+# or removed.
+# WARNING: HELP_EPILOG and the Definitions entry in SKILL.md list these words,
+# the phrases and the places in _BAN_START, so change all three together.
 TRIGGER_WORDS = ("must", "never", "only", "ask")
+# A ban phrase counts where it opens a sentence or clause: at the line start,
+# after a bullet, a list number or a table bar there, after . : ; , ! ? with
+# any closing ** and then white space, after a straight quote, an opening
+# curly quote or (, or after and, or, then. After a subject, as in "They do
+# not cover it.", it describes and is skipped, unless it starts a wrapped line.
+BAN_PHRASES = ("do not", "don't", "don\u2019t")
+_BAN_START = (
+    r"(?:^\s*(?:[-*+]\s+|\d+\.\s+|\|\s*)?|[.:;,!?]\**\s+|[\"'\u201c\u2018(]"
+    r"|\b(?:and|or|then)\s+)"
+)
 TRIGGER_PATTERN = re.compile(
-    r"\b(?:%s)\b" % "|".join(TRIGGER_WORDS), re.IGNORECASE
+    r"\b(?:%s)\b|%s(?:%s)\b"
+    % (
+        "|".join(TRIGGER_WORDS),
+        _BAN_START,
+        "|".join(re.escape(p) for p in BAN_PHRASES),
+    ),
+    re.IGNORECASE,
 )
 
 # A code span that starts with one of these folders is checked as a file path.
@@ -1048,7 +1066,7 @@ def check_safety(skill, patterns_path):
 
 
 def trigger_lines(text):
-    """Maps each line with a word from TRIGGER_WORDS to its 1-based line number.
+    """Maps each line that TRIGGER_PATTERN matches to its 1-based line number.
 
     Keys are the stripped line text, so a moved or re-indented line still matches.
     When the same text appears twice, the later line number is kept.
@@ -1138,7 +1156,8 @@ def _git_answers(top):
 def check_permission_lines(skill, base, files):
     """Reports permission lines that differ from a baseline.
 
-    A permission line is a line with a word from TRIGGER_WORDS.
+    A permission line is a line that TRIGGER_PATTERN matches: a word from
+    TRIGGER_WORDS, or a phrase from BAN_PHRASES that opens a sentence or clause.
     The baseline is the folder base when it is given.
     Otherwise it is the last git commit, so uncommitted edits are reported too.
     files limits the check to those files.
@@ -1197,7 +1216,8 @@ def check_permission_lines(skill, base, files):
                     )
                 )
         # A removed obligation is the more dangerous change.
-        # Its new wording may lack a trigger word, so only the baseline still shows it.
+        # Its new wording may lack a trigger word or phrase, so only the baseline
+        # still shows it.
         # The line number here points into the baseline file, not the current one.
         for line, number in before.items():
             if line not in now:
@@ -1263,7 +1283,8 @@ subcommands:
   routes            references exist and are named; links resolve inside the skill;
                     no orphan .md or script (not a depth check)
   size              SKILL.md lines, characters, and a token estimate
-  permission-lines  changed lines containing must, never, only or ask
+  permission-lines  changed lines containing must, never, only or ask, or
+                    an opening "do not" or "don't"
   safety            pattern matches from references/safety.md
   all               every check above, in one report
 

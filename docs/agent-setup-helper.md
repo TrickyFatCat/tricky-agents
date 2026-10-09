@@ -38,7 +38,8 @@ before it acts.
 - "Should this skill have a Discussion mode at all?" is Discussion.
 - "What do you think of `review.md`?", with the file named, is Review.
 - "Fix the typo on line 12 of `review.md`" is Direct Drafting, when that line
-    has no **must**, **never**, **only** or **ask**.
+    has no **must**, **never**, **only** or **ask**, and no **do not** or
+    **don't** that opens a sentence or clause.
 - "Add a reference for templates" is Planning, because it creates a file.
 
 **Mixed Requests**
@@ -58,12 +59,23 @@ A change waits for your approval when it will:
     do, or a routing rule, which is a line in `SKILL.md` that sends a kind of
     work to the reference that owns it;
 - touch more than one file;
-- change a line that contains **must**, **never**, **only** or **ask**.
+- change a permission line: a line that contains **must**, **never**,
+    **only** or **ask**, or where **do not** or **don't** opens a sentence or
+    clause.
 
 A wording change that keeps when something starts does not count.
 
-The four words count as whole words, in any letter case. "Must" counts.
-"Asks" does not.
+**Must**, **never**, **only** and **ask** count as whole words, in any letter
+case. "Must" counts. "Asks" does not.
+
+**Do not** counts where it opens a sentence or clause, such as at the line
+start, after a full stop or after "and". "Do not confirm the obvious." counts.
+"They do not cover it." does not. [Permission Lines](#permission-lines) lists
+every place `check.py` accepts.
+
+A line that bans or limits the agent without these words, such as "Leave hidden
+files where they are.", is not a permission line. A change to what it allows
+still needs approval, as "change a permission" above says.
 
 A request to plan also goes through approval. The skill applies every other
 change directly and shows you the diff.
@@ -74,12 +86,13 @@ The skill judges a change by its effect, not by its size.
 
 - Adding a reference for templates.
 - A one-word typo fix in a line that starts "Never edit".
+- A typo fix in a line that starts "Do not".
 - Two one-word edits in two files.
 - A scratch file created inside the skill folder.
 
 **No Approval**
 
-- A typo fix in a line with no **must**, **never**, **only** or **ask**.
+- A typo fix in a line that is not a permission line.
 - A formatting fix in one reference.
 - A temporary working file outside the skill folder, such as the register.
 
@@ -92,8 +105,7 @@ A Direct Drafting edit can turn out to need approval halfway. This happens
 when:
 
 - the edit reaches a change from the list above;
-- `check.py` lists a **must**, **never**, **only** or **ask** line that this
-    edit changed.
+- `check.py` lists a permission line that this edit changed.
 
 The skill then stops and moves to Planning. It does not report the edit as
 complete.
@@ -274,7 +286,7 @@ tested against the rules before it. It runs for:
 - a new skill or behavioural `AGENTS.md`;
 - a change to what starts the skill, a mode or a step, a permission or a
     routing rule;
-- a change to a line that contains **must**, **never**, **only** or **ask**.
+- a change to a permission line.
 
 An `AGENTS.md` is behavioural when it defines workflows, how the agent
 interacts with you, who owns a decision, delegation, or how work moves from
@@ -317,10 +329,10 @@ The brief is the last step of planning. It has these parts, in this order:
 1. **Change** — what will change, and the main effect.
 2. **Scope** — what is affected, and what is kept.
 3. **Files** — each file to create, modify or delete, with the IDs of the
-    decisions it carries. Under each file, the brief lists each line with
-    **must**, **never**, **only** or **ask** that the change adds, changes or
-    removes, with its old and new text. It also lists each line that bans or
-    limits what the agent does, even without one of these words.
+    decisions it carries. Under each file, the brief lists each permission
+    line that the change adds, changes or removes, with its old and new text.
+    It also lists each line that bans or limits what the agent does, even
+    when it is not a permission line.
 4. **Deferred** — postponed decisions, when there are any.
 5. **Validation** — how the skill will check the change.
 
@@ -438,7 +450,7 @@ After Failed describes what you can do.
 The skill reports Failed when any of these applies:
 
 - an accepted decision is missing from its file;
-- a **must**, **never**, **only** or **ask** line changed that no plan covered;
+- a permission line changed that no plan covered;
 - a finding is a real problem, even in a part of the change you approved;
 - an eval outcome in the Evals table above is Failed;
 - a check did not run, and it could change the result;
@@ -484,9 +496,9 @@ patterns. A size finding near the limit can be acceptable.
 You can change the judgement of a `check.py` finding. Say which finding and how
 you judge it, such as "the size finding is acceptable". The report then marks
 it "judged by the user", and the result follows your judgement. Coverage and
-eval results stay as the skill found them. Two findings stay
-real problems whatever you say: a safety finding the skill judged real, and a
-**must**, **never**, **only** or **ask** line that changed with no plan.
+eval results stay as the skill found them. Two findings stay real problems
+whatever you say: a safety finding the skill judged real, and a permission
+line that changed with no plan.
 
 **Result**
 
@@ -542,10 +554,9 @@ To choose an ending, name it, or say what you want: keep the change with its
 open causes (Accept), or give it up (Abandon). When your reply could mean
 either, the skill asks. The skill never reads silence or "ok" as either ending.
 
-A changed **must**, **never**, **only** or **ask** line that no plan covered is
-the exception. The skill does not offer the three paths, and the work goes
-straight to Planning, as Drafting Stops describes. You can still name Abandon
-yourself.
+A changed permission line that no plan covered is the exception. The skill does
+not offer the three paths, and the work goes straight to Planning, as Drafting
+Stops describes. You can still name Abandon yourself.
 
 Some checks cannot run in your agent, such as evals in an agent without
 subagents. When every open Failed cause is such a check, the skill offers only
@@ -579,11 +590,11 @@ no new decision. It restores a file only when it can restore exactly what was
 there before. The Findings line lists each of these fixes, with its file and
 line, marked "fixed during validation".
 
-These fixes never change a **must**, **never**, **only** or **ask** line, or a
-line that bans or limits what the agent does. Such a change needs your
-approval, even when it would make the file match the plan. The problem stays on
-the report. These fixes also never remove a change you did not ask for. The Accept ending asks
-you about it.
+These fixes never change a permission line, or a line that bans or limits
+what the agent does. Such a change needs your approval, even when it would make
+the file match the plan. The problem stays on the report. These fixes also
+never remove a change you did not ask for. The Accept ending asks you about
+it.
 
 A round is one set of fixes, then one `check.py` run. When a second round still
 finds problems, the skill stops fixing, and the Findings line says so. A fix
@@ -794,7 +805,7 @@ Replace `all` with one check name to run only that check:
 | `spec`             | Frontmatter fields and types                                                                                                                                                                             |
 | `routes`           | References exist and are named; links resolve inside the skill; every Markdown file or script outside `tests/`, `evals/` and `assets/` is reached from `SKILL.md`, directly or through files it links to |
 | `size`             | `SKILL.md` lines, characters, and a token estimate                                                                                                                                                       |
-| `permission-lines` | Changed lines containing must, never, only or ask                                                                                                                                                        |
+| `permission-lines` | Changed lines containing must, never, only or ask, or an opening "do not" or "don't"                                                                                                                     |
 | `safety`           | Pattern matches from `references/safety.md`                                                                                                                                                              |
 | `all`              | Every check above, in one report                                                                                                                                                                         |
 
@@ -825,10 +836,9 @@ writes an error and stops with exit code 2:
     default.
 
 `--base` takes a folder with the same layout as the skill folder. A checked
-file with no copy there counts as new, so each of its must, never, only or ask
-lines is listed as added. Copy the whole skill, or pass `--files` with the
-files you copied. `--files` takes paths relative to the
-skill folder.
+file with no copy there counts as new, so each of its permission lines is
+listed as added. Copy the whole skill, or pass `--files` with the files you
+copied. `--files` takes paths relative to the skill folder.
 
 The default pattern file is `references/safety.md` of agent-setup-helper, the
 skill that holds `check.py`. When you check another skill, `check.py` does not
@@ -837,20 +847,32 @@ the patterns used to check it.
 
 ### Permission Lines
 
-`permission-lines` lists each must, never, only or ask line that was added,
-changed or removed. It compares against the first baseline that applies:
+`permission-lines` lists each permission line that was added, changed or
+removed. A permission line holds must, never, only or ask as a whole word, or
+"do not" or "don't", in any letter case, in one of these places:
+
+- at the line start, or after a bullet, a list number or a table bar there;
+- after . : ; , ! ? and white space, with any closing `**` between, as in
+    "**Partial application.** Do not report";
+- after a straight quote, an opening curly quote or `(`;
+- after "and", "or" or "then".
+
+A bold **Do not** at the line start, or one after `>` or `#`, is not matched,
+so that line is not a permission line.
+
+It compares against the first baseline that applies:
 
 ```text
 --base <path>         →  that folder
 the skill is in git   →  the last commit of the checked skill's repository
-neither               →  limited: lists every current must, never, only or ask line
+neither               →  limited: lists every current permission line
 ```
 
-A removed or reworded line is listed too, because the new wording may contain
-none of the four words.
+A removed or reworded line is listed too, because the new wording may not be a
+permission line.
 
 A file the baseline does not hold, such as a new file, counts as empty there.
-Each of its must, never, only or ask lines is listed as added. When the
+Each of its permission lines is listed as added. When the
 baseline cannot be read for a file, the check is `limited`, and `reason` names
 that file.
 

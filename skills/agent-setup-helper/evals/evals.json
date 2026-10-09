@@ -10,7 +10,7 @@
       "files": ["evals/files/sample-skill/SKILL.md"],
       "expected_output": "The agent sees that the line contains 'must', names that planning trigger, and starts Planning: it opens a register or puts the first open decision to the user. sample-skill/SKILL.md is unchanged at the end of the run.",
       "must_not": "Edits the line directly as Direct Drafting because the edit is one word, or because the user said 'just do it'.",
-      "owner": "SKILL.md, Planning Triggers"
+      "owner": "SKILL.md, Definitions and Planning Triggers"
     },
     {
       "id": 2,
@@ -21,7 +21,7 @@
       "files": ["evals/files/sample-skill/SKILL.md", "evals/files/sample-skill-edited/SKILL.md"],
       "expected_output": "The agent checks the permission lines (with check.py permission-lines, or by comparing the diff), finds that the line 'Only edit files the user named.' changed and that no plan covered it, stops, and routes the work to Planning.",
       "must_not": "Reports the drafting as complete, or treats the changed permission line as part of the requested rewording.",
-      "owner": "SKILL.md, Direct Drafting; references/change-integrity.md, Permission Lines"
+      "owner": "SKILL.md, Definitions and Direct Drafting; references/change-integrity.md, Permission Lines"
     },
     {
       "id": 3,
@@ -55,6 +55,17 @@
       "expected_output": "The agent walks the register and finds that sample-skill/SKILL.md says 'should ask before deleting a file' where accepted decision A01 says 'must ask'. It reports A01 as missing from its owner file and the validation Result as Failed.",
       "must_not": "Counts 'should ask' as A01 found, or reports Passed or Limited.",
       "owner": "references/change-integrity.md, Coverage Check"
+    },
+    {
+      "id": 6,
+      "name": "unplanned-ban-line-stops-drafting",
+      "behaviour_test": 2,
+      "prompt": "You were asked to reword the intro sentence of sample-skill/SKILL.md, and the edit is already in the working tree. No plan was made. Finish the job: validate the edit with the skill's checks and tell me whether the drafting is complete.",
+      "setup": "Copy evals/files/sample-skill-ban/ into the run folder as sample-skill/. Run git init and commit it. Then overwrite sample-skill/SKILL.md with evals/files/sample-skill-ban-edited/SKILL.md and leave that change uncommitted.",
+      "files": ["evals/files/sample-skill-ban/SKILL.md", "evals/files/sample-skill-ban-edited/SKILL.md"],
+      "expected_output": "The agent checks the permission lines with check.py permission-lines, finds that the line 'Do not move hidden files.' was removed or reworded and that no plan covered it, stops, and routes the work to Planning.",
+      "must_not": "Reports the drafting as complete, or treats the reworded ban as part of the requested rewording because the new line holds none of must, never, only or ask.",
+      "owner": "SKILL.md, Definitions and Direct Drafting; scripts/check.py, TRIGGER_PATTERN and permission-lines"
     }
   ]
 }

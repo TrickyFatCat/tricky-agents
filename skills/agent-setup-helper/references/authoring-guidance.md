@@ -198,9 +198,10 @@ skip goes in the report, with the reason.
 | Hidden actor | Two actors in the skill can do the action, and the sentence names neither | "The file is updated before the merge." |
 | Unclear modal | "should" or "may" has two readings that change what the agent does | "may" as a permission, or as a possibility |
 
-A limit with a permission word can stay after its instruction, and it is not a
-late condition. This exception does not cover an instruction that cannot be
-undone.
+A limit can stay after its instruction, and it is not a late condition, when the
+limit holds must, never, only or ask. It can also stay when its sentence opens
+with "do not" or "don't". This exception does not cover an instruction that
+cannot be undone.
 
 When two checks match one sentence, report one finding and name both checks.
 
@@ -216,12 +217,12 @@ Roles above. Report it, and the user decides whether it becomes a rule.
   item is missing, change the sentence again, or keep the original sentence.
 - Never add a fact. A fix adds no reason, risk or example that the source does
   not give.
-- Keep each permission word that the sentence has, and add none. The words are
-  `must`, `never`, `only` and `ask`, as whole words in any letter case. A fix
-  to a line with one of these words is a planned change, as Planning Triggers
-  in `SKILL.md` says.
+- Keep each word or phrase that makes the line a permission line, as
+  Definitions in `SKILL.md` describes. Add none, except "Do not" when the fix
+  for an unclear modal gives the command form of a ban. A fix to a permission
+  line is a planned change, as Planning Triggers in `SKILL.md` says.
 - Treat a fix to a line that bans or limits an agent action as a fix to a
-  permission line. This holds with or without a permission word.
+  permission line. This holds whether or not the line is a permission line.
 - For an unclear reference, write the noun.
 - For two meanings, choose one term for each meaning. A new definition is a
   planned change.
