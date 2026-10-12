@@ -194,7 +194,7 @@ A decision has one of these statuses:
 
 | Status     | Meaning                                        |
 | ---------- | ---------------------------------------------- |
-| Open       | Not decided yet                                |
+| Open       | Not decided, not proposed, and not blocked     |
 | Proposed   | Proposed to you, waiting for your answer       |
 | Accepted   | Decided, by you or by the skill on your behalf |
 | Deferred   | Postponed, and outside this approval           |
@@ -294,7 +294,7 @@ one state to the next. One that only
 records paths, commands, conventions or constraints is static. Length does not
 decide it.
 
-Each case the skill accepts becomes a scenario test. A test names the
+Each case that passes the gate becomes a scenario test. A test names the
 trigger, what the agent must do, what it must not do, and the file that holds
 the rule.
 
@@ -364,8 +364,8 @@ as `Failed: Findings, Coverage`.
 Checks lists each step that ran. The steps are the check against your request
 or the plan, the coverage check, which fills the Coverage line, `check.py` and
 the evals. For a change to agent-setup-helper itself, they also include the
-behaviour tests. The judgement on a finding is "real problem", "acceptable"
-with the reason, or "unrelated", as Unrelated Problems below describes. A skill with
+behaviour tests. The judgement on a finding is "real problem", "not a real
+problem" with the reason, or "unrelated", as Unrelated Problems below describes. A skill with
 no `evals/evals.json` has no Evals line. That does not make the result Limited.
 
 **Example**
@@ -377,8 +377,8 @@ Rules section, which holds line 15, so its finding is not unrelated.
 ```text
 Result        Failed: Coverage
 Checks        Coverage check; check.py all
-Findings      permission-lines, SKILL.md:14: acceptable. A01 in the plan covers this added line.
-              safety S4-06, SKILL.md:15: acceptable. The line tells the agent never to use rm -rf.
+Findings      permission-lines, SKILL.md:14: not a real problem. A01 in the plan covers this added line.
+              safety S4-06, SKILL.md:15: not a real problem. The line tells the agent never to use rm -rf.
 Coverage      A02 not found: no line says "show the diff after every edit"
               A01 found: "The agent must ask before deleting a file." (line 14)
 ```
@@ -487,18 +487,18 @@ part of the result:
 A `check.py` finding is a real problem when it would make the agent act
 wrongly or unsafely, or two agents act differently. A finding that would make
 a platform reject the skill, or load it wrongly, is one too. So is a size
-finding over the limit. Any other finding is acceptable, and the report gives
-the reason.
+finding over the limit. Any other finding is not a real problem, and the
+report gives the reason.
 
 A safety match can be correct in a file about security, such as a list of scan
-patterns. A size finding near the limit can be acceptable.
+patterns. A size finding near the limit is not always a real problem.
 
 You can change the judgement of a `check.py` finding. Say which finding and how
-you judge it, such as "the size finding is acceptable". The report then marks
-it "judged by the user", and the result follows your judgement. Coverage and
-eval results stay as the skill found them. Two findings stay real problems
-whatever you say: a safety finding the skill judged real, and a permission
-line that changed with no plan.
+you judge it, such as "the size finding is not a real problem". The report
+then marks it "judged by the user", and the result follows your judgement.
+Coverage and eval results stay as the skill found them. Two findings stay
+real problems whatever you say: a safety finding the skill judged real, and a
+permission line that changed with no plan.
 
 **Result**
 
@@ -651,10 +651,6 @@ The label goes beside the severity, when one applies. A review also uses
 Insufficient Context for a part it could not assess, such as a reference that
 was not supplied.
 
-A note that is not a problem carries a status instead: `✅ Accepted`,
-`✅ Pass`, `🟢 Optional polish` or `⛔ Declined`. The skill's rules name these
-statuses but do not define them. These are not validation results.
-
 **Wording Checks**
 
 A review of a skill also looks for seven wording problems, based on
@@ -667,6 +663,13 @@ undone. The checks are
 listed in
 [`authoring-guidance.md`](../skills/agent-setup-helper/references/authoring-guidance.md),
 under Plain Wording Checks.
+
+For a word with two meanings, the review also searches each named term across
+`SKILL.md` and every reference.
+
+In a test on this skill in October 2026, reviewers found 2 or 3 of 8 known
+wording problems. About two in three of their findings were real. A review
+with no wording findings is weak evidence that the wording is clear.
 
 ## Safety Scanning
 

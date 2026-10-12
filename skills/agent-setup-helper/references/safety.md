@@ -30,7 +30,7 @@ expression. `flags` takes any of `ignorecase`, `dotall` and `multiline`,
 separated by commas. `finds` says what a match means.
 
 A malformed record or an invalid expression is reported with its id and line,
-then skipped, and the `safety` check becomes Limited.
+then skipped, and the `safety` check becomes `limited`.
 
 ## S1: Instruction Manipulation
 

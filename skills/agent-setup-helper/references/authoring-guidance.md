@@ -198,6 +198,16 @@ skip goes in the report, with the reason.
 | Hidden actor | Two actors in the skill can do the action, and the sentence names neither | "The file is updated before the merge." |
 | Unclear modal | "should" or "may" has two readings that change what the agent does | "may" as a permission, or as a possibility |
 
+For Two meanings, also sweep the terms:
+
+1. List each term the skill defines, each name in a table of statuses,
+   results, endings or labels, and each capitalised word used as a name.
+2. Search each term across `SKILL.md` and every reference, in every word
+   form and letter case.
+3. Read the section around each use, then apply the two-readings test.
+4. For each term that fails the test, report one finding. Name each meaning,
+   and the lines that use the term in each meaning.
+
 A limit can stay after its instruction, and it is not a late condition, when the
 limit holds must, never, only or ask. It can also stay when its sentence opens
 with "do not" or "don't". This exception does not cover an instruction that

@@ -221,7 +221,8 @@ never tested against each other.
 4. Generalise the decision into a reusable rule.
 5. Test the rule against neighbouring behaviours.
 6. Confirm one clear owner.
-7. Accept the rule before moving on.
+7. The user accepts the rule, or hands the choice to the agent, before
+   moving on.
 ```
 
 ## Discovery Prompts
@@ -241,9 +242,9 @@ Use these repeatedly.
 
 ## Rule-Addition Gate
 
-Classify every case before accepting it. Most cases do not deserve a rule, and
-a skill that adds one per case becomes unreadable long before it becomes
-complete.
+Classify every case at the gate before its rule goes to the user. Most
+cases do not deserve a rule, and a skill that adds one per case becomes
+unreadable long before it becomes complete.
 
 Ask first: would the agent get this wrong without a rule? Evidence counts: an
 observed failure, an eval or baseline run without the rule, or an existing
@@ -251,9 +252,9 @@ rule that reads two ways.
 
 - An unsafe or irreversible case, the kind lens 14 names, gets its rule
   without waiting for evidence. A rule that arrives after the first lost file arrives too late.
-- Any other case that only imagination supports is not accepted. It goes to
-  the decision log with its scenario test, closed, and does not count against
-  the freeze.
+- Any other case that only imagination supports does not pass the gate. It
+  goes to the decision log with its scenario test, closed, and does not count
+  against the freeze.
 
 **Example**
 
@@ -286,7 +287,7 @@ group and try again.
 
 ## Scenario Tests
 
-Every accepted case becomes a scenario test in this shape.
+Every case that passes the gate becomes a scenario test in this shape.
 
 ```text
 Trigger    What happens
@@ -303,7 +304,7 @@ The case discussion goes to the decision log, not into the skill.
 
 ### Which Tests Persist
 
-During discovery, every accepted case has a test.
+During discovery, every case that passes the gate has a test.
 
 At delivery, only High-severity tests persist in the built skill's
 `tests/behaviour.md`, proposed through the Approval Brief. Those persisted
@@ -320,7 +321,7 @@ Discovery is finished when all five hold.
    owner.
 2. Triggers, boundaries and stop conditions are observable.
 3. No contradiction is open, and superseded rules have been removed.
-4. Every accepted case has a passing scenario test.
+4. Every case that passes the gate has a passing scenario test.
 5. After the freeze, a new case reopens the design only if its scenario test
    fails and the case passes the gate.
 

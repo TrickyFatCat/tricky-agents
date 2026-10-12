@@ -5,13 +5,12 @@ Load this reference when there is an artefact to assess.
 ## Boundary
 
 Sections, in order: Default Shape; Finding Shape; Severity; Severity Order;
-Status Labels; Principles; Insufficient Context; Final Checks.
+Principles; Insufficient Context; Final Checks.
 
 This file answers two questions: what is wrong with this artefact, and how bad
 is it?
 
-It owns the review shape, the finding shape, the Severity Order and the status
-labels.
+It owns the review shape, the finding shape and the Severity Order.
 
 It does not own what to look for. `authoring-guidance.md` holds the design
 criteria, `agents-md.md` the criteria for an `AGENTS.md`, and `safety.md` the
@@ -102,15 +101,6 @@ When several problems exist at once, prefer this order.
 
 The order is by what the agent does wrong, not by how much text is affected.
 A single ambiguous permission line outranks a whole file of awkward wording.
-
-## Status Labels
-
-Use these for notes that are not problems.
-
-- `Status: ✅ Accepted`
-- `Status: ✅ Pass`
-- `Status: 🟢 Optional polish`
-- `Status: ⛔ Declined`
 
 ## Principles
 

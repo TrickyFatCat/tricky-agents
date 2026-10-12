@@ -219,14 +219,14 @@ Map each check's status:
 
 Findings are not failures and not passes. Each one is read and judged. A
 safety match may be a legitimate pattern in a security file; a near-limit size
-finding may be acceptable.
+finding is not always a real problem.
 
 Judge a script finding by Severity in `review.md`. A High or Medium finding is
 a real problem. A finding that would make a platform reject the skill, or
 load it wrongly, is High. A size finding over the limit is a real problem. A
 finding that matches another Failed cause, such as a permission line that no
-plan covered, is a real problem at any severity. A Low finding is acceptable,
-and the report gives the reason.
+plan covered, is a real problem at any severity. Any other Low finding is not
+a real problem, and the report gives the reason.
 
 The user may change the judgement of a script finding. The report marks that
 finding "judged by the user", and the result follows from it. Two findings
@@ -298,7 +298,7 @@ the user.
 A permission line in a file the plan creates and names is covered by that
 plan. Compare it with the planned content.
 
-When the check compares with the last commit, flags caused by earlier
+When the check compares with the last commit, findings caused by earlier
 uncommitted changes are expected. Check each against
 the diff rather than treating the list as the change.
 

@@ -62,6 +62,15 @@ Entries sit in plan order. Mark the current entry with an arrow.
 
 ### Status Rules
 
+| Status | Meaning |
+|---|---|
+| Open | Not decided, not yet put to the user, and not waiting for another entry |
+| Proposed | Put to the user, waiting for the answer |
+| Accepted | Decided by the user, or by the agent under an explicit delegation |
+| Deferred | Postponed, outside the approval scope |
+| Blocked | Waits for another entry, named by its ID |
+| Superseded | Replaced by a newer entry, which it names. The row stays |
+
 **Blocked** names the ID it waits for. "Blocked" alone is a mood; "Blocked by
 A02" is a dependency that can be checked.
 

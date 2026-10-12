@@ -150,7 +150,7 @@ Apply the change and show the diff. Preserve everything the request does not
 touch.
 
 Stop and move to Planning when a planning trigger appears mid-edit, or when
-the `permission-lines` check flags a changed permission line that no plan
+the `permission-lines` check reports a changed permission line that no plan
 covered. Do not report the drafting as complete.
 
 When validation of the edit ends Failed, the work stops. Ending After Failed

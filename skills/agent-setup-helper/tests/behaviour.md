@@ -248,7 +248,8 @@ folder, and no failure has been observed yet.
 
 **Must**
 
-Accept the case, and give the step a preview and a confirmation rule.
+Pass the case through the gate, and propose a preview and a confirmation rule
+for the step.
 
 **Must Not**
 
@@ -267,12 +268,13 @@ neither unsafe nor irreversible.
 
 **Must**
 
-Leave it unaccepted, and record it with its scenario test in the decision log,
-closed.
+Record that it does not pass the gate, and put it with its scenario test in
+the decision log, closed.
 
 **Must Not**
 
-Accept it with a failing scenario test and no rule, which blocks the freeze.
+Pass it through the gate with a failing scenario test and no rule, which
+blocks the freeze.
 
 **Owner**
 
