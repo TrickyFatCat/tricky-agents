@@ -425,8 +425,8 @@ Every run works in its own temporary folder. An eval that asks for an edit
 never touches your files. Results go to a temporary folder outside the skill
 folder. When the work ends and the report gives each result, the skill
 deletes the folders it made for the evals: the results folder and each run
-folder. It keeps them if you ask, and the Evals line names them. To keep
-them after a Passed or Limited result, ask before validation starts.
+folder. The Evals line names these folders. The skill keeps them if you ask.
+To keep them after a Passed or Limited result, ask before validation starts.
 
 Each entry in `evals/evals.json` holds a test prompt, the behaviour that must
 happen, the behaviour that must not, and the file and section that hold the
