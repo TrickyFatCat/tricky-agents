@@ -337,7 +337,8 @@ The brief is the last step of planning. It has these parts, in this order:
     It also lists each line that bans or limits what the agent does, even
     when it is not a permission line.
 4. **Deferred** — postponed decisions, when there are any.
-5. **Validation** — how the skill will check the change.
+5. **Validation** — how the skill will check the change, and each `process`
+   decision, with its ID.
 
 The brief ends with one approval question and nothing after it.
 
@@ -352,7 +353,7 @@ Result        Passed, Limited or Failed; after Failed, the report lines that hol
 Checks        What was actually checked
 Findings      What each check found, including the check against your request or plan, and the behaviour tests, with the judgement on each
 Evals         Each eval's result before and after the change, and any that did not run
-Coverage      Each accepted decision: those not found first, then those found, with the matching line
+Coverage      Each accepted decision, other than a process one: those not found first, then those found, with the matching line
 Limitations   What could not be checked, and why, including each check that did not run, other than an eval
 ```
 
@@ -421,8 +422,8 @@ no evals, and they do not count as missing.
 Each eval runs on the changed skill and on a copy of the whole skill. The
 skill makes this copy before the change, outside the skill folder.
 Every run works in its own temporary folder. An eval that asks for an edit
-never touches your files. Unless you ask to keep them, the skill deletes these
-folders when the work ends, after the report. The report names them.
+never touches your files. Unless you ask to keep them, the skill deletes the
+run folders when the work ends, after the report. The report names them.
 
 Each entry in `evals/evals.json` holds a test prompt, the behaviour that must
 happen, the behaviour that must not, and the file and section that hold the
@@ -497,8 +498,8 @@ as a permission line that no plan covered. Any other finding is not a real
 problem, and the report gives the reason.
 
 A safety match can be correct in a file about security, such as a list of scan
-patterns. A size finding near the limit is Low, because the skill is not over
-the limit.
+patterns. A size finding near the limit is Low, so it is not a real problem,
+because the skill is not over the limit.
 
 You can change the judgement of a `check.py` finding. Say which finding and how
 you judge it, such as "the size finding is not a real problem". The report
@@ -521,6 +522,7 @@ When results mix, Failed wins over Limited, and Limited wins over Passed.
 
 Passed and Limited both end the work. You do not need to do more for this
 change. The Limitations line names each check that did not run, and the reason.
+An eval that did not run is on the Evals line instead.
 
 **After Failed**
 
@@ -588,15 +590,15 @@ keeps the first copy so that it can still restore that part. If the new plan
 ends with Abandon, the skill also offers to restore the part from the first
 copy.
 
-When an ending ends the work and you have answered every restore offer, the
-skill reports again: the Safety line, the Result line with the ending, each
+When the work ends with Accept or Abandon, and you have answered every restore
+offer, the skill reports again: the Safety line, the Result line with the ending, each
 line that still holds an open Failed cause, and any safety finding. Accept
 does not close a cause. Only a later change that fixes it does.
 
 When you refuse every restore, and plan each part that Accept asks about,
 both endings leave the same files. After Accept, the change stands, with its
-open causes. After Abandon, the change is
-given up, and a later plan takes the files as they are.
+open causes. After Abandon, the change is given up, and a later plan takes
+the files as they are.
 
 Before it gives you the report, the skill fixes small editorial mistakes, such
 as a typo. It also fixes a file that does not match the plan, when the fix needs
@@ -616,14 +618,16 @@ that needs approval, and any other recovery, goes through Planning.
 
 **Coverage**
 
-Each accepted decision must appear in the file its register row named. The
+Each accepted decision, other than a `process` one, must appear in the file
+its register row named. The
 skill counts a decision as found when that file states the same behaviour, at
 the same strength and under the same conditions. For each decision it finds,
 the report quotes the matching line.
 
 A decision marked `process`, such as how a test is scored, holds no rule in a
-file. The Approval Brief states it under Validation, and the skill checks the
-work against it there, not on the Coverage line.
+file. The Approval Brief states it under Validation. The check against the
+plan checks the work against it, and the Findings line gives the result. The
+Coverage line leaves it out.
 
 Weaker wording does not count. "Should ask" in the file does not cover a
 decision that says "must ask".
