@@ -157,11 +157,13 @@ user asks to plan, return to Planning. A plan clears these causes only by a
 change that no longer touches what the check covers.
 
 - **Accept.** The Failed causes inside the approved scope, or inside the request
-  after Direct Drafting, stay open, and the work ends. Content outside that
+  after Direct Drafting, stay open. Content outside that
   scope cannot be accepted. Ask the user about each piece of outside content:
   restore it from the baseline, or plan it. Restore only those lines or files,
   and only when the user chooses restore. A piece that the user plans starts a
-  new plan after this work ends, as Baseline describes.
+  new plan after this work ends, as Baseline describes. The work ends when
+  every piece of outside content is restored or planned, or at once when
+  there is none.
 - **Abandon.** The change ends and the files stay as they are. Offer an exact
   restore from the baseline. Restore only on the user's yes, then confirm
   that the files match the baseline.
@@ -339,8 +341,9 @@ when the description changes, about 3 times each, as the trigger testing in
 Results go to a temporary folder outside the skill folder. They are never
 committed.
 
-Unless the user asks to keep them, delete the eval run folders this work made
-when the work ends, after the report gives each result. The report names the
+Unless the user asks to keep them, wait until the work ends and the report
+gives each result. Then delete the folders that this work made for the evals:
+the results folder and each eval run folder. The Evals line names the
 folders.
 
 An eval is never edited to make the change under validation pass. Changing or

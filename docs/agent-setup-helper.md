@@ -422,8 +422,11 @@ no evals, and they do not count as missing.
 Each eval runs on the changed skill and on a copy of the whole skill. The
 skill makes this copy before the change, outside the skill folder.
 Every run works in its own temporary folder. An eval that asks for an edit
-never touches your files. Unless you ask to keep them, the skill deletes the
-run folders when the work ends, after the report. The report names them.
+never touches your files. Results go to a temporary folder outside the skill
+folder. When the work ends and the report gives each result, the skill
+deletes the folders it made for the evals: the results folder and each run
+folder. It keeps them if you ask, and the Evals line names them. To keep
+them after a Passed or Limited result, ask before validation starts.
 
 Each entry in `evals/evals.json` holds a test prompt, the behaviour that must
 happen, the behaviour that must not, and the file and section that hold the
@@ -535,13 +538,14 @@ you to choose one of three paths:
 - **Return to Planning.** This is the default. A reply that chooses neither
     ending also returns to Planning, after a Direct Drafting edit as well.
 - **Accept the Failed result.** The Failed causes inside the approved change,
-    or inside your request for a Direct Drafting edit, stay open, and the work
-    ends. The Result line says Failed and adds "ended: Failed accepted". You
+    or inside your request for a Direct Drafting edit, stay open. You
     cannot accept a change that you did not approve or ask for. The skill asks
     about each such part: restore it from the copy the skill made before the
     change, or plan it. It restores
     only the parts you choose. A part you plan gets its own plan after this
-    work ends.
+    work ends. The work ends when every such part is restored or planned,
+    or at once when there is none. The Result line then says Failed and
+    adds "ended: Failed accepted".
 - **Abandon.** The change ends, and the files stay as they are. The skill
     offers an exact restore from the copy, and restores only when you say
     yes. An exact restore puts back each file that changed, and deletes each
