@@ -294,9 +294,11 @@ one state to the next. One that only
 records paths, commands, conventions or constraints is static. Length does not
 decide it.
 
-Each case that passes the gate becomes a scenario test. A test names the
-trigger, what the agent must do, what it must not do, and the file that holds
-the rule.
+A case gets a rule when it is unsafe or cannot be undone, or when there is
+evidence that the agent gets it wrong without one. You accept that rule, or
+hand the choice to the skill. Each such case becomes a scenario test. A test
+names the trigger, what the agent must do, what it must not do, and the file
+that holds the rule.
 
 A case can have High severity, as [Reviews](#reviews) defines it. Its test then
 goes into `tests/behaviour.md` in the skill folder. The brief lists that file,
@@ -487,8 +489,9 @@ part of the result:
 A `check.py` finding is a real problem when it would make the agent act
 wrongly or unsafely, or two agents act differently. A finding that would make
 a platform reject the skill, or load it wrongly, is one too. So is a size
-finding over the limit. Any other finding is not a real problem, and the
-report gives the reason.
+finding over the limit, and a finding that matches another Failed cause, such
+as a permission line that no plan covered. Any other finding is not a real
+problem, and the report gives the reason.
 
 A safety match can be correct in a file about security, such as a list of scan
 patterns. A size finding near the limit is not always a real problem.
@@ -664,8 +667,9 @@ listed in
 [`authoring-guidance.md`](../skills/agent-setup-helper/references/authoring-guidance.md),
 under Plain Wording Checks.
 
-For a word with two meanings, the review also searches each named term across
-`SKILL.md` and every reference.
+To find a word with two meanings, the review lists each term the skill
+defines, such as each status in a table. It searches each one across
+`SKILL.md` and every reference, and reports each term used in two meanings.
 
 In a test on this skill in October 2026, reviewers found 2 or 3 of 8 known
 wording problems. About two in three of their findings were real. A review
