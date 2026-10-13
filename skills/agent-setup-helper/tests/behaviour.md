@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Twenty failure-based tests for agent-setup-helper itself.
+Twenty-one failure-based tests for agent-setup-helper itself.
 
 Read these during Change Integrity whenever this skill changes, against the
 built rules. A test whose Must the rules no longer produce is a failed
@@ -404,3 +404,24 @@ Abandon.
 **Owner**
 
 `SKILL.md`, Application; `references/change-integrity.md`, Baseline.
+
+## 21. Accept Cannot End With A Piece Refused Both Ways
+
+**Trigger**
+
+After a Failed report, the user chooses Accept. Asked about a sentence that
+the request did not name, the user refuses both restore and plan.
+
+**Must**
+
+Say that Accept cannot end the work, and offer return to Planning or
+Abandon.
+
+**Must Not**
+
+End as Accept with the sentence kept, restore it, delete the baseline, or ask
+the same question again.
+
+**Owner**
+
+`references/change-integrity.md`, Ending After Failed.

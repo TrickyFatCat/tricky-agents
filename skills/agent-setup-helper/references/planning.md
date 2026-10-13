@@ -49,7 +49,7 @@ decision and its status are the same thing recorded twice otherwise.
 | ID | A stable identifier, never reused |
 | Status | Open, Proposed, Accepted, Deferred, Blocked, Superseded |
 | Rule | The decision, written as the rule it becomes |
-| Owner | The file that will hold the rule |
+| Owner | The file that will hold the rule, or `process` for a decision about how this work is done or checked |
 | Supersedes | The earlier rule or ID this replaces |
 
 Entries sit in plan order. Mark the current entry with an arrow.
@@ -95,6 +95,10 @@ it.
 Owner is the file that will hold the rule. It is not the same as authority,
 which is who may set the rule. Record the owner, because validation later
 checks that every accepted entry appears in the file named here.
+
+A `process` entry holds no rule in the built files. The Approval Brief states
+the entry in its Validation section, and validation checks the work against
+the entry.
 
 ### Storage
 
@@ -300,7 +304,8 @@ Postponed open decisions, if any.
 
 ## Validation
 
-How the applied change will be checked.
+How the applied change will be checked, and each process entry,
+with its ID.
 ```
 
 Keep the order: Change, Scope, Files, Deferred, Validation.

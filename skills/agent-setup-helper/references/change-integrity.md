@@ -130,7 +130,8 @@ skipped, including at the user's request.
 
 Such a check is Limited only when it cannot change the result for this change.
 It can when the diff changed something the check covers. When that is unclear,
-the result is Failed, and the report says which check and which file.
+the result is Failed, and the Limitations line says which check and which
+file.
 
 Before reporting that a script cannot run, rule out a path error, as Gotchas in
 `SKILL.md` describes.
@@ -165,6 +166,11 @@ change that no longer touches what the check covers.
   restore from the baseline. Restore only on the user's yes, then confirm
   that the files match the baseline.
 
+When the user refuses both restore and plan for a piece of outside content,
+Accept cannot end the work, and no ending is chosen yet. Say so, and offer the
+other two paths: return to Planning, or Abandon, which keeps the files as
+they are.
+
 A reply chooses an ending only when it names the ending or states its effect:
 keep the change with its open causes (Accept), or give the change up
 (Abandon). When a reply fits both endings, ask. A reply that chooses neither
@@ -179,6 +185,10 @@ any safety finding.
 
 Every accepted decision must appear in the file named as its owner in the
 register.
+
+An entry whose owner is `process` is not looked for in a file, and the
+Coverage line leaves it out. Validation step 1 checks the work against that
+entry, and the Findings line gives the result.
 
 A decision is found when its owner file states the same behaviour at the same
 strength (must, may, never) and under the same conditions. Exact wording is
@@ -218,8 +228,8 @@ Map each check's status:
 | `error` | Did not run; Missing Checks decides |
 
 Findings are not failures and not passes. Each one is read and judged. A
-safety match may be a legitimate pattern in a security file; a near-limit size
-finding is not always a real problem.
+safety match may be a legitimate pattern in a security file; a size finding
+near the limit is Low, because the skill is not over the limit.
 
 Judge a script finding by Severity in `review.md`. A High or Medium finding is
 a real problem. A finding that would make a platform reject the skill, or
@@ -328,6 +338,10 @@ when the description changes, about 3 times each, as the trigger testing in
 
 Results go to a temporary folder outside the skill folder. They are never
 committed.
+
+Unless the user asks to keep them, delete the eval run folders this work made
+when the work ends, after the report gives each result. The report names the
+folders.
 
 An eval is never edited to make the change under validation pass. Changing or
 removing an eval is a planned change of its own.
@@ -491,8 +505,9 @@ Checks        What was actually checked
 Findings      What each check found, including Validation steps 1 to 3 and
               the behaviour tests, and the judgement on each
 Evals         Each eval's result on both versions, and any that did not run
-Coverage      Every accepted decision: not found first, then found, with its quoted line
-Limitations   What could not be checked, and why
+Coverage      Every accepted decision other than a `process` entry: not found first, then found, with its quoted line
+Limitations   What could not be checked, and why, including each check that
+              did not run, other than an eval
 ```
 
 A decision whose owner file does not exist is listed as "owner file missing",
@@ -505,5 +520,10 @@ report exists to do.
 When the result is Failed, the Result line names each report line that holds
 a Failed cause, such as `Failed: Findings, Coverage`. After an ending, it adds
 the ending: `Failed: Coverage; ended: Failed accepted`.
+
+When an ending ends the work and every restore offer is answered, report
+again: the Safety line, the Result line, each line that still holds an open
+Failed cause, and any safety finding. This is the report that Ending After
+Failed means.
 
 Omit a line that has nothing in it, except Result.

@@ -161,7 +161,8 @@ the decision you are on. Each row shows:
 - the decision ID, never reused or renumbered;
 - the status;
 - the rule;
-- the file that will hold the rule.
+- the file that will hold the rule, or `process` for a decision about how
+  the work is done or checked.
 
 ```text
     A01  Accepted  Discussion is the default for design talk   SKILL.md
@@ -352,7 +353,7 @@ Checks        What was actually checked
 Findings      What each check found, including the check against your request or plan, and the behaviour tests, with the judgement on each
 Evals         Each eval's result before and after the change, and any that did not run
 Coverage      Each accepted decision: those not found first, then those found, with the matching line
-Limitations   What could not be checked, and why
+Limitations   What could not be checked, and why, including each check that did not run, other than an eval
 ```
 
 The report leaves out a line with nothing in it, except Result. A Direct
@@ -420,7 +421,8 @@ no evals, and they do not count as missing.
 Each eval runs on the changed skill and on a copy of the whole skill. The
 skill makes this copy before the change, outside the skill folder.
 Every run works in its own temporary folder. An eval that asks for an edit
-never touches your files.
+never touches your files. Unless you ask to keep them, the skill deletes these
+folders when the work ends, after the report. The report names them.
 
 Each entry in `evals/evals.json` holds a test prompt, the behaviour that must
 happen, the behaviour that must not, and the file and section that hold the
@@ -468,7 +470,8 @@ you ask for counts too.
 
 Such a check gives Limited only when it cannot affect this change. When the
 change edited something the check covers, the result is Failed. When the skill
-cannot tell, the result is Failed, and the report names the check and the file.
+cannot tell, the result is Failed, and the Limitations line names the check
+and the file.
 
 **Example**
 
@@ -494,7 +497,8 @@ as a permission line that no plan covered. Any other finding is not a real
 problem, and the report gives the reason.
 
 A safety match can be correct in a file about security, such as a list of scan
-patterns. A size finding near the limit is not always a real problem.
+patterns. A size finding near the limit is Low, because the skill is not over
+the limit.
 
 You can change the judgement of a `check.py` finding. Say which finding and how
 you judge it, such as "the size finding is not a real problem". The report
@@ -542,6 +546,11 @@ you to choose one of three paths:
     file that the change added. The Result line says Failed and adds "ended:
     abandoned".
 
+Under Accept, when you refuse both restore and plan for a part, Accept cannot
+end the work, and no ending is chosen yet. The skill says so and offers the
+other two paths: return to Planning, or Abandon, which keeps the files as
+they are.
+
 The prompt also says that you can change the judgement of a `check.py`
 finding.
 
@@ -579,12 +588,14 @@ keeps the first copy so that it can still restore that part. If the new plan
 ends with Abandon, the skill also offers to restore the part from the first
 copy.
 
-After either ending, the report still lists each open Failed cause and any
-safety finding. Accept does not close a cause. Only a later change that fixes
-it does.
+When an ending ends the work and you have answered every restore offer, the
+skill reports again: the Safety line, the Result line with the ending, each
+line that still holds an open Failed cause, and any safety finding. Accept
+does not close a cause. Only a later change that fixes it does.
 
-When you refuse every restore, both endings leave the same files. After
-Accept, the change stands, with its open causes. After Abandon, the change is
+When you refuse every restore, and plan each part that Accept asks about,
+both endings leave the same files. After Accept, the change stands, with its
+open causes. After Abandon, the change is
 given up, and a later plan takes the files as they are.
 
 Before it gives you the report, the skill fixes small editorial mistakes, such
@@ -609,6 +620,10 @@ Each accepted decision must appear in the file its register row named. The
 skill counts a decision as found when that file states the same behaviour, at
 the same strength and under the same conditions. For each decision it finds,
 the report quotes the matching line.
+
+A decision marked `process`, such as how a test is scored, holds no rule in a
+file. The Approval Brief states it under Validation, and the skill checks the
+work against it there, not on the Coverage line.
 
 Weaker wording does not count. "Should ask" in the file does not cover a
 decision that says "must ask".
