@@ -352,7 +352,7 @@ Safety        Safety problems outside the change, with file and line
 Result        Passed, Limited or Failed; after Failed, the report lines that hold each cause, and the ending once you choose one
 Checks        What was actually checked
 Findings      What each check found, including the check against your request or plan, and the behaviour tests, with the judgement on each
-Evals         Each eval's result before and after the change, and any that did not run
+Evals         Each eval's result before and after the change, any that did not run, and the eval folders
 Coverage      Each accepted decision, other than a process one: those not found first, then those found, with the matching line
 Limitations   What could not be checked, and why, including each check that did not run, other than an eval
 ```
@@ -424,9 +424,11 @@ skill makes this copy before the change, outside the skill folder.
 Every run works in its own temporary folder. An eval that asks for an edit
 never touches your files. Results go to a temporary folder outside the skill
 folder. When the work ends and the report gives each result, the skill
-deletes the results folder and each run folder made during this work. The
-skill keeps them if you ask. To keep them after a Passed or Limited result,
-ask before validation starts. The Evals line names these folders.
+deletes each of these folders made during this work: the results folder and
+each run folder. The skill keeps them if you ask before the work ends. After
+a Passed or Limited result, the work ends with the report, so ask before
+validation starts. After a Failed result, you can still ask when you choose how
+the work ends. The Evals line names these folders.
 
 Each entry in `evals/evals.json` holds a test prompt, the behaviour that must
 happen, the behaviour that must not, and the file and section that hold the

@@ -341,9 +341,11 @@ when the description changes, about 3 times each, as the trigger testing in
 Results go to a temporary folder outside the skill folder. They are never
 committed.
 
-Wait until the work ends and the report gives each result. Then, unless the
-user asks to keep the folders, delete the results folder and each eval run
-folder that this work made. The Evals line names these folders.
+A request to keep the eval folders counts when the user sends it before the work
+ends. Wait until the work ends and the report gives each result. Then, unless
+the user asked to keep the folders, delete each of these folders that this work
+made: the results folder and each eval run folder. The Evals line names these
+folders.
 
 An eval is never edited to make the change under validation pass. Changing or
 removing an eval is a planned change of its own.
@@ -506,7 +508,7 @@ Result        Passed, Limited or Failed, with cause lines and any ending
 Checks        What was actually checked
 Findings      What each check found, including Validation steps 1 to 3 and
               the behaviour tests, and the judgement on each
-Evals         Each eval's result on both versions, and any that did not run
+Evals         Each eval's result on both versions, any that did not run, and the eval folders
 Coverage      Every accepted decision other than a `process` entry: not found first, then found, with its quoted line
 Limitations   What could not be checked, and why, including each check that
               did not run, other than an eval
