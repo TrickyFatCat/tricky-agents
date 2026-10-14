@@ -341,10 +341,9 @@ when the description changes, about 3 times each, as the trigger testing in
 Results go to a temporary folder outside the skill folder. They are never
 committed.
 
-Unless the user asks to keep them, wait until the work ends and the report
-gives each result. Then delete the folders that this work made for the evals:
-the results folder and each eval run folder. The Evals line names the
-folders.
+Wait until the work ends and the report gives each result. Then, unless the
+user asks to keep the folders, delete the results folder and each eval run
+folder that this work made. The Evals line names these folders.
 
 An eval is never edited to make the change under validation pass. Changing or
 removing an eval is a planned change of its own.
