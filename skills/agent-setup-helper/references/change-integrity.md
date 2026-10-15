@@ -220,6 +220,15 @@ python3 <this-skill-dir>/scripts/check.py all <skill-dir>
 
 Add `--base <baseline>` when a baseline exists, as Permission Lines says.
 
+For an `AGENTS.md`, run the two checks that fit one file, on the file itself:
+
+```bash
+python3 <this-skill-dir>/scripts/check.py permission-lines <AGENTS.md> --base <copy>
+python3 <this-skill-dir>/scripts/check.py safety <AGENTS.md>
+```
+
+The spec, routes and size checks are for a skill, not for an `AGENTS.md`.
+
 Map each check's status:
 
 | Script status | Validation |
@@ -295,7 +304,8 @@ file.
 
 Pass the baseline with `--base` whenever one exists, under git as well.
 Baseline in Evals says when the agent makes it and when the agent deletes it.
-A copy made after the first change is not a baseline. The agent makes that
+A copy made after the first change of the file it copies is not a baseline.
+The agent makes that
 copy; the script never writes.
 
 Without a baseline, under git, the check compares with the last commit. In
@@ -352,13 +362,32 @@ removing an eval is a planned change of its own.
 
 ### Baseline
 
-Before the first change of the work, copy the whole skill to a folder
-outside the skill folder. That copy is the baseline. It serves the `--base`
-of `permission-lines`, the evals, and an exact restore after
-Abandon. Later changes in the same work do not copy again.
+Before the first change of the work, make the baseline. It serves the `--base`
+of `permission-lines`, the evals, and an exact restore after Abandon. Work that
+changes a skill and an `AGENTS.md` makes both baselines, and each restore below
+covers its own files.
 
-An exact restore puts back each file of the baseline that changed, and
-deletes each file that the baseline does not hold.
+For a skill, copy the whole skill to a folder outside the skill folder. Later
+changes in the same work do not copy it again.
+
+For an `AGENTS.md`, copy each file by content before the work first changes it,
+and list each file before the work creates it. Such a copy joins the first
+baseline. Keep the copies outside the folder that holds the highest `AGENTS.md`
+the work changes, and every folder below it, at the same paths relative to that
+folder. For a symbolic link, the folder that holds the link counts. Copy the
+file the link points to, under the name of the link, and note the link and its
+target beside the copy. The Checks line of the validation report names the
+folder that holds the copies.
+
+An exact restore of a skill puts back each file of the baseline that changed,
+and deletes each file that the baseline does not hold.
+
+An exact restore after an `AGENTS.md` change puts back each copied file and
+deletes each listed created file. It changes no other file. It writes through a
+symbolic link into the file the link points to, and never replaces the link.
+When the work replaced a noted link with a regular file, tell the user, and
+recreate the link only on their yes. A changed file that the baseline does not
+hold cannot be restored. Name it to the user, and leave it as it is.
 
 After Accept, when a piece of outside content goes to Planning, keep the
 baseline. The plan

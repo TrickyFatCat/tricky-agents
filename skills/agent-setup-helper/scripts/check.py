@@ -135,6 +135,9 @@ FLAG_NAMES = {
 # WARNING: Keep "all" last, because run() runs every item before it.
 SUBCOMMANDS = ("spec", "routes", "size", "permission-lines", "safety", "all")
 
+# One file takes just these two checks. The others read a skill folder.
+SINGLE_FILE_SUBCOMMANDS = ("permission-lines", "safety")
+
 
 class UsageError(Exception):
     """Raised for a bad invocation.
@@ -967,10 +970,11 @@ def _add_record(record, line_number, patterns, problems):
     )
 
 
-def check_safety(skill, patterns_path):
+def check_safety(skill, patterns_path, targets=None):
     """Scans each text file of the skill for the patterns in patterns_path.
 
     Matches one line at a time.
+    targets, when given, lists the files to scan in place of the skill's files.
     Reports an error when patterns_path cannot be read.
     Reports an error when a group in PATTERN_GROUPS has no valid pattern.
     Reports limited when a pattern record was skipped.
@@ -1023,7 +1027,7 @@ def check_safety(skill, patterns_path):
     # Other pattern files in the skill are still scanned and may match.
     excluded = patterns_path.resolve()
     skipped = []
-    for path in scannable_files(skill):
+    for path in (targets or scannable_files(skill)):
         if path.resolve() == excluded:
             continue
         try:
@@ -1161,6 +1165,7 @@ def check_permission_lines(skill, base, files):
     The baseline is the folder base when it is given.
     Otherwise it is the last git commit, so uncommitted edits are reported too.
     files limits the check to those files.
+    A single-file run passes that file as files and a copy of it as base.
     An empty files list means every .md, .py, .sh and .nu file in the skill.
     Without any baseline, lists every permission line and reports limited.
     A file the baseline does not hold is compared with an empty file, so each
@@ -1253,9 +1258,12 @@ def _baseline_text(path, skill, base, top):
     or None when the baseline cannot be read.
 
     With base, reads the file at the same path relative to base.
+    When base is a file, reads that file, because a single-file run has one.
     Otherwise reads it from the last commit of the repository at top.
     """
     if base is not None:
+        if base.is_file():
+            return read_text(base)
         candidate = base / rel(path, skill)
         if candidate.is_file():
             return read_text(candidate)
@@ -1288,6 +1296,11 @@ subcommands:
   safety            pattern matches from references/safety.md
   all               every check above, in one report
 
+one file:
+  Give a file in place of a skill folder to run permission-lines or safety on
+  it. --base is then a copy of that file. spec, routes, size, all and --files
+  are usage errors.
+
 exit codes:
   0  every check passed
   1  at least one check has findings
@@ -1302,16 +1315,20 @@ Output is JSON on stdout; diagnostics go to stderr. Nothing is ever written.
 def build_parser():
     parser = argparse.ArgumentParser(
         prog="check.py",
-        description="Mechanical checks for an agent Skill folder.",
+        description="Mechanical checks for an agent Skill folder, or for one file.",
         epilog=HELP_EPILOG,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument("subcommand", choices=SUBCOMMANDS)
-    parser.add_argument("skill_dir", help="Path to the skill folder")
+    parser.add_argument(
+        "skill_dir",
+        help="Path to the skill folder, or to one file (permission-lines, safety)",
+    )
     parser.add_argument(
         "--base",
         metavar="PATH",
-        help="Baseline copy for permission-lines, outside the skill folder",
+        help="Baseline copy for permission-lines, outside the skill folder. "
+        "For one file, a copy of that file",
     )
     parser.add_argument(
         "--files",
@@ -1338,7 +1355,9 @@ def default_patterns_path():
 def resolve_arguments(args):
     """Checks the command-line arguments and turns them into resolved paths.
 
-    Returns (skill, patterns, base, files).
+    Returns (skill, patterns, base, files, checked).
+    checked is the resolved path as given: the skill folder, or one file.
+    For one file, skill is the folder that holds it and files lists it.
     base is None when --base is not given.
     files is empty when --files is not given.
     A relative --files path starts at the skill folder.
@@ -1346,11 +1365,25 @@ def resolve_arguments(args):
     Raises UsageError when a path or SKILL.md is missing.
     Raises UsageError when --patterns or --base is inside the skill folder.
     Raises UsageError when a --files path is outside the skill folder.
+    For one file, raises UsageError when the subcommand is not in
+    SINGLE_FILE_SUBCOMMANDS, when --files is given, when --base is not a file,
+    or when --base is the checked file.
     """
     skill = Path(args.skill_dir).resolve()
-    if not skill.is_dir():
+    checked = skill
+    single = checked.is_file()
+    if single:
+        if args.subcommand not in SINGLE_FILE_SUBCOMMANDS:
+            raise UsageError(
+                "One file takes permission-lines or safety, not %s"
+                % args.subcommand
+            )
+        if args.files:
+            raise UsageError("--files does not apply to one file")
+        skill = checked.parent
+    elif not skill.is_dir():
         raise UsageError("Not a directory: %s" % args.skill_dir)
-    if not (skill / "SKILL.md").is_file():
+    elif not (skill / "SKILL.md").is_file():
         raise UsageError("No SKILL.md in %s" % args.skill_dir)
 
     default_patterns = default_patterns_path()
@@ -1371,15 +1404,22 @@ def resolve_arguments(args):
     base = None
     if args.base:
         base = Path(args.base).resolve()
-        if not base.is_dir():
+        if single:
+            if not base.is_file():
+                raise UsageError("Baseline is not a file: %s" % args.base)
+            if base.samefile(checked):
+                raise UsageError(
+                    "The baseline is the file being checked: %s" % args.base
+                )
+        elif not base.is_dir():
             raise UsageError("Baseline is not a directory: %s" % args.base)
-        if is_inside(base, skill):
+        elif is_inside(base, skill):
             raise UsageError(
                 "The baseline copy must sit outside the skill folder: %s"
                 % args.base
             )
 
-    files = []
+    files = [checked] if single else []
     for item in args.files or []:
         path = Path(item)
         if not path.is_absolute():
@@ -1391,15 +1431,27 @@ def resolve_arguments(args):
             raise UsageError("File is outside the skill folder: %s" % item)
         files.append(path)
 
-    return skill, patterns, base, files
+    return skill, patterns, base, files, checked
 
 
-def run(subcommand, skill, patterns, base, files):
-    """Runs one check, or every check for "all", in SUBCOMMANDS order."""
+def run(subcommand, skill, patterns, base, files, single=False):
+    """Runs one check, or every check for "all", in SUBCOMMANDS order.
+
+    single is True for a one-file run, where safety scans that file alone.
+    """
     wanted = SUBCOMMANDS[:-1] if subcommand == "all" else (subcommand,)
     results = []
     for item in wanted:
-        if item == "spec":
+        if single and read_text(files[0]) is None:
+            # One file that cannot be read as text makes each check an error.
+            results.append(
+                result(
+                    item,
+                    "error",
+                    reason="could not be read: %s" % rel(files[0], skill),
+                )
+            )
+        elif item == "spec":
             results.append(check_spec(skill))
         elif item == "routes":
             results.append(check_routes(skill))
@@ -1408,7 +1460,7 @@ def run(subcommand, skill, patterns, base, files):
         elif item == "permission-lines":
             results.append(check_permission_lines(skill, base, files))
         elif item == "safety":
-            results.append(check_safety(skill, patterns))
+            results.append(check_safety(skill, patterns, files if single else None))
     return results
 
 
@@ -1434,17 +1486,17 @@ def main(argv):
     parser = build_parser()
     args = parser.parse_args(argv)
     try:
-        skill, patterns, base, files = resolve_arguments(args)
+        skill, patterns, base, files, checked = resolve_arguments(args)
     except UsageError as exc:
         sys.stderr.write("check.py: %s\n" % exc)
         return 2
 
-    results = run(args.subcommand, skill, patterns, base, files)
+    results = run(args.subcommand, skill, patterns, base, files, checked.is_file())
     report = {
         "tool": "check.py",
         "spec_date": SPEC_DATE,
         "spec_url": SPEC_URL,
-        "skill": skill.as_posix(),
+        "skill": checked.as_posix(),
         "results": results,
     }
     sys.stdout.write(json.dumps(report, indent=2, ensure_ascii=False) + "\n")

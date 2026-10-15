@@ -126,8 +126,9 @@ count as a change to when it starts. When unsure, plan.
 
 Otherwise edit directly and show the diff.
 
-A temporary working file created outside the skill folder does not fire these
-triggers. A file created inside the skill folder always does.
+A temporary working file created outside the skill folder, or outside the folder
+tree of the `AGENTS.md` being changed, does not fire these triggers. A file
+created inside the skill folder always does.
 
 ## Discussion
 
@@ -156,10 +157,10 @@ covered. Do not report the drafting as complete.
 When validation of the edit ends Failed, the work stops. Ending After Failed
 in `references/change-integrity.md` applies.
 
-Before editing, copy the whole skill outside the skill folder. That copy is
-the baseline, as Baseline in `references/change-integrity.md` describes. When
-the skill has `evals/evals.json` and the change is not a low-risk editorial
-change, run the evals against the baseline after the edit.
+Before editing, make the baseline, as Baseline in
+`references/change-integrity.md` describes. When the edited skill has
+`evals/evals.json` and the change is not a low-risk editorial change, run the
+evals against the baseline after the edit.
 
 Direct Drafting never bypasses the workflow invariants.
 

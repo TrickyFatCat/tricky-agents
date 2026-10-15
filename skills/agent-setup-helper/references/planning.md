@@ -138,10 +138,11 @@ makes sense with the log open, the rule is incomplete.
 
 ## Working Files And The Planning Trigger
 
-A temporary working file created outside the skill folder does not fire a
-planning trigger. That covers the register, the log, and the baseline,
-provided each is deleted or left disposable afterwards. Baseline in
-`change-integrity.md` says when the baseline is deleted.
+A temporary working file created outside the skill folder, or outside the folder
+tree of the `AGENTS.md` being changed, does not fire a planning trigger. That
+covers the register, the log, and the baseline, provided each is deleted or left
+disposable afterwards. Baseline in `change-integrity.md` says when the baseline
+is deleted.
 
 A file created inside the skill folder is always a planned change, whatever it
 is for.

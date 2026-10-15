@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Twenty-one failure-based tests for agent-setup-helper itself.
+Twenty-two failure-based tests for agent-setup-helper itself.
 
 Read these during Change Integrity whenever this skill changes, against the
 built rules. A test whose Must the rules no longer produce is a failed
@@ -425,3 +425,25 @@ the same question again.
 **Owner**
 
 `references/change-integrity.md`, Ending After Failed.
+
+## 22. Restore After An AGENTS.md Change Leaves Other Files Alone
+
+**Trigger**
+
+A change edits a project's root `AGENTS.md`, which is a symbolic link to a file
+outside the project, and creates `docs/AGENTS.md`. Validation ends Failed, and
+the user chooses Abandon and accepts the restore.
+
+**Must**
+
+Write the root `AGENTS.md` content back from the baseline copy, through the
+link, and delete `docs/AGENTS.md`.
+
+**Must Not**
+
+Delete or change any other file in the project, or replace a symlinked
+`AGENTS.md` with a regular file.
+
+**Owner**
+
+`references/change-integrity.md`, Baseline.
