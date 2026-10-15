@@ -95,6 +95,8 @@ The skill judges a change by its effect, not by its size.
 - A typo fix in a line that is not a permission line.
 - A formatting fix in one reference.
 - A temporary working file outside the skill folder, such as the register.
+    For an `AGENTS.md`, it is a file outside the folder that holds the
+    `AGENTS.md` and every folder below that one.
 
 Future agents load every file inside the skill folder. A file outside it is
 disposable.
@@ -551,8 +553,9 @@ you to choose one of three paths:
 - **Abandon.** The change ends, and the files stay as they are. The skill
     offers an exact restore from the copy, and restores only when you say
     yes. An exact restore puts back each file that changed, and deletes each
-    file that the change added. The Result line says Failed and adds "ended:
-    abandoned".
+    file that the change added. After an `AGENTS.md` change, it deletes only
+    the files the work listed as created. The Result line says Failed and adds
+    "ended: abandoned".
 
 Under Accept, when you refuse both restore and plan for a part, Accept cannot
 end the work, and no ending is chosen yet. The skill says so and offers the
@@ -590,6 +593,20 @@ endings can restore from it, and only when you say yes. A Direct Drafting edit
 that moves to Planning keeps the copy made before the edit. The skill deletes
 the copy when the work ends, but not before you have answered every restore
 offer.
+
+For an `AGENTS.md`, the skill copies each file before the work first changes it.
+Before it creates a file, the skill adds that file to a list. The copies sit
+outside the folder that holds the `AGENTS.md` nearest the top of the folder
+tree, and every folder below it. For a symbolic link, the folder of the link
+counts. The skill copies the file the link points to, under the name of the
+link, and notes where the link points. The Checks line of the report names the
+folder that holds the copies. A change to a skill and an `AGENTS.md` makes both
+copies.
+
+A restore puts back those files. It deletes only the files on the list of
+created files. It writes into the file a link points to, and keeps the link.
+When the work replaced a link with a regular file, the skill asks before it
+makes the link again. A changed file with no copy is named and left as it is.
 
 When you plan a part under Accept, that new plan makes its own copy. The skill
 keeps the first copy so that it can still restore that part. If the new plan
@@ -707,9 +724,9 @@ test covered a skill, not an `AGENTS.md`.
 The skill scans `SKILL.md`, `AGENTS.md`, references and scripts. It scans when
 it creates, changes, reviews, installs or updates a skill or an `AGENTS.md`.
 
-`check.py` runs the patterns on a skill folder only, because it needs a
-`SKILL.md`. The skill's rules do not say how an `AGENTS.md` on its own is
-scanned.
+`check.py` runs the patterns on a skill folder. It also runs them on one
+`AGENTS.md`, when you give the path of that file. The scan then covers that file
+alone.
 
 The scan looks for five groups of problems:
 
@@ -879,6 +896,29 @@ skill that holds `check.py`. When you check another skill, `check.py` does not
 use that skill's `safety.md`. The `--patterns` rule stops a skill from supplying
 the patterns used to check it.
 
+### Single File
+
+To check one `AGENTS.md`, give the path of the file in place of `<skill-dir>`. A
+single file takes `permission-lines` and `safety`. Any other check name,
+including `all`, is a usage error. `--files` is a usage error too.
+
+```bash
+python3 <agent-setup-helper>/scripts/check.py permission-lines <file> --base <copy>
+python3 <agent-setup-helper>/scripts/check.py safety <file>
+```
+
+`--base` is then a copy of that file, not a folder. A `--base` that is the
+checked file itself is refused, also when it is a symbolic link to that file.
+Without `--base`, `permission-lines` compares with the last commit of the
+repository that holds the file. For a symbolic link, this is the repository that
+holds the file the link points to. `--patterns` is refused when the pattern file
+sits in the folder that holds the checked file, or in a folder below it.
+
+Finding paths show the name of the file, or the name of the file a symbolic link
+points to. A file that cannot be read as text is an error, and the exit code is
+2. The report keeps the key `skill`. It holds the full path of the file, or
+of the file a symbolic link points to.
+
 ### Permission Lines
 
 `permission-lines` lists each permission line that was added, changed or
@@ -897,9 +937,9 @@ so that line is not a permission line.
 It compares against the first baseline that applies:
 
 ```text
---base <path>         →  that folder
-the skill is in git   →  the last commit of the checked skill's repository
-neither               →  limited: lists every current permission line
+--base <path>                         →  that folder, or that file for a single file
+the checked folder or file is in git  →  the last commit of the repository that holds it
+neither                               →  limited: lists every current permission line
 ```
 
 A removed or reworded line is listed too, because the new wording may not be a
