@@ -98,4 +98,6 @@ When reviewing an `AGENTS.md`, check for:
 - safety and destructive-operation rules;
 - terminology that means one thing throughout;
 - duplication that serves no purpose;
-- instructions that contradict each other.
+- instructions that contradict each other;
+- each wording problem in Plain Wording Checks, in `authoring-guidance.md`.
+  Read that section, and each section that the section names.

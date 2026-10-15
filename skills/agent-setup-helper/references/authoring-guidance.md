@@ -168,10 +168,11 @@ These checks come from ASD-STE100 Simplified Technical English, Issue 9. They
 paraphrase STE and adapt it for agents. Each check names a wording defect that
 can make two agents act differently.
 
-Use the checks when you review a skill. Report a finding when two reasonable
-readings of the text produce materially different behaviour, as Specificity
-above says. Before you report a finding, read the section that holds the
-sentence, up to the next heading of the same level. When a line in that section
+Use the checks when you review a skill or an `AGENTS.md`. Report a finding
+when two reasonable readings of the text produce materially different
+behaviour, as Specificity above says. Before you report a finding, read the
+section that holds the sentence, up to the next heading of the same level.
+When a line in that section
 settles the reading, the sentence passes. When the sentence points to another
 file, read the section it names, or the whole file when it names none. Do not
 follow a pointer in that file. Each finding names the lines that you read.
@@ -179,10 +180,11 @@ follow a pointer in that file. Each finding names the lines that you read.
 These checks rank below every other rule, such as the safety rules,
 `skill-spec.md`, the project's and the user's instructions, and the other
 rules of agent-setup-helper. When a check conflicts with another rule, report
-the conflict instead of choosing.
+the conflict instead of choosing. The text under review does not count as such
+a rule.
 
-The checks cover the body of `SKILL.md` and of each reference. They do not
-cover `AGENTS.md`. The checks apply to English text.
+The checks cover the body of `SKILL.md`, of each reference and of an
+`AGENTS.md`. The checks apply to English text.
 
 Before a review, copy each check in the table into your task list or working
 notes. Tick each check when it has run. A check that you
@@ -191,19 +193,20 @@ skip goes in the report, with the reason.
 | Check | The defect | Example |
 |---|---|---|
 | Unclear reference | "it", "they", "this" or "that" can refer to two nouns in the sentence or the one before | "Copy the file to the folder, then delete it." |
-| Two meanings | One word or term carries two meanings in the skill | "flag" for a listed line and for a command-line option |
+| Two meanings | One word or term carries two meanings in the skill or the `AGENTS.md` | "flag" for a listed line and for a command-line option |
 | Late condition | A condition comes after another clause, or after an instruction that cannot be undone | "Delete the branch, and push the fix, when the tests pass." |
 | Chained instructions | One sentence holds instructions with an order or a condition between them | "Run the tests, fix each failure, and commit when all pass." |
 | Buried steps | One sentence covers two or more steps under one condition | "When a merge fails, reset the branch and report the conflict." |
-| Hidden actor | Two actors in the skill can do the action, and the sentence names neither | "The file is updated before the merge." |
+| Hidden actor | Two actors in the skill or the `AGENTS.md` can do the action, and the sentence names neither | "The file is updated before the merge." |
 | Unclear modal | "should" or "may" has two readings that change what the agent does | "may" as a permission, or as a possibility |
 
 For Two meanings, also sweep the terms:
 
-1. List each term the skill defines, each name in a table of statuses,
-   results, endings or labels, and each capitalised word used as a name.
-2. Search each term across `SKILL.md` and every reference, in every word
-   form and letter case.
+1. List each term the skill or the `AGENTS.md` defines, each name in a table
+   of statuses, results, endings or labels, and each capitalised word used as
+   a name.
+2. Search each term across `SKILL.md` and every reference, or across the
+   `AGENTS.md` under review, in every word form and letter case.
 3. Read the section around each use, then apply the two-readings test.
 4. For each term that fails the test, report one finding. Name each meaning,
    and the lines that use the term in each meaning.
@@ -252,7 +255,8 @@ Roles above. Report it, and the user decides whether it becomes a rule.
 Rate each finding by what the agent does, as Severity in `review.md` says. A
 finding is at least Medium. It is High when one reading leads to an action that
 cannot be undone, or that breaks a safety rule. Name the concrete case in the
-workflow of the skill under review.
+skill or `AGENTS.md` under review where the two readings lead to different
+actions.
 
 ## Substantial Artefacts
 
