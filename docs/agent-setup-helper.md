@@ -681,24 +681,26 @@ was not supplied.
 
 **Wording Checks**
 
-A review of a skill also looks for seven wording problems, based on
-ASD-STE100 Simplified Technical English, a standard for clear technical
-writing. Each problem is a sentence that two agents could read in two ways. Examples are an "it" that can mean two things,
-and a condition placed after the action it limits. The review reports such a
-sentence only when the two readings lead to different actions. Each such
-finding is Medium, or High when one reading leads to an action that cannot be
-undone. The checks are
-listed in
+A review of a skill or an `AGENTS.md` also looks for seven wording problems,
+based on ASD-STE100 Simplified Technical English, a standard for clear
+technical writing. Each problem is a sentence that two agents could read in
+two ways. Examples are an "it" that can mean two things, and a condition
+placed after the action it limits. The review reports such a sentence only
+when the two readings lead to different actions. Each such finding is Medium,
+or High when one reading leads to an action that cannot be undone. The checks
+are listed in
 [`authoring-guidance.md`](../skills/agent-setup-helper/references/authoring-guidance.md),
 under Plain Wording Checks.
 
-To find a word with two meanings, the review lists each term the skill
-defines, such as each status in a table. It searches each one across
-`SKILL.md` and every reference, and reports each term used in two meanings.
+To find a word with two meanings, the review lists each term that the skill or
+the `AGENTS.md` under review defines, such as each status in a table. For a
+skill, it searches each term across `SKILL.md` and every reference. For an
+`AGENTS.md`, it searches that file. It reports each term used in two meanings.
 
 In a test on this skill in October 2026, reviewers found 2 or 3 of 8 known
 wording problems. About two in three of their findings were real. A review
-with no wording findings is weak evidence that the wording is clear.
+with no wording findings is weak evidence that the wording is clear. That
+test covered a skill, not an `AGENTS.md`.
 
 ## Safety Scanning
 
