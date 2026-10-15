@@ -426,9 +426,9 @@ never touches your files. Results go to a temporary folder outside the skill
 folder. When the work ends and the report gives each result, the skill
 deletes each of these folders made during this work: the results folder and
 each run folder. The skill keeps them if you ask before the work ends. After
-a Passed or Limited result, the work ends with the report, so ask before
-validation starts. After a Failed result, you can still ask when you choose how
-the work ends. The Evals line names these folders.
+a Passed or Limited result, the work ends with the report. To keep the
+folders, ask before validation starts. After a Failed result, you can still ask
+when you choose how the work ends. The Evals line names these folders.
 
 Each entry in `evals/evals.json` holds a test prompt, the behaviour that must
 happen, the behaviour that must not, and the file and section that hold the
