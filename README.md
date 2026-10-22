@@ -132,3 +132,5 @@ Changing a rule takes three steps.
     safety-checking skills and `AGENTS.md` files.
 - [tech-docs-writer](docs/tech-docs-writer.md) — writing, reviewing and
     formatting human-facing documentation.
+- [code-buddy](docs/code-buddy.md) — learning with a coding mentor that gives
+    hints and reviews, never solutions.
