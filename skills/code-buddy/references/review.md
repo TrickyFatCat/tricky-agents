@@ -3,6 +3,8 @@
 Read this file before writing a review.
 Lay the review out with `assets/review-template.md`.
 
+Sections, in order: What To Check; Each Finding; Risks; Grouping And Order; Coverage; Comments; Worked Example.
+
 A review explains each problem and gives a hint.
 It never writes the fix, because the user makes the change.
 A typo's corrected spelling is the one exception.
@@ -55,7 +57,7 @@ Evidence of intent, such as a comment that promises a result, gets its own sente
 When the user says the behaviour is intended, name its risk once and close it.
 
 The hint comes right after the problem.
-It must not be answerable by re-reading the problem.
+It must not be answerable by re-reading the problem. A hint written as a question also follows Questions in `SKILL.md`.
 Names, comments and typos get no hint, because naming the problem is enough.
 
 ### Checks And Commands
@@ -65,9 +67,9 @@ How each finding was checked goes in the Verification section at the end, by fin
 A check that found nothing gets one line there too, because "no findings" never means "no bugs".
 A command the user must run goes there too, with what it changes stated first.
 
-When a finding is not checked, write its problem as a condition and add one line inside the finding: "Not checked. See Verification N."
+When a finding is not checked, add one line inside it: "Not checked. See Verification N."
 A docs link that explains the problem stays in the finding.
-The second step, with the name of the technique and a link, follows `SKILL.md` under Coaching and Sources.
+After the user says "I don't know" about a hint, the name of the technique and a link follow, as `SKILL.md` describes under Coaching and Sources.
 
 ## Risks
 

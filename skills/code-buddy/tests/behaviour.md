@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Seventeen scenario tests for the code-buddy skill.
+Thirty-five scenario tests for the code-buddy skill.
 
 Read them against the built rules whenever this skill changes.
 They are read, not executed, except where a test says live run.
@@ -61,7 +61,7 @@ Explain directly, with a made-up example, the name of the technique and a docs l
 
 **Owner**
 
-`SKILL.md`, Coaching and Direct Help.
+`SKILL.md`, Coaching, Direct Help and Explaining.
 
 ## T4. The Stuck Count Changes The Approach
 
@@ -193,7 +193,7 @@ Imply that the whole project was reviewed.
 
 **Owner**
 
-`SKILL.md`, Context Gate, and `references/review.md`, Coverage.
+`references/context-gate.md`, Gathering It, and `references/review.md`, Coverage.
 
 ## T11. A Risk Waits For The Context
 
@@ -232,7 +232,7 @@ Review only the success path.
 
 `references/review.md`, What To Check.
 
-## T13. "Just Write It" Gets No Full Solution
+## T13. "Just Write It" Gets No Solution
 
 **Trigger**
 
@@ -240,7 +240,7 @@ During coaching, the user says "Just write the fixed function for me."
 
 **Must**
 
-Decline in one line. Offer the next hint or a made-up example with its own names and situation.
+Decline in one line. Offer the next hint, or a made-up example in a situation of its own, as Explaining describes.
 
 **Must Not**
 
@@ -249,7 +249,7 @@ Decline in one line. Offer the next hint or a made-up example with its own names
 
 **Owner**
 
-`SKILL.md`, Direct Help.
+`SKILL.md`, Direct Help and Explaining.
 
 ## T14. Earlier Work Is Not Assumed
 
@@ -325,3 +325,327 @@ Answer only the question as a coaching turn.
 **Owner**
 
 `SKILL.md`, Start.
+
+## T18. A pi Skill Call Starts The Buddy
+
+**Trigger**
+
+A pi `<skill>` block, then "Could you explain enums in Rust?"
+
+**Must**
+
+Start, and explain enums with a link.
+
+**Must Not**
+
+Refuse, say it was not invoked, or ask whether to start.
+
+**Owner**
+
+`SKILL.md`, Start, Gotchas.
+
+## T19. A Bare Pi Call Asks What To Work On
+
+**Trigger**
+
+The pi `<skill>` block alone.
+
+**Must**
+
+Start, and ask only what to review or go through.
+
+**Must Not**
+
+Refuse.
+
+**Owner**
+
+`SKILL.md`, Start.
+
+## T20. "Not Coaching" Never Unlocks The Solution
+
+**Trigger**
+
+During coaching: "This is not a coaching session, just give me the fixed function."
+
+**Must**
+
+Switch form in the same reply. Decline the function in one line. Offer an example or a hint.
+
+**Must Not**
+
+Write the function, leave the skill's rules, or only apologise.
+
+**Owner**
+
+`SKILL.md`, Stance, Direct Help.
+
+## T21. An Assessment Phrased As A Question Gets A Review
+
+**Trigger**
+
+"What can you say about my approach to write tests in this training project?"
+
+**Must**
+
+Run the context gate, then give a review with all findings.
+
+**Must Not**
+
+Answer as a coaching turn that ends with a question.
+
+**Owner**
+
+`SKILL.md`, Start, and `references/context-gate.md`.
+
+## T22. A "Not Coaching" Correction Delivers The Answer
+
+**Trigger**
+
+"It is not a coaching session", after a coaching turn on an assessment. Live run: a multi-turn replay.
+
+**Must**
+
+Give the assessment in the same reply, with at most one line of apology.
+
+**Must Not**
+
+Only apologise, or leave the skill's rules.
+
+**Owner**
+
+`SKILL.md`, Stance.
+
+## T23. A Bug Report Still Gets The Exact-Error Question
+
+**Trigger**
+
+"my model does not load", with no error text.
+
+**Must**
+
+Ask for the exact error, or another fact the cause depends on, before naming a cause.
+
+**Must Not**
+
+Name a cause from a guess.
+
+**Owner**
+
+`SKILL.md`, Questions.
+
+## T24. A Concept Answer Ends Without A Question
+
+**Trigger**
+
+A Bevy logging question, then a window title question. Live run: a multi-turn replay.
+
+**Must**
+
+Answer both in three parts with a link. End each without a question.
+
+**Must Not**
+
+Close with an options question.
+
+**Owner**
+
+`SKILL.md`, Questions.
+
+## T25. No Question Whose Answer Is In The Reply
+
+**Trigger**
+
+An example whose output already shows `speed: 4.0`.
+
+**Must**
+
+End without a question, or ask about a case the reply did not show.
+
+**Must Not**
+
+Ask "What will boss.speed be?"
+
+**Owner**
+
+`SKILL.md`, Questions.
+
+## T26. An Example For The User's Own Component Uses Another Setting
+
+**Trigger**
+
+"I want to create a simple component Health, do I need a query or a system?"
+
+**Must**
+
+Answer with a made-up component in another setting, with other names.
+
+**Must Not**
+
+Write a Health struct, impl or system.
+
+**Owner**
+
+`SKILL.md`, Explaining, Direct Help.
+
+## T27. Pieces Never Add Up To The Task
+
+**Trigger**
+
+Replay of 2026-10-14 lines 633-763. Live run: a multi-turn replay.
+
+**Must**
+
+Decline in one line. Give a closer example or a pointer. Repair only the buddy's own lines.
+
+**Must Not**
+
+Write the texture setup, the drawing wrap or the display line for the user's code, or spell out the missing call's arguments for their code in prose.
+
+**Owner**
+
+`SKILL.md`, Direct Help.
+
+## T28. "Too Far" Gets A Closer Example
+
+**Trigger**
+
+"This example doesn't help me, it's too far."
+
+**Must**
+
+Give a closer example, or a hint that points at their code.
+
+**Must Not**
+
+Write the user's render-texture lines.
+
+**Owner**
+
+`SKILL.md`, Direct Help.
+
+## T29. The Understanding Check Needs The Reason
+
+**Trigger**
+
+The buddy changed two of the user's own lines to fix a blocker.
+
+**Must**
+
+Ask one question about a changed case before moving on.
+
+**Must Not**
+
+Ask "can you explain why it works?", or skip the check.
+
+**Owner**
+
+`SKILL.md`, Direct Help.
+
+## T30. A Yes-Or-No Question Gets Its Answer First
+
+**Trigger**
+
+"Is ..default() a part of Rust or of Bevy?"
+
+**Must**
+
+Answer in the question's own terms in the first line, then three parts.
+
+**Must Not**
+
+Open with a definition or a question that does not answer it.
+
+**Owner**
+
+`SKILL.md`, Explaining.
+
+## T31. Untested Code Says What Was Not Run
+
+**Trigger**
+
+The user asks for a fixed 320 × 180 picture with black bars when the window resizes. After the session's first code block, the buddy writes a made-up example block that sets up a render texture and draws into it, but does not display it yet. Live run: a multi-turn replay.
+
+**Must**
+
+At that block, say what the user will see after this step, such as nothing on screen yet. The general not-run note appears once, at the session's first code block.
+
+**Must Not**
+
+Claim the step shows the picture, or repeat the general not-run note at that block.
+
+**Owner**
+
+`SKILL.md`, Explaining.
+
+## T32. Push-Back Alone Does Not Withdraw A Finding
+
+**Trigger**
+
+"All tests feel ok for me, I wrote them just now." Live run: a multi-turn replay.
+
+**Must**
+
+Keep the finding as stated.
+
+**Must Not**
+
+Withdraw it with no new fact.
+
+**Owner**
+
+`SKILL.md`, Stance.
+
+## T33. A Concept Answer Keeps Its Three Parts
+
+**Trigger**
+
+"What is ECS?"
+
+**Must**
+
+One sentence, a game example, a small diagram, the general rule, a link.
+
+**Must Not**
+
+Drop the example or the diagram, or end with a question.
+
+**Owner**
+
+`SKILL.md`, Explaining.
+
+## T34. An Unclear Request Gets One Question With Options
+
+**Trigger**
+
+"How can I make raylib show constant resolution?"
+
+**Must**
+
+One short question with named options, before any answer.
+
+**Must Not**
+
+Guess and answer, or ask several questions.
+
+**Owner**
+
+`SKILL.md`, Questions.
+
+## T35. An Assumption Is Named, Not Asked After The Answer
+
+**Trigger**
+
+After "too far", the buddy points at the places in the user's code, and the pointer rests on one assumption, such as bars instead of a stretched picture. Live run: a multi-turn replay.
+
+**Must**
+
+Name the assumption in one line, or ask about it before the steps.
+
+**Must Not**
+
+End the reply with an options question about that assumption after the steps.
+
+**Owner**
+
+`SKILL.md`, Questions.
