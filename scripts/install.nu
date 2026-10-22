@@ -21,7 +21,7 @@ def check-primary-checkout [root: string] {
     let common = ^git -C $root rev-parse --git-common-dir | complete
 
     if $dir.exit_code != 0 or $common.exit_code != 0 {
-        return   # Not a git checkout, so it cannot be a worktree.
+        return # Not a git checkout, so it cannot be a worktree.
     }
 
     let here = $root | path join ($dir.stdout | str trim) | path expand --no-symlink
@@ -55,13 +55,7 @@ def path-kind [path: string] {
 # `dir` is the tool's config directory under home.
 # `rules_file` is the file name the tool reads its rules from.
 def tool-targets [] {
-    [
-        [tool       dir           rules_file];
-        ["agents"   ".agents"     "AGENTS.md"]
-        ["claude"   ".claude"     "CLAUDE.md"]
-        ["codex"    ".codex"      "AGENTS.md"]
-        ["pi"       ".pi/agent"   "AGENTS.md"]
-    ]
+    [[tool, dir, rules_file]; ["agents", ".agents", "AGENTS.md"], ["claude", ".claude", "CLAUDE.md"], ["codex", ".codex", "AGENTS.md"], ["pi", ".pi/agent", "AGENTS.md"], ["omp", ".omp", "AGENTS.md"]]
     | each {|r| {
         tool: $r.tool
         rules: ($nu.home-dir | path join $r.dir $r.rules_file)
@@ -131,15 +125,20 @@ def repo-skills [root: string] {
 # Red marks a real file or directory, which may hold the only copy of its content.
 def state-style [state: string] {
     match $state {
-        "missing" => {action: "created", colour: "green"}
-        "linked"  => {action: "ok",      colour: "dark_gray"}
-        "foreign" => {action: "blocked", colour: "yellow"}
-        _         => {action: "blocked", colour: "red"}
+        missing => {action: "created", colour: "green"}
+        linked  => {action: "ok", colour: "dark_gray"}
+        foreign => {action: "blocked", colour: "yellow"}
+        _       => {action: "blocked", colour: "red"}
     }
 }
 
 # Aborts with an error that lists the known values, then the hint.
-def unknown [what: string, given: string, known: list<string>, hint: string] {
+def unknown [
+    what: string
+    given: string
+    known: list<string>
+    hint: string
+] {
     let listed = if ($known | is-empty) {
         $"  (ansi red)none found(ansi reset)"
     } else {
@@ -173,7 +172,9 @@ def warn-if-stale [root: string, out: string] {
         return
     }
 
-    let out_label = try { $out | path relative-to $root } catch { $out }
+    let out_label = try {
+        $out | path relative-to $root
+    } catch { $out }
 
     print $"(ansi yellow)Warning(ansi reset): newer than ($out_label): ($newer | str join ', ')"
     print $"Rebuild with (ansi blue)nu scripts/build-global-agents.nu(ansi reset), or the links serve stale text.\n"
@@ -189,7 +190,12 @@ def pick-tools [all: list<any>, wanted: string] {
     let hit = $all | where tool == $wanted
 
     if ($hit | is-empty) {
-        unknown "tool" $wanted ($all | get tool) "Add a row to tool-targets to support another tool."
+        (unknown
+            "tool"
+            $wanted
+            ($all | get tool)
+            "Add a row to tool-targets to support another tool."
+        )
     }
 
     $hit
@@ -205,7 +211,12 @@ def pick-skills [all: list<any>, wanted: string] {
     let hit = $all | where name == $wanted
 
     if ($hit | is-empty) {
-        unknown "skill" $wanted ($all | get name) "A skill is a folder in skills/ holding a SKILL.md."
+        (unknown
+            "skill"
+            $wanted
+            ($all | get name)
+            "A skill is a folder in skills/ holding a SKILL.md."
+        )
     }
 
     $hit
@@ -232,7 +243,7 @@ def build-work [
         # Links each skill folder, not the skills directory, so skills from elsewhere stay visible.
         let skill_entries = $skills | each {|s| {
             tool: $t.tool
-            item: $"skills/($s.name)"
+            item: $"skills/($s.name)", 
             link: ($t.skills | path join $s.name)
             source: $s.source
         }}
@@ -295,7 +306,7 @@ def main [
     check-primary-checkout $root
 
     let rules_source = $root | path join "global" "global-agents.md"
-    let with_rules = ($skill | is-empty)
+    let with_rules = $skill | is-empty
 
     let tools = pick-tools (tool-targets) ($tool | default "")
     let skills = pick-skills (repo-skills $root) ($skill | default "")
