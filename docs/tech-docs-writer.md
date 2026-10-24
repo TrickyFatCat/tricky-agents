@@ -49,7 +49,7 @@ The skill knows these types:
 | README          | Shows a reader the project and the next step |
 | Code Reference  | Lists public functions, classes and symbols  |
 | CLI Reference   | Lists commands, options and effects          |
-| Instructions    | Tutorial: one guided task on a safe path     |
+| Tutorial        | Leads a learner through one guided task      |
 | How-to          | Leads to one goal, even in a `README.md`     |
 | Workflow        | Lists the steps of a process, by role        |
 | Explanation     | Explains a concept, cause or design choice   |
@@ -73,7 +73,7 @@ already say:
 | README         | What the project is for, who visits, the next thing they do        |
 | Code Reference | The code to check against, the language, which symbols are public  |
 | CLI Reference  | The command, how to get its help output, which commands to cover   |
-| Instructions   | Where the learner starts, what they end with, a safe place to work |
+| Tutorial       | Where the learner starts, what they end with, a safe place to work |
 | How-to         | What the reader can already do, the goal, their real environment   |
 | Workflow       | The roles, what starts it, how it ends, its owner, its intent      |
 
@@ -206,14 +206,21 @@ Before you see the result, the skill:
 
     - Words that point back without naming, such as "the other".
     - Tables with no sentence before them.
-    - Sentences over 25 words.
+    - Sentences over 25 words. The skill splits such a sentence only when it
+        holds two ideas, or a condition that comes after the action.
     - Headings written as a question or a sentence.
     - Paths from one machine, such as a home folder.
+    - The searches for the rules in Wording, such as contractions, and
+        pronouns that can point to two nouns.
+
+    Formatting runs after the last text change, as Formatting describes. A
+    later text change sends the document back through formatting.
 
 The cold reader exists because the skill has read the source. It cannot see
 what a reader without the source would miss. The cold reader runs once for each
 Write, and not again after the fixes. The skill skips it for an edit that
-changes no meaning, such as a typo fix.
+changes only spelling, punctuation or formatting. A rewording always gets the
+cold reader, because a reworded sentence can lose a fact.
 
 > ℹ️ **Note**
 >
@@ -229,14 +236,15 @@ After the document, the skill adds a report to its reply. The report does not
 go into the document. It has these blocks, in this order, and leaves out any
 block that is empty:
 
-| Block            | What it lists                                                             |
-| ---------------- | ------------------------------------------------------------------------- |
-| Cuts             | Each fact the skill removed, by section, with the reason                  |
-| Pictures         | Each `TODO:` line the skill left where you should add a screenshot        |
-| Cold Reader      | Each question from the cold reader, as fixed, open or known from context  |
-| Review           | Each review finding, as applied, or declined by the skill with the reason |
-| Outside The Task | Problems in sentences you did not ask it to change                        |
-| Not Checked      | Checks that did not run, and claims the skill could not verify            |
+| Block            | What it lists                                                               |
+| ---------------- | --------------------------------------------------------------------------- |
+| Assumptions      | Each choice the skill made without you, one field per line                  |
+| Cuts             | Each fact the skill removed, by section, with the reason                    |
+| Pictures         | Each `TODO:` line the skill left where you should add a screenshot          |
+| Cold Reader      | Each question from the cold reader, as fixed, open or known from context    |
+| Review           | Each review finding, as applied, or declined by the skill with the reason   |
+| Outside The Task | Problems outside your request, and one line for style-only wording problems |
+| Not Checked      | Checks that did not run, and claims the skill could not verify              |
 
 A cold reader question stays open when the source does not answer it. The
 report says why it is open.
@@ -244,6 +252,46 @@ report says why it is open.
 A question is known from context when the reader already knows the answer,
 such as a standard term of their field. The page does not change for it, and
 the report says what covers it.
+
+## Wording
+
+The skill writes in plain English. The rules are based on ASD-STE100
+(Simplified Technical English), a written standard for clear technical text.
+The skill adapts it: it has no dictionary of approved words and no word counts.
+The rules apply to every document and every reader.
+
+**Example**
+
+```text
+Before  If the build turns up any missing textures, it'll bail out and you
+        should go back and re-run the baker.
+After   If the build finds a missing texture, it stops. Run the baker again.
+```
+
+The skill never rewords:
+
+- Code, commands, flags, paths and config keys.
+- Labels, error messages and printed output that the reader sees.
+- Text quoted from a source, or text you ask it to keep as written.
+- Names of products, files and links.
+- Requirement words a project defines, such as MUST and SHOULD.
+
+A style guide that the project states, or your request, wins over these rules.
+The wording of old pages is not a style guide. A document keeps its own terms
+and spelling.
+
+Every rewording keeps its facts and conditions. The skill lists them before it
+rewords a sentence, and finds each one in the new sentence.
+
+In an edit, the skill rewords only the sentences the task changes. It reports
+style-only problems elsewhere as one line.
+
+> ℹ️ **Note**
+>
+> The skill has no search for an idiom that is not a phrasal verb.
+
+The cold reader covers such an idiom. Without a tool that starts another agent,
+nothing covers it.
 
 ## Reviewing
 
@@ -279,6 +327,10 @@ only the details that help, such as:
 The five most severe findings come in full. Each other finding comes as one
 line: its severity, the passage, and the problem. Ask for any line to see it in
 full.
+
+Style-only wording problems, such as contractions, come as one Low line for the
+whole document. The line gives a count for each search. A wording problem that
+can change what the reader does is a finding of its own.
 
 You can fix a finding, keep the text on purpose, or reject the finding. The
 skill marks a finding only after you answer it:
@@ -373,6 +425,7 @@ that applies:
 | The bundled script, and a dprint config  | Formatted                                          |
 | The bundled script, and no dprint config | Formatted with the fallback config, and it says so |
 | No Nushell, or no dprint                 | Not formatted, manual checks only, and it says so  |
+| dprint reports an error                  | Not formatted, manual checks only, and it says so  |
 
 The skill never reports a document as formatted when it was not. It never
 installs a formatter during a documentation task.
