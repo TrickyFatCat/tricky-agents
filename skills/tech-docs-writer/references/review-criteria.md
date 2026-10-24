@@ -16,10 +16,10 @@ inside it.
 2. Map each section's responsibility and the reader's path. Ask what question
     each section answers. A section that answers none is a finding, and so is
     a passage that belongs to no section.
-3. Run the cold reader once, as `SKILL.md` describes. Check each of its
+3. Run the cold reader once, as `cold-reader.md` describes. Check each of its
     questions against the source. A gap is a finding for a missing fact. A
     misreading is a finding for an unclear sentence. A question known from
-    context or not needed, under the limits in `SKILL.md`, is not a finding.
+    context or not needed, under the limits in `cold-reader.md`, is not a finding.
     List it with what covers it, or the Job Test reason. When the reader is
     only implied, say that the starting
     point is implied too. When no subagent tool is available, say "not
@@ -30,7 +30,7 @@ inside it.
     success.
 6. Run every check in `delivery-checks.md` that applies. Each hit is a
     finding, filtered by step 7. Then check each sentence with the job test and
-    the view test in `SKILL.md`, then against the writing conventions, which
+    the view test in `SKILL.md`, then against Wording in `SKILL.md` and the writing conventions, which
     are loaded for review as well as for writing. A failed test is a finding, not an edit. A counted
     sentence, a section opening on a code block, and a flag explained only in
     a comment are defects a reader feels and rarely names.
@@ -51,9 +51,9 @@ wrong when it was written as it is now.
 
 A Write runs this pass after the cold-reader fixes, when it creates a document
 or rewrites a whole one. It skips an edit to part of a document, and an edit
-that changes no meaning.
+that Before Delivering in `SKILL.md` exempts.
 
-1. Start one subagent in Review mode. Give it the finished document, the named
+1. Start one subagent that loads tech-docs-writer and runs Review. Give it the finished document, the named
    reader, the starting point and the source paths. It runs no cold reader,
    because the Write already ran one.
 2. It returns findings only, in the shape this file describes.
@@ -159,6 +159,10 @@ Do not repeat the same rationale under two labels.
 ## Reporting
 
 - Report the five most severe findings in full.
+- Report the style-only hits of the Wording searches as one Low line for the
+  document: the count for each search, and up to three examples with their
+  sections. A hit that can change what the reader does is a finding of its
+  own.
 - List every other finding below them, one line each: severity word, the
     passage, the problem. Leave the list out when there are none. Expand one
     when asked.

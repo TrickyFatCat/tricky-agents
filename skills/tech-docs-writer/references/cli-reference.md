@@ -126,9 +126,9 @@ Order examples by reader value:
 4. Safe validation.
 5. State-changing or advanced usage.
 
-Use short, self-contained examples. Lead with the practical result, as Voice in [markdown-conventions.md](markdown-conventions.md) requires.
+Use short, self-contained examples. Lead with the practical result, as Internal Logic under the View Test in `SKILL.md` requires.
 
-Concise comments are useful in dense command-reference blocks when they identify a return value, output shape, side effect, or fallback:
+Concise comments are useful in dense command-reference blocks when they identify a return value, the shape of output the reader uses, such as a record they pipe, a side effect, or a fallback:
 
 ```nu
 # Returns the first matching client ID, or null.
@@ -187,7 +187,7 @@ When documenting how to extend a tool, explain the contract before implementatio
 
 ## Final Command Inventory Check
 
-After drafting and formatting:
+At Before Delivering, before formatting:
 
 1. Compare documented commands with the current exported-command inventory.
 2. Confirm names, flags, signatures, defaults, and examples still match the source.

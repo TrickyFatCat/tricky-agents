@@ -47,7 +47,7 @@ For parameters and returns:
 
 - Non-boolean: begin with "The" or "A".
 - Boolean control: "If true, … If false, …".
-- Boolean query: "True if …; false otherwise."
+- Boolean query: "True if …, otherwise false."
 - Defaults: "Default: `value`".
 
 Do not repeat the symbol name in its first sentence. Do not write "This class

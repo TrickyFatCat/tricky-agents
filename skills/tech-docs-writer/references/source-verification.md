@@ -129,7 +129,7 @@ not copied. It changes without the subject changing. A warning that a change
 to the subject breaks its callers goes in that entry's section, and names
 where the callers live, not each one.
 
-Instructions and how-to guides leave behaviour out on purpose, to keep the
+Tutorials and how-to guides leave behaviour out on purpose, to keep the
 reader on one path. Do not run this check on them.
 
 **Missing Behaviour**

@@ -1,6 +1,6 @@
 # Behaviour Tests
 
-Ninety High-severity scenario tests for this skill. Each names the file that
+Ninety-nine High-severity scenario tests for this skill. Each names the file that
 owns the rule under test.
 
 A test whose Must the rules do not produce is a failed validation, not a test
@@ -100,17 +100,17 @@ T18 Rewrite facts     A sentence fails the view test: "The spawner checks the wa
 T19 Cut listed        The job test removes a sentence that holds a fact
     Must              Name the fact and why it has no job in the report Cuts block
     Must Not          Cut it silently
-    Owner             SKILL.md
+    Owner             SKILL.md, delivery-checks.md
 
 T20 No subagent       No tool that starts another agent is available
     Must              Skip the cold reader and say "not checked by a cold reader"
     Must Not          Imitate the cold reader in the writer's own context
-    Owner             SKILL.md
+    Owner             SKILL.md, cold-reader.md
 
 T21 One section       The user asks to tighten one section of their existing document
     Must              Edit only that section; report flagged sentences elsewhere under Outside The Task
     Must Not          Cut or rewrite a sentence outside the requested section
-    Owner             SKILL.md
+    Owner             SKILL.md, delivery-checks.md
 
 T22 Review view test  A document under review has an inside-view sentence that is true
     Must              Report it as a finding
@@ -120,12 +120,12 @@ T22 Review view test  A document under review has an inside-view sentence that i
 T23 One cold read     The cold reader asks three questions; two are fixed
     Must              Show all three in the report, marking one open with why
     Must Not          Run the cold reader again; report only the fixed ones
-    Owner             SKILL.md
+    Owner             SKILL.md, cold-reader.md, delivery-checks.md
 
 T24 Long cut list     A rewrite cuts twelve sentences
     Must              List all twelve, grouped by section, one line each
     Must Not          Report a count only, or "several redundant sentences"
-    Owner             SKILL.md
+    Owner             SKILL.md, delivery-checks.md
 
 T25 Many findings     A review finds eight problems
     Must              Five in full; three as one-line entries below them
@@ -160,12 +160,12 @@ T30 Broad word        The page says "every comment it keeps follows the writing 
 T31 Second copy       Two neighbouring sentences state the same fact in other words
     Must              Cut the second one; list it in Cuts with where the fact stays
     Must Not          Keep both because of doubt
-    Owner             SKILL.md
+    Owner             SKILL.md, delivery-checks.md
 
 T32 Context claim     The cold reader asks about something the starting point does not name
     Must              Add the fact, or mark the question open
     Must Not          Mark it known from context
-    Owner             SKILL.md
+    Owner             SKILL.md, cold-reader.md
 
 T33 Internal rule     The source says "picks the upload server by latency" and "skips files
                       over 2 GB because the API rejects them"
@@ -181,7 +181,7 @@ T35 Long condition    A restated source cell holds a 13-word condition with an u
 T36 Review context    A review of a Godot plugin page; the cold reader asks "What is a scene?"
     Must              No finding; list it as known from context, a standard Godot term
     Must Not          Report a finding for a missing definition
-    Owner             review-criteria.md
+    Owner             review-criteria.md, cold-reader.md
 
 T37 Small edit        A one-paragraph edit to a Markdown document
     Must              Load delivery-checks.md and run every check that applies
@@ -248,7 +248,7 @@ T49 Late addition     The cold reader asks what happens when a required variable
                       page has a variables table
     Must              Put it in that variable's row; run the Job Test on it
     Must Not          Add a requirement note for it; add the error text and the branch that raises it
-    Owner             SKILL.md
+    Owner             SKILL.md, cold-reader.md
 
 T50 Restated code     The source says retry() calls _backoff(n), which sleeps 2^n seconds
     Must              Keep "each retry waits longer than the one before"
@@ -289,7 +289,7 @@ T57 Platform          The starting point names Unity; the cold reader asks wheth
                       edits reach placed copies
     Must              Mark it known from context
     Must Not          Add an explanation of prefabs
-    Owner             SKILL.md
+    Owner             SKILL.md, cold-reader.md
 
 T58 One command       A section holds one command whose effect depends on a condition
     Must              The same Syntax table as the other sections
@@ -299,7 +299,7 @@ T58 One command       A section holds one command whose effect depends on a cond
 T59 Cold output       The cold reader asks what a verbose run prints
     Must              Mark it not needed with the Job Test reason; add no sentence
     Must Not          Add "the tool prints one X line for each Y"
-    Owner             SKILL.md
+    Owner             SKILL.md, cold-reader.md
 
 T60 Review output     Internal Review returns a verified fact about progress output
     Must              Decline it with the Job Test reason
@@ -327,7 +327,7 @@ T63 Dry run           A how-to step runs a dry run whose output the reader check
 T64 Review cold       A review's cold reader asks what a verbose flag prints
     Must              No finding; list it as not needed with the Job Test reason
     Must Not          Report a missing-fact finding
-    Owner             review-criteria.md
+    Owner             review-criteria.md, cold-reader.md
 
 T65 Command Danger    A top-level command block deletes every baked lightmap; a
                       sentence says what the reader checks in its output
@@ -341,7 +341,7 @@ T66 Cold hint         The writer thinks the page's output lines may confuse the
                       cold reader
     Must              Send the four questions as written
     Must Not          Add "(for example, the output lines …)", or a fifth question
-    Owner             SKILL.md
+    Owner             SKILL.md, cold-reader.md
 
 T67 Visible panel     A how-to for an animation editor; the source describes the timeline panel on open
     Must              A placeholder naming what the screenshot shows; keep what a picture cannot show
@@ -378,7 +378,7 @@ T73 Owned elsewhere   The cold reader asks how to start an export script; an edi
                       starts it; the plugin must be enabled in the editor
     Must              Mark the hotkey not needed; link its config's document if one exists; keep the enable step
     Must Not          Describe the hotkey; cut the enable step as another tool's
-    Owner             SKILL.md
+    Owner             SKILL.md, cold-reader.md
 
 T74 Internal edge     Source: the launcher focuses an open window whose title starts with the game name
     Must              Cut the lookup and the prefix match
@@ -419,13 +419,13 @@ T80 Global options    A level-baking tool defines --quiet once for all 12 subcom
 T81 Picture report    A how-to leaves two screenshot placeholders
     Must              List both under Pictures in the report, by section, with what each must show
     Must Not          Leave them only on the page
-    Owner             SKILL.md
+    Owner             SKILL.md, delivery-checks.md
 
 T82 Printed text      A CLI how-to; a command prints a status summary, in plain characters, that
                       the reader checks
     Must              Show the summary as a text block
     Must Not          A screenshot placeholder in its place
-    Owner             SKILL.md, delivery-checks.md
+    Owner             SKILL.md, markdown-conventions.md, delivery-checks.md
 
 T83 Text screen       A how-to for a terminal file browser, in plain characters, that stays open
                       with a list and a preview
@@ -437,7 +437,7 @@ T84 Icon output       A command's output marks file types with Nerd Font icons
     Must              Ask the user whether a screenshot or a text block fits better, or choose and
                       list the choice under Assumptions
     Must Not          Choose silently
-    Owner             SKILL.md, context-gate.md
+    Owner             SKILL.md, markdown-conventions.md, context-gate.md
 
 T85 File entry        A README lists a mod's config files; weapons.ini sets the shotgun to
                       8 pellets, a comment says damage is tuned for co-op, and every weapon
@@ -451,7 +451,7 @@ T86 Cold file value   A page maps config files the reader can open; the cold rea
                       font hud.cfg sets
     Must              List it as not needed with the Job Test reason
     Must Not          Add the font to hud.cfg's row as a gap
-    Owner             SKILL.md
+    Owner             SKILL.md, cold-reader.md
 
 T87 Unreadable file   A file map lists profile.cfg, which the game creates on first run, the
                       repository does not hold, and which overrides the shipped defaults
@@ -482,5 +482,54 @@ T91 Row order         An abilities table; Dash says "Moves you 5 m forward. In t
                       Roll has no air case
     Must              Blink leads with its usual result, then the air case; Roll unchanged
     Must Not          Leave Blink's order; give Roll an air clause; lead every row with the air case
-    Owner             delivery-checks.md, markdown-conventions.md
+    Owner             SKILL.md, delivery-checks.md, markdown-conventions.md
+
+T92 Plain request     "Make this README plainer", nothing else
+    Must              Run the cold reader and the delivery checks
+    Must Not          Skip them as an exempt edit
+    Owner             SKILL.md
+
+T93 Slang label       A step names the button "Nuke Saves"
+    Must              Keep the label; make the prose around it plain
+    Must Not          Rename the button in the text
+    Owner             SKILL.md
+
+T94 Guide vs habit    CONTRIBUTING.md says "contractions are fine"; old
+                      pages use "e.g."; no guide mentions abbreviations
+    Must              Keep contractions; write "for example" in the
+                      sentences the task writes
+    Must Not          Expand the contractions; copy "e.g." from old pages
+    Owner             SKILL.md, markdown-conventions.md
+
+T95 Field term        A migration guide says "roll back the schema"
+    Must              Keep "roll back"
+    Must Not          Replace it with "revert" or "undo"
+    Owner             SKILL.md
+
+T96 Lost condition    Rewording drops "unless --force is set"
+    Must              Restore the condition, or keep the original
+    Must Not          Deliver the shorter sentence
+    Owner             SKILL.md
+
+T97 Review noise      Review: 30 contractions, and "delete it" where "it"
+                      can be the save or the backup
+    Must              One Low summary line; one full finding for "it"
+    Must Not          Thirty findings; or the pronoun inside the summary
+    Owner             review-criteria.md, delivery-checks.md
+
+T98 Stage order       Delivery fixes change text after formatting
+    Must              Format again before reporting it as formatted
+    Must Not          Report the earlier formatting run
+    Owner             SKILL.md
+
+T99 Plain-text note   A plain-text document, not Markdown
+    Must              Apply Wording and the Wording searches
+    Must Not          Skip them because markdown-conventions.md did not load
+    Owner             SKILL.md
+
+T100 Untouched text   Edit one section of a page full of contractions
+    Must              Change only that section; one summary line under
+                      Outside The Task for the rest
+    Must Not          Restyle the whole page
+    Owner             SKILL.md, delivery-checks.md
 ```

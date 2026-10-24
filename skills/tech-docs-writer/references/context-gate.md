@@ -15,7 +15,7 @@ reader. Each mode adds its own.
 | README         | Project purpose, intended visitor, the next action they take                   |
 | Code Reference | Source of truth, language, public-surface boundary                             |
 | CLI Reference  | The command, how to obtain its help, which commands are in scope               |
-| Instructions   | Learner's starting state, the outcome, a safe environment                      |
+| Tutorial       | Learner's starting state, the outcome, a safe environment                      |
 | How-to         | Reader's existing competence, the goal, the real environment                   |
 | Workflow       | Roles, trigger, terminal state, process authority, prescriptive or descriptive |
 
@@ -41,7 +41,7 @@ Strong  "This reads like a how-to for someone who already has the tool
 The reader guess also names the reader's starting point: what they already
 know and have done. Derive it from the reader, the per-mode fields and where
 the document sits. When the request already names the reader, derive the
-starting point without asking. The cold reader in `SKILL.md` receives it, and
+starting point without asking. The cold reader in `cold-reader.md` receives it, and
 the report shows it.
 
 ## When The User Defers
@@ -62,8 +62,9 @@ The block also appears without a deferral in two cases. When other pages use a
 callout shape that no instruction states, it names that evidence and the
 callout format chosen. Callouts in
 [markdown-conventions.md](markdown-conventions.md) owns which format that is.
-When the writer chose between a picture and text without the user, as A Good
-Document in `SKILL.md` describes, it names that choice.
+When the writer chose between a picture and text without the user, as
+Pictures in [markdown-conventions.md](markdown-conventions.md) describes, it
+names that choice.
 
 ## Review And The Gate
 

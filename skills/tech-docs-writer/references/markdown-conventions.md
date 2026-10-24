@@ -1,6 +1,13 @@
 # Markdown Conventions
 
-Read this reference when creating or editing human-facing Markdown documentation.
+Read this reference for every Write and Review.
+
+These sections apply to every document: Precedence; Titles and Headings,
+except the ATX syntax; Callouts, except the alert syntax and its table;
+Section Structure; Lists and Prose; Tables; Explaining a Rule; States And
+Results; Frontmatter and Prose, when the document has a metadata header;
+Section Introductions; Pictures, except the italics; Links. The rest apply to
+Markdown only.
 
 <!--toc:start-->
 
@@ -29,7 +36,7 @@ Read this reference when creating or editing human-facing Markdown documentation
 Apply documentation requirements in this order:
 
 1. Active project instructions and explicit user requirements.
-2. Established conventions in the target document and nearby authoritative documentation. Callouts are the exception: [Callouts](#callouts) says what sets their convention.
+2. Established conventions in the target document and nearby authoritative documentation. Callouts are an exception: [Callouts](#callouts) says what sets their convention. The rules in Wording in `SKILL.md` are another, except a document's own terms and spelling: Rank in Wording decides those rules.
 3. Confirmed renderer or publishing-system behavior.
 4. Portable Writer defaults in this reference.
 
@@ -298,50 +305,7 @@ Keep prose for reasoning, cause, consequence and trade-off, where the connection
 
 ## Voice
 
-The view test in `SKILL.md` owns who a sentence is about and who performs a
-rule. This section owns wording.
-
-Name one concept with one term. Define it where it first appears, and use the
-same word every time after. A second word for the same thing makes the reader
-ask whether there are two things.
-
-```text
-Weak    Join a session from the lobby. The match starts when the room is full.
-Strong  Join a match from the lobby. The match starts when it is full.
-```
-
-"You" is the reader, doing their own task. An actor other than the reader,
-such as a hypothetical user, is named: "a person", "a player", or a role.
-
-```text
-Weak    The test checks what you could press during the cutscene.
-Strong  The test checks what a player could press during the cutscene.
-```
-
-Write for a reader whose first language may not be English.
-
-- One idea per sentence. A rule and its reason are two sentences.
-- At most 25 words in a sentence.
-- No idioms. "Stops short" becomes "does not reach".
-- Use the exact term the reader uses in their own work, with no definition.
-  Do not swap it for a vaguer word.
-- Define a term new to this reader in one line, where it first appears.
-- A standard term of the platform or field the document covers needs no
-  definition. "symlink" in a README for a Linux tool is one.
-- When it is unclear whether this reader uses a less common term, keep the
-  exact term and define it in one line where it first appears.
-
-A native reader loses nothing from plain wording. A reader working in a second
-language has to translate an idiom before they can use the sentence.
-
-**Example**
-
-```text
-Weak    The cap keeps the spawner honest, since a runaway wave tanks the
-        frame rate.
-Strong  The spawner creates at most eight enemies at a time. More enemies
-        than that lower the frame rate.
-```
+Wording in `SKILL.md` owns wording, including the rule for "you".
 
 ## Tables
 
@@ -463,8 +427,8 @@ Weak    Two cases stop it short.
 Strong  Two cases stop a deployment from rolling back automatically.
 ```
 
-Cut words that carry no context. "After you approve" becomes "After approval",
-and the meaning survives.
+Cut words that carry no context. Turn a clause into a noun, such as "after
+approval", only when one actor alone can perform the action.
 
 Keep clause order parallel between neighbouring sentences, and between rows
 of the same kind. A row gives the usual result first, then each condition
@@ -472,6 +436,18 @@ that changes it. A reader scanning a table compares cells position by
 position, and a reordered clause breaks that.
 
 ## Pictures
+
+Show what the reader sees on screen with a picture. That covers what they see
+when they open or run the subject, such as a window, a panel or a menu. Keep
+only what a picture cannot show, such as what a state means or what to do
+next. Name a control the reader uses, such as a menu item, in the step that
+uses it. Output that a command prints before it exits is shown as text. A
+screen that stays open and responds to keys gets a picture, even when it is
+made of text. Text can depend on what a text block cannot show, such as Nerd
+Font icons or colour that carries meaning. Then you may ask the user whether a
+picture or text fits better. When you do not ask, or the user defers or is not
+there to answer, choose, and list the choice in the Assumptions block that
+`context-gate.md` owns.
 
 A diagram the writer can draw from the source, such as a folder layout or a
 flow, goes in directly as a text block. A screenshot or recording of the
@@ -517,7 +493,7 @@ Use the first rung that applies:
 4  nu or dprint absent                                → manual checks, NOT formatted, disclosed
 ```
 
-Rungs 2 and 3 run `nu scripts/format-docs.nu <file>`. Only exit 0 means formatted. Exit 3 means dprint is absent, so rung 4 applies. The script's `--help` lists every code. Its stdout record says whether a discovered config or the fallback config was used. A discovered config can belong to the project or to the user, because dprint chooses it.
+Rungs 2 and 3 run `nu <skill-dir>/scripts/format-docs.nu <file>`, where `<skill-dir>` is this skill's base directory, because the shell usually starts in the user's project. Only exit 0 means formatted. Exit 3 means dprint is absent, so rung 4 applies. Exit 1 means dprint failed: rung 4 applies, and dprint's error goes under Not Checked. Exit 2 means the call was wrong: correct it once, then treat it as exit 1. The script's `--help` lists every code. Its stdout record says whether a discovered config or the fallback config was used. A discovered config can belong to the project or to the user, because dprint chooses it.
 
 Check for `nu` with `which nu` before invoking the script, because the script cannot report its own interpreter missing. The script owns the `dprint` check. `$env.PATH` is `$env.Path` on Windows. `which` handles both.
 

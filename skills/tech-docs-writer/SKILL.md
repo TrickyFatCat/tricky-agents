@@ -13,7 +13,7 @@ description: >-
 # Tech Docs Writer
 
 This skill writes and reviews human-facing documents: READMEs, code and CLI
-references, instructions, how-to guides and workflow documents.
+references, tutorials, how-to guides and workflow documents.
 
 ## A Good Document
 
@@ -38,17 +38,8 @@ such as a request, a command, a value or an output, show one instance of it.
 Leave out an instance that only repeats a claim the reader can already apply
 as written.
 
-Show what the reader sees on screen with a picture, not with sentences. That
-covers what they see when they open or run the subject, such as a window, a
-panel or a menu. Keep only what a picture cannot show, such as what a state means
-or what to do next. Name a control the reader uses, such as a menu item, in
-the step that uses it. Output that a command prints before it exits is shown
-as text. A screen that stays open and responds to keys gets a picture, even
-when it is made of text. Text can depend on what a text block cannot show,
-such as Nerd Font icons or colour that carries meaning. Then you may ask the
-user whether a picture or text fits better. When you do not ask, or the user
-defers or is not there to answer, choose, and list the choice in the
-Assumptions block that `references/context-gate.md` owns.
+Show what the reader sees on screen as Pictures in
+`references/markdown-conventions.md` describes.
 
 A lead-in names what follows. It does not summarise it.
 
@@ -85,6 +76,33 @@ For a mixed request such as "review this and fix the worst part", review
 first, present findings, and apply only the findings the user names.
 
 A review stays in the conversation, with no saved file.
+
+## Write Stages
+
+A Write runs these stages in this order. Each row names the section or the
+reference that owns the stage.
+
+```text
+1  Context Gate          references/context-gate.md
+2  Structure
+3  Draft                 Reader Tests and Wording on every sentence
+4  Cold Reader, fixes    references/cold-reader.md
+5  Internal Review       new document or whole rewrite only;
+                         references/review-criteria.md
+6  Before Delivering     delivery checks, and the subject's final check:
+                         Final Command Inventory Check (cli-reference.md)
+                         or Final Check (source-verification.md)
+7  Formatting            after the last text change; Markdown Formatting
+                         in references/markdown-conventions.md
+8  Report                Report in references/delivery-checks.md; load
+                         it even when stage 6 was skipped
+```
+
+A text change after stage 7 sends the document back through stage 7.
+
+Never report a document as formatted when it was not. Never install a
+formatter as part of a documentation task. Format only the document the task
+is writing. Never a directory, never source material the task is reading.
 
 ## Context Gate
 
@@ -181,7 +199,8 @@ Name the sentence's job from the list in A Good Document.
 - A sentence with a job but no section to hold it means the structure is
   wrong. Fix the structure, and keep the sentence.
 
-List every cut in the report, as Report describes.
+List every cut in the report, as Report in `references/delivery-checks.md`
+describes.
 
 **Example**
 
@@ -215,8 +234,7 @@ the reader's side: what they do, what they see, or what they get.
 A reference passes this test. Its subjects are the commands, functions and
 settings the reader uses.
 
-Before rewriting, list the facts and conditions in the sentence. After
-rewriting, check that each one is still there. The rewrite changes the
+Before rewriting, apply Fact Guard in Wording. The rewrite changes the
 viewpoint, never the facts.
 
 **Example**
@@ -265,113 +283,150 @@ Weak    The config is validated before the build.
 Strong  The build script validates the config before it builds.
 ```
 
+## Wording
+
+These rules apply to English text in every document, for every reader. They
+paraphrase and adapt ASD-STE100 Simplified Technical English, without its
+dictionary and its word counts.
+
+Write applies them to the sentences the task writes or changes, as Reader
+Tests says, and Review to every sentence. Wording searches in
+`references/delivery-checks.md` says how hits on other sentences are listed.
+
+A style-only hit, such as a contraction, changes how a sentence reads but not
+what the reader does.
+
+**Example**
+
+```text
+Before  If the build turns up any missing textures, it'll bail out and you
+        should go back and re-run the baker.
+After   If the build finds a missing texture, it stops. Run the baker again.
+```
+
+### Protected Text
+
+Never reword:
+
+- code, commands, flags, paths and config keys;
+- labels and other text the reader sees on screen;
+- error messages and printed output;
+- text quoted from a source, or text the user asks to keep as written;
+- names of products, files and links;
+- requirement words a project defines, such as MUST and SHOULD in a
+  specification.
+
+The prose around protected text agrees with it.
+
+### Rank
+
+A style guide the project states, or the user's request, wins over these
+rules. A document keeps its own established terms and spelling. For every
+other rule here, the wording of existing pages, including this one, is
+evidence, not a stated guide. These rules never remove a fact, a condition or
+a heading.
+
+### Words
+
+- Name one concept with one term. Define it where it first appears, and use
+  the same word every time after. A second word for the same thing makes
+  the reader ask whether there are two things. Give one word one meaning
+  on the page.
+- Use the exact term the reader uses in their own work, with no definition.
+  Do not swap it for a vaguer word. For a general idea, use the common word.
+- Define a term new to this reader in one line, where it first appears. A
+  standard term of the field needs no definition: "symlink" in a README for a
+  Linux tool is one. When it is unclear whether this reader knows a term,
+  keep the term and define it.
+- Write an action as a verb, not as a noun made from it.
+  The one exception: turn a clause into a noun, such as "after approval",
+  only when one actor alone can perform the action.
+- Replace a phrasal verb with a single verb that has the same meaning. Keep a
+  phrasal verb that is the field's term or a label, such as "roll back".
+- No idioms, slang or team shorthand. Write "for example", "that is" and "and
+  so on", not "e.g.", "i.e." and "etc.". A heading that compares two things
+  keeps `vs`.
+- Break a stack of nouns that the reader must read backwards, unless it is a
+  label.
+- "You" is the reader, doing their own task. Name any other actor: "a
+  person", "a player" or a role.
+
+A reader who works in a second language has to translate an idiom before
+they can use the sentence. A native reader loses nothing from plain words.
+
+### Sentences
+
+- One idea per sentence. A rule and its reason are two sentences.
+- A step holds one action, written as a command. Two actions that happen
+  together can share a step.
+- In an instruction, the condition comes before the action. Two kinds of
+  clause stay where they are: a limit with "only", and a clause that says
+  which thing the action applies to. The condition-first rule does not
+  apply to a description or a table row.
+- When a condition covers every item of a list, it is the list's lead-in.
+- Prose keeps its articles, subject and verb. A table cell, a heading or a
+  list fragment can be shorter.
+- No contractions. No semicolon between two full sentences.
+- Write the noun when a pronoun such as "it", "they" or "this" can point to
+  two nouns in this sentence or the one before.
+- Replace "should", "may", "might" or "could" when it has two readings:
+  - an obligation becomes a command;
+  - a possibility becomes "can" or "possibly";
+  - a permission becomes "can", with the actor;
+  - advice names who recommends it, such as "the project recommends";
+  - an expected result becomes what the reader sees.
+- A sentence over 25 words is a signal, not a limit. Split it when it holds
+  two ideas or a late condition.
+
+### Fact Guard
+
+Before you reword a sentence, list its facts, conditions, limits and
+requirement words. After, find each one in the new sentence. When one is
+missing, rewrite again or keep the original sentence.
+
+```text
+Source  The bake runs only on saved scenes, unless --force is set.
+Facts   1 saved scenes only   2 --force lifts the limit
+Weak    Save the scene before you bake.                    (2 lost)
+Strong  Save the scene before you bake, or pass --force.   (1, 2 kept)
+```
+
 ## Cold Reader
 
 After every Write, a reader who has not seen the source reads the document.
-Skip it only for an edit that changes no meaning, such as a typo fix. The
-writer cannot run this check itself, because it has read the source.
+Skip it only for an edit that Before Delivering exempts. The writer cannot run
+this check itself, because it has read the source.
+`references/cold-reader.md` owns how.
 
-1. Start a subagent. Give it only the finished document, the named reader,
-   and that reader's starting point: what they already know and have done.
-   Give it no source, no draft history and no skill rules.
-   `references/context-gate.md` owns how the starting point is settled.
-2. Ask it to answer from the page alone:
-   - What is this document for, and who is it for?
-   - What do you do first?
-   - Where the page names or shows a status or result, what does it mean?
-   - Which terms or sentences did you not understand?
-
-   Send these questions as written. Add no examples, hints or questions. A
-   hint passes on what the writer knows, and the cold reader must not have it.
-3. It returns questions only. It proposes no wording and edits nothing.
-4. Check each question against the source:
-   - a gap: when a table on the page lists that kind of item, put the fact in
-     that item's row. Otherwise add it in its smallest form, such as one
-     example case or one requirement note, in the section that owns it;
-   - a misreading: rewrite the sentence;
-   - the source cannot answer it: label the claim Unknown, as
-     `references/source-verification.md` requires;
-   - known from context: a line in the starting point answers it, or it asks
-     about a standard term of the field or the standard behaviour of a
-     platform the starting point names. It is standard when the field uses it
-     widely and one search explains it. Change nothing. Nothing else counts
-     as known from context.
-   - not needed: the Job Test would cut the answer, such as output the reader
-     does not check, act on or use. Change nothing, except a link the Job
-     Test asks for, such as to another tool's configuration document.
-
-   Doubt makes a question a gap, unless the Job Test cuts that kind of fact.
-5. Run the cold reader once per Write. Do not run it again after the fixes.
-   List each question in the report as fixed, open, known from context, or
-   not needed with the Job Test reason.
-
-A subagent tool starts another agent with its own context, such as `Agent` or
-`Task`. When the tool list has none, skip the check and say "not checked by a
-cold reader" in the report. Never imitate the cold reader in your own context.
-
-Review runs the cold reader too. `references/review-criteria.md` owns how.
-
-## Internal Review
-
-After the cold-reader fixes, a Write that creates a document or rewrites a
-whole one runs Internal Review. `references/review-criteria.md` owns how.
+Review runs the cold reader too. `references/review-criteria.md` owns how a
+review uses its questions.
 
 ## Routing
 
 | Reference                            | Load when                                                        |
 | ------------------------------------ | ---------------------------------------------------------------- |
 | `references/context-gate.md`         | Before drafting, whenever required context is missing            |
+| `references/cold-reader.md`          | At stage 4 of every Write, and in Review                         |
 | `references/document-modes.md`       | Selecting or adapting a document's shape                         |
-| `references/markdown-conventions.md` | Creating, editing or reviewing Markdown                           |
+| `references/markdown-conventions.md` | Any Write or Review                                              |
 | `references/cli-reference.md`        | Documenting commands, flags or shell workflows                   |
 | `references/code-reference.md`       | Documenting a source-level API                                   |
 | `references/source-verification.md`  | Any claim that can be checked against an authority               |
 | `references/review-criteria.md`      | Review mode, and Internal Review                                 |
-| `references/delivery-checks.md`      | At Before Delivering, and in Review                              |
-
-## Formatting
-
-Format the document as Markdown Formatting in
-`references/markdown-conventions.md` describes.
-
-Never report a document as formatted when it was not. Never install a
-formatter as part of a documentation task.
-
-Format only the document the task is writing. Never a directory, never source
-material the task is reading.
+| `references/delivery-checks.md`      | At Before Delivering, at Report, and in Review                   |
 
 ## Before Delivering
 
-Run this pass after the cold-reader fixes and Internal Review. Run the reader
-tests on every sentence those passes added, then load
-`references/delivery-checks.md` and run every check that applies. When a
-review finding is applied later, run the tests and checks again on the
-sentences it added. Skip them
-only for an edit that changes no meaning, such as a typo fix. Size does not
-count.
+Run the reader tests on every sentence the cold-reader fixes and Internal
+Review added, then load `references/delivery-checks.md` and run every check
+that applies. When a review finding is applied later, run the tests and
+checks again on the sentences it added. Skip them only for an edit that
+changes spelling, punctuation or formatting. Formatting is markup that leaves
+every word and its order unchanged. A rewording is never such an edit,
+because a reworded sentence can lose a fact. Size does not count.
 
 Each check is a search or a count, because a check phrased as a quality to
 confirm gets confirmed without being run.
 
 Fix what the pass finds before presenting the document. A defect fixed here is
 not a finding to report. Cuts are still listed.
-
-### Report
-
-After the result, the report adds these blocks in this order. Leave out a
-block that is empty.
-
-1. **Cuts** — every fact the job test removed, grouped by section, one line
-   each: the fact, and why it has no job.
-2. **Pictures** — each placeholder, by section, with what it must show.
-3. **Cold Reader** — the starting point it was given, then each question,
-   marked fixed with what changed, open with why, known from context with
-   the starting-point line or standard term that covers it, or not needed
-   with the Job Test reason.
-4. **Review** — each Internal Review finding, marked applied, partly applied
-   with each declined fact and its reason, or declined with the reason.
-5. **Outside The Task** — test findings on sentences the task did not change.
-6. **Not Checked** — each check that did not run, such as the formatter, the
-   cold reader or Internal Review, and each claim labelled Unknown. When the
-   delivery checks did not run, say "delivery checks not run" with the reason,
-   such as "edit changes no meaning".

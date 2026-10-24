@@ -1,10 +1,12 @@
 # Delivery Checks
 
-Read this reference at Before Delivering, and in Review.
+Read this reference at Before Delivering, at Report, and in Review.
 
 This file owns the checks a finished document gets before it is handed over.
-Write runs every check that applies and fixes what it finds, before presenting
-the document. Review runs them too, and reports each hit as a finding. It
+Write runs every check that applies and fixes what it finds in the text the
+task wrote or changed, before presenting the document. Review runs them too, and reports each hit as a finding. Style-only
+hits from the Wording searches are the exception: they form the
+summary line that Reporting in review-criteria.md describes. Review
 changes nothing.
 
 ## Tracking
@@ -17,6 +19,11 @@ Turn this list into your own checklist before you start.
   it has run.
 
 A check you skip goes under Not Checked in the report, with the reason.
+
+In an existing document, each check reads the whole document. Write fixes a
+hit only in the sentences and blocks the task wrote or changed. A hit
+elsewhere goes under Outside The Task in the report, as a finding, not an
+edit. Review reports every hit.
 
 ## General
 
@@ -67,7 +74,7 @@ Run these for every document.
   plain words what happened is not a status; leave it out.
 - [ ] **Lists** — For each list or count on the page, name the file it comes
   from; when it is not the documented source, link the document that owns it,
-  or cut it when none does. Skip instructions and how-to guides.
+  or cut it when none does. Skip tutorials and how-to guides.
 - [ ] **Section fit** — Name the question each section answers; name the
   question each paragraph and table answers; move a block whose question belongs
   to another section; split a paragraph that answers two questions.
@@ -75,7 +82,8 @@ Run these for every document.
   each section; it comes before descriptions and reference detail, after the
   opening and the step's requirements.
 - [ ] **Terms** — List each name used in a heading, table or scope list; search
-  the rest for other words for it.
+  the rest for other words for it. When the task writes several pages,
+  search every page it writes.
 - [ ] **Source words** — List each noun the page takes from the source for a
   part, stage, check or category. Keep one the reader types or sees: a command,
   flag, setting, label or printed word. Replace the rest with the word this
@@ -94,11 +102,44 @@ Run these for every document.
   from a failure the reader has seen becomes a
   Troubleshooting entry, or follows States And Results for a status in a fixed
   set.
-- [ ] **Plain language** — Count sentences over 25 words; split each. Search
-  "so", "because" and "which" in long sentences; split any sentence carrying two
-  ideas; list each idiom, and each term new to this reader that has no
-  definition.
-- [ ] **Definitions** — List each definition the page gives; cut one for a term
+- [ ] **Wording searches** — Run each search below as its own tracked item.
+  Write fixes the hits on the sentences the task wrote or changed. Hits on
+  other sentences go under Outside The Task in the report, as that block
+  describes. Review runs
+  every search on every sentence. Every search skips protected text, as
+  Wording in `SKILL.md` lists it.
+  - [ ] **Contractions** — Search "n't", "'ll", "'re", "'ve", "'d", "it's"
+    and "let's", with straight and curly apostrophes; write the full form.
+  - [ ] **Abbreviations** — Search "e.g.", "i.e.", "etc.", "cf." and "viz.";
+    write the words.
+  - [ ] **Semicolons** — Search ";"; when both sides are full sentences,
+    write two sentences or a list.
+  - [ ] **Pronouns** — Search the whole words "it", "they" and "them", and
+    "This", "That" and "These" at the start of a sentence; list the nouns in
+    this sentence and the one before that fit; when two fit, write the noun.
+  - [ ] **Modal words** — Search the whole words "should", "may", "might" and
+    "could"; when one has two readings, replace it as Wording in `SKILL.md`
+    says.
+  - [ ] **Late conditions** — In numbered steps, and in sentences outside a
+    table that start with a verb, search " if ", " when ", " unless " and " after " anywhere
+    but the sentence start; move the condition before the action. A limit
+    with "only" stays, and so does a clause that says which thing.
+  - [ ] **Two actions** — In each numbered step, search " and " and
+    ", then "; split the step when each side has its own verb for the reader,
+    unless the actions happen together.
+  - [ ] **Step form** — In numbered steps, search "you should", "you need
+    to", "you will want to", "the user" and "please"; write the command.
+  - [ ] **Phrasal verbs** — Search the whole words "up", "out", "off", "down"
+    and "back"; for each hit, check whether the word before it is a verb that
+    forms a phrase with it; replace the phrase when a single verb keeps the
+    meaning and the phrase is not a term or a label.
+  - [ ] **Verb nouns** — Search "perform", "carry out", "make a", "do a",
+    "tion of" and "ment of"; when the noun names an action, write the verb.
+  - [ ] **Long sentences** — Count the words in each sentence; for each one
+    over 25, check for two ideas or a late condition; split only then.
+- [ ] **Definitions** — List each term the page uses that the starting point
+  does not name and the field does not use widely; each has a one-line
+  definition where it first appears. List each definition the page gives; cut one for a term
   this reader uses or a standard term of the field; each defined word is the
   exact term, not a vaguer word for it. A term is standard when the field uses
   it widely and one search explains it; give its common abbreviation in brackets
@@ -107,22 +148,6 @@ Run these for every document.
   "on my"; each becomes the setting that decides the outcome, or a placeholder.
   List each product or platform name; keep one only when the source limits the
   subject to it.
-
-## Markdown Only
-
-Run these for a Markdown document only.
-
-- [ ] **Table lead-ins** — Count the tables; each has a lead-in. Read each
-  lead-in alone; it names what the table lists.
-- [ ] **Table cells** — Count the words in each description cell the page wrote;
-  over 8, move a detail every row has into a new column, and move reasoning
-  into prose after the table. A fact about one row stays in that row's cell.
-  Never drop a fact the Job Test keeps. A cell that restates a source condition
-  keeps every clause; split it into columns, or keep it whole in its cell when
-  it cannot split, never into prose. Then group the rows whose items do the
-  same kind of thing. In each group, list whether each cell starts with a verb,
-  and the order of its clauses. They match: the usual result first, then each condition that
-  changes it. Never add a clause to make rows match.
 - [ ] **Examples** — Search "for example", "for instance", quoted cases and
   paragraphs holding two cases; each is labelled, adjacent ones distinctly; the
   block after each example has its own heading or label; each labelled example
@@ -131,8 +156,6 @@ Run these for a Markdown document only.
   reader writes or checks something freely shows one instance. Search prose
   for a code span holding an input with its result; move each into the entry's
   example block as a commented case.
-- [ ] **Entry tables** — List each entry section's first table and its columns;
-  they match across sections, even in a section with one entry.
 - [ ] **Placement** — For each callout, example, and paragraph that qualifies a
   table or list, name the block it serves; it sits directly after that block. A
   definition of one table item, or a fact about it, goes in that item's row. A
@@ -140,14 +163,14 @@ Run these for a Markdown document only.
   list, in the lead-in or the callout its kind needs. Other blocks that qualify
   it form one run directly after it, with nothing else between them. The run
   starts with a Danger, then callouts, examples and reasons about single rows
-  in row order, then the rest. A callout sits outside every list item; one about a step's action follows the list and names that step's
+  in row order, then the rest. In Markdown, a callout sits outside every list item; one about a step's action follows the list and names that step's
   command or action. A callout about a command, and a paragraph or example
   about its output, form one run directly after that command's block, the
   callout first.
 - [ ] **Callouts** — Search "never", "nothing", "does not", "is not",
   "cannot", "needs", "requires", "must" and "keep"; sort each hit into a kind
   that Callouts defines, or leave it as prose. Then read each callout: its body
-  is one sentence, and a blank line follows it.
+  is one sentence, and, in Markdown, a blank line follows it.
 - [ ] **Pictures** — Search "shows", "displays", "appears", "looks" and "on
   screen"; replace each description of what is on screen with a picture or a
   placeholder, as Pictures in `markdown-conventions.md` describes. Output a
@@ -158,3 +181,48 @@ Run these for a Markdown document only.
 - [ ] **Headings** — Read each section heading this task wrote; one that starts
   with How, When, Why, What or Where, or reads as a sentence, becomes a short
   noun phrase. Step headings in how-tos and tutorials stay imperative.
+
+## Markdown Only
+
+Run these for a Markdown document only.
+
+- [ ] **Table lead-ins** — Count the tables; each has a lead-in. Read each
+  lead-in alone; it names what the table lists.
+- [ ] **Table cells** — Count the words in each description cell the page wrote;
+  over 8, look for a detail every row has and for reasoning. Move the detail
+  into a new column, and the reasoning into prose after the table. A
+  long cell with neither stays. A fact about one row stays in that row's cell.
+  Never drop a fact the Job Test keeps. A cell that restates a source condition
+  keeps every clause; split it into columns, or keep it whole in its cell when
+  it cannot split, never into prose. Then group the rows whose items do the
+  same kind of thing. In each group, list whether each cell starts with a verb,
+  and the order of its clauses. They match: the usual result first, then each condition that
+  changes it. Never add a clause to make rows match.
+- [ ] **Entry tables** — List each entry section's first table and its columns;
+  they match across sections, even in a section with one entry.
+
+## Report
+
+This section is for a Write. Review reports as `review-criteria.md` describes.
+
+After the result, the report adds these blocks in this order. Leave out a
+block that is empty.
+
+1. **Assumptions** — each choice made without the user, as
+   `context-gate.md` describes, one field per line.
+2. **Cuts** — every fact the job test removed, grouped by section, one line
+   each: the fact, and why it has no job.
+3. **Pictures** — each placeholder, by section, with what it must show.
+4. **Cold Reader** — the starting point it was given, then each question,
+   marked fixed with what changed, open with why, known from context with
+   the starting-point line or standard term that covers it, or not needed
+   with the Job Test reason.
+5. **Review** — each Internal Review finding, marked applied, partly applied
+   with each declined fact and its reason, or declined with the reason.
+6. **Outside The Task** — findings on sentences and blocks the task did not
+   change: one line for the style-only hits of the Wording searches, with the
+   count for each search, then one line for each other finding.
+7. **Not Checked** — each check that did not run, such as the formatter, the
+   cold reader or Internal Review, and each claim labelled Unknown. When the
+   delivery checks did not run, say "delivery checks not run" with the reason,
+   such as "edit changes only spelling".

@@ -5,8 +5,24 @@ Read this reference when selecting or adapting a document's shape.
 This file owns which document this is, what shape it takes, and the shared
 reference entry contract.
 
-Use [Diátaxis](https://diataxis.fr/) as the baseline for instructions, how-to,
+Use [Diátaxis](https://diataxis.fr/) as the baseline for tutorials, how-to,
 reference and explanation.
+
+<!--toc:start-->
+
+- [Selecting A Mode](#selecting-a-mode)
+- [Tutorial Versus How-to](#tutorial-versus-how-to)
+- [Workflow Mode](#workflow-mode)
+- [Tutorial](#tutorial)
+- [How-to Guide](#how-to-guide)
+- [Reference](#reference)
+- [README](#readme)
+- [Secondary Modes](#secondary-modes)
+- [Shared Reference Entry Contract](#shared-reference-entry-contract)
+- [Adapting](#adapting)
+- [Sources](#sources)
+
+<!--toc:end-->
 
 ## Selecting A Mode
 
@@ -20,7 +36,7 @@ Use the artifact name as evidence, not as the decision.
 | Orient a repository visitor             | README         | A concise entry point with the next useful action.       |
 | Look up a source-level symbol           | Code Reference | A consistent inventory of the exported surface.          |
 | Look up a command                       | CLI Reference  | A consistent inventory of invocations and their effects. |
-| Learn by completing a guided experience | Instructions   | A controlled path that builds confidence and skill.      |
+| Learn by completing a guided experience | Tutorial       | A controlled path that builds confidence and skill.      |
 | Complete a known goal                   | How-to         | A focused sequence that reaches one practical outcome.   |
 | Follow a repeated multi-party process   | Workflow       | Role-labelled steps with entry conditions and handoffs.  |
 
@@ -28,7 +44,7 @@ Combine modes through clear boundaries instead of blending them:
 
 - Keep the primary path focused on one reader need.
 - Link to a separate reference when exhaustive details would interrupt
-    instructions or a how-to guide.
+    a tutorial or a how-to guide.
 - Add a short explanation only when it helps the reader make a decision.
 - Keep troubleshooting separate from normal operation. A warning about a step
     stays in that step's section, placed as Callouts in
@@ -39,11 +55,11 @@ Combine modes through clear boundaries instead of blending them:
 Apply project instructions, renderer conventions, headings, TOCs, callouts,
 and formatting after selecting the mode.
 
-## Instructions Versus How-to
+## Tutorial Versus How-to
 
 This is the distinction most often got wrong, so it gets a concrete test.
 
-|             | Instructions (tutorial)   | How-to                |
+|             | Tutorial                  | How-to                |
 | ----------- | ------------------------- | --------------------- |
 | Reader is   | At study                  | At work               |
 | Path        | A single line, no choices | Forks and branches    |
@@ -81,21 +97,19 @@ information.
 ### Not Second Person
 
 A how-to addresses "you". A workflow cannot, because "you" is a different
-person at each step. Use role labels. Voice in
-[markdown-conventions.md](markdown-conventions.md) owns the general rule for
-"you".
+person at each step. Use role labels. Wording in `SKILL.md` owns the
+general rule for "you".
 
 ### Authority
 
 A workflow has no implementation to read. See
 [source-verification.md](source-verification.md).
 
-## Instructions
+## Tutorial
 
 **Reader need**
 
-Learn by completing a guided, reliable experience. This is the Diátaxis
-tutorial.
+Learn by completing a guided, reliable experience.
 
 **Use when**
 
@@ -224,7 +238,7 @@ Look up accurate, complete, and consistently organized facts.
 
 **Omit or limit**
 
-- Walkthroughs that belong in instructions.
+- Walkthroughs that belong in a tutorial.
 - Repeated conceptual rationale.
 - Examples that do not clarify a distinct behavior.
 - Sections whose only purpose is to make every entry look identical.
@@ -264,7 +278,7 @@ self-contained.
 
 Use these modes when the reader need is not covered well by the primary modes.
 
-Do not impose the requirements of instructions on a maintainer reference or a
+Do not impose the requirements of a tutorial on a maintainer reference or a
 personal note.
 
 ### Explanation
