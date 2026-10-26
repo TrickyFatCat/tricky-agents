@@ -236,15 +236,15 @@ After the document, the skill adds a report to its reply. The report does not
 go into the document. It has these blocks, in this order, and leaves out any
 block that is empty:
 
-| Block            | What it lists                                                               |
-| ---------------- | --------------------------------------------------------------------------- |
-| Assumptions      | Each choice the skill made without you, one field per line                  |
-| Cuts             | Each fact the skill removed, by section, with the reason                    |
-| Pictures         | Each `TODO:` line the skill left where you should add a screenshot          |
-| Cold Reader      | Each question from the cold reader, as fixed, open or known from context    |
-| Review           | Each review finding, as applied, or declined by the skill with the reason   |
-| Outside The Task | Problems outside your request, and one line for style-only wording problems |
-| Not Checked      | Checks that did not run, and claims the skill could not verify              |
+| Block            | What it lists                                                                                           |
+| ---------------- | ------------------------------------------------------------------------------------------------------- |
+| Assumptions      | Each choice the skill made without you, one field per line                                              |
+| Cuts             | Each fact the skill removed, by section, with the reason                                                |
+| Pictures         | Each `TODO:` line the skill left where you should add a screenshot                                      |
+| Cold Reader      | Each question from the cold reader, as fixed, open, known from context, not needed, or outside the task |
+| Review           | Each review finding, as applied, or declined by the skill with the reason                               |
+| Outside The Task | Problems outside your request, and one line for style-only wording problems                             |
+| Not Checked      | Checks that did not run, and claims the skill could not verify                                          |
 
 A cold reader question stays open when the source does not answer it. The
 report says why it is open.

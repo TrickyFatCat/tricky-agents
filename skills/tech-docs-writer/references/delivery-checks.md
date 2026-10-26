@@ -215,8 +215,8 @@ block that is empty.
 3. **Pictures** — each placeholder, by section, with what it must show.
 4. **Cold Reader** — the starting point it was given, then each question,
    marked fixed with what changed, open with why, known from context with
-   the starting-point line or standard term that covers it, or not needed
-   with the Job Test reason.
+   the starting-point line or standard term that covers it, not needed
+   with the Job Test reason, or outside the task with the fix it needs.
 5. **Review** — each Internal Review finding, marked applied, partly applied
    with each declined fact and its reason, or declined with the reason.
 6. **Outside The Task** — findings on sentences and blocks the task did not

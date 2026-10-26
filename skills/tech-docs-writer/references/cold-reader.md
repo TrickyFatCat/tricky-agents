@@ -37,10 +37,15 @@ runs.
      does not check, act on or use. Change nothing, except a link the Job
      Test asks for, such as to another tool's configuration document.
 
+   In an existing document, make these changes only in the sentences and
+   blocks the task wrote or changed. When a fix belongs anywhere else,
+   change nothing there, and mark the question outside the task, with the
+   fix it needs.
+
    Doubt makes a question a gap, unless the Job Test cuts that kind of fact.
 5. Run the cold reader once per Write. Do not run it again after the fixes.
-   List each question in the report as fixed, open, known from context, or
-   not needed with the Job Test reason.
+   List each question in the report as fixed, open, known from context,
+   not needed with the Job Test reason, or outside the task.
 
 ## Without A Subagent Tool
 

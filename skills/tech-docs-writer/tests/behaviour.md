@@ -110,7 +110,7 @@ T20 No subagent       No tool that starts another agent is available
 T21 One section       The user asks to tighten one section of their existing document
     Must              Edit only that section; report flagged sentences elsewhere under Outside The Task
     Must Not          Cut or rewrite a sentence outside the requested section
-    Owner             SKILL.md, delivery-checks.md
+    Owner             SKILL.md, delivery-checks.md, cold-reader.md
 
 T22 Review view test  A document under review has an inside-view sentence that is true
     Must              Report it as a finding
