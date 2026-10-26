@@ -86,10 +86,11 @@ For a workflow:
 - The intent is prescriptive or descriptive. A prescriptive document says how
     the process must run. A descriptive one records how it runs now.
 
-The skill also asks where the document will be shown, but only when it will use
-tables, callouts or similar syntax. Not every Markdown viewer shows them. It
-asks what the document must cover only when your request is open-ended, such
-as "document this project".
+The skill also asks where the document will be shown, such as GitHub or
+another Markdown viewer. It asks only when the document will use tables or
+callouts, because not every Markdown viewer shows them. It asks what the
+document must cover only when your request is open-ended, such as "document
+this project".
 
 It prefers a guess you can confirm over an open question, because a guess is
 easier to answer.
@@ -129,7 +130,8 @@ not fix them.
 **Example**
 
 You ask it to tighten the Install section. It edits only that section. A
-problem it sees in Usage appears in the report under Outside The Task.
+problem it sees in Usage appears in the report under Outside The Task, a
+block of the report that lists problems outside your request.
 
 It keeps a structure the project already uses, unless you approve a change. It
 renames a heading only when the heading is wrong. A rename breaks the links to
@@ -162,10 +164,13 @@ Before you see the result, the skill:
     sure you need a fact, it keeps the fact. Extra text is easy to see and cut
     later. A missing fact is not. It still cuts a detail of how the subject
     works, when the reader sees that detail by using the subject. An example
-    is which window a script brings to the front. In a list of files you can
-    open, it names what kind of content each file holds. It cuts the settings
-    and values you read in the file, and keeps what the file cannot show, such
-    as what loads it.
+    is which window a script brings to the front. The reader sees that window
+    when they run the script.
+
+    Some documents list files that you can open. For each file, the skill
+    names what kind of content it holds. It cuts the settings and values you
+    read in the file. It keeps what the file cannot show, such as what loads
+    the file.
 
 3. Rewrites sentences about internal parts from the reader's side.
 
@@ -181,10 +186,11 @@ Before you see the result, the skill:
             Enemies past the budget in the wave list do not spawn.
     ```
 
-4. Gives the document to a cold reader.
+4. Gives the document to a cold reader, a second agent that has not seen the
+    source.
 
-    A cold reader is a second agent. It sees only the document, one line
-    naming its intended reader, and what that reader already knows, such as
+    The skill gives the cold reader only the document, one line naming its
+    intended reader, and what that reader already knows, such as
     "a maintainer who knows Git". It asks about what it could not understand,
     and changes nothing. The skill checks
     each question against the source. It fixes the document where the source
@@ -192,12 +198,12 @@ Before you see the result, the skill:
 
 5. Gives a new document, or a rewrite of a whole document, to a review agent.
 
-    The review agent is a separate agent, like the cold reader. It reviews the
-    document against the source and returns findings only. It runs no cold
-    reader of its own. The skill then checks each finding, and applies it only
-    when the source confirms it and the reader needs it. It lists every other
-    finding in the report, with the reason. An edit to part of a document
-    skips this step.
+    The review agent is a separate agent, like the cold reader. Unlike the cold
+    reader, it sees the source. It reviews the document against the source and
+    returns findings only. It runs no cold reader of its own. The skill then
+    checks each finding, and applies it only when the source confirms it and
+    the reader needs it. It lists every other finding in the report, with the
+    reason. An edit to part of a document skips this step.
 
 6. Runs a fixed set of searches and counts, and fixes what they find.
 
@@ -373,6 +379,9 @@ A claim was as likely to be wrong when the skill wrote it as it is now.
 
 ## Fact Checking
 
+An authority is what decides whether a claim is true, such as the current code
+of a tool.
+
 The skill labels each claim by how well it could check it:
 
 | Label      | Meaning                                                    |
@@ -380,9 +389,6 @@ The skill labels each claim by how well it could check it:
 | Fact       | Confirmed by an authority, a safe test, or the tool's help |
 | Assumption | Inferred from context, not confirmed                       |
 | Unknown    | Not available, or not safe to check in this task           |
-
-An authority is what decides whether a claim is true, such as the current code
-of a tool.
 
 A claim the skill could not check never reaches you as Fact. You see a label
 where a claim falls short of Fact:
@@ -436,7 +442,7 @@ cannot change a file the skill only reads.
 
 > ⚠️ **Warning**
 >
-> Formatting is not a check.
+> Formatting does not check whether the text is correct, clear or complete.
 
 After formatting, the skill confirms that headings, links, tables, callouts and
 code fence languages are still right. When no formatter ran, this is the only
@@ -454,8 +460,8 @@ It needs:
 
 Without Nushell the script cannot start, so no exit code covers that case.
 
-Run it from the root of this repository. From another folder, give the path
-where the skill is installed, such as
+In the root of the tricky-agents repository, use the repository path below.
+In any other folder, use the path where the skill is installed, such as
 `~/.claude/skills/tech-docs-writer/scripts/format-docs.nu`.
 
 ```nu
@@ -482,8 +488,8 @@ fallback,
 `skills/tech-docs-writer/assets/dprint.default.jsonc`. It prints a message on
 stderr when it does this.
 
-When dprint runs, with or without `--check`, the script prints a JSON record on
-stdout:
+When the script exits 0, 1 or 20, it prints a JSON record on stdout. This
+holds with or without `--check`:
 
 ```json
 {
