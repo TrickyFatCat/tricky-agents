@@ -154,6 +154,9 @@ Name the sentence's job from the list in A Good Document.
   sentence that repeats nearby text, such as the sentence before it, the table
   beside it or the index entry above it. It also includes a sentence that
   spells out what a heading, lead-in, list, table or sentence already implies.
+  The linked list that opens a section of parallel items is not nearby text
+  for each item's first sentence, as Section Introductions in
+  `references/markdown-conventions.md` says.
 - In a set whose items the reader sets up or uses one at a time, another item
   is not nearby text. Examples are the enemies in a bestiary and the weapon
   classes of a combat guide. Each item keeps its full requirements, controls and

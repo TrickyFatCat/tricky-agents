@@ -16,7 +16,9 @@ version, not that it needs one.
 
 An optional dependency is named, with what the reader loses without it. Its
 install steps are a link to its own setup source, when one exists. Do not copy
-its install commands onto the page.
+its install commands, platform notes or the versions its own setup covers
+onto the page. A minimum version or a platform limit that the subject
+itself sets stays on the page.
 
 In a dependency list or requirement note, a link goes to the tool's official
 page or repository, or to a document that explains the setup. It never goes to

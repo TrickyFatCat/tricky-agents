@@ -474,7 +474,9 @@ Do not add a links section that only repeats resources already introduced elsewh
 
 Link each third-party tool the reader must or may install to its official
 page or repository, on its first mention in each requirements list. Do not
-copy its install commands.
+copy its install commands, platform notes or the versions its own setup
+covers. A minimum version or a platform limit that the subject itself sets
+stays on the page.
 
 Inside one document, when a sentence depends on a list, term or rule that another section owns, link to that section instead of repeating it. Link to a heading, because a bold label has no anchor. Link on the first mention in each section, not on every mention.
 
